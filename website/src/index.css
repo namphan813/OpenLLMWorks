@@ -2,18 +2,18 @@
 
     /* Backgrounds */
 
-    --background: var(--background);
+    --background: #0f1117;
     --surface: #161922;
     --surface-hover: #1d2230;
 
     /* Brand */
 
-    --primary: var(--primary);
+    --primary: #3b82f6;
     --primary-hover: #2563eb;
 
     /* Text */
 
-    --text: var(--text);
+    --text: #f5f7fa;
     --text-secondary: #b7c0d1;
     --text-muted: #8fa4c4;
     --text-subtle: #737f94;

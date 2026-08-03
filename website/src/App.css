@@ -4,8 +4,8 @@
 
 body {
     margin: 0;
-    background: #0f1117;
-    color: #f5f7fa;
+    background: var(--background);
+    color: var(--text);
     font-family: Inter, Segoe UI, Arial, sans-serif;
 }
 
@@ -41,7 +41,7 @@ body {
 .hero p {
     margin-top: 2rem;
     font-size: 1.25rem;
-    color: #8fa4c4;
+    color: var(--text-muted);
     line-height: 1.7;
 }
 
@@ -53,7 +53,7 @@ body {
     border: none;
     border-radius: 12px;
 
-    background: #3b82f6;
+    background: var(--primary);
     color: white;
 
     font-size: 1rem;
@@ -65,7 +65,7 @@ body {
 }
 
 .hero button:hover {
-    background: #2563eb;
+    background: var(--primary-hover);
 }
 
 .navigation {
@@ -120,23 +120,23 @@ body {
 .metric-card {
     padding: 1.5rem;
 
-    border: 1px solid #252b38;
+    border: 1px solid var(--border);
     border-radius: 16px;
 
-    background: #161922;
+    background: var(--surface);
 }
 
 .metric-label {
     margin: 0;
 
-    color: #8fa4c4;
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
 .metric-value {
     margin: 0.75rem 0 0.25rem;
 
-    color: #f5f7fa;
+    color: var(--text);
     font-size: 2.25rem;
     font-weight: 700;
 }
@@ -144,7 +144,7 @@ body {
 .metric-detail {
     margin: 0;
 
-    color: #737f94;
+    color: var(--text-subtle);
     font-size: 0.85rem;
 }
 
@@ -179,7 +179,7 @@ body {
     margin: 0 auto 5rem;
     padding: 2rem;
 
-    border: 1px solid #252b38;
+    border: 1px solid var(--border);
     border-radius: 20px;
 
     background:
@@ -252,7 +252,7 @@ body {
 }
 
 .evidence-label {
-    color: #737f94;
+    color: var(--text-subtle);
     font-size: 0.8rem;
 }
 
