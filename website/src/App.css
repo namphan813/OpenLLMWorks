@@ -21,9 +21,9 @@ body {
 
     text-align: center;
 
-    min-height: 100vh;
+    min-height: 78vh;
 
-    padding: 2rem;
+    padding: 7rem 2rem 10rem;
 }
 
 .hero h1 {
@@ -114,7 +114,7 @@ body {
     gap: 1rem;
 
     width: min(1200px, calc(100% - 4rem));
-    margin: -8rem auto 4rem;
+    margin: -6rem auto 4rem;
 }
 
 .metric-card {
