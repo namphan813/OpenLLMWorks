@@ -3,6 +3,7 @@ import "./App.css";
 import Navigation from "./layout/Navigation";
 import Hero from "./components/Hero";
 import MetricCard from "./components/MetricCard";
+import CommunityStory from "./components/CommunityStory";
 
 function App() {
     return (
@@ -37,6 +38,8 @@ function App() {
                         detail="Tokens per second"
                     />
                 </section>
+
+                <CommunityStory />
             </main>
         </>
     );
