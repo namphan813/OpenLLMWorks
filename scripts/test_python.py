@@ -1,0 +1,1 @@
+print("OpenLLMBench is ready!")

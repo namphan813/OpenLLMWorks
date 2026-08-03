@@ -1,0 +1,144 @@
+{
+  "project": "Open LLM Benchmark Database",
+  "schema_version": "0.6",
+  "parser_version": "0.6.0-dev3",
+  "created_at": "2026-08-02T14:17:33+00:00",
+  "generated_at": "2026-08-02T14:19:16+00:00",
+  "result_count": 1,
+  "results": [
+    {
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission": {
+        "submission_name": "Game_Server_GTX1650",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Game_Server_GTX1650",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 2
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "System manufacturer",
+          "model": "System Product Name",
+          "generic_firmware_identity": true
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 34218823680,
+          "calculated_gib": 31.87,
+          "installed_capacity_gb": 32
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1650",
+          "type": "discrete",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": "610.74",
+            "driver_version": "610.74",
+            "cuda_umd_version": "13.3"
+          }
+        }
+      },
+      "benchmark": {
+        "status": "legacy_two_run",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 144.06,
+            "tg128": 31.76
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 143.49,
+            "tg128": 31.62
+          }
+        ],
+        "average": {
+          "pp512": 143.78,
+          "tg128": 31.69
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.6.0-dev3",
+        "schema_version": "0.6",
+        "processed_at": "2026-08-02T14:17:33+00:00"
+      }
+    }
+  ],
+  "import_history": [
+    {
+      "processed_at": "2026-08-02T14:17:33+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-02T14:17:33+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-02T14:19:16+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-02T14:19:16+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    }
+  ]
+}

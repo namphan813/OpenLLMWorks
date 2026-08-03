@@ -1,0 +1,171 @@
+{
+  "database_version": "1.0",
+  "benchmark": {
+    "version": "1.0",
+    "llamacpp_commit": "178a6c449",
+    "llamacpp_build": 10069,
+    "backend": "CUDA",
+    "model": "Qwen3-4B-Q4_K_M.gguf",
+    "prompt_tokens": 512,
+    "generation_tokens": 128,
+    "runs_required": 3
+  },
+  "systems": [
+    {
+      "id": "rtx4070_viet",
+      "nickname": "Viet Gaming PC",
+
+      "host": {
+        "manufacturer": "ASUS",
+        "model": "Custom Desktop",
+        "cpu": "AMD Ryzen 7 7800X3D",
+        "cores": 8,
+        "threads": 16,
+        "memory_gb": 64,
+        "os": "Windows 11 Home",
+        "build": 26200
+      },
+
+      "gpu": {
+        "manufacturer": "NVIDIA",
+        "model": "GeForce RTX 4070",
+        "architecture": "Ada Lovelace",
+        "vram_gb": 12,
+        "driver": "596.49",
+        "cuda": "13.2"
+      },
+
+      "results": {
+        "runs": [
+          { "pp512": 7716.98, "tg128": 148.52 },
+          { "pp512": 7983.93, "tg128": 148.18 }
+        ],
+        "average": {
+          "pp512": 7850.46,
+          "tg128": 148.35
+        }
+      }
+    },
+
+    {
+      "id": "rtx3060_server",
+      "nickname": "Main Server",
+
+      "gpu": {
+        "model": "GeForce RTX 3060",
+        "architecture": "Ampere",
+        "vram_gb": 12
+      },
+
+      "results": {
+        "average": {
+          "pp512": 3380.64,
+          "tg128": 91.09
+        }
+      }
+    },
+
+    {
+      "id": "rtxa3000_laptop",
+      "nickname": "ZBook Studio G8",
+
+      "gpu": {
+        "model": "RTX A3000 Laptop",
+        "architecture": "Ampere",
+        "vram_gb": 6
+      },
+
+      "results": {
+        "average": {
+          "pp512": 2413.64,
+          "tg128": 67.05
+        }
+      }
+    },
+
+    {
+      "id": "gtx1650_server",
+      "nickname": "Game Server",
+
+      "host": {
+        "cpu": "Intel Core i5-8500",
+        "cores": 6,
+        "threads": 6,
+        "memory_gb": 32,
+        "os": "Windows 11 Pro",
+        "build": 26200
+      },
+
+      "gpu": {
+        "model": "GeForce GTX 1650",
+        "architecture": "Turing",
+        "vram_gb": 4,
+        "driver": "610.74"
+      },
+
+      "results": {
+        "runs": [
+          { "pp512": 144.06, "tg128": 31.76 },
+          { "pp512": 143.49, "tg128": 31.62 }
+        ],
+        "average": {
+          "pp512": 143.78,
+          "tg128": 31.69
+        }
+      }
+    },
+
+    {
+      "id": "quadro_t1000_z2g5",
+      "nickname": "HP Z2 Mini G5",
+
+      "gpu": {
+        "model": "Quadro T1000",
+        "architecture": "Turing",
+        "vram_gb": 4
+      },
+
+      "results": {
+        "average": {
+          "pp512": 133.93,
+          "tg128": 21.75
+        }
+      }
+    },
+
+    {
+      "id": "quadro_p1000_z2g4",
+      "nickname": "HP Z2 Mini G4",
+
+      "host": {
+        "manufacturer": "HP",
+        "model": "Z2 Mini G4",
+        "cpu": "Intel Core i5-9500",
+        "cores": 6,
+        "threads": 6,
+        "memory_gb": 16,
+        "os": "Windows 11 Pro",
+        "build": 26200
+      },
+
+      "gpu": {
+        "model": "Quadro P1000",
+        "architecture": "Pascal",
+        "vram_gb": 4,
+        "driver": "582.70"
+      },
+
+      "results": {
+        "runs": [
+          { "pp512": 212.16, "tg128": 14.00 },
+          { "pp512": 212.15, "tg128": 13.99 },
+          { "pp512": 208.77, "tg128": 13.97 }
+        ],
+        "average": {
+          "pp512": 211.03,
+          "tg128": 13.99
+        }
+      }
+    }
+  ]
+}
