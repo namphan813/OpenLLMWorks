@@ -67,3 +67,43 @@ body {
 .hero button:hover {
     background: #2563eb;
 }
+
+.navigation {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 1.5rem 3rem;
+}
+
+.logo {
+    font-size: 1.4rem;
+
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: #c6cfdd;
+
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: white;
+}
