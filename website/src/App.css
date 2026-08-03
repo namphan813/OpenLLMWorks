@@ -19,42 +19,43 @@ body {
     justify-content: center;
     align-items: center;
 
-    text-align: center;
-
     min-height: 78vh;
-
     padding: 7rem 2rem 10rem;
+
+    text-align: center;
 }
 
 .hero h1 {
-    font-size: 4rem;
     margin-bottom: 1rem;
+
+    font-size: 4rem;
 }
 
 .hero h2 {
     max-width: 700px;
+
+    color: var(--text-secondary);
     font-weight: 400;
-    color: #b7c0d1;
     line-height: 1.4;
 }
 
 .hero p {
     margin-top: 2rem;
-    font-size: 1.25rem;
+
     color: var(--text-muted);
+    font-size: 1.25rem;
     line-height: 1.7;
 }
 
 .hero button {
     margin-top: 2rem;
-
     padding: 0.9rem 2rem;
 
     border: none;
     border-radius: 12px;
 
     background: var(--primary);
-    color: white;
+    color: var(--text);
 
     font-size: 1rem;
     font-weight: 600;
@@ -72,13 +73,11 @@ body {
     position: absolute;
 
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
 
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
 
     padding: 1.5rem 3rem;
@@ -86,26 +85,23 @@ body {
 
 .logo {
     font-size: 1.4rem;
-
     font-weight: 700;
 }
 
 .nav-links {
     display: flex;
-
     gap: 2rem;
 }
 
 .nav-links a {
-    color: #c6cfdd;
-
+    color: var(--text-secondary);
     text-decoration: none;
 
     transition: 0.2s;
 }
 
 .nav-links a:hover {
-    color: white;
+    color: var(--text);
 }
 
 .metrics {
@@ -146,32 +142,6 @@ body {
 
     color: var(--text-subtle);
     font-size: 0.85rem;
-}
-
-@media (max-width: 900px) {
-    .metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 560px) {
-    .navigation {
-        padding: 1.25rem;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    .hero h1 {
-        font-size: 2.75rem;
-    }
-
-    .metrics {
-        grid-template-columns: 1fr;
-        width: min(100% - 2rem, 500px);
-        margin-top: -5rem;
-    }
 }
 
 .community-story {
@@ -261,6 +231,12 @@ body {
     font-size: 0.95rem;
 }
 
+@media (max-width: 900px) {
+    .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 700px) {
     .community-story {
         width: min(100% - 2rem, 500px);
@@ -274,5 +250,26 @@ body {
 
     .story-evidence {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .navigation {
+        padding: 1.25rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 2.75rem;
+    }
+
+    .metrics {
+        grid-template-columns: 1fr;
+
+        width: min(100% - 2rem, 500px);
+        margin-top: -5rem;
     }
 }
