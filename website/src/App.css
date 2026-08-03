@@ -107,3 +107,69 @@ body {
 .nav-links a:hover {
     color: white;
 }
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+
+    width: min(1200px, calc(100% - 4rem));
+    margin: -8rem auto 4rem;
+}
+
+.metric-card {
+    padding: 1.5rem;
+
+    border: 1px solid #252b38;
+    border-radius: 16px;
+
+    background: #161922;
+}
+
+.metric-label {
+    margin: 0;
+
+    color: #8fa4c4;
+    font-size: 0.9rem;
+}
+
+.metric-value {
+    margin: 0.75rem 0 0.25rem;
+
+    color: #f5f7fa;
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.metric-detail {
+    margin: 0;
+
+    color: #737f94;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .navigation {
+        padding: 1.25rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 2.75rem;
+    }
+
+    .metrics {
+        grid-template-columns: 1fr;
+        width: min(100% - 2rem, 500px);
+        margin-top: -5rem;
+    }
+}
