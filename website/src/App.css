@@ -276,7 +276,7 @@ body {
 
 .site-footer {
     border-top: 1px solid var(--border);
-
+    margin-top: 5rem;
     background: #0b0d12;
 }
 
