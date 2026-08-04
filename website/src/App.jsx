@@ -4,6 +4,7 @@ import Navigation from "./layout/Navigation";
 import Hero from "./components/Hero";
 import MetricCard from "./components/MetricCard";
 import CommunityStory from "./components/CommunityStory";
+import Footer from "./components/Footer";
 
 function App() {
     return (
@@ -41,6 +42,8 @@ function App() {
 
                 <CommunityStory />
             </main>
+
+            <Footer />
         </>
     );
 }
