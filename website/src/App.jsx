@@ -6,6 +6,29 @@ import MetricCard from "./components/MetricCard";
 import CommunityStory from "./components/CommunityStory";
 import Footer from "./components/Footer";
 
+const metrics = [
+    {
+        label: "Benchmark Results",
+        value: "1",
+        detail: "Unique result recorded",
+    },
+    {
+        label: "GPU Models",
+        value: "1",
+        detail: "Currently represented",
+    },
+    {
+        label: "Import Events",
+        value: "4",
+        detail: "3 duplicates blocked",
+    },
+    {
+        label: "Average tg128",
+        value: "31.69",
+        detail: "Tokens per second",
+    },
+];
+
 function App() {
     return (
         <>
@@ -15,29 +38,14 @@ function App() {
                 <Hero />
 
                 <section className="metrics">
-                    <MetricCard
-                        label="Benchmark Results"
-                        value="1"
-                        detail="Unique result recorded"
-                    />
-
-                    <MetricCard
-                        label="GPU Models"
-                        value="1"
-                        detail="Currently represented"
-                    />
-
-                    <MetricCard
-                        label="Import Events"
-                        value="4"
-                        detail="3 duplicates blocked"
-                    />
-
-                    <MetricCard
-                        label="Average tg128"
-                        value="31.69"
-                        detail="Tokens per second"
-                    />
+                    {metrics.map((metric) => (
+                        <MetricCard
+                            key={metric.label}
+                            label={metric.label}
+                            value={metric.value}
+                            detail={metric.detail}
+                        />
+                    ))}
                 </section>
 
                 <CommunityStory />
