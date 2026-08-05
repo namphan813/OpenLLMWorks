@@ -1,35 +1,29 @@
-import Navigation from "../layout/Navigation";
+import Layout from "../layout/Layout";
+
 import Hero from "../components/Hero";
 import MetricCard from "../components/MetricCard";
 import CommunityStory from "../components/CommunityStory";
-import Footer from "../components/Footer";
 
 import { metrics } from "../data/homepage";
 
 function Home() {
     return (
-        <>
-            <Navigation />
+        <Layout>
+            <Hero />
 
-            <main>
-                <Hero />
+            <section className="metrics">
+                {metrics.map((metric) => (
+                    <MetricCard
+                        key={metric.label}
+                        label={metric.label}
+                        value={metric.value}
+                        detail={metric.detail}
+                    />
+                ))}
+            </section>
 
-                <section className="metrics">
-                    {metrics.map((metric) => (
-                        <MetricCard
-                            key={metric.label}
-                            label={metric.label}
-                            value={metric.value}
-                            detail={metric.detail}
-                        />
-                    ))}
-                </section>
-
-                <CommunityStory />
-            </main>
-
-            <Footer />
-        </>
+            <CommunityStory />
+        </Layout>
     );
 }
 
