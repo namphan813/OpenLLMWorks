@@ -1,56 +1,40 @@
-function CommunityStory() {
+function CommunityStory({
+    eyebrow,
+    badge,
+    title,
+    description,
+    evidence,
+}) {
     return (
         <section className="community-story">
             <div className="story-header">
                 <p className="story-eyebrow">
-                    Community Story
+                    {eyebrow}
                 </p>
 
                 <span className="snapshot-badge">
-                    Data Snapshot
+                    {badge}
                 </span>
             </div>
 
-            <h2>
-                The GTX 1650 is OpenLLMBench&apos;s first recorded GPU.
-            </h2>
+            <h2>{title}</h2>
 
             <p className="story-copy">
-                The current database contains one verified benchmark result,
-                establishing the first historical reference point for the
-                OpenLLMBench community.
+                {description}
             </p>
 
             <div className="story-evidence">
-                <div>
-                    <span className="evidence-label">
-                        Based on
-                    </span>
+                {evidence.map((item) => (
+                    <div key={item.label}>
+                        <span className="evidence-label">
+                            {item.label}
+                        </span>
 
-                    <strong>
-                        1 benchmark result
-                    </strong>
-                </div>
-
-                <div>
-                    <span className="evidence-label">
-                        Snapshot
-                    </span>
-
-                    <strong>
-                        2026-08-02 14:17 UTC
-                    </strong>
-                </div>
-
-                <div>
-                    <span className="evidence-label">
-                        Average tg128
-                    </span>
-
-                    <strong>
-                        31.69 tokens/sec
-                    </strong>
-                </div>
+                        <strong>
+                            {item.value}
+                        </strong>
+                    </div>
+                ))}
             </div>
         </section>
     );

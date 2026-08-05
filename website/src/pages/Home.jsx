@@ -4,7 +4,10 @@ import Hero from "../components/Hero";
 import MetricCard from "../components/MetricCard";
 import CommunityStory from "../components/CommunityStory";
 
-import { metrics } from "../data/homepage";
+import {
+    metrics,
+    communityStory,
+} from "../data/homepage";
 
 function Home() {
     return (
@@ -22,7 +25,13 @@ function Home() {
                 ))}
             </section>
 
-            <CommunityStory />
+            <CommunityStory
+                eyebrow={communityStory.eyebrow}
+                badge={communityStory.badge}
+                title={communityStory.title}
+                description={communityStory.description}
+                evidence={communityStory.evidence}
+            />
         </Layout>
     );
 }
