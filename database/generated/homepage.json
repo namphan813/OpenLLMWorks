@@ -1,0 +1,17 @@
+{
+    "contractVersion": "1.0",
+    "generatedAt": "2026-08-06T01:52:40.200192+00:00",
+    "stats": {
+        "benchmarkResults": 1,
+        "gpuModels": 1,
+        "cpuModels": 1,
+        "importEvents": 4,
+        "averageTg128": 31.69
+    },
+    "featuredStory": {
+        "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
+        "description": "The current database contains one verified benchmark result establishing the first historical reference point.",
+        "snapshot": "2026-08-02 14:17 UTC",
+        "badge": "Data Snapshot"
+    }
+}
