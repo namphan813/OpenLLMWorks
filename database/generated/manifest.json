@@ -1,0 +1,13 @@
+{
+    "publisher": {
+        "name": "OpenLLMBench Publisher",
+        "version": "0.1"
+    },
+    "generatedAt": "2026-08-06T02:00:08.633288+00:00",
+    "files": [
+        {
+            "name": "homepage.json",
+            "contractVersion": "1.0"
+        }
+    ]
+}

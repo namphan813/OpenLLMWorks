@@ -1,51 +1,84 @@
 import json
+from datetime import UTC, datetime
 from pathlib import Path
-from datetime import datetime, UTC
 
 
 ROOT = Path(__file__).resolve().parent.parent
-
 OUTPUT_DIR = ROOT / "database" / "generated"
 
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+PUBLISHER_NAME = "OpenLLMBench Publisher"
+PUBLISHER_VERSION = "0.1"
+CONTRACT_VERSION = "1.0"
 
 
-homepage = {
-    "contractVersion": "1.0",
-    "generatedAt": datetime.now(UTC).isoformat(),
+def write_json(output_file: Path, data: dict) -> None:
+    """Write JSON data using UTF-8 and readable indentation."""
+    with output_file.open("w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4)
 
-    "stats": {
-        "benchmarkResults": 1,
-        "gpuModels": 1,
-        "cpuModels": 1,
-        "importEvents": 4,
-        "averageTg128": 31.69
-    },
+        # End generated files with a newline.
+        file.write("\n")
 
-    "featuredStory": {
-        "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
-        "description": "The current database contains one verified benchmark result establishing the first historical reference point.",
-        "snapshot": "2026-08-02 14:17 UTC",
-        "badge": "Data Snapshot"
+
+def main() -> None:
+    generated_at = datetime.now(UTC).isoformat()
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    homepage = {
+        "contractVersion": CONTRACT_VERSION,
+        "generatedAt": generated_at,
+        "generator": {
+            "name": PUBLISHER_NAME,
+            "version": PUBLISHER_VERSION,
+        },
+        "stats": {
+            "benchmarkResults": 1,
+            "gpuModels": 1,
+            "cpuModels": 1,
+            "importEvents": 4,
+            "averageTg128": 31.69,
+        },
+        "featuredStory": {
+            "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
+            "description": (
+                "The current database contains one verified benchmark result "
+                "establishing the first historical reference point."
+            ),
+            "snapshot": "2026-08-02 14:17 UTC",
+            "badge": "Data Snapshot",
+        },
     }
-}
+
+    homepage_file = OUTPUT_DIR / "homepage.json"
+    write_json(homepage_file, homepage)
+
+    manifest = {
+        "publisher": {
+            "name": PUBLISHER_NAME,
+            "version": PUBLISHER_VERSION,
+        },
+        "generatedAt": generated_at,
+        "files": [
+            {
+                "name": "homepage.json",
+                "contractVersion": CONTRACT_VERSION,
+            }
+        ],
+    }
+
+    manifest_file = OUTPUT_DIR / "manifest.json"
+    write_json(manifest_file, manifest)
+
+    print()
+    print(PUBLISHER_NAME)
+    print("-----------------------")
+    print()
+    print(f"Published: {homepage_file}")
+    print(f"Published: {manifest_file}")
+    print()
+    print("Publisher completed successfully.")
 
 
-output_file = OUTPUT_DIR / "homepage.json"
-
-with open(output_file, "w", encoding="utf-8") as file:
-    json.dump(homepage, file, indent=4)
-
-print()
-
-print("OpenLLMBench Publisher")
-
-print("-----------------------")
-
-print()
-
-print(f"Published: {output_file}")
-
-print()
-
-print("Done.")
+if __name__ == "__main__":
+    main()
