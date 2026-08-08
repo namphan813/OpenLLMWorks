@@ -46,10 +46,10 @@ def publish_homepage(
         "featuredStory": {
             "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
             "description": (
-                "The current database contains one verified benchmark result "
-                "establishing the first historical reference point."
+                "This benchmark established the first historical performance "
+                "reference point in the OpenLLMBench database."
             ),
-            "snapshot": generated_at,
+            "snapshot": "2026-08-02 14:17 UTC",
             "badge": "Data Snapshot",
         },
     }

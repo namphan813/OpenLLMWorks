@@ -8,8 +8,9 @@ import CommunityStory from "../components/CommunityStory";
 
 import {
     metrics as fallbackMetrics,
-    communityStory,
+    communityStory as fallbackCommunityStory,
 } from "../data/homepage";
+
 
 function buildPublishedMetrics(stats) {
     return [
@@ -36,8 +37,13 @@ function buildPublishedMetrics(stats) {
     ];
 }
 
+
 function Home() {
     const [metrics, setMetrics] = useState(fallbackMetrics);
+
+    const [communityStory, setCommunityStory] = useState(
+        fallbackCommunityStory,
+    );
 
     useEffect(() => {
         const homepageDataUrl =
@@ -64,10 +70,41 @@ function Home() {
                 setMetrics(
                     buildPublishedMetrics(homepageData.stats),
                 );
+
+                if (homepageData.featuredStory) {
+                    setCommunityStory({
+                        eyebrow: "COMMUNITY STORY",
+                        badge:
+                            homepageData.featuredStory.badge ||
+                            "Data Snapshot",
+                        title:
+                            homepageData.featuredStory.title ||
+                            "",
+                        description:
+                            homepageData.featuredStory.description ||
+                            "",
+                        evidence: [
+                            {
+                                label: "Based on",
+                                value: "1 benchmark result",
+                            },
+                            {
+                                label: "Snapshot",
+                                value:
+                                    homepageData.featuredStory.snapshot ||
+                                    "",
+                            },
+                            {
+                                label: "Average tg128",
+                                value: "31.69 tokens/sec",
+                            },
+                        ],
+                    });
+                }
             } catch (error) {
                 console.error(
                     "Unable to load published homepage data. " +
-                        "Using fallback metrics.",
+                        "Using fallback homepage data.",
                     error,
                 );
             }
@@ -101,5 +138,6 @@ function Home() {
         </Layout>
     );
 }
+
 
 export default Home;

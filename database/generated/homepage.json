@@ -1,6 +1,6 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-08-08T02:24:08.762774+00:00",
+    "generatedAt": "2026-08-08T03:10:49.575429+00:00",
     "generator": {
         "name": "OpenLLMBench Publisher",
         "version": "0.1"
@@ -14,8 +14,8 @@
     },
     "featuredStory": {
         "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
-        "description": "The current database contains one verified benchmark result establishing the first historical reference point.",
-        "snapshot": "2026-08-08T02:24:08.762774+00:00",
+        "description": "This benchmark established the first historical performance reference point in the OpenLLMBench database.",
+        "snapshot": "2026-08-02 14:17 UTC",
         "badge": "Data Snapshot"
     }
 }
