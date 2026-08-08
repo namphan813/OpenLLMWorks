@@ -13,19 +13,19 @@ Version:
 from pathlib import Path
 import statistics
 
-from benchmark import (
+from parser.benchmark import (
     determine_status,
     extract_result,
     print_status_message,
 )
-from database import (
+from parser.database import (
     add_result,
     build_result_record,
     load_database,
     write_database,
 )
-from hardware import load_hardware_profile
-from submission import (
+from parser.hardware import load_hardware_profile
+from parser.submission import (
     Submission,
     discover_submissions,
 )

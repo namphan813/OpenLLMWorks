@@ -9,3 +9,5 @@ database/backups/
 
 # Generated database backups
 database/backups/
+# Local benchmark ingestion workspace
+incoming/

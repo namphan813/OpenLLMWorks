@@ -1,7 +1,7 @@
 from pathlib import Path
 import re
 
-from windows_lookup import normalize_windows
+from parser.windows_lookup import normalize_windows
 
 
 def read_text_file(file_path: Path) -> str:
