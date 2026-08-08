@@ -1,5 +1,5 @@
-import json
 from pathlib import Path
+import json
 
 
 def publish_homepage(
@@ -8,10 +8,21 @@ def publish_homepage(
     publisher_name: str,
     publisher_version: str,
     contract_version: str,
+    statistics_report: dict,
 ):
     """
-    Publish homepage.json.
+    Publish homepage.json using real OpenLLMBench analytics.
     """
+
+    database_stats = statistics_report["database"]
+    submission_stats = statistics_report["submissions"]
+    hardware_stats = statistics_report["hardware"]
+    performance_stats = statistics_report["performance"]
+
+    gpu_model_counts = hardware_stats.get(
+        "gpu_model_counts",
+        {},
+    )
 
     homepage = {
         "contractVersion": contract_version,
@@ -21,11 +32,16 @@ def publish_homepage(
             "version": publisher_version,
         },
         "stats": {
-            "benchmarkResults": 1,
-            "gpuModels": 1,
-            "cpuModels": 1,
-            "importEvents": 4,
-            "averageTg128": 31.69,
+            "benchmarkResults": database_stats["total_results"],
+            "gpuModels": len(gpu_model_counts),
+            "cpuModels": len(
+                hardware_stats.get(
+                    "cpu_model_counts",
+                    {},
+                )
+            ),
+            "importEvents": submission_stats["import_event_count"],
+            "averageTg128": performance_stats["average_tg128"],
         },
         "featuredStory": {
             "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
@@ -33,7 +49,7 @@ def publish_homepage(
                 "The current database contains one verified benchmark result "
                 "establishing the first historical reference point."
             ),
-            "snapshot": "2026-08-02 14:17 UTC",
+            "snapshot": generated_at,
             "badge": "Data Snapshot",
         },
     }
