@@ -3,7 +3,7 @@
         "name": "OpenLLMBench Publisher",
         "version": "0.1"
     },
-    "generatedAt": "2026-08-08T03:10:49.575429+00:00",
+    "generatedAt": "2026-08-08T21:46:49.876885+00:00",
     "source": {
         "database": "benchmark_database.json",
         "statisticsVersion": "0.7.0-dev1"
@@ -11,6 +11,10 @@
     "files": [
         {
             "name": "homepage.json",
+            "contractVersion": "1.0"
+        },
+        {
+            "name": "hardware.json",
             "contractVersion": "1.0"
         }
     ]

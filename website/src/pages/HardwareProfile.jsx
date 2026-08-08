@@ -4,6 +4,33 @@ import { Link, useParams } from "react-router-dom";
 import Layout from "../layout/Layout";
 import { gpuSlug } from "../utils/hardware";
 
+function formatScore(value) {
+  if (typeof value !== "number") {
+    return "Unknown";
+  }
+
+  return value.toFixed(2);
+}
+
+function formatMemoryConfigurations(system) {
+  const configurations = system?.memoryConfigurationsGb;
+
+  if (
+    Array.isArray(configurations) &&
+    configurations.length > 0
+  ) {
+    return configurations
+      .map((memory) => `${memory} GB`)
+      .join(", ");
+  }
+
+  if (system?.averageMemoryGb != null) {
+    return `${system.averageMemoryGb} GB`;
+  }
+
+  return "Unknown";
+}
+
 function HardwareProfile() {
   const { gpuSlug: requestedSlug } = useParams();
 
@@ -96,7 +123,9 @@ function HardwareProfile() {
                 <span>Average pp512</span>
 
                 <strong>
-                  {hardware.performance.averagePp512 ?? "Unknown"}
+                  {formatScore(
+                    hardware.performance.averagePp512,
+                  )}
                 </strong>
 
                 <span>tokens/sec</span>
@@ -106,7 +135,9 @@ function HardwareProfile() {
                 <span>Average tg128</span>
 
                 <strong>
-                  {hardware.performance.averageTg128 ?? "Unknown"}
+                  {formatScore(
+                    hardware.performance.averageTg128,
+                  )}
                 </strong>
 
                 <span>tokens/sec</span>
@@ -119,23 +150,29 @@ function HardwareProfile() {
               <p>
                 Best pp512:{" "}
                 <strong>
-                  {hardware.performance.bestPp512 ?? "Unknown"}
+                  {formatScore(
+                    hardware.performance.bestPp512,
+                  )}
                 </strong>
               </p>
 
               <p>
                 Worst pp512:{" "}
                 <strong>
-                  {hardware.performance.worstPp512 ?? "Unknown"}
+                  {formatScore(
+                    hardware.performance.worstPp512,
+                  )}
                 </strong>
               </p>
 
               <h2>Tested Configurations</h2>
 
               <p>
-                System Memory:{" "}
+                Tested Memory:{" "}
                 <strong>
-                  {hardware.system.averageMemoryGb ?? "Unknown"} GB
+                  {formatMemoryConfigurations(
+                    hardware.system,
+                  )}
                 </strong>
               </p>
 
@@ -193,7 +230,7 @@ function HardwareProfile() {
                             <span>pp512</span>
 
                             <strong>
-                              {result.pp512 ?? "Unknown"}
+                              {formatScore(result.pp512)}
                             </strong>
 
                             <small>tokens/sec</small>
@@ -203,7 +240,7 @@ function HardwareProfile() {
                             <span>tg128</span>
 
                             <strong>
-                              {result.tg128 ?? "Unknown"}
+                              {formatScore(result.tg128)}
                             </strong>
 
                             <small>tokens/sec</small>

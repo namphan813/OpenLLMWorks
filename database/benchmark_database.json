@@ -3,8 +3,8 @@
   "schema_version": "0.7",
   "parser_version": "0.6.0-dev3",
   "created_at": "2026-08-02T14:17:33+00:00",
-  "generated_at": "2026-08-08T02:21:16+00:00",
-  "result_count": 2,
+  "generated_at": "2026-08-08T18:35:35+00:00",
+  "result_count": 3,
   "results": [
     {
       "result_id": "result_2637a2f40e9ff1da",
@@ -116,6 +116,121 @@
         "migrated_from_schema": "0.6",
         "migration_module_version": "0.8.0-dev1",
         "migrated_at": "2026-08-08T02:21:16+00:00"
+      }
+    },
+    {
+      "result_id": "result_2e30784bddd6fade",
+      "submission": {
+        "submission_name": "Xbox-One-PC-GTX1650",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Xbox-One-PC-GTX1650",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 3,
+        "submitted_at": null
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "To Be Filled By O.E.M.",
+          "model": "To Be Filled By O.E.M.",
+          "generic_firmware_identity": true
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 17094324224,
+          "calculated_gib": 15.92,
+          "installed_capacity_gb": 16
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26100
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "24H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1650",
+          "type": "discrete",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": null,
+            "driver_version": null,
+            "cuda_umd_version": null
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": null,
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 164.55,
+            "tg128": 39.06
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 166.28,
+            "tg128": 38.95
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v0.9-p512-run3.txt",
+            "pp512": 159.28,
+            "tg128": 38.62
+          }
+        ],
+        "average": {
+          "pp512": 163.37,
+          "tg128": 38.88
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.8.0-dev3",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-08T18:35:35+00:00",
+        "imported_at": "2026-08-08T18:35:35+00:00",
+        "last_updated": "2026-08-08T18:35:35+00:00"
       }
     },
     {
@@ -284,6 +399,61 @@
       "result_id": "result_d7d8e49cbdcf91fe",
       "submission_name": "Z2-MINI-G5-T1000",
       "status": "added"
+    },
+    {
+      "processed_at": "2026-08-08T18:33:35+00:00",
+      "imported_at": "2026-08-08T18:33:35+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-08T18:33:35+00:00",
+      "imported_at": "2026-08-08T18:33:35+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-08T18:33:35+00:00",
+      "imported_at": "2026-08-08T18:33:35+00:00",
+      "result_id": "result_d7d8e49cbdcf91fe",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "duplicate",
+      "duplicate_of": "result_d7d8e49cbdcf91fe"
+    },
+    {
+      "processed_at": "2026-08-08T18:35:35+00:00",
+      "imported_at": "2026-08-08T18:35:35+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-08T18:35:35+00:00",
+      "imported_at": "2026-08-08T18:35:35+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-08T18:35:35+00:00",
+      "imported_at": "2026-08-08T18:35:35+00:00",
+      "result_id": "result_2e30784bddd6fade",
+      "submission_name": "Xbox-One-PC-GTX1650",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-08T18:35:35+00:00",
+      "imported_at": "2026-08-08T18:35:35+00:00",
+      "result_id": "result_d7d8e49cbdcf91fe",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "duplicate",
+      "duplicate_of": "result_d7d8e49cbdcf91fe"
     }
   ],
   "migration_history": [

@@ -1,29 +1,34 @@
 {
-    "contractVersion": "1.2",
-    "generatedAt": "2026-08-08T07:23:34.869083+00:00",
+    "contractVersion": "1.3",
+    "generatedAt": "2026-08-08T21:46:49.890888+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
-        "version": "0.3"
+        "version": "0.4"
     },
     "summary": {
         "gpuModels": 2,
-        "benchmarkResults": 2
+        "benchmarkResults": 3
     },
     "hardware": [
         {
             "gpuVendor": "NVIDIA",
             "gpuModel": "NVIDIA GeForce GTX 1650",
-            "submissionCount": 1,
+            "submissionCount": 2,
             "performance": {
-                "averagePp512": 143.78,
-                "averageTg128": 31.69,
-                "bestPp512": 143.78,
+                "averagePp512": 153.575,
+                "averageTg128": 35.285000000000004,
+                "bestPp512": 163.37,
                 "worstPp512": 143.78
             },
             "system": {
-                "averageMemoryGb": 32.0,
+                "averageMemoryGb": 24.0,
+                "memoryConfigurationsGb": [
+                    16,
+                    32
+                ],
                 "averageVramGib": 4.0,
                 "operatingSystems": [
+                    "Windows 11 Pro 24H2",
                     "Windows 11 Pro 25H2"
                 ]
             },
@@ -35,6 +40,15 @@
                     "tg128": 31.69,
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 32,
+                    "vramGib": 4.0
+                },
+                {
+                    "submissionName": "Xbox-One-PC-GTX1650",
+                    "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
+                    "pp512": 163.37,
+                    "tg128": 38.88,
+                    "operatingSystem": "Windows 11 Pro 24H2",
+                    "memoryGb": 16,
                     "vramGib": 4.0
                 }
             ]
@@ -51,6 +65,9 @@
             },
             "system": {
                 "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
                 "averageVramGib": 4.0,
                 "operatingSystems": [
                     "Windows 11 Pro 25H2"

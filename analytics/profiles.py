@@ -62,6 +62,8 @@ def build_gpu_profiles(database):
             if valid_number(row.get("memory_gb"))
         ]
 
+        memory_configurations = sorted(set(memory_values))
+
         vram_values = [
             row["vram_gib"]
             for row in gpu_rows
@@ -123,13 +125,21 @@ def build_gpu_profiles(database):
 
             "average_tg128": average(tg128_values),
 
-            "best_pp512": max(pp512_values)
-            if pp512_values else None,
+            "best_pp512": (
+                max(pp512_values)
+                if pp512_values
+                else None
+            ),
 
-            "worst_pp512": min(pp512_values)
-            if pp512_values else None,
+            "worst_pp512": (
+                min(pp512_values)
+                if pp512_values
+                else None
+            ),
 
             "average_memory_gb": average(memory_values),
+
+            "memory_configurations_gb": memory_configurations,
 
             "average_vram_gib": average(vram_values),
 

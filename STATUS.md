@@ -1,73 +1,62 @@
-# OpenLLMBench Status
+# OpenLLMBench — Project Status
 
-**Last Updated:** August 2, 2026
-
----
-
-# Current Phase
-
-## Weekend 6 — Community
-
-### Sprint 2 — Website Foundation
-
-Status: 🚧 In Progress
+**Last Updated:** August 7, 2026  
+**Current Development Phase:** Weekend 8 Complete  
+**Next Phase:** Weekend 9  
+**Repository State:** Main branch clean and synchronized with origin
 
 ---
 
-# Completed
+## Project Overview
 
-## Backend
+OpenLLMBench is an open-source benchmark database focused on measuring,
+comparing, and preserving the performance history of local AI hardware.
 
-- ✅ Benchmark parser
-- ✅ Persistent database
-- ✅ Historical snapshots
-- ✅ Analytics engine
-- ✅ Hardware profiles
-- ✅ Leaderboards
-- ✅ Interesting facts
-- ✅ Timestamp migration
-- ✅ SHA-256 verification
-- ✅ Verified backups
+The project is evolving from a collection of local benchmarking scripts into
+a complete data pipeline capable of accepting benchmark submissions,
+validating them, preserving them in a persistent database, analyzing the
+resulting dataset, and publishing structured data for a public website.
 
-## Documentation
+The long-term goal is to create a community-driven historical record of local
+LLM hardware performance.
 
-- ✅ README
-- ✅ ROADMAP
-- ✅ STATUS
-- ✅ PARKING_LOT
-- ✅ ARCHITECTURE
-- ✅ WEBSITE_VISION
-- ✅ COMPONENT_LIBRARY
-
-## Website
-
-- ✅ React
-- ✅ Vite
-- ✅ Git
-- ✅ Hero
-- ✅ Navigation
-- ✅ Metric Cards
-- ✅ Community Story
-- ✅ Design System
+**Measure. Understand. Preserve.**
 
 ---
 
-# Next Sprint
+# Current System Architecture
 
-- Trending Hardware
-- Leaderboard Preview
-- Interesting Facts
-- Footer
-- Connect website to live analytics
+OpenLLMBench now has a functioning end-to-end data path:
 
----
-
-# Long-Term Vision
-
-OpenLLMBench is evolving from a benchmark parser into a community-driven platform that preserves the historical record of local AI hardware performance.
-
-Measure.
-
-Understand.
-
-Preserve.
+```text
+Benchmark Run
+      |
+      v
+Raw Benchmark Files
+      |
+      v
+incoming/
+      |
+      v
+Parser
+      |
+      v
+Validation / Normalization
+      |
+      v
+Duplicate Detection
+      |
+      v
+Persistent Benchmark Database
+      |
+      v
+Analytics / Statistics
+      |
+      v
+Publisher
+      |
+      v
+Generated JSON
+      |
+      v
+Website

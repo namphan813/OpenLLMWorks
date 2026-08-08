@@ -81,6 +81,8 @@ body {
     align-items: center;
 
     padding: 1.5rem 3rem;
+
+    z-index: 1000;
 }
 
 .logo {
@@ -102,6 +104,40 @@ body {
 
 .nav-links a:hover {
     color: var(--text);
+}
+
+/* =========================================================
+   Mobile Navigation Button
+   ========================================================= */
+
+.mobile-menu-button {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 9px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: var(--surface);
+
+    cursor: pointer;
+
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+.mobile-menu-button span {
+    display: block;
+
+    width: 100%;
+    height: 2px;
+
+    background: var(--text);
+    border-radius: 999px;
 }
 
 .metrics {
@@ -258,8 +294,42 @@ body {
         padding: 1.25rem;
     }
 
+    .mobile-menu-button {
+        display: flex;
+    }
+
     .nav-links {
         display: none;
+
+        position: absolute;
+
+        top: 4.75rem;
+        right: 1.25rem;
+        left: 1.25rem;
+
+        flex-direction: column;
+        gap: 0;
+
+        padding: 0.75rem;
+
+        border: 1px solid var(--border);
+        border-radius: 14px;
+
+        background: var(--surface);
+    }
+
+    .nav-links.nav-links-open {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 0.9rem 1rem;
+
+        border-radius: 8px;
+    }
+
+    .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.05);
     }
 
     .hero h1 {

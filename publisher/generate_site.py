@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
 
 
 from analytics.statistics import build_statistics
+from publisher.hardware import publish_hardware
 from publisher.homepage import publish_homepage
 
 
@@ -23,13 +24,26 @@ CONTRACT_VERSION = "1.0"
 
 
 def load_json(input_file: Path) -> dict:
-    with input_file.open("r", encoding="utf-8") as file:
+    with input_file.open(
+        "r",
+        encoding="utf-8",
+    ) as file:
         return json.load(file)
 
 
-def write_json(output_file: Path, data: dict) -> None:
-    with output_file.open("w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4)
+def write_json(
+    output_file: Path,
+    data: dict,
+) -> None:
+    with output_file.open(
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            data,
+            file,
+            indent=4,
+        )
         file.write("\n")
 
 
@@ -48,7 +62,9 @@ def main() -> None:
 
     print(f"Loading database: {DATABASE_FILE}")
 
-    database = load_json(DATABASE_FILE)
+    database = load_json(
+        DATABASE_FILE
+    )
 
     print("Database loaded.")
     print()
@@ -56,7 +72,7 @@ def main() -> None:
     print("Building statistics...")
 
     statistics_report = build_statistics(
-        database,
+        database
     )
 
     print("Statistics built.")
@@ -69,6 +85,11 @@ def main() -> None:
         PUBLISHER_VERSION,
         CONTRACT_VERSION,
         statistics_report,
+    )
+
+    hardware_file = publish_hardware(
+        database=database,
+        output_directory=OUTPUT_DIR,
     )
 
     manifest = {
@@ -88,7 +109,11 @@ def main() -> None:
             {
                 "name": "homepage.json",
                 "contractVersion": CONTRACT_VERSION,
-            }
+            },
+            {
+                "name": "hardware.json",
+                "contractVersion": CONTRACT_VERSION,
+            },
         ],
     }
 
@@ -100,6 +125,7 @@ def main() -> None:
     )
 
     print(f"Published: {homepage_file}")
+    print(f"Published: {hardware_file}")
     print(f"Published: {manifest_file}")
     print()
     print("Publisher completed successfully.")
