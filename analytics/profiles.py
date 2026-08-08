@@ -5,7 +5,7 @@ Purpose:
 Build reusable hardware profiles from the benchmark database.
 
 Version:
-0.7.0-dev1
+0.7.0-dev3
 """
 
 from collections import defaultdict
@@ -16,7 +16,7 @@ from analytics.statistics import (
 )
 
 
-PROFILE_ENGINE_VERSION = "0.7.0-dev1"
+PROFILE_ENGINE_VERSION = "0.7.0-dev3"
 
 
 def average(values):
@@ -44,7 +44,6 @@ def build_gpu_profiles(database):
     profiles = {}
 
     for gpu_model, gpu_rows in grouped.items():
-
         pp512_values = [
             row["pp512"]
             for row in gpu_rows
@@ -77,9 +76,48 @@ def build_gpu_profiles(database):
             }
         )
 
-        profiles[gpu_model] = {
+        gpu_vendors = sorted(
+            {
+                row.get("gpu_vendor")
+                for row in gpu_rows
+                if row.get("gpu_vendor")
+            }
+        )
 
+        gpu_vendor = (
+            gpu_vendors[0]
+            if len(gpu_vendors) == 1
+            else "Unknown"
+        )
+
+        benchmark_results = []
+
+        for row in gpu_rows:
+            benchmark_results.append(
+                {
+                    "submission_name": row.get(
+                        "submission_name",
+                        "Unknown",
+                    ),
+                    "cpu_model": row.get(
+                        "cpu_model",
+                        "Unknown",
+                    ),
+                    "pp512": row.get("pp512"),
+                    "tg128": row.get("tg128"),
+                    "operating_system": row.get(
+                        "operating_system",
+                        "Unknown",
+                    ),
+                    "memory_gb": row.get("memory_gb"),
+                    "vram_gib": row.get("vram_gib"),
+                }
+            )
+
+        profiles[gpu_model] = {
             "submission_count": len(gpu_rows),
+
+            "gpu_vendor": gpu_vendor,
 
             "average_pp512": average(pp512_values),
 
@@ -97,6 +135,7 @@ def build_gpu_profiles(database):
 
             "operating_systems": operating_systems,
 
+            "benchmark_results": benchmark_results,
         }
 
     return profiles

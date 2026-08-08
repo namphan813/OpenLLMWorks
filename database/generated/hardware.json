@@ -1,0 +1,72 @@
+{
+    "contractVersion": "1.2",
+    "generatedAt": "2026-08-08T07:23:34.869083+00:00",
+    "generator": {
+        "name": "OpenLLMBench Hardware Publisher",
+        "version": "0.3"
+    },
+    "summary": {
+        "gpuModels": 2,
+        "benchmarkResults": 2
+    },
+    "hardware": [
+        {
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1650",
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 143.78,
+                "averageTg128": 31.69,
+                "bestPp512": 143.78,
+                "worstPp512": 143.78
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Game_Server_GTX1650",
+                    "cpuModel": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
+                    "pp512": 143.78,
+                    "tg128": 31.69,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 4.0
+                }
+            ]
+        },
+        {
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "Quadro T1000",
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 133.22,
+                "averageTg128": 22.17,
+                "bestPp512": 133.22,
+                "worstPp512": 133.22
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Z2-MINI-G5-T1000",
+                    "cpuModel": "Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz",
+                    "pp512": 133.22,
+                    "tg128": 22.17,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 4.0
+                }
+            ]
+        }
+    ]
+}
