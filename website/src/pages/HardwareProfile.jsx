@@ -23,10 +23,6 @@ function formatMemoryConfigurations(system) {
       .join(", ");
   }
 
-  if (system?.averageMemoryGb != null) {
-    return `${system.averageMemoryGb} GB`;
-  }
-
   return "Unknown";
 }
 
