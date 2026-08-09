@@ -231,6 +231,21 @@ function Hardware() {
 
       return [...filtered].sort(
         (left, right) => {
+          if (sortBy === "vram") {
+            return (
+              (
+                right.gpuIdentity
+                  ?.vramGib ??
+                -Infinity
+              ) -
+              (
+                left.gpuIdentity
+                  ?.vramGib ??
+                -Infinity
+              )
+            );
+          }
+
           if (sortBy === "pp512") {
             return (
               (
@@ -495,6 +510,10 @@ function Hardware() {
                   >
                     <option value="name">
                       GPU name
+                    </option>
+
+                    <option value="vram">
+                      VRAM
                     </option>
 
                     <option value="pp512">
