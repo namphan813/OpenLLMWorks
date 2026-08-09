@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Layout from "../layout/Layout";
-import { gpuSlug } from "../utils/hardware";
 
 function formatScore(value) {
   if (typeof value !== "number") {
@@ -22,10 +21,6 @@ function formatMemoryConfigurations(system) {
     return configurations
       .map((memory) => `${memory} GB`)
       .join(", ");
-  }
-
-  if (system?.averageMemoryGb != null) {
-    return `${system.averageMemoryGb} GB`;
   }
 
   return "Unknown";
@@ -120,12 +115,13 @@ function Hardware() {
         const searchableValues = [
           hardware.gpuVendor,
           hardware.gpuModel,
+          hardware.gpuIdentity?.vramGib,
+          hardware.gpuIdentity?.formFactor,
           hardware.performance.averagePp512,
           hardware.performance.averageTg128,
-          hardware.system.averageVramGib,
           hardware.system.averageMemoryGb,
           ...(hardware.system.memoryConfigurationsGb ?? []),
-          ...hardware.system.operatingSystems,
+          ...(hardware.system.operatingSystems ?? []),
         ];
 
         return searchableValues.some(
@@ -188,7 +184,7 @@ function Hardware() {
         {hardwareData && (
           <>
             <p>
-              {hardwareData.summary.gpuModels} GPU models ·{" "}
+              {hardwareData.summary.gpuVariants} GPU variants ·{" "}
               {hardwareData.summary.benchmarkResults} benchmark results
             </p>
 
@@ -258,7 +254,7 @@ function Hardware() {
 
             <p className="hardware-result-count">
               Showing {visibleHardware.length} of{" "}
-              {hardwareData.hardware.length} GPU models
+              {hardwareData.hardware.length} GPU variants
             </p>
 
             {visibleHardware.length > 0 ? (
@@ -266,8 +262,8 @@ function Hardware() {
                 {visibleHardware.map((hardware) => (
                   <Link
                     className="hardware-card-link"
-                    key={hardware.gpuModel}
-                    to={`/hardware/${gpuSlug(hardware.gpuModel)}`}
+                    key={hardware.variantId}
+                    to={`/hardware/${hardware.variantId}`}
                   >
                     <article className="hardware-card">
                       <p className="hardware-card-vendor">
@@ -282,7 +278,7 @@ function Hardware() {
 
                       <p>
                         VRAM:{" "}
-                        {hardware.system.averageVramGib ?? "Unknown"} GiB
+                        {hardware.gpuIdentity?.vramGib ?? "Unknown"} GiB
                       </p>
 
                       <p>

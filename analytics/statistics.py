@@ -356,6 +356,14 @@ def extract_result_rows(
                     "type",
                 )
             ),
+            "gpu_form_factor": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "form_factor",
+                )
+            ),
             "vram_gib": get_nested(
                 record,
                 "hardware",

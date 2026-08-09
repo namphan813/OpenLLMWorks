@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import Layout from "../layout/Layout";
-import { gpuSlug } from "../utils/hardware";
 
 function formatScore(value) {
   if (typeof value !== "number") {
@@ -12,30 +11,16 @@ function formatScore(value) {
   return value.toFixed(2);
 }
 
-function formatMemoryConfigurations(system) {
-  const configurations = system?.memoryConfigurationsGb;
-
-  if (
-    Array.isArray(configurations) &&
-    configurations.length > 0
-  ) {
-    return configurations
-      .map((memory) => `${memory} GB`)
-      .join(", ");
-  }
-
-  if (system?.averageMemoryGb != null) {
-    return `${system.averageMemoryGb} GB`;
-  }
-
-  return "Unknown";
-}
-
 function HardwareProfile() {
-  const { gpuSlug: requestedSlug } = useParams();
+  const { variantId: requestedVariantId } = useParams();
 
   const [hardware, setHardware] = useState(null);
   const [error, setError] = useState(null);
+
+  const [activeFilter, setActiveFilter] = useState({
+    type: "all",
+    value: null,
+  });
 
   useEffect(() => {
     const hardwareDataUrl =
@@ -60,7 +45,7 @@ function HardwareProfile() {
         }
 
         const matchedHardware = data.hardware.find(
-          (item) => gpuSlug(item.gpuModel) === requestedSlug,
+          (item) => item.variantId === requestedVariantId,
         );
 
         if (!matchedHardware) {
@@ -68,6 +53,10 @@ function HardwareProfile() {
         }
 
         setHardware(matchedHardware);
+        setActiveFilter({
+          type: "all",
+          value: null,
+        });
       } catch (loadError) {
         console.error(
           "Unable to load hardware profile.",
@@ -79,7 +68,103 @@ function HardwareProfile() {
     }
 
     loadHardwareProfile();
-  }, [requestedSlug]);
+  }, [requestedVariantId]);
+
+  const memoryConfigurations = useMemo(() => {
+    if (!hardware) {
+      return [];
+    }
+
+    return [
+      ...new Set(
+        (hardware.benchmarkResults ?? [])
+          .map((result) => result.memoryGb)
+          .filter(
+            (memory) =>
+              typeof memory === "number",
+          ),
+      ),
+    ].sort((left, right) => left - right);
+  }, [hardware]);
+
+  const operatingSystems = useMemo(() => {
+    if (!hardware) {
+      return [];
+    }
+
+    return [
+      ...new Set(
+        (hardware.benchmarkResults ?? [])
+          .map((result) => result.operatingSystem)
+          .filter(
+            (operatingSystem) =>
+              operatingSystem &&
+              operatingSystem !== "Unknown",
+          ),
+      ),
+    ].sort((left, right) =>
+      left.localeCompare(right),
+    );
+  }, [hardware]);
+
+  const visibleResults = useMemo(() => {
+    const results =
+      hardware?.benchmarkResults ?? [];
+
+    if (activeFilter.type === "all") {
+      return results;
+    }
+
+    if (activeFilter.type === "memory") {
+      return results.filter(
+        (result) =>
+          result.memoryGb === activeFilter.value,
+      );
+    }
+
+    if (activeFilter.type === "os") {
+      return results.filter(
+        (result) =>
+          result.operatingSystem === activeFilter.value,
+      );
+    }
+
+    if (activeFilter.type === "best-pp512") {
+      const bestPp512 =
+        hardware?.performance?.bestPp512;
+
+      return results.filter(
+        (result) =>
+          result.pp512 === bestPp512,
+      );
+    }
+
+    if (activeFilter.type === "worst-pp512") {
+      const worstPp512 =
+        hardware?.performance?.worstPp512;
+
+      return results.filter(
+        (result) =>
+          result.pp512 === worstPp512,
+      );
+    }
+
+    return results;
+  }, [hardware, activeFilter]);
+
+  function setFilter(type, value = null) {
+    setActiveFilter({
+      type,
+      value,
+    });
+  }
+
+  function isActiveFilter(type, value = null) {
+    return (
+      activeFilter.type === type &&
+      activeFilter.value === value
+    );
+  }
 
   return (
     <Layout>
@@ -112,7 +197,8 @@ function HardwareProfile() {
             <h1>{hardware.gpuModel}</h1>
 
             <p>
-              {hardware.system.averageVramGib ?? "Unknown"} GiB VRAM
+              {hardware.gpuIdentity?.vramGib ?? "Unknown"}{" "}
+              GiB VRAM
               {" · "}
               {hardware.submissionCount} benchmark result
               {hardware.submissionCount === 1 ? "" : "s"}
@@ -149,41 +235,117 @@ function HardwareProfile() {
 
               <p>
                 Best pp512:{" "}
-                <strong>
+                <button
+                  type="button"
+                  className={`hardware-filter-chip ${
+                    isActiveFilter("best-pp512")
+                      ? "hardware-filter-chip-active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setFilter("best-pp512")
+                  }
+                >
                   {formatScore(
                     hardware.performance.bestPp512,
                   )}
-                </strong>
+                </button>
               </p>
 
               <p>
                 Worst pp512:{" "}
-                <strong>
+                <button
+                  type="button"
+                  className={`hardware-filter-chip ${
+                    isActiveFilter("worst-pp512")
+                      ? "hardware-filter-chip-active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setFilter("worst-pp512")
+                  }
+                >
                   {formatScore(
                     hardware.performance.worstPp512,
                   )}
-                </strong>
+                </button>
               </p>
 
               <h2>Tested Configurations</h2>
 
-              <p>
-                Tested Memory:{" "}
-                <strong>
-                  {formatMemoryConfigurations(
-                    hardware.system,
-                  )}
-                </strong>
-              </p>
+              <div className="hardware-filter-row">
+                <span>Tested Memory:</span>
 
-              <p>
-                Operating Systems:{" "}
-                <strong>
-                  {hardware.system.operatingSystems.length > 0
-                    ? hardware.system.operatingSystems.join(", ")
-                    : "Unknown"}
-                </strong>
-              </p>
+                <div className="hardware-filter-chips">
+                  <button
+                    type="button"
+                    className={`hardware-filter-chip ${
+                      isActiveFilter("all")
+                        ? "hardware-filter-chip-active"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      setFilter("all")
+                    }
+                  >
+                    All
+                  </button>
+
+                  {memoryConfigurations.map((memory) => (
+                    <button
+                      type="button"
+                      key={memory}
+                      className={`hardware-filter-chip ${
+                        isActiveFilter(
+                          "memory",
+                          memory,
+                        )
+                          ? "hardware-filter-chip-active"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        setFilter(
+                          "memory",
+                          memory,
+                        )
+                      }
+                    >
+                      {memory} GB
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="hardware-filter-row">
+                <span>Operating Systems:</span>
+
+                <div className="hardware-filter-chips">
+                  {operatingSystems.map(
+                    (operatingSystem) => (
+                      <button
+                        type="button"
+                        key={operatingSystem}
+                        className={`hardware-filter-chip ${
+                          isActiveFilter(
+                            "os",
+                            operatingSystem,
+                          )
+                            ? "hardware-filter-chip-active"
+                            : ""
+                        }`}
+                        onClick={() =>
+                          setFilter(
+                            "os",
+                            operatingSystem,
+                          )
+                        }
+                      >
+                        {operatingSystem}
+                      </button>
+                    ),
+                  )}
+                </div>
+              </div>
             </div>
 
             <section className="hardware-benchmark-results">
@@ -196,14 +358,29 @@ function HardwareProfile() {
                   <h2>Benchmark Results</h2>
                 </div>
 
-                <p>
-                  {hardware.benchmarkResults?.length ?? 0} recorded
-                </p>
+                <div>
+                  <p>
+                    Showing {visibleResults.length} of{" "}
+                    {hardware.benchmarkResults?.length ?? 0}
+                  </p>
+
+                  {activeFilter.type !== "all" && (
+                    <button
+                      type="button"
+                      className="hardware-clear-filter"
+                      onClick={() =>
+                        setFilter("all")
+                      }
+                    >
+                      Clear filter
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {hardware.benchmarkResults?.length > 0 ? (
+              {visibleResults.length > 0 ? (
                 <div className="hardware-benchmark-list">
-                  {hardware.benchmarkResults.map(
+                  {visibleResults.map(
                     (result, index) => (
                       <article
                         className="hardware-benchmark-result"
@@ -212,16 +389,19 @@ function HardwareProfile() {
                         <div className="hardware-benchmark-title">
                           <div>
                             <h3>
-                              {result.submissionName ?? "Unknown submission"}
+                              {result.submissionName ??
+                                "Unknown submission"}
                             </h3>
 
                             <p className="hardware-benchmark-cpu">
-                              {result.cpuModel ?? "Unknown CPU"}
+                              {result.cpuModel ??
+                                "Unknown CPU"}
                             </p>
                           </div>
 
                           <span>
-                            {result.operatingSystem ?? "Unknown OS"}
+                            {result.operatingSystem ??
+                              "Unknown OS"}
                           </span>
                         </div>
 
@@ -272,7 +452,7 @@ function HardwareProfile() {
                 </div>
               ) : (
                 <p>
-                  No individual benchmark results are available.
+                  No benchmark results match the current filter.
                 </p>
               )}
             </section>
