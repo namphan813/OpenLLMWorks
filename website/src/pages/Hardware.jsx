@@ -123,7 +123,6 @@ function Hardware() {
           hardware.gpuIdentity?.formFactor,
           hardware.performance.averagePp512,
           hardware.performance.averageTg128,
-          hardware.system.averageVramGib,
           hardware.system.averageMemoryGb,
           ...(hardware.system.memoryConfigurationsGb ?? []),
           ...(hardware.system.operatingSystems ?? []),
@@ -283,10 +282,7 @@ function Hardware() {
 
                       <p>
                         VRAM:{" "}
-                        {hardware.gpuIdentity?.vramGib ??
-                          hardware.system.averageVramGib ??
-                          "Unknown"}{" "}
-                        GiB
+                        {hardware.gpuIdentity?.vramGib ?? "Unknown"} GiB
                       </p>
 
                       <p>

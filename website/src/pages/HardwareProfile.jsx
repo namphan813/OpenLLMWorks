@@ -111,9 +111,7 @@ function HardwareProfile() {
             <h1>{hardware.gpuModel}</h1>
 
             <p>
-              {hardware.gpuIdentity?.vramGib ??
-                hardware.system.averageVramGib ??
-                "Unknown"}{" "}
+              {hardware.gpuIdentity?.vramGib ?? "Unknown"}{" "}
               GiB VRAM
               {" · "}
               {hardware.submissionCount} benchmark result
