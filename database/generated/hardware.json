@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.3",
-    "generatedAt": "2026-08-08T21:46:49.890888+00:00",
+    "generatedAt": "2026-08-09T06:22:03.804835+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
         "version": "0.4"
     },
     "summary": {
-        "gpuModels": 2,
-        "benchmarkResults": 3
+        "gpuModels": 4,
+        "benchmarkResults": 5
     },
     "hardware": [
         {
@@ -48,6 +48,70 @@
                     "pp512": 163.37,
                     "tg128": 38.88,
                     "operatingSystem": "Windows 11 Pro 24H2",
+                    "memoryGb": 16,
+                    "vramGib": 4.0
+                }
+            ]
+        },
+        {
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 2413.64,
+                "averageTg128": 67.05,
+                "bestPp512": 2413.64,
+                "worstPp512": 2413.64
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
+                "averageVramGib": 6.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Studio-15-G8",
+                    "cpuModel": "11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz",
+                    "pp512": 2413.64,
+                    "tg128": 67.05,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 6.0
+                }
+            ]
+        },
+        {
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "Quadro P1000",
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 211.03,
+                "averageTg128": 13.99,
+                "bestPp512": 211.03,
+                "worstPp512": 211.03
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Vivi-P1000",
+                    "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
+                    "pp512": 211.03,
+                    "tg128": 13.99,
+                    "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 16,
                     "vramGib": 4.0
                 }
