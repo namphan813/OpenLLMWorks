@@ -1,16 +1,16 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-08-09T06:32:21.902225+00:00",
+    "generatedAt": "2026-08-09T16:08:30.825461+00:00",
     "generator": {
         "name": "OpenLLMBench Publisher",
         "version": "0.1"
     },
     "stats": {
-        "benchmarkResults": 5,
-        "gpuModels": 4,
-        "cpuModels": 4,
-        "importEvents": 25,
-        "averageTg128": 34.76
+        "benchmarkResults": 7,
+        "gpuModels": 6,
+        "cpuModels": 6,
+        "importEvents": 41,
+        "averageTg128": 56.17
     },
     "featuredStory": {
         "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",

@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.5",
-    "generatedAt": "2026-08-09T06:32:21.905732+00:00",
+    "generatedAt": "2026-08-09T16:08:30.838896+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
         "version": "0.6"
     },
     "summary": {
-        "gpuVariants": 4,
-        "benchmarkResults": 5
+        "gpuVariants": 6,
+        "benchmarkResults": 7
     },
     "hardware": [
         {
@@ -41,15 +41,6 @@
             },
             "benchmarkResults": [
                 {
-                    "submissionName": "Game_Server_GTX1650",
-                    "cpuModel": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
-                    "pp512": 143.78,
-                    "tg128": 31.69,
-                    "operatingSystem": "Windows 11 Pro 25H2",
-                    "memoryGb": 32,
-                    "vramGib": 4.0
-                },
-                {
                     "submissionName": "Xbox-One-PC-GTX1650",
                     "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
                     "pp512": 163.37,
@@ -57,6 +48,93 @@
                     "operatingSystem": "Windows 11 Pro 24H2",
                     "memoryGb": 16,
                     "vramGib": 4.0
+                },
+                {
+                    "submissionName": "Game_Server_GTX1650",
+                    "cpuModel": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
+                    "pp512": 143.78,
+                    "tg128": 31.69,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 4.0
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1660 Ti",
+                "vramGib": 6.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 285.92,
+                "averageTg128": 71.09,
+                "bestPp512": 285.92,
+                "worstPp512": 285.92
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
+                "averageVramGib": 6.0,
+                "operatingSystems": [
+                    "Windows 11 Home 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Viet-Mobile-GTX1650",
+                    "cpuModel": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx",
+                    "pp512": 285.92,
+                    "tg128": 71.09,
+                    "operatingSystem": "Windows 11 Home 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 6.0
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-rtx-4070-11-99gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce RTX 4070",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce RTX 4070",
+                "vramGib": 11.99,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 7850.45,
+                "averageTg128": 148.35,
+                "bestPp512": 7850.45,
+                "worstPp512": 7850.45
+            },
+            "system": {
+                "averageMemoryGb": 64.0,
+                "memoryConfigurationsGb": [
+                    64
+                ],
+                "averageVramGib": 11.99,
+                "operatingSystems": [
+                    "Windows 11 Home 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Viet-RTX4070",
+                    "cpuModel": "AMD Ryzen 7 7800X3D 8-Core Processor",
+                    "pp512": 7850.45,
+                    "tg128": 148.35,
+                    "operatingSystem": "Windows 11 Home 25H2",
+                    "memoryGb": 64,
+                    "vramGib": 11.99
                 }
             ]
         },
