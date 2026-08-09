@@ -1,7 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 import Layout from "../layout/Layout";
+
 
 function formatScore(value) {
   if (typeof value !== "number") {
@@ -11,8 +20,10 @@ function formatScore(value) {
   return value.toFixed(2);
 }
 
+
 function formatMemoryConfigurations(system) {
-  const configurations = system?.memoryConfigurationsGb;
+  const configurations =
+    system?.memoryConfigurationsGb;
 
   if (
     Array.isArray(configurations) &&
@@ -26,13 +37,40 @@ function formatMemoryConfigurations(system) {
   return "Unknown";
 }
 
-function Hardware() {
-  const [hardwareData, setHardwareData] = useState(null);
-  const [error, setError] = useState(null);
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [vendorFilter, setVendorFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("name");
+function Hardware() {
+  const navigate = useNavigate();
+
+  const [
+    hardwareData,
+    setHardwareData,
+  ] = useState(null);
+
+  const [
+    error,
+    setError,
+  ] = useState(null);
+
+  const [
+    searchQuery,
+    setSearchQuery,
+  ] = useState("");
+
+  const [
+    vendorFilter,
+    setVendorFilter,
+  ] = useState("all");
+
+  const [
+    sortBy,
+    setSortBy,
+  ] = useState("name");
+
+  const [
+    compareSelection,
+    setCompareSelection,
+  ] = useState(null);
+
 
   useEffect(() => {
     const hardwareDataUrl =
@@ -40,7 +78,9 @@ function Hardware() {
 
     async function loadHardwareData() {
       try {
-        const response = await fetch(hardwareDataUrl);
+        const response = await fetch(
+          hardwareDataUrl
+        );
 
         if (!response.ok) {
           throw new Error(
@@ -48,9 +88,14 @@ function Hardware() {
           );
         }
 
-        const data = await response.json();
+        const data =
+          await response.json();
 
-        if (!Array.isArray(data.hardware)) {
+        if (
+          !Array.isArray(
+            data.hardware
+          )
+        ) {
           throw new Error(
             "Published hardware data does not contain a hardware list.",
           );
@@ -70,94 +115,173 @@ function Hardware() {
     loadHardwareData();
   }, []);
 
-  const availableVendors = useMemo(() => {
-    if (!hardwareData) {
-      return [];
-    }
 
-    return [
-      ...new Set(
-        hardwareData.hardware
-          .map((hardware) => hardware.gpuVendor)
-          .filter(
-            (vendor) =>
-              vendor &&
-              vendor !== "Unknown",
-          ),
-      ),
-    ].sort((left, right) =>
-      left.localeCompare(right),
-    );
-  }, [hardwareData]);
-
-  const visibleHardware = useMemo(() => {
-    if (!hardwareData) {
-      return [];
-    }
-
-    const normalizedSearch =
-      searchQuery.trim().toLowerCase();
-
-    const filtered = hardwareData.hardware.filter(
-      (hardware) => {
-        const matchesVendor =
-          vendorFilter === "all" ||
-          hardware.gpuVendor === vendorFilter;
-
-        if (!matchesVendor) {
-          return false;
-        }
-
-        if (!normalizedSearch) {
-          return true;
-        }
-
-        const searchableValues = [
-          hardware.gpuVendor,
-          hardware.gpuModel,
-          hardware.gpuIdentity?.vramGib,
-          hardware.gpuIdentity?.formFactor,
-          hardware.performance.averagePp512,
-          hardware.performance.averageTg128,
-          hardware.system.averageMemoryGb,
-          ...(hardware.system.memoryConfigurationsGb ?? []),
-          ...(hardware.system.operatingSystems ?? []),
-        ];
-
-        return searchableValues.some(
-          (value) =>
-            String(value ?? "")
-              .toLowerCase()
-              .includes(normalizedSearch),
-        );
-      },
-    );
-
-    return [...filtered].sort((left, right) => {
-      if (sortBy === "pp512") {
-        return (
-          (right.performance.averagePp512 ?? -Infinity) -
-          (left.performance.averagePp512 ?? -Infinity)
-        );
+  const availableVendors =
+    useMemo(() => {
+      if (!hardwareData) {
+        return [];
       }
 
-      if (sortBy === "tg128") {
-        return (
-          (right.performance.averageTg128 ?? -Infinity) -
-          (left.performance.averageTg128 ?? -Infinity)
-        );
-      }
-
-      return left.gpuModel.localeCompare(
-        right.gpuModel,
+      return [
+        ...new Set(
+          hardwareData.hardware
+            .map(
+              (hardware) =>
+                hardware.gpuVendor
+            )
+            .filter(
+              (vendor) =>
+                vendor &&
+                vendor !==
+                  "Unknown"
+            )
+        ),
+      ].sort((left, right) =>
+        left.localeCompare(right)
       );
-    });
-  }, [
-    hardwareData,
-    searchQuery,
-    vendorFilter,
-    sortBy,
-  ]);
+    }, [hardwareData]);
+
+
+  const visibleHardware =
+    useMemo(() => {
+      if (!hardwareData) {
+        return [];
+      }
+
+      const normalizedSearch =
+        searchQuery
+          .trim()
+          .toLowerCase();
+
+      const filtered =
+        hardwareData.hardware.filter(
+          (hardware) => {
+            const matchesVendor =
+              vendorFilter === "all" ||
+              hardware.gpuVendor ===
+                vendorFilter;
+
+            if (!matchesVendor) {
+              return false;
+            }
+
+            if (!normalizedSearch) {
+              return true;
+            }
+
+            const searchableValues = [
+              hardware.gpuVendor,
+              hardware.gpuModel,
+              hardware.gpuIdentity
+                ?.vramGib,
+              hardware.gpuIdentity
+                ?.formFactor,
+              hardware.performance
+                .averagePp512,
+              hardware.performance
+                .averageTg128,
+              hardware.system
+                .averageMemoryGb,
+              ...(
+                hardware.system
+                  .memoryConfigurationsGb ??
+                []
+              ),
+              ...(
+                hardware.system
+                  .operatingSystems ??
+                []
+              ),
+            ];
+
+            return searchableValues.some(
+              (value) =>
+                String(
+                  value ?? ""
+                )
+                  .toLowerCase()
+                  .includes(
+                    normalizedSearch
+                  )
+            );
+          }
+        );
+
+      return [...filtered].sort(
+        (left, right) => {
+          if (sortBy === "pp512") {
+            return (
+              (
+                right.performance
+                  .averagePp512 ??
+                -Infinity
+              ) -
+              (
+                left.performance
+                  .averagePp512 ??
+                -Infinity
+              )
+            );
+          }
+
+          if (sortBy === "tg128") {
+            return (
+              (
+                right.performance
+                  .averageTg128 ??
+                -Infinity
+              ) -
+              (
+                left.performance
+                  .averageTg128 ??
+                -Infinity
+              )
+            );
+          }
+
+          return left.gpuModel.localeCompare(
+            right.gpuModel
+          );
+        }
+      );
+    }, [
+      hardwareData,
+      searchQuery,
+      vendorFilter,
+      sortBy,
+    ]);
+
+
+  function handleCompare(
+    hardware
+  ) {
+    if (!compareSelection) {
+      setCompareSelection(
+        hardware
+      );
+
+      return;
+    }
+
+    if (
+      compareSelection.variantId ===
+      hardware.variantId
+    ) {
+      setCompareSelection(null);
+
+      return;
+    }
+
+    navigate(
+      `/compare/${compareSelection.variantId}/${hardware.variantId}`
+    );
+  }
+
+
+  function cancelComparison() {
+    setCompareSelection(null);
+  }
+
 
   return (
     <Layout>
@@ -165,38 +289,84 @@ function Hardware() {
         <h1>Hardware</h1>
 
         <p>
-          Explore local LLM benchmark performance across
+          Explore local LLM benchmark
+          performance across
           community-tested hardware.
         </p>
 
         {error && (
           <p>
-            Hardware data could not be loaded.
+            Hardware data could not be
+            loaded.
           </p>
         )}
 
-        {!hardwareData && !error && (
-          <p>
-            Loading hardware data...
-          </p>
-        )}
+        {!hardwareData &&
+          !error && (
+            <p>
+              Loading hardware data...
+            </p>
+          )}
 
         {hardwareData && (
           <>
             <p>
-              {hardwareData.summary.gpuVariants} GPU variants ·{" "}
-              {hardwareData.summary.benchmarkResults} benchmark results
+              {
+                hardwareData.summary
+                  .gpuVariants
+              }{" "}
+              GPU variants
+              {" · "}
+              {
+                hardwareData.summary
+                  .benchmarkResults
+              }{" "}
+              benchmark results
             </p>
+
+            {compareSelection && (
+              <div className="hardware-compare-selection">
+                <div>
+                  <span>
+                    Comparing:
+                  </span>
+
+                  <strong>
+                    {
+                      compareSelection.gpuModel
+                    }
+                  </strong>
+
+                  <small>
+                    Choose another GPU
+                    below to compare.
+                  </small>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={
+                    cancelComparison
+                  }
+                >
+                  Cancel comparison
+                </button>
+              </div>
+            )}
 
             <div className="hardware-controls">
               <label className="hardware-search">
-                <span>Search hardware</span>
+                <span>
+                  Search hardware
+                </span>
 
                 <input
                   type="search"
                   value={searchQuery}
                   onChange={(event) =>
-                    setSearchQuery(event.target.value)
+                    setSearchQuery(
+                      event.target.value
+                    )
                   }
                   placeholder="Search GPU, vendor, score, VRAM, OS..."
                 />
@@ -204,36 +374,49 @@ function Hardware() {
 
               <div className="hardware-filter-group">
                 <label className="hardware-vendor-filter">
-                  <span>Vendor</span>
+                  <span>
+                    Vendor
+                  </span>
 
                   <select
-                    value={vendorFilter}
+                    value={
+                      vendorFilter
+                    }
                     onChange={(event) =>
-                      setVendorFilter(event.target.value)
+                      setVendorFilter(
+                        event.target
+                          .value
+                      )
                     }
                   >
                     <option value="all">
                       All vendors
                     </option>
 
-                    {availableVendors.map((vendor) => (
-                      <option
-                        key={vendor}
-                        value={vendor}
-                      >
-                        {vendor}
-                      </option>
-                    ))}
+                    {availableVendors.map(
+                      (vendor) => (
+                        <option
+                          key={vendor}
+                          value={vendor}
+                        >
+                          {vendor}
+                        </option>
+                      )
+                    )}
                   </select>
                 </label>
 
                 <label className="hardware-sort">
-                  <span>Sort by</span>
+                  <span>
+                    Sort by
+                  </span>
 
                   <select
                     value={sortBy}
                     onChange={(event) =>
-                      setSortBy(event.target.value)
+                      setSortBy(
+                        event.target.value
+                      )
                     }
                   >
                     <option value="name">
@@ -253,70 +436,146 @@ function Hardware() {
             </div>
 
             <p className="hardware-result-count">
-              Showing {visibleHardware.length} of{" "}
-              {hardwareData.hardware.length} GPU variants
+              Showing{" "}
+              {
+                visibleHardware.length
+              }{" "}
+              of{" "}
+              {
+                hardwareData.hardware
+                  .length
+              }{" "}
+              GPU variants
             </p>
 
-            {visibleHardware.length > 0 ? (
+            {visibleHardware.length >
+            0 ? (
               <div className="hardware-list">
-                {visibleHardware.map((hardware) => (
-                  <Link
-                    className="hardware-card-link"
-                    key={hardware.variantId}
-                    to={`/hardware/${hardware.variantId}`}
-                  >
-                    <article className="hardware-card">
-                      <p className="hardware-card-vendor">
-                        {hardware.gpuVendor ?? "Unknown vendor"}
-                      </p>
+                {visibleHardware.map(
+                  (hardware) => {
+                    const isSelected =
+                      compareSelection
+                        ?.variantId ===
+                      hardware.variantId;
 
-                      <h2>{hardware.gpuModel}</h2>
+                    return (
+                      <article
+                        className={`hardware-card ${
+                          isSelected
+                            ? "hardware-card-selected"
+                            : ""
+                        }`}
+                        key={
+                          hardware.variantId
+                        }
+                      >
+                        <p className="hardware-card-vendor">
+                          {hardware.gpuVendor ??
+                            "Unknown vendor"}
+                        </p>
 
-                      <p>
-                        Benchmarks: {hardware.submissionCount}
-                      </p>
+                        <h2>
+                          {
+                            hardware.gpuModel
+                          }
+                        </h2>
 
-                      <p>
-                        VRAM:{" "}
-                        {hardware.gpuIdentity?.vramGib ?? "Unknown"} GiB
-                      </p>
+                        <p>
+                          Benchmarks:{" "}
+                          {
+                            hardware.submissionCount
+                          }
+                        </p>
 
-                      <p>
-                        Tested Memory:{" "}
-                        {formatMemoryConfigurations(
-                          hardware.system,
-                        )}
-                      </p>
+                        <p>
+                          VRAM:
+                          {" "}
+                          {hardware.gpuIdentity
+                            ?.vramGib ??
+                            "Unknown"}{" "}
+                          GiB
+                        </p>
 
-                      <p>
-                        Average pp512:{" "}
-                        {formatScore(
-                          hardware.performance.averagePp512,
-                        )}{" "}
-                        tokens/sec
-                      </p>
+                        <p>
+                          Tested Memory:
+                          {" "}
+                          {formatMemoryConfigurations(
+                            hardware.system
+                          )}
+                        </p>
 
-                      <p>
-                        Average tg128:{" "}
-                        {formatScore(
-                          hardware.performance.averageTg128,
-                        )}{" "}
-                        tokens/sec
-                      </p>
+                        <p>
+                          Average pp512:
+                          {" "}
+                          {formatScore(
+                            hardware
+                              .performance
+                              .averagePp512
+                          )}
+                          {" "}
+                          tokens/sec
+                        </p>
 
-                      <p>
-                        Operating Systems:{" "}
-                        {hardware.system.operatingSystems.length > 0
-                          ? hardware.system.operatingSystems.join(", ")
-                          : "Unknown"}
-                      </p>
-                    </article>
-                  </Link>
-                ))}
+                        <p>
+                          Average tg128:
+                          {" "}
+                          {formatScore(
+                            hardware
+                              .performance
+                              .averageTg128
+                          )}
+                          {" "}
+                          tokens/sec
+                        </p>
+
+                        <p>
+                          Operating Systems:
+                          {" "}
+                          {hardware.system
+                            .operatingSystems
+                            .length > 0
+                            ? hardware.system.operatingSystems.join(
+                                ", "
+                              )
+                            : "Unknown"}
+                        </p>
+
+                        <div className="hardware-card-actions">
+                          <Link
+                            to={`/hardware/${hardware.variantId}`}
+                          >
+                            View Profile
+                          </Link>
+
+                          <button
+                            type="button"
+                            className={
+                              isSelected
+                                ? "hardware-compare-button-selected"
+                                : ""
+                            }
+                            onClick={() =>
+                              handleCompare(
+                                hardware
+                              )
+                            }
+                          >
+                            {isSelected
+                              ? "Selected"
+                              : compareSelection
+                                ? "Compare with this GPU"
+                                : "Compare"}
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  }
+                )}
               </div>
             ) : (
               <p className="hardware-empty">
-                No hardware matches the current filters.
+                No hardware matches the
+                current filters.
               </p>
             )}
           </>
@@ -325,5 +584,6 @@ function Hardware() {
     </Layout>
   );
 }
+
 
 export default Hardware;
