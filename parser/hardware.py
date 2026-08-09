@@ -229,6 +229,7 @@ def parse_nvidia_smi(file_path: Path) -> dict:
         "vendor": "NVIDIA",
         "model": model,
         "type": "discrete",
+        "form_factor": "Unknown",
         "driver_model": driver_model,
         "vram": {
             "reported_mib": total_vram_mib,
