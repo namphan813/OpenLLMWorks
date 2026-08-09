@@ -966,3 +966,61 @@ body {
     font-size: 0.85rem;
     line-height: 1.4;
 }
+
+/* Hardware profile filters */
+
+.hardware-profile-details button {
+  appearance: none;
+  border: 1px solid #303746;
+  border-radius: 6px;
+  background: #171b25;
+  color: #b8c9e8;
+  padding: 4px 9px;
+  margin: 3px 4px 3px 0;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.hardware-profile-details button:hover {
+  border-color: #5ca9ff;
+  color: #ffffff;
+  background: #1d2430;
+}
+
+.hardware-profile-details button:focus-visible {
+  outline: 2px solid #5ca9ff;
+  outline-offset: 2px;
+}
+
+.hardware-profile-details button[aria-pressed="true"] {
+  border-color: #5ca9ff;
+  background: rgba(92, 169, 255, 0.14);
+  color: #ffffff;
+}
+
+.hardware-benchmark-results-header button {
+  appearance: none;
+  border: 1px solid #303746;
+  border-radius: 6px;
+  background: transparent;
+  color: #8ebcf2;
+  padding: 5px 9px;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.hardware-benchmark-results-header button:hover {
+  border-color: #5ca9ff;
+  color: #ffffff;
+  background: #171b25;
+}
+
+.hardware-profile-details strong button {
+  font-weight: 700;
+}
