@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Hardware from "./pages/Hardware";
 import HardwareProfile from "./pages/HardwareProfile";
 import HardwareCompare from "./pages/HardwareCompare";
+import HardwareCompareSelect from "./pages/HardwareCompareSelect";
 
 
 function App() {
@@ -27,6 +28,11 @@ function App() {
       <Route
         path="/hardware/:variantId"
         element={<HardwareProfile />}
+      />
+
+      <Route
+        path="/compare"
+        element={<HardwareCompareSelect />}
       />
 
       <Route
