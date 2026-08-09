@@ -3,7 +3,7 @@
         "name": "OpenLLMBench Publisher",
         "version": "0.1"
     },
-    "generatedAt": "2026-08-08T21:46:49.876885+00:00",
+    "generatedAt": "2026-08-09T00:45:23.517363+00:00",
     "source": {
         "database": "benchmark_database.json",
         "statisticsVersion": "0.7.0-dev1"

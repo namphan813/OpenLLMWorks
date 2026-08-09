@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import Layout from "../layout/Layout";
-import { gpuSlug } from "../utils/hardware";
 
 function formatScore(value) {
   if (typeof value !== "number") {
@@ -32,7 +31,7 @@ function formatMemoryConfigurations(system) {
 }
 
 function HardwareProfile() {
-  const { gpuSlug: requestedSlug } = useParams();
+  const { variantId: requestedVariantId } = useParams();
 
   const [hardware, setHardware] = useState(null);
   const [error, setError] = useState(null);
@@ -60,7 +59,7 @@ function HardwareProfile() {
         }
 
         const matchedHardware = data.hardware.find(
-          (item) => gpuSlug(item.gpuModel) === requestedSlug,
+          (item) => item.variantId === requestedVariantId,
         );
 
         if (!matchedHardware) {
@@ -79,7 +78,7 @@ function HardwareProfile() {
     }
 
     loadHardwareProfile();
-  }, [requestedSlug]);
+  }, [requestedVariantId]);
 
   return (
     <Layout>
@@ -112,7 +111,10 @@ function HardwareProfile() {
             <h1>{hardware.gpuModel}</h1>
 
             <p>
-              {hardware.system.averageVramGib ?? "Unknown"} GiB VRAM
+              {hardware.gpuIdentity?.vramGib ??
+                hardware.system.averageVramGib ??
+                "Unknown"}{" "}
+              GiB VRAM
               {" · "}
               {hardware.submissionCount} benchmark result
               {hardware.submissionCount === 1 ? "" : "s"}

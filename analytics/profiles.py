@@ -5,7 +5,7 @@ Purpose:
 Build reusable hardware profiles from the benchmark database.
 
 Version:
-0.7.0-dev3
+0.7.0-dev4
 """
 
 from collections import defaultdict
@@ -16,7 +16,7 @@ from analytics.statistics import (
 )
 
 
-PROFILE_ENGINE_VERSION = "0.7.0-dev3"
+PROFILE_ENGINE_VERSION = "0.7.0-dev4"
 
 
 def average(values):
@@ -30,7 +30,17 @@ def average(values):
 
 def build_gpu_profiles(database):
     """
-    Build one profile for every GPU model.
+    Build one profile for every distinct GPU variant.
+
+    GPU variant identity currently consists of:
+    - GPU vendor
+    - GPU model
+    - VRAM capacity
+    - GPU form factor
+
+    System memory, CPU, operating system, and benchmark performance
+    are test-configuration/result attributes and are intentionally
+    excluded from GPU identity.
     """
 
     rows = extract_result_rows(database)
@@ -38,12 +48,33 @@ def build_gpu_profiles(database):
     grouped = defaultdict(list)
 
     for row in rows:
-        gpu = row.get("gpu_model", "Unknown")
-        grouped[gpu].append(row)
+        gpu_vendor = row.get("gpu_vendor", "Unknown")
+        gpu_model = row.get("gpu_model", "Unknown")
+        vram_gib = row.get("vram_gib")
+        gpu_form_factor = row.get(
+            "gpu_form_factor",
+            "Unknown",
+        )
+
+        identity_key = (
+            gpu_vendor,
+            gpu_model,
+            vram_gib,
+            gpu_form_factor,
+        )
+
+        grouped[identity_key].append(row)
 
     profiles = {}
 
-    for gpu_model, gpu_rows in grouped.items():
+    for identity_key, gpu_rows in grouped.items():
+        (
+            gpu_vendor,
+            gpu_model,
+            identity_vram_gib,
+            gpu_form_factor,
+        ) = identity_key
+
         pp512_values = [
             row["pp512"]
             for row in gpu_rows
@@ -78,20 +109,6 @@ def build_gpu_profiles(database):
             }
         )
 
-        gpu_vendors = sorted(
-            {
-                row.get("gpu_vendor")
-                for row in gpu_rows
-                if row.get("gpu_vendor")
-            }
-        )
-
-        gpu_vendor = (
-            gpu_vendors[0]
-            if len(gpu_vendors) == 1
-            else "Unknown"
-        )
-
         benchmark_results = []
 
         for row in gpu_rows:
@@ -116,10 +133,28 @@ def build_gpu_profiles(database):
                 }
             )
 
-        profiles[gpu_model] = {
+        profile_key = (
+            f"{gpu_vendor}|"
+            f"{gpu_model}|"
+            f"{identity_vram_gib}|"
+            f"{gpu_form_factor}"
+        )
+
+        profiles[profile_key] = {
             "submission_count": len(gpu_rows),
 
+            "gpu_identity": {
+                "vendor": gpu_vendor,
+                "model": gpu_model,
+                "vram_gib": identity_vram_gib,
+                "form_factor": gpu_form_factor,
+            },
+
             "gpu_vendor": gpu_vendor,
+
+            "gpu_model": gpu_model,
+
+            "gpu_form_factor": gpu_form_factor,
 
             "average_pp512": average(pp512_values),
 

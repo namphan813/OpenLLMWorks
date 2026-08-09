@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/hardware" element={<Hardware />} />
       <Route
-        path="/hardware/:gpuSlug"
+        path="/hardware/:variantId"
         element={<HardwareProfile />}
       />
     </Routes>
