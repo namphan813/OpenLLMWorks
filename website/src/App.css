@@ -1624,3 +1624,60 @@ body {
     width: 100%;
   }
 }
+
+/* =========================================================
+   Hardware Compare — Navigation & State Polish
+   ========================================================= */
+
+.hardware-compare-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hardware-compare-navigation a {
+  text-decoration: none;
+}
+
+.hardware-compare-navigation a:hover {
+  text-decoration: underline;
+}
+
+
+/* Compare page status / recovery states */
+
+.hardware-compare-state {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color, #2a3140);
+  border-radius: 10px;
+  background: var(--surface-color, #151922);
+}
+
+.hardware-compare-state p {
+  margin: 0;
+}
+
+.hardware-compare-state a {
+  display: inline-block;
+  margin-top: 0.9rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hardware-compare-state a:hover {
+  text-decoration: underline;
+}
+
+
+/* Mobile compare navigation */
+
+@media (max-width: 640px) {
+  .hardware-compare-navigation {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}

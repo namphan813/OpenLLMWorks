@@ -222,35 +222,55 @@ function HardwareCompare() {
     rightVariantId,
   ]);
 
-  const pp512Difference =
-    calculateDifference(
-      leftHardware?.performance
-        ?.averagePp512,
-      rightHardware?.performance
-        ?.averagePp512,
-    );
-
-  const tg128Difference =
-    calculateDifference(
-      leftHardware?.performance
-        ?.averageTg128,
-      rightHardware?.performance
-        ?.averageTg128,
-    );
+  const sameHardware =
+    Boolean(leftHardware) &&
+    Boolean(rightHardware) &&
+    leftHardware.variantId ===
+      rightHardware.variantId;
 
   const comparisonReady =
-    leftHardware &&
-    rightHardware;
+    Boolean(leftHardware) &&
+    Boolean(rightHardware) &&
+    !sameHardware;
+
+  const pp512Difference =
+    comparisonReady
+      ? calculateDifference(
+          leftHardware.performance
+            ?.averagePp512,
+          rightHardware.performance
+            ?.averagePp512,
+        )
+      : null;
+
+  const tg128Difference =
+    comparisonReady
+      ? calculateDifference(
+          leftHardware.performance
+            ?.averageTg128,
+          rightHardware.performance
+            ?.averageTg128,
+        )
+      : null;
 
   return (
     <Layout>
       <section className="hardware-compare-page">
-        <Link
-          className="hardware-back-link"
-          to="/hardware"
-        >
-          ← Back to Hardware
-        </Link>
+        <div className="hardware-compare-navigation">
+          <Link
+            className="hardware-back-link"
+            to="/hardware"
+          >
+            ← Back to Hardware
+          </Link>
+
+          <Link
+            className="hardware-back-link"
+            to="/compare"
+          >
+            Change GPUs
+          </Link>
+        </div>
 
         <p className="hardware-profile-eyebrow">
           Hardware Comparison
@@ -265,10 +285,16 @@ function HardwareCompare() {
         </p>
 
         {error && (
-          <p>
-            Hardware comparison data could
-            not be loaded.
-          </p>
+          <div className="hardware-compare-state">
+            <p>
+              Hardware comparison data could
+              not be loaded.
+            </p>
+
+            <Link to="/compare">
+              Choose GPUs to compare
+            </Link>
+          </div>
         )}
 
         {!hardwareData && !error && (
@@ -280,10 +306,30 @@ function HardwareCompare() {
         {hardwareData &&
           (!leftHardware ||
             !rightHardware) && (
-            <p>
-              One or more requested hardware
-              profiles could not be found.
-            </p>
+            <div className="hardware-compare-state">
+              <p>
+                One or more requested hardware
+                profiles could not be found.
+              </p>
+
+              <Link to="/compare">
+                Choose GPUs to compare
+              </Link>
+            </div>
+          )}
+
+        {hardwareData &&
+          sameHardware && (
+            <div className="hardware-compare-state">
+              <p>
+                Choose two different GPUs to
+                compare.
+              </p>
+
+              <Link to="/compare">
+                Choose GPUs to compare
+              </Link>
+            </div>
           )}
 
         {comparisonReady && (
