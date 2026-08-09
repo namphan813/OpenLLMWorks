@@ -10,7 +10,7 @@ It packages reusable GPU profile data produced by analytics/profiles.py
 into a stable public JSON structure.
 
 Version:
-0.6
+0.6.1
 """
 
 from datetime import datetime, timezone
@@ -21,7 +21,7 @@ import re
 from analytics.profiles import build_gpu_profiles
 
 
-HARDWARE_PUBLISHER_VERSION = "0.6"
+HARDWARE_PUBLISHER_VERSION = "0.6.1"
 HARDWARE_CONTRACT_VERSION = "1.5"
 
 
@@ -49,14 +49,22 @@ def slugify(value: str) -> str:
     return normalized.strip("-")
 
 
-def format_vram_slug(vram_gib) -> str | None:
+def normalize_public_vram_gib(
+    vram_gib,
+) -> float | None:
     """
-    Convert VRAM capacity into a compact slug component.
+    Normalize observed VRAM for public GPU identity.
+
+    Raw benchmark records preserve the capacity reported by the
+    source hardware. The public hardware catalog normalizes values
+    that are extremely close to a whole GiB so equivalent GPU
+    variants do not fragment into separate public profiles.
 
     Examples:
-    4.0  -> 4gb
-    12.0 -> 12gb
-    1.5  -> 1-5gb
+    11.99 -> 12.0
+    12.0  -> 12.0
+    5.99  -> 6.0
+    1.5   -> 1.5
     """
 
     if vram_gib is None:
@@ -67,8 +75,47 @@ def format_vram_slug(vram_gib) -> str | None:
     except (TypeError, ValueError):
         return None
 
+    nearest_integer = round(numeric_vram)
+
+    if (
+        nearest_integer > 0
+        and abs(
+            numeric_vram
+            - nearest_integer
+        ) <= 0.05
+    ):
+        return float(nearest_integer)
+
+    return round(
+        numeric_vram,
+        2,
+    )
+
+
+def format_vram_slug(
+    vram_gib,
+) -> str | None:
+    """
+    Convert normalized public VRAM capacity into a compact slug
+    component.
+
+    Examples:
+    4.0  -> 4gb
+    12.0 -> 12gb
+    1.5  -> 1-5gb
+    """
+
+    numeric_vram = normalize_public_vram_gib(
+        vram_gib
+    )
+
+    if numeric_vram is None:
+        return None
+
     if numeric_vram.is_integer():
-        value = str(int(numeric_vram))
+        value = str(
+            int(numeric_vram)
+        )
     else:
         value = (
             f"{numeric_vram:g}"
@@ -88,7 +135,7 @@ def build_variant_id(
 
     Identity currently includes:
     - GPU model
-    - VRAM capacity
+    - normalized public VRAM capacity
     - form factor when known
 
     Unknown form factors are intentionally omitted from the public ID.
@@ -133,18 +180,24 @@ def build_variant_id(
     )
 
 
-def build_hardware_payload(database: dict) -> dict:
+def build_hardware_payload(
+    database: dict,
+) -> dict:
     """
     Build the public Hardware Explorer payload.
     """
 
     generated_at = utc_timestamp()
 
-    gpu_profiles = build_gpu_profiles(database)
+    gpu_profiles = build_gpu_profiles(
+        database
+    )
 
     hardware = []
 
-    for profile_key, profile in sorted(gpu_profiles.items()):
+    for profile_key, profile in sorted(
+        gpu_profiles.items()
+    ):
         gpu_identity = profile.get(
             "gpu_identity",
             {},
@@ -166,8 +219,12 @@ def build_hardware_payload(database: dict) -> dict:
             ),
         )
 
-        gpu_vram_gib = gpu_identity.get(
-            "vram_gib"
+        gpu_vram_gib = (
+            normalize_public_vram_gib(
+                gpu_identity.get(
+                    "vram_gib"
+                )
+            )
         )
 
         gpu_form_factor = gpu_identity.get(
@@ -271,16 +328,24 @@ def build_hardware_payload(database: dict) -> dict:
         )
 
     return {
-        "contractVersion": HARDWARE_CONTRACT_VERSION,
+        "contractVersion": (
+            HARDWARE_CONTRACT_VERSION
+        ),
         "generatedAt": generated_at,
 
         "generator": {
-            "name": "OpenLLMBench Hardware Publisher",
-            "version": HARDWARE_PUBLISHER_VERSION,
+            "name": (
+                "OpenLLMBench Hardware Publisher"
+            ),
+            "version": (
+                HARDWARE_PUBLISHER_VERSION
+            ),
         },
 
         "summary": {
-            "gpuVariants": len(hardware),
+            "gpuVariants": len(
+                hardware
+            ),
             "benchmarkResults": sum(
                 item["submissionCount"]
                 for item in hardware
@@ -304,7 +369,9 @@ def publish_hardware(
         exist_ok=True,
     )
 
-    payload = build_hardware_payload(database)
+    payload = build_hardware_payload(
+        database
+    )
 
     hardware_file = (
         output_directory

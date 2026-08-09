@@ -1,9 +1,9 @@
 {
     "contractVersion": "1.5",
-    "generatedAt": "2026-08-09T16:08:30.838896+00:00",
+    "generatedAt": "2026-08-09T18:27:01.585390+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
-        "version": "0.6"
+        "version": "0.6.1"
     },
     "summary": {
         "gpuVariants": 6,
@@ -100,13 +100,13 @@
             ]
         },
         {
-            "variantId": "nvidia-geforce-rtx-4070-11-99gb",
+            "variantId": "nvidia-geforce-rtx-4070-12gb",
             "gpuVendor": "NVIDIA",
             "gpuModel": "NVIDIA GeForce RTX 4070",
             "gpuIdentity": {
                 "vendor": "NVIDIA",
                 "model": "NVIDIA GeForce RTX 4070",
-                "vramGib": 11.99,
+                "vramGib": 12.0,
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,

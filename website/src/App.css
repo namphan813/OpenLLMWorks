@@ -1024,3 +1024,270 @@ body {
 .hardware-profile-details strong button {
   font-weight: 700;
 }
+
+/* ==========================================================
+   Hardware Comparison
+   ========================================================== */
+
+.hardware-compare-page {
+  width: min(1200px, calc(100% - 4rem));
+  margin: 0 auto;
+  padding: 8rem 0 4rem;
+}
+
+.hardware-compare-page > h1 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.hardware-compare-intro {
+  max-width: 720px;
+  margin: 1rem 0 0;
+
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.hardware-compare-head {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+
+  margin-top: 3rem;
+}
+
+.hardware-compare-gpu {
+  min-height: 180px;
+  padding: 1.75rem;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background: var(--surface);
+}
+
+.hardware-compare-gpu h2 {
+  margin: 0 0 0.75rem;
+
+  color: var(--text);
+  font-size: clamp(
+    1.4rem,
+    3vw,
+    2rem
+  );
+  line-height: 1.2;
+}
+
+.hardware-compare-gpu > p:last-child {
+  margin: 0;
+
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.hardware-compare-vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hardware-compare-section {
+  max-width: 960px;
+  margin-top: 4rem;
+}
+
+.hardware-compare-section h2 {
+  margin: 0.25rem 0 0;
+
+  color: var(--text);
+  font-size: 1.5rem;
+}
+
+.hardware-compare-metric-name {
+  margin: 0.5rem 0 0;
+
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.hardware-compare-metrics {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  margin-top: 1.5rem;
+}
+
+.hardware-compare-difference {
+  margin: 1rem 0 0;
+  padding: 1rem 1.25rem;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--surface);
+
+  color: var(--text-secondary);
+}
+
+.hardware-compare-difference strong {
+  color: var(--text);
+}
+
+.hardware-compare-table {
+  margin-top: 1.5rem;
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  overflow: hidden;
+}
+
+.hardware-compare-row {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 0.7fr)
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+}
+
+.hardware-compare-row + .hardware-compare-row {
+  border-top: 1px solid var(--border);
+}
+
+.hardware-compare-row > * {
+  padding: 1rem 1.25rem;
+
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.hardware-compare-row > * + * {
+  border-left: 1px solid var(--border);
+}
+
+.hardware-compare-row strong {
+  color: var(--text);
+}
+
+.hardware-compare-row-head {
+  background: var(--surface);
+}
+
+.hardware-compare-row-head > div {
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.hardware-compare-actions {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  max-width: 960px;
+  margin-top: 2rem;
+}
+
+.hardware-compare-actions a {
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface);
+
+  color: #60a5fa;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hardware-compare-actions a:hover {
+  border-color: #5ca9ff;
+  transform: translateY(-1px);
+}
+
+.hardware-compare-actions a:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.hardware-compare-note {
+  max-width: 960px;
+  margin: 1.5rem 0 0;
+
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+
+/* ==========================================================
+   Hardware Comparison Responsive Layout
+   ========================================================== */
+
+@media (max-width: 760px) {
+  .hardware-compare-head {
+    grid-template-columns: 1fr;
+  }
+
+  .hardware-compare-vs {
+    margin: 0 auto;
+  }
+
+  .hardware-compare-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .hardware-compare-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hardware-compare-row > * + * {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .hardware-compare-row-head {
+    display: none;
+  }
+
+  .hardware-compare-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 560px) {
+  .hardware-compare-page {
+    width: min(100% - 2rem, 500px);
+    padding-top: 6.5rem;
+  }
+}
