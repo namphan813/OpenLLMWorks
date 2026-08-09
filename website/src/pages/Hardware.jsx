@@ -38,6 +38,69 @@ function formatMemoryConfigurations(system) {
 }
 
 
+function buildMetricRanking(
+  hardwareList,
+  metricSelector
+) {
+  const ranked = hardwareList
+    .map((hardware) => ({
+      variantId: hardware.variantId,
+      value: metricSelector(hardware),
+    }))
+    .filter(
+      (item) =>
+        typeof item.value === "number"
+    )
+    .sort(
+      (left, right) =>
+        right.value - left.value
+    );
+
+  const rankByVariantId =
+    new Map();
+
+  ranked.forEach(
+    (item, index) => {
+      rankByVariantId.set(
+        item.variantId,
+        index + 1
+      );
+    }
+  );
+
+  return {
+    totalRanked: ranked.length,
+    bestValue:
+      ranked.length > 0
+        ? ranked[0].value
+        : null,
+    rankByVariantId,
+  };
+}
+
+
+function calculateBarWidth(
+  value,
+  bestValue
+) {
+  if (
+    typeof value !== "number" ||
+    typeof bestValue !== "number" ||
+    bestValue <= 0
+  ) {
+    return 0;
+  }
+
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      (value / bestValue) * 100
+    )
+  );
+}
+
+
 function Hardware() {
   const navigate = useNavigate();
 
@@ -143,6 +206,46 @@ function Hardware() {
         ),
       ].sort((left, right) =>
         left.localeCompare(right)
+      );
+    }, [hardwareData]);
+
+
+  const pp512Ranking =
+    useMemo(() => {
+      if (!hardwareData) {
+        return {
+          totalRanked: 0,
+          bestValue: null,
+          rankByVariantId:
+            new Map(),
+        };
+      }
+
+      return buildMetricRanking(
+        hardwareData.hardware,
+        (hardware) =>
+          hardware.performance
+            ?.averagePp512
+      );
+    }, [hardwareData]);
+
+
+  const tg128Ranking =
+    useMemo(() => {
+      if (!hardwareData) {
+        return {
+          totalRanked: 0,
+          bestValue: null,
+          rankByVariantId:
+            new Map(),
+        };
+      }
+
+      return buildMetricRanking(
+        hardwareData.hardware,
+        (hardware) =>
+          hardware.performance
+            ?.averageTg128
       );
     }, [hardwareData]);
 
@@ -551,6 +654,36 @@ function Hardware() {
                         ?.variantId ===
                       hardware.variantId;
 
+                    const pp512 =
+                      hardware.performance
+                        ?.averagePp512;
+
+                    const tg128 =
+                      hardware.performance
+                        ?.averageTg128;
+
+                    const pp512Rank =
+                      pp512Ranking.rankByVariantId.get(
+                        hardware.variantId
+                      );
+
+                    const tg128Rank =
+                      tg128Ranking.rankByVariantId.get(
+                        hardware.variantId
+                      );
+
+                    const pp512BarWidth =
+                      calculateBarWidth(
+                        pp512,
+                        pp512Ranking.bestValue
+                      );
+
+                    const tg128BarWidth =
+                      calculateBarWidth(
+                        tg128,
+                        tg128Ranking.bestValue
+                      );
+
                     return (
                       <article
                         className={`hardware-card ${
@@ -597,29 +730,83 @@ function Hardware() {
                           )}
                         </p>
 
-                        <p>
-                          Average pp512:
-                          {" "}
-                          {formatScore(
-                            hardware
-                              .performance
-                              .averagePp512
-                          )}
-                          {" "}
-                          tokens/sec
-                        </p>
+                        <div className="hardware-card-performance">
+                          <div className="hardware-card-performance-header">
+                            <span>
+                              Average pp512
+                            </span>
 
-                        <p>
-                          Average tg128:
-                          {" "}
-                          {formatScore(
-                            hardware
-                              .performance
-                              .averageTg128
-                          )}
-                          {" "}
-                          tokens/sec
-                        </p>
+                            {pp512Rank && (
+                              <small>
+                                #{pp512Rank} of{" "}
+                                {
+                                  pp512Ranking.totalRanked
+                                }
+                              </small>
+                            )}
+                          </div>
+
+                          <strong>
+                            {formatScore(
+                              pp512
+                            )}
+                            {" "}
+                            <small>
+                              tokens/sec
+                            </small>
+                          </strong>
+
+                          <div
+                            className="hardware-performance-track"
+                            aria-hidden="true"
+                          >
+                            <span
+                              style={{
+                                width:
+                                  `${pp512BarWidth}%`,
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="hardware-card-performance">
+                          <div className="hardware-card-performance-header">
+                            <span>
+                              Average tg128
+                            </span>
+
+                            {tg128Rank && (
+                              <small>
+                                #{tg128Rank} of{" "}
+                                {
+                                  tg128Ranking.totalRanked
+                                }
+                              </small>
+                            )}
+                          </div>
+
+                          <strong>
+                            {formatScore(
+                              tg128
+                            )}
+                            {" "}
+                            <small>
+                              tokens/sec
+                            </small>
+                          </strong>
+
+                          <div
+                            className="hardware-performance-track"
+                            aria-hidden="true"
+                          >
+                            <span
+                              style={{
+                                width:
+                                  `${tg128BarWidth}%`,
+                              }}
+                            />
+                          </div>
+                        </div>
 
                         <p>
                           Operating Systems:

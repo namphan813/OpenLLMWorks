@@ -1707,3 +1707,94 @@ body {
     gap: 0.5rem;
   }
 }
+
+/* =========================================================
+   Hardware Performance Rankings
+   ========================================================= */
+
+.hardware-card-performance {
+  padding: 0.8rem 0;
+
+  border-top: 1px solid var(--border);
+}
+
+.hardware-card-performance-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  margin-bottom: 0.35rem;
+}
+
+.hardware-card-performance-header > span {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.hardware-card-performance-header > small {
+  flex-shrink: 0;
+
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hardware-card-performance > strong {
+  display: block;
+
+  margin-bottom: 0.6rem;
+
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hardware-card-performance > strong small {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.hardware-performance-track {
+  width: 100%;
+  height: 5px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  overflow: hidden;
+}
+
+.hardware-performance-track > span {
+  display: block;
+
+  height: 100%;
+  min-width: 3px;
+
+  border-radius: inherit;
+
+  background: #5ca9ff;
+
+  transition: width 0.35s ease;
+}
+
+
+/* =========================================================
+   Hardware Performance Rankings — Mobile
+   ========================================================= */
+
+@media (max-width: 560px) {
+  .hardware-card-performance-header {
+    align-items: flex-start;
+  }
+
+  .hardware-card-performance-header > span {
+    font-size: 0.85rem;
+  }
+
+  .hardware-card-performance > strong {
+    font-size: 0.95rem;
+  }
+}
