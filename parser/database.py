@@ -7,7 +7,7 @@ result IDs, detects duplicates, maintains the persistent
 database, and upgrades supported older database schemas.
 
 Version:
-0.8.0-dev3
+0.8.0-dev4
 """
 
 from copy import deepcopy
@@ -22,7 +22,7 @@ from parser.timestamps import (
 )
 
 
-DATABASE_MODULE_VERSION = "0.8.0-dev3"
+DATABASE_MODULE_VERSION = "0.8.0-dev4"
 DATABASE_SCHEMA_VERSION = "0.7"
 
 SUPPORTED_SOURCE_SCHEMAS = {
@@ -42,9 +42,91 @@ def build_result_fingerprint(
     """
     Build stable data used to identify one benchmark result.
 
-    Timestamps, submission names, paths, and parser versions are
-    excluded because they do not describe the measurement itself.
+    Result identity is intentionally based only on fields that
+    describe the benchmark measurement itself.
+
+    Descriptive metadata that may evolve over time must not
+    change the deterministic result ID. Examples of excluded
+    fields include:
+
+    - submission names and source paths
+    - timestamps
+    - parser/database/schema versions
+    - system manufacturer and model
+    - GPU form factor and driver model
+    - NVIDIA driver and CUDA versions
+
+    This allows OpenLLMBench to enrich historical records without
+    accidentally turning an existing benchmark measurement into
+    a new result.
     """
+
+    cpu = hardware.get(
+        "cpu",
+        {},
+    )
+
+    memory = hardware.get(
+        "memory",
+        {},
+    )
+
+    gpu = hardware.get(
+        "gpu",
+        {},
+    )
+
+    operating_system = hardware.get(
+        "operating_system",
+        {},
+    )
+
+    gpu_vram = gpu.get(
+        "vram",
+        {},
+    )
+
+    stable_hardware = {
+        "cpu": {
+            "model": cpu.get(
+                "model"
+            ),
+        },
+        "memory": {
+            "installed_capacity_gb": (
+                memory.get(
+                    "installed_capacity_gb"
+                )
+            ),
+        },
+        "operating_system": {
+            "platform": (
+                operating_system.get(
+                    "platform"
+                )
+            ),
+            "normalized": (
+                operating_system.get(
+                    "normalized"
+                )
+            ),
+        },
+        "gpu": {
+            "vendor": gpu.get(
+                "vendor"
+            ),
+            "model": gpu.get(
+                "model"
+            ),
+            "vram": {
+                "capacity_gib": (
+                    gpu_vram.get(
+                        "capacity_gib"
+                    )
+                ),
+            },
+        },
+    }
 
     run_measurements = [
         {
@@ -55,7 +137,7 @@ def build_result_fingerprint(
     ]
 
     return {
-        "hardware": hardware,
+        "hardware": stable_hardware,
         "protocol": benchmark["protocol"],
         "llama_cpp": benchmark["llama_cpp"],
         "runs": run_measurements,
@@ -70,7 +152,8 @@ def generate_result_id(
     """
     Generate a deterministic result ID.
 
-    Identical normalized benchmark content produces the same ID.
+    Identical normalized benchmark measurements produce the
+    same ID even when descriptive metadata evolves.
     """
 
     fingerprint = build_result_fingerprint(
@@ -484,8 +567,8 @@ def write_database(
     """
     Write the complete schema 0.7 database to disk.
 
-    The next step in the sprint will add explicit backup handling
-    before we use this to replace the live schema 0.6 file.
+    Database backups and destructive reconciliation are handled
+    separately from normal database writing.
     """
 
     database_file.parent.mkdir(
