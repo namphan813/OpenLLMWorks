@@ -333,19 +333,28 @@ function Hardware() {
 
         {hardwareData && (
           <>
-            <p>
-              {
-                hardwareData.summary
-                  .gpuVariants
-              }{" "}
-              GPU variants
-              {" · "}
-              {
-                hardwareData.summary
-                  .benchmarkResults
-              }{" "}
-              benchmark results
-            </p>
+            <div className="hardware-summary-row">
+              <p>
+                {
+                  hardwareData.summary
+                    .gpuVariants
+                }{" "}
+                GPU variants
+                {" · "}
+                {
+                  hardwareData.summary
+                    .benchmarkResults
+                }{" "}
+                benchmark results
+              </p>
+
+              <Link
+                to="/compare"
+                className="hardware-compare-link"
+              >
+                Compare GPUs →
+              </Link>
+            </div>
 
             {compareSelection && (
               <div className="hardware-compare-selection">
