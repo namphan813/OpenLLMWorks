@@ -62,6 +62,11 @@ function Hardware() {
   ] = useState("all");
 
   const [
+    vramFilter,
+    setVramFilter,
+  ] = useState("all");
+
+  const [
     sortBy,
     setSortBy,
   ] = useState("name");
@@ -165,6 +170,23 @@ function Hardware() {
               return false;
             }
 
+            const vram =
+              hardware.gpuIdentity
+                ?.vramGib;
+
+            const matchesVram =
+              vramFilter === "all" ||
+              (
+                typeof vram ===
+                  "number" &&
+                vram >=
+                  Number(vramFilter)
+              );
+
+            if (!matchesVram) {
+              return false;
+            }
+
             if (!normalizedSearch) {
               return true;
             }
@@ -248,6 +270,7 @@ function Hardware() {
       hardwareData,
       searchQuery,
       vendorFilter,
+      vramFilter,
       sortBy,
     ]);
 
@@ -403,6 +426,48 @@ function Hardware() {
                         </option>
                       )
                     )}
+                  </select>
+                </label>
+
+                <label className="hardware-vram-filter">
+                  <span>
+                    VRAM
+                  </span>
+
+                  <select
+                    value={
+                      vramFilter
+                    }
+                    onChange={(event) =>
+                      setVramFilter(
+                        event.target
+                          .value
+                      )
+                    }
+                  >
+                    <option value="all">
+                      All VRAM
+                    </option>
+
+                    <option value="4">
+                      4 GiB+
+                    </option>
+
+                    <option value="6">
+                      6 GiB+
+                    </option>
+
+                    <option value="8">
+                      8 GiB+
+                    </option>
+
+                    <option value="12">
+                      12 GiB+
+                    </option>
+
+                    <option value="16">
+                      16 GiB+
+                    </option>
                   </select>
                 </label>
 
