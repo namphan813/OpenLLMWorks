@@ -7,6 +7,7 @@ import {
 import {
   Link,
   useNavigate,
+  useSearchParams,
 } from "react-router-dom";
 
 import Layout from "../layout/Layout";
@@ -104,6 +105,12 @@ function calculateBarWidth(
 function Hardware() {
   const navigate = useNavigate();
 
+  const [searchParams] =
+    useSearchParams();
+
+  const requestedCompareVariantId =
+    searchParams.get("compare");
+
   const [
     hardwareData,
     setHardwareData,
@@ -182,6 +189,34 @@ function Hardware() {
 
     loadHardwareData();
   }, []);
+
+
+  useEffect(() => {
+    if (
+      !hardwareData ||
+      !requestedCompareVariantId
+    ) {
+      return;
+    }
+
+    const requestedHardware =
+      hardwareData.hardware.find(
+        (hardware) =>
+          hardware.variantId ===
+          requestedCompareVariantId
+      );
+
+    if (!requestedHardware) {
+      return;
+    }
+
+    setCompareSelection(
+      requestedHardware
+    );
+  }, [
+    hardwareData,
+    requestedCompareVariantId,
+  ]);
 
 
   const availableVendors =
