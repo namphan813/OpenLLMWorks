@@ -1,9 +1,9 @@
 {
-    "contractVersion": "1.5",
-    "generatedAt": "2026-08-09T18:27:01.585390+00:00",
+    "contractVersion": "1.6",
+    "generatedAt": "2026-08-10T01:11:05.914459+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
-        "version": "0.6.1"
+        "version": "0.6.2"
     },
     "summary": {
         "gpuVariants": 6,
@@ -47,7 +47,10 @@
                     "tg128": 38.88,
                     "operatingSystem": "Windows 11 Pro 24H2",
                     "memoryGb": 16,
-                    "vramGib": 4.0
+                    "vramGib": 4.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
                 },
                 {
                     "submissionName": "Game_Server_GTX1650",
@@ -56,7 +59,10 @@
                     "tg128": 31.69,
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 32,
-                    "vramGib": 4.0
+                    "vramGib": 4.0,
+                    "driverVersion": "610.74",
+                    "cudaUmdVersion": "13.3",
+                    "nvidiaSmiVersion": "610.74"
                 }
             ]
         },
@@ -95,7 +101,10 @@
                     "tg128": 71.09,
                     "operatingSystem": "Windows 11 Home 25H2",
                     "memoryGb": 32,
-                    "vramGib": 6.0
+                    "vramGib": 6.0,
+                    "driverVersion": "610.88",
+                    "cudaUmdVersion": "13.3",
+                    "nvidiaSmiVersion": "610.88"
                 }
             ]
         },
@@ -134,7 +143,10 @@
                     "tg128": 148.35,
                     "operatingSystem": "Windows 11 Home 25H2",
                     "memoryGb": 64,
-                    "vramGib": 11.99
+                    "vramGib": 11.99,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
                 }
             ]
         },
@@ -173,7 +185,10 @@
                     "tg128": 67.05,
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 32,
-                    "vramGib": 6.0
+                    "vramGib": 6.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
                 }
             ]
         },
@@ -212,7 +227,10 @@
                     "tg128": 13.99,
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 16,
-                    "vramGib": 4.0
+                    "vramGib": 4.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
                 }
             ]
         },
@@ -251,7 +269,10 @@
                     "tg128": 22.17,
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 32,
-                    "vramGib": 4.0
+                    "vramGib": 4.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
                 }
             ]
         }

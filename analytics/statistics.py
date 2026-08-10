@@ -371,6 +371,36 @@ def extract_result_rows(
                 "vram",
                 "capacity_gib",
             ),
+            "driver_version": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "software",
+                    "driver_version",
+                ),
+                fallback="",
+            ),
+            "cuda_umd_version": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "software",
+                    "cuda_umd_version",
+                ),
+                fallback="",
+            ),
+            "nvidia_smi_version": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "software",
+                    "nvidia_smi_version",
+                ),
+                fallback="",
+            ),
             "cpu_vendor": detect_cpu_vendor(
                 cpu_model
             ),

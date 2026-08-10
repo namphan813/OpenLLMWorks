@@ -38,9 +38,9 @@ def build_gpu_profiles(database):
     - VRAM capacity
     - GPU form factor
 
-    System memory, CPU, operating system, and benchmark performance
-    are test-configuration/result attributes and are intentionally
-    excluded from GPU identity.
+    System memory, CPU, operating system, software provenance,
+    and benchmark performance are test-configuration/result
+    attributes and are intentionally excluded from GPU identity.
     """
 
     rows = extract_result_rows(database)
@@ -130,6 +130,18 @@ def build_gpu_profiles(database):
                     ),
                     "memory_gb": row.get("memory_gb"),
                     "vram_gib": row.get("vram_gib"),
+                    "driver_version": row.get(
+                        "driver_version",
+                        "",
+                    ),
+                    "cuda_umd_version": row.get(
+                        "cuda_umd_version",
+                        "",
+                    ),
+                    "nvidia_smi_version": row.get(
+                        "nvidia_smi_version",
+                        "",
+                    ),
                 }
             )
 
