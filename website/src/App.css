@@ -1798,3 +1798,25 @@ body {
     font-size: 0.95rem;
   }
 }
+
+/* Hardware profile performance ranking */
+
+.hardware-profile-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.hardware-profile-metric-header small {
+  color: #9fb7d9;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hardware-profile-metric .hardware-performance-track {
+  width: 100%;
+  margin-top: 0.65rem;
+}
