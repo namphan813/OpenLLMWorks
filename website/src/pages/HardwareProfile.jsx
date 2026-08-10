@@ -21,6 +21,19 @@ function formatScore(value) {
 }
 
 
+function formatSoftwareValue(value) {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return "Unknown";
+  }
+
+  return value;
+}
+
+
 function buildMetricRanking(
   hardwareList,
   metricSelector
@@ -819,6 +832,26 @@ function HardwareProfile() {
                               GiB
                             </small>
                           </div>
+                        </div>
+
+                        <div className="hardware-benchmark-software">
+                          <span>
+                            Driver{" "}
+                            <strong>
+                              {formatSoftwareValue(
+                                result.driverVersion
+                              )}
+                            </strong>
+                          </span>
+
+                          <span>
+                            CUDA{" "}
+                            <strong>
+                              {formatSoftwareValue(
+                                result.cudaUmdVersion
+                              )}
+                            </strong>
+                          </span>
                         </div>
                       </article>
                     )

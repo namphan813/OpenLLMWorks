@@ -1820,3 +1820,33 @@ body {
   width: 100%;
   margin-top: 0.65rem;
 }
+
+/* Hardware benchmark software provenance */
+
+.hardware-benchmark-software {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.5rem;
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  color: #9fb7d9;
+  font-size: 0.82rem;
+}
+
+.hardware-benchmark-software span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.hardware-benchmark-software strong {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .hardware-benchmark-software {
+    gap: 0.5rem 1rem;
+  }
+}
