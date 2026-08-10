@@ -1,9 +1,9 @@
 # OpenLLMBench — Project Status
 
 Last Updated: August 9, 2026  
-Current Development Phase: Weekend 11 — Discovery & Comparison  
+Current Development Phase: Weekend 11 — Discovery & Comparison Complete  
 Active Development Branch: `weekend-11-discovery-comparison`  
-Repository State: Weekend 11 baseline established; canonical result identity reconciled; publisher and production build validated
+Repository State: Weekend 11 complete; discovery, comparison, provenance, and user-flow improvements validated; working tree clean
 
 ---
 
@@ -57,6 +57,9 @@ Persistent Benchmark Database
 Analytics / Statistics
     |
     v
+Hardware Profiles / Leaderboards
+    |
+    v
 Publisher
     |
     v
@@ -64,3 +67,6 @@ Generated JSON
     |
     v
 Interactive Website
+    |
+    v
+Discovery / Profiles / Comparison
