@@ -1,5 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import {
+  Link,
+  useParams,
+} from "react-router-dom";
 
 import Layout from "../layout/Layout";
 
@@ -14,7 +22,8 @@ function formatScore(value) {
 
 
 function formatVram(hardware) {
-  const vram = hardware?.gpuIdentity?.vramGib;
+  const vram =
+    hardware?.gpuIdentity?.vramGib;
 
   if (typeof vram !== "number") {
     return "Unknown";
@@ -36,7 +45,10 @@ function formatMemoryConfigurations(system) {
   }
 
   return configurations
-    .map((memory) => `${memory} GB`)
+    .map(
+      (memory) =>
+        `${memory} GB`
+    )
     .join(", ");
 }
 
@@ -96,6 +108,28 @@ function calculateDifference(
 }
 
 
+function getEvidenceLabel(
+  submissionCount
+) {
+  if (
+    typeof submissionCount !==
+    "number"
+  ) {
+    return "Unknown sample";
+  }
+
+  if (submissionCount <= 1) {
+    return "Single result";
+  }
+
+  if (submissionCount <= 3) {
+    return "Limited sample";
+  }
+
+  return "Growing sample";
+}
+
+
 function DifferenceSummary({
   difference,
   leftHardware,
@@ -109,7 +143,9 @@ function DifferenceSummary({
     );
   }
 
-  if (difference.leader === "tie") {
+  if (
+    difference.leader === "tie"
+  ) {
     return (
       <p className="hardware-compare-difference">
         Performance is equal
@@ -124,16 +160,85 @@ function DifferenceSummary({
 
   return (
     <p className="hardware-compare-difference">
-      <strong>{leader.gpuModel}</strong>
+      <strong>
+        {leader.gpuModel}
+      </strong>
       {" "}
       is
       {" "}
       <strong>
-        {difference.percentage.toFixed(1)}%
+        {difference.percentage.toFixed(
+          1
+        )}
+        %
       </strong>
       {" "}
       faster
     </p>
+  );
+}
+
+
+function EvidenceSummary({
+  hardware,
+}) {
+  const submissionCount =
+    hardware.submissionCount ?? 0;
+
+  const testedMemoryCount =
+    hardware.system
+      ?.memoryConfigurationsGb
+      ?.length ?? 0;
+
+  const operatingSystemCount =
+    hardware.system
+      ?.operatingSystems
+      ?.length ?? 0;
+
+  return (
+    <div className="hardware-compare-evidence">
+      <div>
+        <span>
+          Evidence
+        </span>
+
+        <strong>
+          {getEvidenceLabel(
+            submissionCount
+          )}
+        </strong>
+      </div>
+
+      <div>
+        <span>
+          Results
+        </span>
+
+        <strong>
+          {submissionCount}
+        </strong>
+      </div>
+
+      <div>
+        <span>
+          Memory configs
+        </span>
+
+        <strong>
+          {testedMemoryCount}
+        </strong>
+      </div>
+
+      <div>
+        <span>
+          OS configs
+        </span>
+
+        <strong>
+          {operatingSystemCount}
+        </strong>
+      </div>
+    </div>
   );
 }
 
@@ -144,11 +249,16 @@ function HardwareCompare() {
     rightVariantId,
   } = useParams();
 
-  const [hardwareData, setHardwareData] =
-    useState(null);
+  const [
+    hardwareData,
+    setHardwareData,
+  ] = useState(null);
 
-  const [error, setError] =
-    useState(null);
+  const [
+    error,
+    setError,
+  ] = useState(null);
+
 
   useEffect(() => {
     const hardwareDataUrl =
@@ -156,9 +266,10 @@ function HardwareCompare() {
 
     async function loadHardwareData() {
       try {
-        const response = await fetch(
-          hardwareDataUrl,
-        );
+        const response =
+          await fetch(
+            hardwareDataUrl
+          );
 
         if (!response.ok) {
           throw new Error(
@@ -166,9 +277,14 @@ function HardwareCompare() {
           );
         }
 
-        const data = await response.json();
+        const data =
+          await response.json();
 
-        if (!Array.isArray(data.hardware)) {
+        if (
+          !Array.isArray(
+            data.hardware
+          )
+        ) {
           throw new Error(
             "Published hardware data does not contain a hardware list.",
           );
@@ -188,39 +304,44 @@ function HardwareCompare() {
     loadHardwareData();
   }, []);
 
-  const leftHardware = useMemo(() => {
-    if (!hardwareData) {
-      return null;
-    }
 
-    return (
-      hardwareData.hardware.find(
-        (hardware) =>
-          hardware.variantId ===
-          leftVariantId,
-      ) ?? null
-    );
-  }, [
-    hardwareData,
-    leftVariantId,
-  ]);
+  const leftHardware =
+    useMemo(() => {
+      if (!hardwareData) {
+        return null;
+      }
 
-  const rightHardware = useMemo(() => {
-    if (!hardwareData) {
-      return null;
-    }
+      return (
+        hardwareData.hardware.find(
+          (hardware) =>
+            hardware.variantId ===
+            leftVariantId,
+        ) ?? null
+      );
+    }, [
+      hardwareData,
+      leftVariantId,
+    ]);
 
-    return (
-      hardwareData.hardware.find(
-        (hardware) =>
-          hardware.variantId ===
-          rightVariantId,
-      ) ?? null
-    );
-  }, [
-    hardwareData,
-    rightVariantId,
-  ]);
+
+  const rightHardware =
+    useMemo(() => {
+      if (!hardwareData) {
+        return null;
+      }
+
+      return (
+        hardwareData.hardware.find(
+          (hardware) =>
+            hardware.variantId ===
+            rightVariantId,
+        ) ?? null
+      );
+    }, [
+      hardwareData,
+      rightVariantId,
+    ]);
+
 
   const sameHardware =
     Boolean(leftHardware) &&
@@ -233,6 +354,7 @@ function HardwareCompare() {
     Boolean(rightHardware) &&
     !sameHardware;
 
+
   const pp512Difference =
     comparisonReady
       ? calculateDifference(
@@ -243,6 +365,7 @@ function HardwareCompare() {
         )
       : null;
 
+
   const tg128Difference =
     comparisonReady
       ? calculateDifference(
@@ -252,6 +375,7 @@ function HardwareCompare() {
             ?.averageTg128,
         )
       : null;
+
 
   return (
     <Layout>
@@ -276,7 +400,9 @@ function HardwareCompare() {
           Hardware Comparison
         </p>
 
-        <h1>Compare GPUs</h1>
+        <h1>
+          Compare GPUs
+        </h1>
 
         <p className="hardware-compare-intro">
           Compare published local LLM
@@ -287,8 +413,8 @@ function HardwareCompare() {
         {error && (
           <div className="hardware-compare-state">
             <p>
-              Hardware comparison data could
-              not be loaded.
+              Hardware comparison data
+              could not be loaded.
             </p>
 
             <Link to="/compare">
@@ -297,19 +423,24 @@ function HardwareCompare() {
           </div>
         )}
 
-        {!hardwareData && !error && (
-          <p>
-            Loading hardware comparison...
-          </p>
-        )}
+        {!hardwareData &&
+          !error && (
+            <p>
+              Loading hardware
+              comparison...
+            </p>
+          )}
 
         {hardwareData &&
-          (!leftHardware ||
-            !rightHardware) && (
+          (
+            !leftHardware ||
+            !rightHardware
+          ) && (
             <div className="hardware-compare-state">
               <p>
-                One or more requested hardware
-                profiles could not be found.
+                One or more requested
+                hardware profiles could
+                not be found.
               </p>
 
               <Link to="/compare">
@@ -322,8 +453,8 @@ function HardwareCompare() {
           sameHardware && (
             <div className="hardware-compare-state">
               <p>
-                Choose two different GPUs to
-                compare.
+                Choose two different GPUs
+                to compare.
               </p>
 
               <Link to="/compare">
@@ -342,12 +473,14 @@ function HardwareCompare() {
                 </p>
 
                 <h2>
-                  {leftHardware.gpuModel}
+                  {
+                    leftHardware.gpuModel
+                  }
                 </h2>
 
                 <p>
                   {formatVram(
-                    leftHardware,
+                    leftHardware
                   )}
                   {" · "}
                   {
@@ -359,6 +492,12 @@ function HardwareCompare() {
                     ? ""
                     : "s"}
                 </p>
+
+                <EvidenceSummary
+                  hardware={
+                    leftHardware
+                  }
+                />
               </article>
 
               <div className="hardware-compare-vs">
@@ -372,12 +511,14 @@ function HardwareCompare() {
                 </p>
 
                 <h2>
-                  {rightHardware.gpuModel}
+                  {
+                    rightHardware.gpuModel
+                  }
                 </h2>
 
                 <p>
                   {formatVram(
-                    rightHardware,
+                    rightHardware
                   )}
                   {" · "}
                   {
@@ -389,7 +530,30 @@ function HardwareCompare() {
                     ? ""
                     : "s"}
                 </p>
+
+                <EvidenceSummary
+                  hardware={
+                    rightHardware
+                  }
+                />
               </article>
+            </div>
+
+            <div className="hardware-compare-context">
+              <strong>
+                Comparison context
+              </strong>
+
+              <p>
+                Published averages may be
+                based on different CPUs,
+                memory configurations,
+                operating systems, drivers,
+                and CUDA environments.
+                Results may change as more
+                community benchmarks are
+                added.
+              </p>
             </div>
 
             <section className="hardware-compare-section">
@@ -408,32 +572,40 @@ function HardwareCompare() {
               <div className="hardware-compare-metrics">
                 <article className="hardware-profile-metric">
                   <span>
-                    {leftHardware.gpuModel}
+                    {
+                      leftHardware.gpuModel
+                    }
                   </span>
 
                   <strong>
                     {formatScore(
                       leftHardware.performance
-                        .averagePp512,
+                        .averagePp512
                     )}
                   </strong>
 
-                  <span>tokens/sec</span>
+                  <span>
+                    tokens/sec
+                  </span>
                 </article>
 
                 <article className="hardware-profile-metric">
                   <span>
-                    {rightHardware.gpuModel}
+                    {
+                      rightHardware.gpuModel
+                    }
                   </span>
 
                   <strong>
                     {formatScore(
                       rightHardware.performance
-                        .averagePp512,
+                        .averagePp512
                     )}
                   </strong>
 
-                  <span>tokens/sec</span>
+                  <span>
+                    tokens/sec
+                  </span>
                 </article>
               </div>
 
@@ -462,32 +634,40 @@ function HardwareCompare() {
               <div className="hardware-compare-metrics">
                 <article className="hardware-profile-metric">
                   <span>
-                    {leftHardware.gpuModel}
+                    {
+                      leftHardware.gpuModel
+                    }
                   </span>
 
                   <strong>
                     {formatScore(
                       leftHardware.performance
-                        .averageTg128,
+                        .averageTg128
                     )}
                   </strong>
 
-                  <span>tokens/sec</span>
+                  <span>
+                    tokens/sec
+                  </span>
                 </article>
 
                 <article className="hardware-profile-metric">
                   <span>
-                    {rightHardware.gpuModel}
+                    {
+                      rightHardware.gpuModel
+                    }
                   </span>
 
                   <strong>
                     {formatScore(
                       rightHardware.performance
-                        .averageTg128,
+                        .averageTg128
                     )}
                   </strong>
 
-                  <span>tokens/sec</span>
+                  <span>
+                    tokens/sec
+                  </span>
                 </article>
               </div>
 
@@ -515,29 +695,37 @@ function HardwareCompare() {
 
               <div className="hardware-compare-table">
                 <div className="hardware-compare-row hardware-compare-row-head">
-                  <div>Configuration</div>
-
                   <div>
-                    {leftHardware.gpuModel}
+                    Configuration
                   </div>
 
                   <div>
-                    {rightHardware.gpuModel}
+                    {
+                      leftHardware.gpuModel
+                    }
+                  </div>
+
+                  <div>
+                    {
+                      rightHardware.gpuModel
+                    }
                   </div>
                 </div>
 
                 <div className="hardware-compare-row">
-                  <strong>VRAM</strong>
+                  <strong>
+                    VRAM
+                  </strong>
 
                   <span>
                     {formatVram(
-                      leftHardware,
+                      leftHardware
                     )}
                   </span>
 
                   <span>
                     {formatVram(
-                      rightHardware,
+                      rightHardware
                     )}
                   </span>
                 </div>
@@ -562,18 +750,36 @@ function HardwareCompare() {
 
                 <div className="hardware-compare-row">
                   <strong>
+                    Evidence Level
+                  </strong>
+
+                  <span>
+                    {getEvidenceLabel(
+                      leftHardware.submissionCount
+                    )}
+                  </span>
+
+                  <span>
+                    {getEvidenceLabel(
+                      rightHardware.submissionCount
+                    )}
+                  </span>
+                </div>
+
+                <div className="hardware-compare-row">
+                  <strong>
                     Tested Memory
                   </strong>
 
                   <span>
                     {formatMemoryConfigurations(
-                      leftHardware.system,
+                      leftHardware.system
                     )}
                   </span>
 
                   <span>
                     {formatMemoryConfigurations(
-                      rightHardware.system,
+                      rightHardware.system
                     )}
                   </span>
                 </div>
@@ -585,13 +791,13 @@ function HardwareCompare() {
 
                   <span>
                     {formatOperatingSystems(
-                      leftHardware.system,
+                      leftHardware.system
                     )}
                   </span>
 
                   <span>
                     {formatOperatingSystems(
-                      rightHardware.system,
+                      rightHardware.system
                     )}
                   </span>
                 </div>
@@ -602,22 +808,29 @@ function HardwareCompare() {
               <Link
                 to={`/hardware/${leftHardware.variantId}`}
               >
-                View {leftHardware.gpuModel}
+                View{" "}
+                {
+                  leftHardware.gpuModel
+                }
               </Link>
 
               <Link
                 to={`/hardware/${rightHardware.variantId}`}
               >
-                View {rightHardware.gpuModel}
+                View{" "}
+                {
+                  rightHardware.gpuModel
+                }
               </Link>
             </div>
 
             <p className="hardware-compare-note">
-              Comparison values are based on
-              the currently published benchmark
-              results for each GPU variant.
+              Performance differences
+              describe the currently
+              published averages, not a
+              controlled head-to-head test.
               Sample counts and tested
-              configurations may differ.
+              environments may differ.
             </p>
           </>
         )}
@@ -625,5 +838,6 @@ function HardwareCompare() {
     </Layout>
   );
 }
+
 
 export default HardwareCompare;

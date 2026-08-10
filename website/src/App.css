@@ -1850,3 +1850,95 @@ body {
     gap: 0.5rem 1rem;
   }
 }
+
+/* =========================================================
+   Hardware Comparison — Evidence Context
+   ========================================================= */
+
+.hardware-compare-evidence {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+
+  border-top: 1px solid var(--border);
+}
+
+.hardware-compare-evidence > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.hardware-compare-evidence span {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.hardware-compare-evidence strong {
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+
+/* Comparison methodology / evidence note */
+
+.hardware-compare-context {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.hardware-compare-context > strong {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.hardware-compare-context > p {
+  margin: 0;
+
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   Hardware Comparison — Evidence Context Mobile
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .hardware-compare-evidence {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .hardware-compare-evidence {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .hardware-compare-evidence > div {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
