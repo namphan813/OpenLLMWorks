@@ -102,6 +102,47 @@ function calculateBarWidth(
 }
 
 
+function compareByGpuName(
+  left,
+  right
+) {
+  return left.gpuModel.localeCompare(
+    right.gpuModel
+  );
+}
+
+
+function compareDescendingWithNameTieBreak(
+  leftValue,
+  rightValue,
+  leftHardware,
+  rightHardware
+) {
+  const normalizedLeft =
+    typeof leftValue === "number"
+      ? leftValue
+      : -Infinity;
+
+  const normalizedRight =
+    typeof rightValue === "number"
+      ? rightValue
+      : -Infinity;
+
+  const metricDifference =
+    normalizedRight -
+    normalizedLeft;
+
+  if (metricDifference !== 0) {
+    return metricDifference;
+  }
+
+  return compareByGpuName(
+    leftHardware,
+    rightHardware
+  );
+}
+
+
 function Hardware() {
   const navigate = useNavigate();
 
@@ -337,19 +378,19 @@ function Hardware() {
               hardware.gpuIdentity
                 ?.formFactor,
               hardware.performance
-                .averagePp512,
+                ?.averagePp512,
               hardware.performance
-                .averageTg128,
+                ?.averageTg128,
               hardware.system
-                .averageMemoryGb,
+                ?.averageMemoryGb,
               ...(
                 hardware.system
-                  .memoryConfigurationsGb ??
+                  ?.memoryConfigurationsGb ??
                 []
               ),
               ...(
                 hardware.system
-                  .operatingSystems ??
+                  ?.operatingSystems ??
                 []
               ),
             ];
@@ -370,52 +411,53 @@ function Hardware() {
       return [...filtered].sort(
         (left, right) => {
           if (sortBy === "vram") {
-            return (
-              (
-                right.gpuIdentity
-                  ?.vramGib ??
-                -Infinity
-              ) -
-              (
-                left.gpuIdentity
-                  ?.vramGib ??
-                -Infinity
-              )
+            return compareDescendingWithNameTieBreak(
+              left.gpuIdentity
+                ?.vramGib,
+              right.gpuIdentity
+                ?.vramGib,
+              left,
+              right
             );
           }
 
           if (sortBy === "pp512") {
-            return (
-              (
-                right.performance
-                  .averagePp512 ??
-                -Infinity
-              ) -
-              (
-                left.performance
-                  .averagePp512 ??
-                -Infinity
-              )
+            return compareDescendingWithNameTieBreak(
+              left.performance
+                ?.averagePp512,
+              right.performance
+                ?.averagePp512,
+              left,
+              right
             );
           }
 
           if (sortBy === "tg128") {
-            return (
-              (
-                right.performance
-                  .averageTg128 ??
-                -Infinity
-              ) -
-              (
-                left.performance
-                  .averageTg128 ??
-                -Infinity
-              )
+            return compareDescendingWithNameTieBreak(
+              left.performance
+                ?.averageTg128,
+              right.performance
+                ?.averageTg128,
+              left,
+              right
             );
           }
 
-          return left.gpuModel.localeCompare(
-            right.gpuModel
+          if (
+            sortBy ===
+            "benchmarks"
+          ) {
+            return compareDescendingWithNameTieBreak(
+              left.submissionCount,
+              right.submissionCount,
+              left,
+              right
+            );
+          }
+
+          return compareByGpuName(
+            left,
+            right
           );
         }
       );
@@ -650,16 +692,20 @@ function Hardware() {
                       GPU name
                     </option>
 
-                    <option value="vram">
-                      VRAM
-                    </option>
-
                     <option value="pp512">
-                      Average pp512
+                      pp512 — fastest
                     </option>
 
                     <option value="tg128">
-                      Average tg128
+                      tg128 — fastest
+                    </option>
+
+                    <option value="vram">
+                      VRAM — highest
+                    </option>
+
+                    <option value="benchmarks">
+                      Most benchmarked
                     </option>
                   </select>
                 </label>
@@ -847,8 +893,8 @@ function Hardware() {
                           Operating Systems:
                           {" "}
                           {hardware.system
-                            .operatingSystems
-                            .length > 0
+                            ?.operatingSystems
+                            ?.length > 0
                             ? hardware.system.operatingSystems.join(
                                 ", "
                               )
