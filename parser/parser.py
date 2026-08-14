@@ -28,6 +28,7 @@ from parser.hardware import load_hardware_profile
 from parser.submission import (
     Submission,
     discover_submissions,
+    validate_submission_preflight,
 )
 
 
@@ -175,6 +176,27 @@ def process_submission(
         f"Source: {submission.source_path}"
     )
     print("=" * 60)
+    print()
+
+    preflight = validate_submission_preflight(
+        submission
+    )
+
+    for warning in preflight.warnings:
+        print(f"WARNING: {warning}")
+
+    if not preflight.valid:
+        for error in preflight.errors:
+            print(f"ERROR: {error}")
+
+        print(
+            "Submission skipped because it failed "
+            "structural preflight validation."
+        )
+
+        return None
+
+    print("Preflight: PASSED")
     print()
 
     try:
