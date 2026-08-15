@@ -1,9 +1,9 @@
 # OpenLLMBench — Project Status
 
-Last Updated: August 9, 2026  
-Current Development Phase: Weekend 11 — Discovery & Comparison Complete  
-Active Development Branch: `weekend-11-discovery-comparison`  
-Repository State: Weekend 11 complete; discovery, comparison, provenance, and user-flow improvements validated; working tree clean
+Last Updated: August 15, 2026
+Current Development Phase: Weekend 12 — Submission Pipeline Hardening Complete
+Active Development Branch: `weekend-12-submission-hardening`
+Repository State: Weekend 12 implementation complete; submission preflight validation and optional manifest metadata support validated; working tree clean
 
 ---
 
@@ -37,6 +37,15 @@ Raw Benchmark + Hardware Files
     |
     v
 incoming/
+    |
+    v
+Submission Discovery
+    |
+    v
+Structural Preflight Validation
+    |
+    v
+Optional submission.json Manifest
     |
     v
 Parser

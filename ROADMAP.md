@@ -663,49 +663,73 @@ earlier than originally scheduled.
 
 ---
 
-## 🔵 Weekend 12 — Submission Pipeline Hardening
+## ✅ Weekend 12 — Submission Pipeline Hardening
 
-**Status:** Next
+**Status:** Complete
 
 ### Objective
 
 Make benchmark ingestion safer, clearer, and more contributor-ready before
 opening the submission path more broadly.
 
-### Planned Work
+### Delivered
 
-- Review the current submission pipeline end to end
-- Strengthen validation failures and error messages
-- Improve malformed-submission handling
-- Verify duplicate-submission behavior
-- Validate required benchmark metadata
-- Validate hardware metadata expectations
-- Review provenance requirements
-- Improve submission diagnostics
-- Define accepted vs rejected submission states
-- Establish moderation / quarantine concepts where needed
-- Test failure cases intentionally
-- Document the contributor-facing ingestion path
+- Added lightweight structural submission preflight validation
+- Validate required hardware evidence before deeper parsing
+- Reject submissions containing no benchmark run files
+- Preserve legacy two-run submissions with explicit warnings
+- Added optional `submission.json` manifest support
+- Added manifest schema versioning
+- Validate contributor-provided submission identity
+- Validate ISO-8601 submission and benchmark timestamps
+- Reject malformed or structurally invalid manifests
+- Preserve compatibility with historical folder-based submissions
+- Propagate validated manifest metadata into normalized result records
+- Tolerate unknown manifest fields for forward compatibility
+- Added contributor-facing manifest documentation
+- Updated `example_submission/` with a working manifest example
+- Intentionally tested malformed and invalid submission cases
 
-### User-Flow Questions
+### Validation Coverage
 
-Weekend 12 should test not only:
+Weekend 12 intentionally exercised:
 
-> *"Can OpenLLMBench ingest this benchmark?"*
+- Valid manifest
+- Unsupported schema version
+- Empty submission name
+- Incorrect submission-name type
+- Invalid submission timestamp
+- Invalid benchmark timestamp
+- Non-object JSON root
+- Malformed JSON
+- Unknown manifest fields
+- Missing required hardware evidence
+- Missing manifest / legacy submission
+- Historical two-run submission
+- Manifest metadata propagation
 
-but also:
+### Compatibility
 
-> *"If the submission fails, can the contributor understand why?"*
+`submission.json` remains optional.
 
-### Outcome Target
+Historical submissions without a manifest continue through the existing
+folder-based workflow and receive a warning explaining that legacy metadata
+is being used.
 
-A submission should either:
+Raw benchmark and hardware evidence remain authoritative. Contributor-provided
+manifest metadata does not replace measured hardware or benchmark data.
 
-1. Enter the benchmark database safely, or
-2. Fail clearly without damaging or ambiguously modifying the dataset.
+### Outcome
 
-This is the next major dependency for broader community participation.
+OpenLLMBench now has a stronger trust boundary at the beginning of the
+submission pipeline.
 
+Structurally invalid submissions can fail before deeper parsing, valid
+contributors can provide explicit submission metadata, and historical
+benchmark packages remain compatible with the current pipeline.
+
+This establishes the ingestion foundation needed for the future contributor
+workflow.
 ---
 
 ## ⚪ Weekend 13 — Leaderboards & Analytics Expansion
