@@ -7,7 +7,7 @@ submission, builds normalized benchmark records, detects
 duplicates, and updates the persistent benchmark database.
 
 Version:
-0.6.0-dev3
+0.6.0-dev4
 """
 
 from pathlib import Path
@@ -32,7 +32,7 @@ from parser.submission import (
 )
 
 
-PARSER_VERSION = "0.6.0-dev3"
+PARSER_VERSION = "0.6.0-dev4"
 
 
 # ------------------------------------------------------------
@@ -199,6 +199,39 @@ def process_submission(
     print("Preflight: PASSED")
     print()
 
+    if preflight.manifest is not None:
+        effective_submission_name = (
+            preflight.manifest.submission_name
+        )
+        submitted_at = (
+            preflight.manifest.submitted_at
+        )
+        benchmark_timestamp = (
+            preflight.manifest.benchmark_timestamp
+        )
+
+        print("Submission manifest: LOADED")
+        print(
+            "Manifest submission name: "
+            f"{effective_submission_name}"
+        )
+        print(
+            "Submitted at: "
+            f"{submitted_at}"
+        )
+        print(
+            "Benchmark timestamp: "
+            f"{benchmark_timestamp}"
+        )
+        print()
+
+    else:
+        effective_submission_name = (
+            submission.submission_name
+        )
+        submitted_at = None
+        benchmark_timestamp = None
+
     try:
         hardware = load_hardware_profile(
             submission.source_path
@@ -233,7 +266,7 @@ def process_submission(
         )
         print(
             "Submission skipped: "
-            f"{submission.submission_name}"
+            f"{effective_submission_name}"
         )
         return None
 
@@ -342,14 +375,14 @@ def process_submission(
         status=status,
         pp_average=pp_average,
         tg_average=tg_average,
-        submission_name=(
-            submission.submission_name
-        ),
+        submission_name=effective_submission_name,
         submission_source=str(
             submission.source_path
         ),
         required_runs=REQUIRED_RUNS,
         parser_version=PARSER_VERSION,
+        submitted_at=submitted_at,
+        benchmark_timestamp=benchmark_timestamp,
     )
 
 
