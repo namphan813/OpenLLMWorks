@@ -10,7 +10,7 @@ Version:
 """
 
 from collections import Counter
-from statistics import mean
+from statistics import mean, median
 from typing import Any
 
 
@@ -505,8 +505,38 @@ def calculate_performance_statistics(
             if pp_values
             else None
         ),
+        "median_pp512": (
+            round(median(pp_values), 2)
+            if pp_values
+            else None
+        ),
+        "min_pp512": (
+            round(min(pp_values), 2)
+            if pp_values
+            else None
+        ),
+        "max_pp512": (
+            round(max(pp_values), 2)
+            if pp_values
+            else None
+        ),
         "average_tg128": (
             round(mean(tg_values), 2)
+            if tg_values
+            else None
+        ),
+        "median_tg128": (
+            round(median(tg_values), 2)
+            if tg_values
+            else None
+        ),
+        "min_tg128": (
+            round(min(tg_values), 2)
+            if tg_values
+            else None
+        ),
+        "max_tg128": (
+            round(max(tg_values), 2)
             if tg_values
             else None
         ),
@@ -610,8 +640,28 @@ def calculate_hardware_statistics(
             if vram_values
             else None
         ),
+        "min_vram_gib": (
+            round(min(vram_values), 2)
+            if vram_values
+            else None
+        ),
+        "max_vram_gib": (
+            round(max(vram_values), 2)
+            if vram_values
+            else None
+        ),
         "average_memory_gb": (
             round(mean(memory_values), 2)
+            if memory_values
+            else None
+        ),
+        "min_memory_gb": (
+            round(min(memory_values), 2)
+            if memory_values
+            else None
+        ),
+        "max_memory_gb": (
+            round(max(memory_values), 2)
             if memory_values
             else None
         ),
