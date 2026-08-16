@@ -14,8 +14,8 @@ from typing import Any
 import json
 
 
-VALIDATOR_VERSION = "0.6.0-dev4"
-SUPPORTED_SCHEMA_VERSION = "0.6"
+VALIDATOR_VERSION = "0.7.0-dev1"
+SUPPORTED_SCHEMA_VERSION = "0.7"
 
 VALID_BENCHMARK_STATUSES = {
     "complete",
