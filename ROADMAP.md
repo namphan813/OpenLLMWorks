@@ -732,32 +732,128 @@ This establishes the ingestion foundation needed for the future contributor
 workflow.
 ---
 
-## ⚪ Weekend 13 — Leaderboards & Analytics Expansion
+## 🟡 Weekend 13 — Leaderboards & Analytics Expansion
 
-**Status:** Planned
+**Status:** In Progress — Sprint 3 Complete
 
 ### Objective
 
 Build richer insight layers on top of the increasingly trustworthy dataset.
 
-### Candidate Work
+Weekend 13 focuses on deeper interpretation of benchmark evidence while
+preserving clear boundaries between analytics, public data contracts, and
+website presentation.
 
-- Expanded leaderboard views
-- Additional ranking dimensions
-- Distribution views
-- Performance ranges
-- Trend visualization
-- Interesting facts
-- Historical comparisons
-- Dataset-level insights
-- Evidence-aware analytics
+The existing analytics foundation remains authoritative.
 
-### Note
+---
 
-The analytics foundation already exists.
+### ✅ Sprint 1 — Analytics & Schema Compatibility
 
-Weekend 13 should focus on **deeper interpretation**, not rebuilding the
-existing statistics and leaderboard systems.
+**Status:** Complete
+
+Established compatibility between the schema 0.7 benchmark database and the
+existing analytics stack.
+
+### Delivered
+
+- Validated analytics against the schema 0.7 data model
+- Updated analytics where required for current normalized records
+- Preserved compatibility with existing statistics and leaderboard tooling
+- Established a stable foundation for richer dataset analysis
+
+### Outcome
+
+The current benchmark database can flow reliably into the analytics layer
+without relying on obsolete schema assumptions.
+
+---
+
+### ✅ Sprint 2 — Statistics Expansion
+
+**Status:** Complete
+
+Expanded dataset-level statistics beyond simple averages.
+
+### Delivered
+
+- Average pp512
+- Median pp512
+- Minimum pp512
+- Maximum pp512
+- Average tg128
+- Median tg128
+- Minimum tg128
+- Maximum tg128
+- Average VRAM
+- Minimum VRAM
+- Maximum VRAM
+- Average system memory
+- Minimum system memory
+- Maximum system memory
+- Updated CLI statistics presentation
+- Propagated richer statistics into the homepage publishing contract
+- Connected current published statistics to the React homepage
+
+### Outcome
+
+OpenLLMBench can now describe both typical performance and performance range
+rather than relying primarily on averages.
+
+Median values provide additional context when unusually fast hardware would
+otherwise distort dataset-level averages.
+
+---
+
+### ✅ Sprint 3 — GPU-Profile Leaderboards & Publishing
+
+**Status:** Complete
+
+Established canonical GPU-level rankings and a reusable public leaderboard
+contract.
+
+### Delivered
+
+- Preserved existing individual benchmark-result leaderboards
+- Defined result-level and GPU-profile leaderboards as separate concepts
+- Added reusable GPU-profile ranking logic to the analytics layer
+- Reused canonical GPU profiles for aggregated rankings
+- Added pp512 GPU-profile rankings
+- Added tg128 GPU-profile rankings
+- Validated multi-submission GPU aggregation
+- Confirmed 7 benchmark results aggregate into 6 current GPU profiles
+- Confirmed the GTX 1650 profile aggregates 2 benchmark submissions
+- Added stable public GPU variant IDs to leaderboard entries
+- Reused normalized public VRAM identity
+- Added benchmark submission counts to leaderboard entries
+- Created `publisher/leaderboards.py`
+- Created `database/generated/leaderboards.json`
+- Integrated leaderboard generation into `publisher/generate_site.py`
+- Added `leaderboards.json` to the generated manifest
+- Validated the complete publishing pipeline
+- Preserved the existing result-level CLI leaderboard
+
+### Architecture
+
+```text
+Individual Benchmark Results
+        |
+        +---------------------------+
+        |                           |
+        v                           v
+Result-Level Analytics        Canonical GPU Profiles
+        |                           |
+        v                           v
+Result Leaderboards           GPU-Profile Rankings
+        |                           |
+        v                           v
+CLI / Historical Views        Leaderboard Publisher
+                                    |
+                                    v
+                            leaderboards.json
+                                    |
+                                    v
+                         Website / Future Consumers
 
 ---
 
