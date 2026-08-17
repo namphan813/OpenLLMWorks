@@ -13,13 +13,14 @@ if str(ROOT) not in sys.path:
 from analytics.statistics import build_statistics
 from publisher.hardware import publish_hardware
 from publisher.homepage import publish_homepage
+from publisher.leaderboards import publish_leaderboards
 
 
 DATABASE_FILE = ROOT / "database" / "benchmark_database.json"
 OUTPUT_DIR = ROOT / "database" / "generated"
 
 PUBLISHER_NAME = "OpenLLMBench Publisher"
-PUBLISHER_VERSION = "0.1"
+PUBLISHER_VERSION = "0.2"
 CONTRACT_VERSION = "1.0"
 
 
@@ -78,6 +79,8 @@ def main() -> None:
     print("Statistics built.")
     print()
 
+    print("Publishing homepage...")
+
     homepage_file = publish_homepage(
         OUTPUT_DIR,
         generated_at,
@@ -87,7 +90,16 @@ def main() -> None:
         statistics_report,
     )
 
+    print("Publishing hardware...")
+
     hardware_file = publish_hardware(
+        database=database,
+        output_directory=OUTPUT_DIR,
+    )
+
+    print("Publishing leaderboards...")
+
+    leaderboard_file = publish_leaderboards(
         database=database,
         output_directory=OUTPUT_DIR,
     )
@@ -114,6 +126,10 @@ def main() -> None:
                 "name": "hardware.json",
                 "contractVersion": CONTRACT_VERSION,
             },
+            {
+                "name": "leaderboards.json",
+                "contractVersion": CONTRACT_VERSION,
+            },
         ],
     }
 
@@ -124,8 +140,10 @@ def main() -> None:
         manifest,
     )
 
+    print()
     print(f"Published: {homepage_file}")
     print(f"Published: {hardware_file}")
+    print(f"Published: {leaderboard_file}")
     print(f"Published: {manifest_file}")
     print()
     print("Publisher completed successfully.")

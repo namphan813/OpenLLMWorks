@@ -1,0 +1,197 @@
+{
+    "contractVersion": "1.0",
+    "generatedAt": "2026-08-17T06:52:10.459552+00:00",
+    "generator": {
+        "name": "OpenLLMBench Leaderboard Publisher",
+        "version": "0.2.1"
+    },
+    "summary": {
+        "gpuVariants": 6,
+        "pp512Ranked": 6,
+        "tg128Ranked": 6
+    },
+    "leaderboards": {
+        "pp512": {
+            "totalRanked": 6,
+            "bestValue": 7850.45,
+            "worstValue": 133.22,
+            "entries": [
+                {
+                    "rank": 1,
+                    "variantId": "nvidia-geforce-rtx-4070-12gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4070",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4070",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 7850.45
+                },
+                {
+                    "rank": 2,
+                    "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA RTX A3000 Laptop GPU",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 2413.64
+                },
+                {
+                    "rank": 3,
+                    "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1660 Ti",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 285.92
+                },
+                {
+                    "rank": 4,
+                    "variantId": "quadro-p1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro P1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro P1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 211.03
+                },
+                {
+                    "rank": 5,
+                    "variantId": "nvidia-geforce-gtx-1650-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1650",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1650",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 153.575
+                },
+                {
+                    "rank": 6,
+                    "variantId": "quadro-t1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro T1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro T1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 133.22
+                }
+            ]
+        },
+        "tg128": {
+            "totalRanked": 6,
+            "bestValue": 148.35,
+            "worstValue": 13.99,
+            "entries": [
+                {
+                    "rank": 1,
+                    "variantId": "nvidia-geforce-rtx-4070-12gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4070",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4070",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 148.35
+                },
+                {
+                    "rank": 2,
+                    "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1660 Ti",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 71.09
+                },
+                {
+                    "rank": 3,
+                    "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA RTX A3000 Laptop GPU",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 67.05
+                },
+                {
+                    "rank": 4,
+                    "variantId": "nvidia-geforce-gtx-1650-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1650",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1650",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 35.285000000000004
+                },
+                {
+                    "rank": 5,
+                    "variantId": "quadro-t1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro T1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro T1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 22.17
+                },
+                {
+                    "rank": 6,
+                    "variantId": "quadro-p1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro P1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro P1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 13.99
+                }
+            ]
+        }
+    }
+}
