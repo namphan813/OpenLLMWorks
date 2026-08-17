@@ -734,7 +734,7 @@ workflow.
 
 ## 🟡 Weekend 13 — Leaderboards & Analytics Expansion
 
-**Status:** In Progress — Sprint 3 Complete
+**Status:** In Progress — Sprint 4 Complete
 
 ### Objective
 
@@ -854,7 +854,6 @@ CLI / Historical Views        Leaderboard Publisher
                                     |
                                     v
                          Website / Future Consumers
-
 ---
 
 ## ⚪ Weekend 14 — Contributor Workflow & Documentation
