@@ -32,32 +32,123 @@ def publish_homepage(
             "version": publisher_version,
         },
         "stats": {
-            "benchmarkResults": database_stats["total_results"],
-            "gpuModels": len(gpu_model_counts),
+            "benchmarkResults": (
+                database_stats["total_results"]
+            ),
+            "gpuModels": len(
+                gpu_model_counts
+            ),
             "cpuModels": len(
                 hardware_stats.get(
                     "cpu_model_counts",
                     {},
                 )
             ),
-            "importEvents": submission_stats["import_event_count"],
-            "averageTg128": performance_stats["average_tg128"],
+            "importEvents": (
+                submission_stats[
+                    "import_event_count"
+                ]
+            ),
+            "averagePp512": (
+                performance_stats[
+                    "average_pp512"
+                ]
+            ),
+            "medianPp512": (
+                performance_stats[
+                    "median_pp512"
+                ]
+            ),
+            "minPp512": (
+                performance_stats[
+                    "min_pp512"
+                ]
+            ),
+            "maxPp512": (
+                performance_stats[
+                    "max_pp512"
+                ]
+            ),
+            "averageTg128": (
+                performance_stats[
+                    "average_tg128"
+                ]
+            ),
+            "medianTg128": (
+                performance_stats[
+                    "median_tg128"
+                ]
+            ),
+            "minTg128": (
+                performance_stats[
+                    "min_tg128"
+                ]
+            ),
+            "maxTg128": (
+                performance_stats[
+                    "max_tg128"
+                ]
+            ),
+            "averageVramGib": (
+                hardware_stats[
+                    "average_vram_gib"
+                ]
+            ),
+            "minVramGib": (
+                hardware_stats[
+                    "min_vram_gib"
+                ]
+            ),
+            "maxVramGib": (
+                hardware_stats[
+                    "max_vram_gib"
+                ]
+            ),
+            "averageMemoryGb": (
+                hardware_stats[
+                    "average_memory_gb"
+                ]
+            ),
+            "minMemoryGb": (
+                hardware_stats[
+                    "min_memory_gb"
+                ]
+            ),
+            "maxMemoryGb": (
+                hardware_stats[
+                    "max_memory_gb"
+                ]
+            ),
         },
         "featuredStory": {
-            "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
+            "title": (
+                "The GTX 1650 is OpenLLMBench's "
+                "first recorded GPU."
+            ),
             "description": (
-                "This benchmark established the first historical performance "
-                "reference point in the OpenLLMBench database."
+                "This benchmark established the first "
+                "historical performance reference point "
+                "in the OpenLLMBench database."
             ),
             "snapshot": "2026-08-02 14:17 UTC",
             "badge": "Data Snapshot",
         },
     }
 
-    homepage_file = output_directory / "homepage.json"
+    homepage_file = (
+        output_directory
+        / "homepage.json"
+    )
 
-    with homepage_file.open("w", encoding="utf-8") as file:
-        json.dump(homepage, file, indent=4)
+    with homepage_file.open(
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            homepage,
+            file,
+            indent=4,
+        )
         file.write("\n")
 
     return homepage_file
