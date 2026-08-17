@@ -144,9 +144,13 @@ Want to contribute benchmark data?
 3. Run three benchmark passes using the required benchmark configuration.
 4. Preserve the raw benchmark output and required hardware evidence.
 5. Create a `submission.json` manifest.
-6. Review the contribution requirements in `docs/CONTRIBUTING.md`.
+6. Validate the completed submission.
+7. Review the contribution requirements in `docs/CONTRIBUTING.md`.
 
-Public submission tooling is still under development. Until that workflow is complete, benchmark contributions may require manual review.
+To validate a submission before contributing it:
+
+```powershell
+py -m parser.validate .\path\to\submission
 
 ## Other Contributions
 

@@ -74,6 +74,36 @@ Because the current OLBD Benchmark Protocol requires three runs for new submissi
 
 Do not create or modify benchmark output solely to eliminate this warning.
 
+## Validate the Example
+
+From the OpenLLMBench repository root, run:
+
+```powershell
+py -m parser.validate .\example_submission
+```
+
+The example should pass structural validation while reporting one warning because it intentionally preserves a historical two-run benchmark result.
+
+Expected validation summary:
+
+```text
+[OK] submission.json
+[OK] Manifest schema 1.0
+[OK] Hardware evidence (5/5 required files present)
+[WARN] Benchmark runs (2 found; 3 required for new submissions)
+
+Warnings:
+- Fewer than 3 benchmark run files were found (2 present).
+
+Validation PASSED with 1 warning(s).
+```
+
+This warning is expected.
+
+It demonstrates that OpenLLMBench can preserve and recognize legitimate historical submissions while enforcing the current three-run requirement for new benchmark contributions.
+
+A warning does not mean that the preserved historical result should be altered. Raw benchmark evidence should remain unchanged.
+
 ## Notes
 
 - Do not edit benchmark output files.
@@ -81,6 +111,7 @@ Do not create or modify benchmark output solely to eliminate this warning.
 - Complete three benchmark runs for new submissions.
 - Preserve the required hardware evidence files.
 - Include a valid `submission.json` for new submissions.
+- Validate the completed submission before contributing it.
 - Follow Benchmark Protocol OLBD-BP-1.0.
 
 Additional information can be found in:
