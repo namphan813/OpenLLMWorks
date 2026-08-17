@@ -2,21 +2,24 @@
 
 The roadmap describes the long-term evolution of OpenLLMBench.
 
-Each phase builds upon the previous one while remaining aligned with the project's mission:
+Each phase builds upon the previous one while remaining aligned with the
+project's mission:
 
 > **Measure. Understand. Preserve.**
 
 OpenLLMBench is intentionally built in phases.
 
-Each phase establishes a stable foundation before introducing the next major capability.
+Each phase establishes a stable foundation before introducing the next
+major capability.
 
-The goal is steady, sustainable progress rather than rapid feature accumulation.
+The goal is steady, sustainable progress rather than rapid feature
+accumulation.
 
----
+------------------------------------------------------------------------
 
 # Project Evolution
 
-```text
+``` text
 Foundation
     ↓
 Intelligence
@@ -34,7 +37,7 @@ Platform
 Research Platform
 ```
 
----
+------------------------------------------------------------------------
 
 # ✅ Foundation
 
@@ -44,17 +47,18 @@ Established the technical foundation of OpenLLMBench.
 
 ### Highlights
 
-- Benchmark parser
-- Persistent benchmark database
-- Deterministic result IDs
-- Duplicate detection
-- Core statistics engine
+-   Benchmark parser
+-   Persistent benchmark database
+-   Deterministic result IDs
+-   Duplicate detection
+-   Core statistics engine
 
 ### Outcome
 
-OpenLLMBench became capable of reliably collecting and storing benchmark data.
+OpenLLMBench became capable of reliably collecting and storing benchmark
+data.
 
----
+------------------------------------------------------------------------
 
 # ✅ Intelligence
 
@@ -64,19 +68,19 @@ Transformed benchmark records into reusable insights.
 
 ### Highlights
 
-- Statistics
-- Leaderboards
-- Hardware Profiles
-- Interesting Facts
-- Snapshot Viewer
-- Trend Engine
-- Historical Snapshots
+-   Statistics
+-   Leaderboards
+-   Hardware Profiles
+-   Interesting Facts
+-   Snapshot Viewer
+-   Trend Engine
+-   Historical Snapshots
 
 ### Outcome
 
 The project evolved from storing data to explaining it.
 
----
+------------------------------------------------------------------------
 
 # ✅ Evolution
 
@@ -86,42 +90,44 @@ Prepared OpenLLMBench for long-term growth and safe maintenance.
 
 ### Highlights
 
-- UTC timestamp normalization
-- Schema evolution
-- Migration framework
-- SHA-256 hashing
-- Verified backups
-- Utilities layer
+-   UTC timestamp normalization
+-   Schema evolution
+-   Migration framework
+-   SHA-256 hashing
+-   Verified backups
+-   Utilities layer
 
 ### Outcome
 
-The project gained the operational tools necessary to preserve data integrity over time.
+The project gained the operational tools necessary to preserve data
+integrity over time.
 
----
+------------------------------------------------------------------------
 
 # ✅ Identity
 
 **Status:** Complete
 
-Defined the philosophy, documentation, and engineering culture of OpenLLMBench.
+Defined the philosophy, documentation, and engineering culture of
+OpenLLMBench.
 
 ### Highlights
 
-- README
-- Roadmap
-- Manifesto
-- Founding Story
-- Architecture Guide
-- Design Principles
-- Contributing Guide
-- AI Collaboration
-- Parking Lot
+-   README
+-   Roadmap
+-   Manifesto
+-   Founding Story
+-   Architecture Guide
+-   Design Principles
+-   Contributing Guide
+-   AI Collaboration
+-   Parking Lot
 
 ### Outcome
 
 The project now documents not only *how* it works, but *why* it exists.
 
----
+------------------------------------------------------------------------
 
 # 🟡 Community
 
@@ -131,32 +137,33 @@ Current objective:
 
 Prepare OpenLLMBench for meaningful community use and contribution.
 
-The public-facing experience now has a strong v1 foundation. The next major
-dependency is making contribution and ingestion equally trustworthy.
+The public-facing experience now has a strong v1 foundation. The next
+major dependency is making contribution and ingestion equally
+trustworthy.
 
 ### Delivered Foundations
 
-- React website foundation
-- Data-driven homepage
-- Navigation
-- Hardware Explorer
-- GPU search
-- Vendor filtering
-- VRAM filtering
-- Performance sorting
-- GPU ranking context
-- Hardware profile pages
-- Multi-system GPU aggregation
-- Individual benchmark history
-- Tested configuration filtering
-- Driver and CUDA provenance
-- GPU comparison
-- Comparison evidence context
-- Connected discovery → profile → comparison user flows
-- Responsive desktop and mobile foundations
-- Leaderboards
-- Snapshot browsing
-- Documentation integration
+-   React website foundation
+-   Data-driven homepage
+-   Navigation
+-   Hardware Explorer
+-   GPU search
+-   Vendor filtering
+-   VRAM filtering
+-   Performance sorting
+-   GPU ranking context
+-   Hardware profile pages
+-   Multi-system GPU aggregation
+-   Individual benchmark history
+-   Tested configuration filtering
+-   Driver and CUDA provenance
+-   GPU comparison
+-   Comparison evidence context
+-   Connected discovery → profile → comparison user flows
+-   Responsive desktop and mobile foundations
+-   Leaderboards
+-   Snapshot browsing
+-   Documentation integration
 
 ### Current Goal
 
@@ -170,15 +177,15 @@ OpenLLMBench before opening that path more broadly to the community.
 
 A newcomer should eventually be able to:
 
-1. Understand what OpenLLMBench measures.
-2. Explore real benchmark data.
-3. Understand the evidence behind published results.
-4. Run the benchmark protocol.
-5. Submit a result.
-6. Receive clear validation feedback.
-7. Contribute without risking the integrity of the historical dataset.
+1.  Understand what OpenLLMBench measures.
+2.  Explore real benchmark data.
+3.  Understand the evidence behind published results.
+4.  Run the benchmark protocol.
+5.  Submit a result.
+6.  Receive clear validation feedback.
+7.  Contribute without risking the integrity of the historical dataset.
 
----
+------------------------------------------------------------------------
 
 # ⚪ Recommendations
 
@@ -188,12 +195,12 @@ Turn benchmark data into actionable guidance.
 
 ### Planned Features
 
-- Recommendation Engine
-- Model Compatibility Explorer
-- Hardware Build Planner
-- Performance classifications
-- Community-backed hardware suggestions
-- Optional affiliate recommendations
+-   Recommendation Engine
+-   Model Compatibility Explorer
+-   Hardware Build Planner
+-   Performance classifications
+-   Community-backed hardware suggestions
+-   Optional affiliate recommendations
 
 ### Goal
 
@@ -202,9 +209,10 @@ Help users answer the question:
 > *"What can my computer actually run?"*
 
 The recommendation layer should be built on sufficiently broad and
-well-contextualized benchmark evidence rather than isolated benchmark values.
+well-contextualized benchmark evidence rather than isolated benchmark
+values.
 
----
+------------------------------------------------------------------------
 
 # ⚪ Platform
 
@@ -214,21 +222,22 @@ Expand OpenLLMBench into a broader community platform.
 
 ### Planned Features
 
-- Public benchmark submission
-- Community accounts, if needed
-- Public API
-- Interactive dashboards
-- Community contributions
-- Submission moderation
-- Dataset export
-- Integration opportunities
+-   Public benchmark submission
+-   Community accounts, if needed
+-   Public API
+-   Interactive dashboards
+-   Community contributions
+-   Submission moderation
+-   Dataset export
+-   Integration opportunities
 
 ### Goal
 
-Allow the community to continuously grow and enrich the benchmark database
-while preserving trust, reproducibility, and historical accuracy.
+Allow the community to continuously grow and enrich the benchmark
+database while preserving trust, reproducibility, and historical
+accuracy.
 
----
+------------------------------------------------------------------------
 
 # ⚪ Research Platform
 
@@ -238,30 +247,33 @@ Become a trusted historical archive of local AI performance.
 
 ### Potential Features
 
-- Long-term trend analysis
-- Research datasets
-- Academic exports
-- Historical performance reports
-- Hardware adoption studies
-- Driver and software evolution studies
-- LLM ecosystem evolution
-- Cross-generation hardware analysis
+-   Long-term trend analysis
+-   Research datasets
+-   Academic exports
+-   Historical performance reports
+-   Hardware adoption studies
+-   Driver and software evolution studies
+-   LLM ecosystem evolution
+-   Cross-generation hardware analysis
 
 ### Goal
 
-Provide a lasting historical record of how local AI has evolved over time.
+Provide a lasting historical record of how local AI has evolved over
+time.
 
----
+------------------------------------------------------------------------
 
 # Website Product Evolution
 
-The website has progressed beyond its original role as a presentation layer.
+The website has progressed beyond its original role as a presentation
+layer.
 
-It is becoming the primary interface for exploring the OpenLLMBench dataset.
+It is becoming the primary interface for exploring the OpenLLMBench
+dataset.
 
 The current product journey is:
 
-```text
+``` text
 Discover Hardware
     ↓
 Search / Filter / Sort
@@ -277,13 +289,15 @@ Compare Hardware
 Return to Deeper Evidence
 ```
 
-Future website development should preserve this connected user-flow model.
+Future website development should preserve this connected user-flow
+model.
 
 Features should not merely exist.
 
-Users should be able to discover how those features relate to one another.
+Users should be able to discover how those features relate to one
+another.
 
----
+------------------------------------------------------------------------
 
 # Hardware Discovery
 
@@ -291,36 +305,36 @@ Users should be able to discover how those features relate to one another.
 
 ### Delivered
 
-- GPU browsing
-- GPU search
-- Vendor filtering
-- VRAM filtering
-- Multiple sorting modes
-- Relative performance bars
-- Performance ranking
-- Benchmark-result counts
-- Stable GPU variant identity
-- Direct hardware-profile navigation
-- Comparison selection from Hardware Explorer
+-   GPU browsing
+-   GPU search
+-   Vendor filtering
+-   VRAM filtering
+-   Multiple sorting modes
+-   Relative performance bars
+-   Performance ranking
+-   Benchmark-result counts
+-   Stable GPU variant identity
+-   Direct hardware-profile navigation
+-   Comparison selection from Hardware Explorer
 
 ### Future Evolution
 
 As the dataset grows:
 
-- Additional filter dimensions
-- More advanced sorting
-- Pagination or virtualization
-- Larger-catalog navigation
-- Saved or shareable filters
-- Better mobile discovery
-- Search refinements
-- Configuration-aware discovery
+-   Additional filter dimensions
+-   More advanced sorting
+-   Pagination or virtualization
+-   Larger-catalog navigation
+-   Saved or shareable filters
+-   Better mobile discovery
+-   Search refinements
+-   Configuration-aware discovery
 
 The v1 discovery foundation is complete.
 
 The concept itself is not considered permanently finished.
 
----
+------------------------------------------------------------------------
 
 # Hardware Profiles
 
@@ -328,36 +342,37 @@ The concept itself is not considered permanently finished.
 
 ### Delivered
 
-- Aggregated GPU performance
-- pp512 ranking
-- tg128 ranking
-- Best and worst benchmark context
-- Benchmark history
-- Tested memory configurations
-- Operating systems
-- CPU context
-- VRAM context
-- Driver provenance
-- CUDA provenance
-- Configuration filtering
-- Direct comparison entry point
+-   Aggregated GPU performance
+-   pp512 ranking
+-   tg128 ranking
+-   Best and worst benchmark context
+-   Benchmark history
+-   Tested memory configurations
+-   Operating systems
+-   CPU context
+-   VRAM context
+-   Driver provenance
+-   CUDA provenance
+-   Configuration filtering
+-   Direct comparison entry point
 
 ### Future Evolution
 
 Potential additions include:
 
-- Additional software provenance
-- Benchmark protocol details
-- Model / quantization context
-- Driver-history views
-- Performance distribution
-- More detailed configuration filters
-- Historical change visualization
-- Shareable profile views
+-   Additional software provenance
+-   Benchmark protocol details
+-   Model / quantization context
+-   Driver-history views
+-   Performance distribution
+-   More detailed configuration filters
+-   Historical change visualization
+-   Shareable profile views
 
-Hardware identity and benchmark environment should remain separate concepts.
+Hardware identity and benchmark environment should remain separate
+concepts.
 
----
+------------------------------------------------------------------------
 
 # GPU Comparison
 
@@ -365,19 +380,19 @@ Hardware identity and benchmark environment should remain separate concepts.
 
 ### Delivered
 
-- Direct GPU-vs-GPU comparison
-- pp512 comparison
-- tg128 comparison
-- Percentage performance difference
-- VRAM comparison
-- Benchmark-result counts
-- Tested memory comparison
-- Operating-system comparison
-- Evidence/sample context
-- Links back to GPU profiles
-- Discovery → comparison flow
-- Profile → comparison flow
-- URL-preserved comparison selection
+-   Direct GPU-vs-GPU comparison
+-   pp512 comparison
+-   tg128 comparison
+-   Percentage performance difference
+-   VRAM comparison
+-   Benchmark-result counts
+-   Tested memory comparison
+-   Operating-system comparison
+-   Evidence/sample context
+-   Links back to GPU profiles
+-   Discovery → comparison flow
+-   Profile → comparison flow
+-   URL-preserved comparison selection
 
 ### Interpretation Principle
 
@@ -391,39 +406,39 @@ head-to-head tests.
 
 Potential additions include:
 
-- Shareable comparison URLs and richer metadata
-- Additional benchmark metrics
-- Configuration-matched comparisons
-- Driver-matched comparisons
-- Model-specific comparisons
-- Confidence or evidence scoring
-- Distribution-based comparison
-- Historical comparison
-- Multi-GPU comparison
+-   Shareable comparison URLs and richer metadata
+-   Additional benchmark metrics
+-   Configuration-matched comparisons
+-   Driver-matched comparisons
+-   Model-specific comparisons
+-   Confidence or evidence scoring
+-   Distribution-based comparison
+-   Historical comparison
+-   Multi-GPU comparison
 
-Weekend 11 delivered the v1 comparison foundation earlier than originally
-planned.
+Weekend 11 delivered the v1 comparison foundation earlier than
+originally planned.
 
----
+------------------------------------------------------------------------
 
 # Benchmark Evidence & Provenance
 
 **Status:** v1 Foundation Complete
 
-OpenLLMBench should preserve not only benchmark performance, but also the
-environment that produced it.
+OpenLLMBench should preserve not only benchmark performance, but also
+the environment that produced it.
 
 ### Current Context
 
 Published benchmark results can preserve:
 
-- CPU
-- System memory
-- Operating system
-- GPU VRAM
-- GPU driver version
-- CUDA UMD version
-- NVIDIA SMI version
+-   CPU
+-   System memory
+-   Operating system
+-   GPU VRAM
+-   GPU driver version
+-   CUDA UMD version
+-   NVIDIA SMI version
 
 Not every historical submission contains every field.
 
@@ -437,32 +452,32 @@ Missing provenance remains unknown rather than being inferred.
 
 As the benchmark protocol evolves:
 
-- Capture additional backend information
-- Capture richer software-stack versions
-- Improve cross-platform provenance
-- Track benchmark protocol revisions
-- Preserve model and quantization context
-- Support software-version analysis
-- Explore performance changes across driver generations
+-   Capture additional backend information
+-   Capture richer software-stack versions
+-   Improve cross-platform provenance
+-   Track benchmark protocol revisions
+-   Preserve model and quantization context
+-   Support software-version analysis
+-   Explore performance changes across driver generations
 
----
+------------------------------------------------------------------------
 
 # Comparison Evidence
 
 **Status:** v1 Foundation Complete
 
-Benchmark averages should communicate the amount and diversity of evidence
-behind them.
+Benchmark averages should communicate the amount and diversity of
+evidence behind them.
 
 ### Delivered
 
-- Benchmark-result counts
-- Tested memory-configuration counts
-- Tested operating-system counts
-- Single-result labeling
-- Limited-sample labeling
-- Growing-sample labeling
-- Comparison methodology/context messaging
+-   Benchmark-result counts
+-   Tested memory-configuration counts
+-   Tested operating-system counts
+-   Single-result labeling
+-   Limited-sample labeling
+-   Growing-sample labeling
+-   Comparison methodology/context messaging
 
 ### Future Evolution
 
@@ -470,18 +485,19 @@ The current labels are intentionally simple.
 
 As the dataset grows, OpenLLMBench may explore:
 
-- Evidence scores
-- Confidence indicators
-- Minimum sample thresholds
-- Configuration diversity
-- Statistical dispersion
-- Outlier visibility
-- Matched-system comparisons
+-   Evidence scores
+-   Confidence indicators
+-   Minimum sample thresholds
+-   Configuration diversity
+-   Statistical dispersion
+-   Outlier visibility
+-   Matched-system comparisons
 
-Evidence presentation should remain understandable to ordinary visitors and
-should not imply more statistical certainty than the dataset supports.
+Evidence presentation should remain understandable to ordinary visitors
+and should not imply more statistical certainty than the dataset
+supports.
 
----
+------------------------------------------------------------------------
 
 # Development Validation Model
 
@@ -495,12 +511,12 @@ Ask:
 
 Examples:
 
-- Does the parser extract the correct value?
-- Does normalization preserve meaning?
-- Does duplicate detection behave correctly?
-- Does the publisher generate valid JSON?
-- Does the website consume the correct contract?
-- Does comparison math produce the correct result?
+-   Does the parser extract the correct value?
+-   Does normalization preserve meaning?
+-   Does duplicate detection behave correctly?
+-   Does the publisher generate valid JSON?
+-   Does the website consume the correct contract?
+-   Does comparison math produce the correct result?
 
 ## User-Flow Validation
 
@@ -510,126 +526,127 @@ Ask:
 
 Examples:
 
-- Can someone discover hardware?
-- Can someone interpret a benchmark score?
-- Can someone move from discovery to a GPU profile?
-- Can someone initiate a comparison naturally?
-- Can someone understand the evidence behind an average?
-- Can someone return to deeper benchmark context?
+-   Can someone discover hardware?
+-   Can someone interpret a benchmark score?
+-   Can someone move from discovery to a GPU profile?
+-   Can someone initiate a comparison naturally?
+-   Can someone understand the evidence behind an average?
+-   Can someone return to deeper benchmark context?
 
 Future website work should include both validation modes.
 
----
+------------------------------------------------------------------------
 
 # Weekend Sprint Roadmap
 
 The weekend roadmap is a working implementation plan.
 
-Sprint scope may move forward or backward as dependencies become clearer.
+Sprint scope may move forward or backward as dependencies become
+clearer.
 
-Completing work earlier than planned does not require artificially repeating
-that work in a later weekend.
+Completing work earlier than planned does not require artificially
+repeating that work in a later weekend.
 
----
+------------------------------------------------------------------------
 
-## ✅ Weekend 1–5 — Core Foundation
-
-**Status:** Complete
-
-Established:
-
-- Benchmark execution
-- Parser
-- Persistent database
-- Analytics
-- Validation
-- Documentation
-- Governance
-
----
-
-## ✅ Weekend 6 — Website Foundation
+## ✅ Weekend 1--5 --- Core Foundation
 
 **Status:** Complete
 
 Established:
 
-- React / Vite application
-- Navigation
-- Homepage
-- Design system
-- Component structure
-- Public repository workflow
-- Website vision
+-   Benchmark execution
+-   Parser
+-   Persistent database
+-   Analytics
+-   Validation
+-   Documentation
+-   Governance
 
----
+------------------------------------------------------------------------
 
-## ✅ Weekend 7 — Publisher & Data Integration
-
-**Status:** Complete
-
-Established:
-
-- Website data contracts
-- Publisher architecture
-- Generated homepage data
-- Manifest generation
-- Python → React data flow
-- Data-driven homepage
-
----
-
-## ✅ Weekend 8 — Analytics Integration
+## ✅ Weekend 6 --- Website Foundation
 
 **Status:** Complete
 
 Established:
 
-- Real analytics powering the website
-- Leaderboards
-- Snapshot integration
-- Additional publisher outputs
-- Website analytics foundation
+-   React / Vite application
+-   Navigation
+-   Homepage
+-   Design system
+-   Component structure
+-   Public repository workflow
+-   Website vision
 
----
+------------------------------------------------------------------------
 
-## ✅ Weekend 9 — Hardware Explorer & Multi-System Validation
-
-**Status:** Complete
-
-Established:
-
-- Hardware Explorer
-- Hardware profiles
-- Multi-system GPU aggregation
-- Benchmark history
-- Tested configurations
-- Responsive hardware experience
-- Real-world validation across multiple systems
-
----
-
-## ✅ Weekend 10 — Hardware Data Architecture
+## ✅ Weekend 7 --- Publisher & Data Integration
 
 **Status:** Complete
 
 Established:
 
-- Richer hardware identity
-- Canonical GPU variant handling
-- Public hardware contract improvements
-- Hardware identity reconciliation
-- Publisher validation
-- Production-build validation
+-   Website data contracts
+-   Publisher architecture
+-   Generated homepage data
+-   Manifest generation
+-   Python → React data flow
+-   Data-driven homepage
+
+------------------------------------------------------------------------
+
+## ✅ Weekend 8 --- Analytics Integration
+
+**Status:** Complete
+
+Established:
+
+-   Real analytics powering the website
+-   Leaderboards
+-   Snapshot integration
+-   Additional publisher outputs
+-   Website analytics foundation
+
+------------------------------------------------------------------------
+
+## ✅ Weekend 9 --- Hardware Explorer & Multi-System Validation
+
+**Status:** Complete
+
+Established:
+
+-   Hardware Explorer
+-   Hardware profiles
+-   Multi-system GPU aggregation
+-   Benchmark history
+-   Tested configurations
+-   Responsive hardware experience
+-   Real-world validation across multiple systems
+
+------------------------------------------------------------------------
+
+## ✅ Weekend 10 --- Hardware Data Architecture
+
+**Status:** Complete
+
+Established:
+
+-   Richer hardware identity
+-   Canonical GPU variant handling
+-   Public hardware contract improvements
+-   Hardware identity reconciliation
+-   Publisher validation
+-   Production-build validation
 
 ### Outcome
 
 The hardware layer became stable enough to support richer discovery,
 comparison, and future community data.
 
----
+------------------------------------------------------------------------
 
-## ✅ Weekend 11 — Discovery & Comparison
+## ✅ Weekend 11 --- Discovery & Comparison
 
 **Status:** Complete
 
@@ -637,87 +654,88 @@ Weekend 11 expanded beyond its original scope.
 
 ### Delivered
 
-- Hardware search improvements
-- Vendor filtering
-- VRAM filtering
-- Expanded sorting
-- Relative performance visualization
-- GPU ranking context
-- Richer hardware profiles
-- Benchmark-history filtering
-- Driver and CUDA provenance
-- GPU comparison
-- Percentage performance differences
-- Tested-configuration comparison
-- Evidence/sample context
-- Discovery → comparison flow
-- Profile → comparison flow
-- Comparison-selection UX polish
+-   Hardware search improvements
+-   Vendor filtering
+-   VRAM filtering
+-   Expanded sorting
+-   Relative performance visualization
+-   GPU ranking context
+-   Richer hardware profiles
+-   Benchmark-history filtering
+-   Driver and CUDA provenance
+-   GPU comparison
+-   Percentage performance differences
+-   Tested-configuration comparison
+-   Evidence/sample context
+-   Discovery → comparison flow
+-   Profile → comparison flow
+-   Comparison-selection UX polish
 
 ### Outcome
 
 OpenLLMBench gained a connected hardware exploration experience.
 
-Weekend 11 also delivered the v1 foundation of Browse / Filter / Compare UX
-earlier than originally scheduled.
+Weekend 11 also delivered the v1 foundation of Browse / Filter / Compare
+UX earlier than originally scheduled.
 
----
+------------------------------------------------------------------------
 
-## ✅ Weekend 12 — Submission Pipeline Hardening
+## ✅ Weekend 12 --- Submission Pipeline Hardening
 
 **Status:** Complete
 
 ### Objective
 
-Make benchmark ingestion safer, clearer, and more contributor-ready before
-opening the submission path more broadly.
+Make benchmark ingestion safer, clearer, and more contributor-ready
+before opening the submission path more broadly.
 
 ### Delivered
 
-- Added lightweight structural submission preflight validation
-- Validate required hardware evidence before deeper parsing
-- Reject submissions containing no benchmark run files
-- Preserve legacy two-run submissions with explicit warnings
-- Added optional `submission.json` manifest support
-- Added manifest schema versioning
-- Validate contributor-provided submission identity
-- Validate ISO-8601 submission and benchmark timestamps
-- Reject malformed or structurally invalid manifests
-- Preserve compatibility with historical folder-based submissions
-- Propagate validated manifest metadata into normalized result records
-- Tolerate unknown manifest fields for forward compatibility
-- Added contributor-facing manifest documentation
-- Updated `example_submission/` with a working manifest example
-- Intentionally tested malformed and invalid submission cases
+-   Added lightweight structural submission preflight validation
+-   Validate required hardware evidence before deeper parsing
+-   Reject submissions containing no benchmark run files
+-   Preserve legacy two-run submissions with explicit warnings
+-   Added optional `submission.json` manifest support
+-   Added manifest schema versioning
+-   Validate contributor-provided submission identity
+-   Validate ISO-8601 submission and benchmark timestamps
+-   Reject malformed or structurally invalid manifests
+-   Preserve compatibility with historical folder-based submissions
+-   Propagate validated manifest metadata into normalized result records
+-   Tolerate unknown manifest fields for forward compatibility
+-   Added contributor-facing manifest documentation
+-   Updated `example_submission/` with a working manifest example
+-   Intentionally tested malformed and invalid submission cases
 
 ### Validation Coverage
 
 Weekend 12 intentionally exercised:
 
-- Valid manifest
-- Unsupported schema version
-- Empty submission name
-- Incorrect submission-name type
-- Invalid submission timestamp
-- Invalid benchmark timestamp
-- Non-object JSON root
-- Malformed JSON
-- Unknown manifest fields
-- Missing required hardware evidence
-- Missing manifest / legacy submission
-- Historical two-run submission
-- Manifest metadata propagation
+-   Valid manifest
+-   Unsupported schema version
+-   Empty submission name
+-   Incorrect submission-name type
+-   Invalid submission timestamp
+-   Invalid benchmark timestamp
+-   Non-object JSON root
+-   Malformed JSON
+-   Unknown manifest fields
+-   Missing required hardware evidence
+-   Missing manifest / legacy submission
+-   Historical two-run submission
+-   Manifest metadata propagation
 
 ### Compatibility
 
 `submission.json` remains optional.
 
 Historical submissions without a manifest continue through the existing
-folder-based workflow and receive a warning explaining that legacy metadata
-is being used.
+folder-based workflow and receive a warning explaining that legacy
+metadata is being used.
 
-Raw benchmark and hardware evidence remain authoritative. Contributor-provided
-manifest metadata does not replace measured hardware or benchmark data.
+Raw benchmark and hardware evidence remain authoritative.
+Contributor-provided manifest metadata does not replace measured
+hardware or benchmark data.
 
 ### Outcome
 
@@ -728,163 +746,209 @@ Structurally invalid submissions can fail before deeper parsing, valid
 contributors can provide explicit submission metadata, and historical
 benchmark packages remain compatible with the current pipeline.
 
-This establishes the ingestion foundation needed for the future contributor
-workflow.
----
+This establishes the ingestion foundation needed for the future
+contributor workflow. ---
 
-## 🟡 Weekend 13 — Leaderboards & Analytics Expansion
+## ✅ Weekend 13 --- Leaderboards & Analytics Expansion
 
-**Status:** In Progress — Sprint 4 Complete
+**Status:** Complete
 
 ### Objective
 
-Build richer insight layers on top of the increasingly trustworthy dataset.
+Build richer insight layers on top of the increasingly trustworthy
+dataset.
 
-Weekend 13 focuses on deeper interpretation of benchmark evidence while
-preserving clear boundaries between analytics, public data contracts, and
-website presentation.
+Weekend 13 focused on deeper interpretation of benchmark evidence while
+preserving clear boundaries between analytics, public data contracts,
+and website presentation.
 
-The existing analytics foundation remains authoritative.
+### Completed Sprints
 
----
-
-### ✅ Sprint 1 — Analytics & Schema Compatibility
-
-**Status:** Complete
-
-Established compatibility between the schema 0.7 benchmark database and the
-existing analytics stack.
-
-### Delivered
-
-- Validated analytics against the schema 0.7 data model
-- Updated analytics where required for current normalized records
-- Preserved compatibility with existing statistics and leaderboard tooling
-- Established a stable foundation for richer dataset analysis
+-   Sprint 1 --- Analytics & Schema Compatibility
+-   Sprint 2 --- Statistics Expansion
+-   Sprint 3 --- GPU-Profile Leaderboards & Publishing
+-   Sprint 4 --- Published Leaderboard Website Integration
 
 ### Outcome
 
-The current benchmark database can flow reliably into the analytics layer
-without relying on obsolete schema assumptions.
+Weekend 13 established a canonical analytics-to-presentation path.
 
----
+``` text
+Benchmark Database
+        ↓
+Canonical Analytics
+        ↓
+GPU Profiles
+        ↓
+GPU Rankings
+        ↓
+Leaderboard Publisher
+        ↓
+leaderboards.json
+        ↓
+        +----------------------+
+        |                      |
+        v                      v
+Hardware Explorer       Hardware Profile
+```
 
-### ✅ Sprint 2 — Statistics Expansion
+Python analytics owns ranking.
 
-**Status:** Complete
+The publisher owns the public leaderboard contract.
 
-Expanded dataset-level statistics beyond simple averages.
+React consumes that contract and owns presentation.
 
-### Delivered
+The website no longer independently reconstructs authoritative GPU
+rankings.
 
-- Average pp512
-- Median pp512
-- Minimum pp512
-- Maximum pp512
-- Average tg128
-- Median tg128
-- Minimum tg128
-- Maximum tg128
-- Average VRAM
-- Minimum VRAM
-- Maximum VRAM
-- Average system memory
-- Minimum system memory
-- Maximum system memory
-- Updated CLI statistics presentation
-- Propagated richer statistics into the homepage publishing contract
-- Connected current published statistics to the React homepage
+------------------------------------------------------------------------
 
-### Outcome
+## 🟡 Weekend 14 --- Contributor Workflow & Documentation
 
-OpenLLMBench can now describe both typical performance and performance range
-rather than relying primarily on averages.
-
-Median values provide additional context when unusually fast hardware would
-otherwise distort dataset-level averages.
-
----
-
-### ✅ Sprint 3 — GPU-Profile Leaderboards & Publishing
-
-**Status:** Complete
-
-Established canonical GPU-level rankings and a reusable public leaderboard
-contract.
-
-### Delivered
-
-- Preserved existing individual benchmark-result leaderboards
-- Defined result-level and GPU-profile leaderboards as separate concepts
-- Added reusable GPU-profile ranking logic to the analytics layer
-- Reused canonical GPU profiles for aggregated rankings
-- Added pp512 GPU-profile rankings
-- Added tg128 GPU-profile rankings
-- Validated multi-submission GPU aggregation
-- Confirmed 7 benchmark results aggregate into 6 current GPU profiles
-- Confirmed the GTX 1650 profile aggregates 2 benchmark submissions
-- Added stable public GPU variant IDs to leaderboard entries
-- Reused normalized public VRAM identity
-- Added benchmark submission counts to leaderboard entries
-- Created `publisher/leaderboards.py`
-- Created `database/generated/leaderboards.json`
-- Integrated leaderboard generation into `publisher/generate_site.py`
-- Added `leaderboards.json` to the generated manifest
-- Validated the complete publishing pipeline
-- Preserved the existing result-level CLI leaderboard
-
-### Architecture
-
-```text
-Individual Benchmark Results
-        |
-        +---------------------------+
-        |                           |
-        v                           v
-Result-Level Analytics        Canonical GPU Profiles
-        |                           |
-        v                           v
-Result Leaderboards           GPU-Profile Rankings
-        |                           |
-        v                           v
-CLI / Historical Views        Leaderboard Publisher
-                                    |
-                                    v
-                            leaderboards.json
-                                    |
-                                    v
-                         Website / Future Consumers
----
-
-## ⚪ Weekend 14 — Contributor Workflow & Documentation
-
-**Status:** Planned
+**Status:** In Progress --- Sprint 2 Complete
 
 ### Objective
 
-Make it practical for someone outside the project to contribute benchmark
-results.
+Make it practical for someone outside the project to contribute
+benchmark results.
 
-### Candidate Work
+Weekend 14 builds on the hardened ingestion path from Weekend 12 by
+making the contributor journey easier to discover, understand, validate,
+and eventually complete.
 
-- Contributor quick-start
-- Benchmark protocol walkthrough
-- Submission preparation guide
-- Example submissions
-- Validation troubleshooting
-- Contribution lifecycle documentation
-- Clear accepted/rejected states
-- GitHub contribution workflow
-- Contributor-facing UX
-- First external submission rehearsal
+------------------------------------------------------------------------
 
-### Dependency
+### ✅ Sprint 1 --- Contributor Journey & Onboarding
 
-Weekend 14 should build on the hardened ingestion path from Weekend 12.
+**Status:** Complete
 
----
+Established a clearer front door for prospective benchmark contributors.
 
-## ⚪ Weekend 15 — Website Polish, UX & SEO
+### Delivered
+
+-   Audited the existing contributor journey
+-   Identified contributor-path clarity as the primary onboarding gap
+-   Updated the root `README.md` with a first-benchmark path
+-   Directed contributors to the canonical benchmark protocol
+-   Directed contributors to the preserved example submission
+-   Directed contributors to the detailed contribution guide
+-   Updated `docs/CONTRIBUTING.md` with an explicit first-submission
+    path
+-   Preserved `docs/benchmark_v1.md` as the canonical benchmark protocol
+-   Preserved the historical two-run example submission
+-   Documented that public submission tooling remains under development
+
+### Contributor Path
+
+``` text
+README.md
+    ↓
+docs/benchmark_v1.md
+    ↓
+example_submission/
+    ↓
+docs/CONTRIBUTING.md
+```
+
+### Outcome
+
+Newcomers now have an intentional path through existing documentation
+rather than needing to discover the correct files and their order
+independently.
+
+------------------------------------------------------------------------
+
+### ✅ Sprint 2 --- Contributor Submission Validator
+
+**Status:** Complete
+
+Exposed the existing submission preflight machinery through a
+contributor-facing command-line validator.
+
+### Delivered
+
+-   Added `parser/validate.py`
+-   Reused `Submission.from_path()`
+-   Reused `validate_submission_preflight()`
+-   Added contributor-friendly validation output
+-   Added clear `[OK]`, `[WARN]`, and error reporting
+-   Added successful exit code `0`
+-   Added failure exit code `1`
+-   Added clean handling for nonexistent submission directories
+-   Preserved existing parser/preflight validation authority
+-   Avoided creating a second validation engine
+-   Documented the validator in the root `README.md`
+-   Added detailed validation guidance to `docs/CONTRIBUTING.md`
+-   Added a runnable validation example to
+    `example_submission/README.md`
+-   Documented the expected historical two-run warning
+
+### Contributor Command
+
+From the repository root:
+
+``` powershell
+py -m parser.validate .\example_submission
+```
+
+The preserved example submission passes structural validation while
+reporting the expected warning that only two benchmark runs are present.
+
+### Validation Behavior
+
+A structurally valid submission exits with code `0`.
+
+A submission that cannot safely proceed exits with code `1`.
+
+This makes the validator useful both to human contributors and to future
+automation or CI workflows.
+
+### Outcome
+
+OpenLLMBench now has a practical contributor-facing preflight step:
+
+``` text
+Prepare Submission
+        ↓
+Run Contributor Validator
+        ↓
+        +----------------------+
+        |                      |
+        v                      v
+Pass / Warnings             Errors
+        |                      |
+        v                      v
+Continue Review          Correct Package
+                               ↓
+                         Validate Again
+```
+
+The validation logic remains owned by the existing parser/submission
+layer. The CLI exposes that authority instead of duplicating it.
+
+------------------------------------------------------------------------
+
+### Next Weekend 14 Work
+
+The next contributor-workflow slice should focus on making validation
+failures and contribution states easier for a newcomer to understand.
+
+Candidate work includes:
+
+-   Validation troubleshooting
+-   Clear accepted/rejected states
+-   Deliberately broken submission rehearsals
+-   Contributor-facing remediation guidance
+-   Contribution lifecycle documentation
+-   GitHub contribution workflow
+-   First external submission rehearsal
+
+Weekend 14 should continue favoring small, testable improvements over
+building the full public submission platform prematurely.
+
+------------------------------------------------------------------------
+
+## ⚪ Weekend 15 --- Website Polish, UX & SEO
 
 **Status:** Planned
 
@@ -894,29 +958,29 @@ Prepare the public website for a broader audience.
 
 ### Candidate Work
 
-- Cross-page UX review
-- Navigation refinement
-- Empty states
-- Error states
-- Loading states
-- Accessibility review
-- Mobile polish
-- Metadata
-- Open Graph / social sharing
-- Search-engine metadata
-- Shareable hardware/comparison pages
-- Performance review
+-   Cross-page UX review
+-   Navigation refinement
+-   Empty states
+-   Error states
+-   Loading states
+-   Accessibility review
+-   Mobile polish
+-   Metadata
+-   Open Graph / social sharing
+-   Search-engine metadata
+-   Shareable hardware/comparison pages
+-   Performance review
 
 ### Note
 
 Weekend 11 delivered meaningful UX work early.
 
-Weekend 15 therefore becomes a **site-wide release-polish pass**, not the
-first time UX is considered.
+Weekend 15 therefore becomes a **site-wide release-polish pass**, not
+the first time UX is considered.
 
----
+------------------------------------------------------------------------
 
-## ⚪ Weekend 16 — Release Candidate & Testing
+## ⚪ Weekend 16 --- Release Candidate & Testing
 
 **Status:** Planned
 
@@ -926,55 +990,55 @@ Stabilize the project for the initial public release.
 
 ### Candidate Work
 
-- Feature freeze
-- End-to-end regression testing
-- Parser regression testing
-- Submission failure testing
-- Publisher validation
-- Production website build
-- Cross-browser testing
-- Responsive testing
-- Documentation review
-- Broken-link review
-- Dataset integrity verification
-- Backup verification
-- Release notes
-- Final bug fixes
+-   Feature freeze
+-   End-to-end regression testing
+-   Parser regression testing
+-   Submission failure testing
+-   Publisher validation
+-   Production website build
+-   Cross-browser testing
+-   Responsive testing
+-   Documentation review
+-   Broken-link review
+-   Dataset integrity verification
+-   Backup verification
+-   Release notes
+-   Final bug fixes
 
 ### Outcome Target
 
 Produce an OpenLLMBench v1.0 release candidate that is stable enough for
 public use.
 
----
+------------------------------------------------------------------------
 
 # Target Release
 
 ## OpenLLMBench v1.0
 
-**Target:** Late September – Early October 2026
+**Target:** Late September -- Early October 2026
 
 The target remains directional rather than absolute.
 
-Data integrity and contributor safety take priority over hitting a specific
-calendar date.
+Data integrity and contributor safety take priority over hitting a
+specific calendar date.
 
 ### v1.0 Should Demonstrate
 
-- Reproducible benchmark ingestion
-- Persistent historical benchmark storage
-- Trustworthy hardware identity
-- Data-driven analytics
-- Hardware discovery
-- Hardware profiles
-- Benchmark evidence
-- GPU comparison
-- Contributor documentation
-- Safe submission workflow
-- Public website
-- Reproducible publisher/build process
+-   Reproducible benchmark ingestion
+-   Persistent historical benchmark storage
+-   Trustworthy hardware identity
+-   Data-driven analytics
+-   Hardware discovery
+-   Hardware profiles
+-   Benchmark evidence
+-   GPU comparison
+-   Contributor documentation
+-   Safe submission workflow
+-   Public website
+-   Reproducible publisher/build process
 
----
+------------------------------------------------------------------------
 
 # Scope Pulled Forward by Weekend 11
 
@@ -982,25 +1046,25 @@ Weekend 11 completed several capabilities earlier than expected.
 
 ### Delivered Early
 
-- Browse / Filter / Compare v1
-- Comparison selection UX
-- GPU ranking context
-- Comparison evidence context
-- Driver/CUDA provenance presentation
-- Connected hardware exploration user flows
+-   Browse / Filter / Compare v1
+-   Comparison selection UX
+-   GPU ranking context
+-   Comparison evidence context
+-   Driver/CUDA provenance presentation
+-   Connected hardware exploration user flows
 
-These items should not be rebuilt simply because they appeared later in the
-original schedule.
+These items should not be rebuilt simply because they appeared later in
+the original schedule.
 
 Instead, later sprints should extend and validate them.
 
----
+------------------------------------------------------------------------
 
 # Remaining Critical Path to v1.0
 
 The current critical path is:
 
-```text
+``` text
 Submission Pipeline Hardening
     ↓
 Contributor Workflow
@@ -1016,33 +1080,34 @@ OpenLLMBench v1.0
 
 Discovery and comparison are no longer blockers for the initial release.
 
-Submission trust and contributor usability are now the larger dependencies.
+Submission trust and contributor usability are now the larger
+dependencies.
 
----
+------------------------------------------------------------------------
 
 # Beyond v1.0
 
 After the initial public release, development can expand toward:
 
-- Larger community datasets
-- Richer statistical analysis
-- Configuration-matched comparisons
-- Model compatibility
-- Recommendation systems
-- Hardware build guidance
-- Public API
-- Dataset exports
-- Research tooling
-- Hardware adoption trends
-- Driver and software evolution analysis
-- Long-term local AI performance history
+-   Larger community datasets
+-   Richer statistical analysis
+-   Configuration-matched comparisons
+-   Model compatibility
+-   Recommendation systems
+-   Hardware build guidance
+-   Public API
+-   Dataset exports
+-   Research tooling
+-   Hardware adoption trends
+-   Driver and software evolution analysis
+-   Long-term local AI performance history
 
 The roadmap should remain flexible.
 
-OpenLLMBench should grow in response to the quality and usefulness of its
-dataset rather than accumulating features for their own sake.
+OpenLLMBench should grow in response to the quality and usefulness of
+its dataset rather than accumulating features for their own sake.
 
----
+------------------------------------------------------------------------
 
 # Guiding Principle
 
@@ -1050,6 +1115,6 @@ Every new capability should strengthen at least one part of the mission:
 
 > **Measure. Understand. Preserve.**
 
-If a feature does not improve measurement, understanding, preservation, or
-the community's ability to contribute trustworthy evidence, it should not
-take priority over work that does.
+If a feature does not improve measurement, understanding, preservation,
+or the community's ability to contribute trustworthy evidence, it should
+not take priority over work that does.
