@@ -133,17 +133,42 @@ Long-term goals include:
 
 # Contributing
 
-Documentation is located in the `/docs` directory.
+OpenLLMBench is built around reproducible community benchmark results.
+
+## Run Your First Benchmark
+
+Want to contribute benchmark data?
+
+1. Read the benchmark protocol in `docs/benchmark_v1.md`.
+2. Review the example submission in `example_submission/`.
+3. Run three benchmark passes using the required benchmark configuration.
+4. Preserve the raw benchmark output and required hardware evidence.
+5. Create a `submission.json` manifest.
+6. Review the contribution requirements in `docs/CONTRIBUTING.md`.
+
+Public submission tooling is still under development. Until that workflow is complete, benchmark contributions may require manual review.
+
+## Other Contributions
+
+Benchmark results are only one way to contribute.
+
+Bug reports, documentation improvements, testing, analytics improvements, hardware normalization corrections, website improvements, feature ideas, and code contributions are also welcome.
+
+See `docs/CONTRIBUTING.md` for the complete contribution guide.
+
+## Project Documentation
+
+Additional project documentation is located in the `/docs` directory.
 
 Important project documents include:
 
-- ROADMAP.md
-- STATUS.md
-- WEBSITE_VISION.md
-- COMPONENT_LIBRARY.md
-- CONTRIBUTING.md
-- ARCHITECTURE.md
-- DESIGN_PRINCIPLES.md
+- `ROADMAP.md`
+- `STATUS.md`
+- `WEBSITE_VISION.md`
+- `COMPONENT_LIBRARY.md`
+- `CONTRIBUTING.md`
+- `ARCHITECTURE.md`
+- `DESIGN_PRINCIPLES.md`
 
 ---
 

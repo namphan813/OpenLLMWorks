@@ -49,6 +49,12 @@ When proposing a change, consider whether it helps the project accomplish one or
 
 ## Submit Benchmark Results
 
+If this is your first benchmark submission, start with:
+
+1. `docs/benchmark_v1.md` for the benchmark protocol.
+2. `example_submission/README.md` for the expected submission structure.
+3. `example_submission/submission.json` for the submission manifest format.
+
 Benchmark submissions are the foundation of OpenLLMBench.
 
 A useful submission should contain enough information to understand:
