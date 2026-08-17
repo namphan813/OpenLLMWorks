@@ -1,9 +1,8 @@
 # OpenLLMBench — Project Status
 
-Last Updated: August 15, 2026
-Current Development Phase: Weekend 12 — Submission Pipeline Hardening Complete
-Active Development Branch: `weekend-12-submission-hardening`
-Repository State: Weekend 12 implementation complete; submission preflight validation and optional manifest metadata support validated; working tree clean
+Last Updated: August 17, 2026
+Current Development Phase: Weekend 13 — Sprint 3 Complete
+Repository State: Weekend 13 Sprint 3 implementation complete; expanded analytics, GPU-profile leaderboards, public leaderboard publishing, and generated-data integration validated; working tree clean
 
 ---
 
@@ -65,17 +64,24 @@ Persistent Benchmark Database
     v
 Analytics / Statistics
     |
-    v
-Hardware Profiles / Leaderboards
-    |
-    v
-Publisher
-    |
-    v
-Generated JSON
-    |
-    v
-Interactive Website
-    |
-    v
+    +----------------------+
+    |                      |
+    v                      v
+Result Leaderboards    GPU Profiles
+    |                      |
+    |                      v
+    |                GPU-Profile Rankings
+    |                      |
+    +----------+-----------+
+               |
+               v
+            Publisher
+               |
+               v
+         Generated JSON
+               |
+               v
+       Interactive Website
+               |
+               v
 Discovery / Profiles / Comparison
