@@ -1,14 +1,14 @@
 # OpenLLMBench — Project Status
 
-**Current Phase:** Weekend 13 — Sprint 4 Complete  
-**Focus:** Published Leaderboard Website Integration  
+**Current Phase:** Weekend 14 — Sprint 1 Complete  
+**Focus:** Contributor Onboarding and Benchmark Submission Documentation  
 **Status:** Stable / Clean Checkpoint
 
 ---
 
 ## Current Architecture
 
-OpenLLMBench now has a canonical analytics and publishing pipeline for GPU performance rankings.
+OpenLLMBench has a canonical analytics and publishing pipeline for GPU performance rankings.
 
 ```text
 benchmark_database.json
