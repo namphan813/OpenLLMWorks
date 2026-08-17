@@ -34,41 +34,48 @@ function formatSoftwareValue(value) {
 }
 
 
-function buildMetricRanking(
-  hardwareList,
-  metricSelector
+function buildPublishedMetricRanking(
+  leaderboard
 ) {
-  const ranked = hardwareList
-    .map((hardware) => ({
-      variantId: hardware.variantId,
-      value: metricSelector(hardware),
-    }))
-    .filter(
-      (item) =>
-        typeof item.value === "number"
-    )
-    .sort(
-      (left, right) =>
-        right.value - left.value
-    );
+  if (
+    !leaderboard ||
+    !Array.isArray(leaderboard.entries)
+  ) {
+    return {
+      totalRanked: 0,
+      bestValue: null,
+      rankByVariantId: new Map(),
+    };
+  }
 
   const rankByVariantId =
     new Map();
 
-  ranked.forEach(
-    (item, index) => {
-      rankByVariantId.set(
-        item.variantId,
-        index + 1
-      );
+  leaderboard.entries.forEach(
+    (entry) => {
+      if (
+        typeof entry.variantId ===
+          "string" &&
+        typeof entry.rank === "number"
+      ) {
+        rankByVariantId.set(
+          entry.variantId,
+          entry.rank
+        );
+      }
     }
   );
 
   return {
-    totalRanked: ranked.length,
+    totalRanked:
+      typeof leaderboard.totalRanked ===
+        "number"
+        ? leaderboard.totalRanked
+        : leaderboard.entries.length,
     bestValue:
-      ranked.length > 0
-        ? ranked[0].value
+      typeof leaderboard.bestValue ===
+        "number"
+        ? leaderboard.bestValue
         : null,
     rankByVariantId,
   };
@@ -108,13 +115,18 @@ function HardwareProfile() {
   ] = useState(null);
 
   const [
-    hardwareList,
-    setHardwareList,
-  ] = useState([]);
+    leaderboardData,
+    setLeaderboardData,
+  ] = useState(null);
 
   const [
     error,
     setError,
+  ] = useState(null);
+
+  const [
+    leaderboardError,
+    setLeaderboardError,
   ] = useState(null);
 
   const [
@@ -168,10 +180,6 @@ function HardwareProfile() {
           );
         }
 
-        setHardwareList(
-          data.hardware
-        );
-
         setHardware(
           matchedHardware
         );
@@ -194,26 +202,70 @@ function HardwareProfile() {
   }, [requestedVariantId]);
 
 
+  useEffect(() => {
+    const leaderboardDataUrl =
+      `${import.meta.env.BASE_URL}leaderboards.json`;
+
+    async function loadLeaderboardData() {
+      try {
+        const response = await fetch(
+          leaderboardDataUrl
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Leaderboard data request failed: ${response.status}`,
+          );
+        }
+
+        const data =
+          await response.json();
+
+        if (
+          !data.leaderboards ||
+          !data.leaderboards.pp512 ||
+          !data.leaderboards.tg128
+        ) {
+          throw new Error(
+            "Published leaderboard data does not contain pp512 and tg128 leaderboards.",
+          );
+        }
+
+        setLeaderboardData(data);
+      } catch (loadError) {
+        console.error(
+          "Unable to load published leaderboard data.",
+          loadError,
+        );
+
+        setLeaderboardError(
+          loadError
+        );
+      }
+    }
+
+    loadLeaderboardData();
+  }, []);
+
+
   const pp512Ranking =
     useMemo(() => {
-      return buildMetricRanking(
-        hardwareList,
-        (item) =>
-          item.performance
-            ?.averagePp512
+      return buildPublishedMetricRanking(
+        leaderboardData
+          ?.leaderboards
+          ?.pp512
       );
-    }, [hardwareList]);
+    }, [leaderboardData]);
 
 
   const tg128Ranking =
     useMemo(() => {
-      return buildMetricRanking(
-        hardwareList,
-        (item) =>
-          item.performance
-            ?.averageTg128
+      return buildPublishedMetricRanking(
+        leaderboardData
+          ?.leaderboards
+          ?.tg128
       );
-    }, [hardwareList]);
+    }, [leaderboardData]);
 
 
   const pp512 =
@@ -471,6 +523,13 @@ function HardwareProfile() {
                 Compare this GPU →
               </Link>
             </div>
+
+            {leaderboardError && (
+              <p>
+                Published rankings could
+                not be loaded.
+              </p>
+            )}
 
             <div className="hardware-profile-metrics">
               <article className="hardware-profile-metric">
