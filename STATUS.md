@@ -1,7 +1,7 @@
 # OpenLLMBench — Project Status
 
-**Current Phase:** Weekend 14 — Sprint 1 Complete  
-**Focus:** Contributor Onboarding and Benchmark Submission Documentation  
+**Current Phase:** Weekend 14 — Sprint 3 Complete  
+**Focus:** Contributor Validation and Submission Workflow  
 **Status:** Stable / Clean Checkpoint
 
 ---
