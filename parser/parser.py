@@ -10,6 +10,7 @@ Version:
 0.6.0-dev4
 """
 
+import argparse
 from pathlib import Path
 import statistics
 
@@ -387,6 +388,24 @@ def process_submission(
 
 
 # ------------------------------------------------------------
+# COMMAND-LINE INTERFACE
+# ------------------------------------------------------------
+
+def build_argument_parser() -> argparse.ArgumentParser:
+    """
+    Build the parser orchestrator command-line interface.
+    """
+
+    return argparse.ArgumentParser(
+        description=(
+            "Process OpenLLMBench submissions from the "
+            "incoming directory and update the benchmark "
+            "database."
+        )
+    )
+
+
+# ------------------------------------------------------------
 # MAIN
 # ------------------------------------------------------------
 
@@ -519,4 +538,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    argument_parser = build_argument_parser()
+    argument_parser.parse_args()
     main()
