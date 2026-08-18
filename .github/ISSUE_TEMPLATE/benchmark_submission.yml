@@ -1,0 +1,85 @@
+name: Benchmark Submission
+description: Submit a validated OpenLLMBench benchmark package for review.
+title: "[Benchmark Submission]: "
+labels:
+  - benchmark-submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # OpenLLMBench Benchmark Submission
+
+        Thank you for contributing benchmark data to OpenLLMBench.
+
+        Before submitting, please make sure your benchmark package has been
+        validated locally using:
+
+        `py -m parser.validate <submission>`
+
+        Attach the complete submission package as a ZIP file in the section
+        below. A maintainer will re-validate the package before importing it.
+
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU
+      description: Enter the GPU used for this benchmark.
+      placeholder: NVIDIA GeForce GTX 1660 Ti
+    validations:
+      required: true
+
+  - type: input
+    id: submission_name
+    attributes:
+      label: Submission name
+      description: >
+        Enter the submission name used in your submission.json manifest.
+      placeholder: GTX1660Ti_Test_System
+    validations:
+      required: true
+
+  - type: dropdown
+    id: validation
+    attributes:
+      label: Local validation result
+      description: >
+        What result did you receive from the OpenLLMBench submission validator?
+      options:
+        - PASSED
+        - PASSED with warnings
+    validations:
+      required: true
+
+  - type: textarea
+    id: package
+    attributes:
+      label: Submission package
+      description: >
+        Drag and drop the ZIP file containing your complete validated
+        submission package into this field.
+      placeholder: Drag your submission ZIP file here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: >
+        Add anything that may help maintainers review this benchmark.
+        This field is optional.
+      placeholder: Optional notes about the system, benchmark run, or submission.
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Submission checklist
+      options:
+        - label: I ran the OpenLLMBench submission validator against this package.
+          required: true
+        - label: The attached ZIP contains the complete submission package that I validated.
+          required: true
+        - label: I have not intentionally modified the benchmark output or hardware evidence.
+          required: true
+        - label: I understand that maintainers may request changes before accepting this benchmark.
+          required: true
