@@ -14,7 +14,11 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from .submission import Submission, validate_submission_preflight
+from .submission import (
+    SUBMISSION_MANIFEST_FILE,
+    Submission,
+    validate_submission_preflight,
+)
 
 
 def build_argument_parser() -> argparse.ArgumentParser:
@@ -54,12 +58,20 @@ def print_preflight_result(
     print(f"Path: {submission.source_path}")
     print()
 
+    manifest_path = (
+        submission.source_path
+        / SUBMISSION_MANIFEST_FILE
+    )
+    manifest_exists = manifest_path.exists()
+
     if result.manifest is not None:
         print("[OK] submission.json")
         print(
             "[OK] Manifest schema "
             f"{result.manifest.schema_version}"
         )
+    elif manifest_exists:
+        print("[FAIL] submission.json")
     else:
         print(
             "[WARN] submission.json not present "
