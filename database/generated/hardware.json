@@ -1,15 +1,57 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-08-17T06:52:10.457430+00:00",
+    "generatedAt": "2026-08-20T07:09:05.875637+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
-        "gpuVariants": 6,
-        "benchmarkResults": 7
+        "gpuVariants": 7,
+        "benchmarkResults": 8
     },
     "hardware": [
+        {
+            "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1050 Ti",
+                "vramGib": 4.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 348.04,
+                "averageTg128": 22.11,
+                "bestPp512": 348.04,
+                "worstPp512": 348.04
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Bench-001-GTX1050Ti",
+                    "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+                    "pp512": 348.04,
+                    "tg128": 22.11,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 4.0,
+                    "driverVersion": "582.66",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "582.66"
+                }
+            ]
+        },
         {
             "variantId": "nvidia-geforce-gtx-1650-4gb",
             "gpuVendor": "NVIDIA",

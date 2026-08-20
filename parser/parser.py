@@ -7,7 +7,7 @@ submission, builds normalized benchmark records, detects
 duplicates, and updates the persistent benchmark database.
 
 Version:
-0.6.0-dev4
+0.6.0-dev5
 """
 
 import argparse
@@ -33,7 +33,7 @@ from parser.submission import (
 )
 
 
-PARSER_VERSION = "0.6.0-dev4"
+PARSER_VERSION = "0.6.0-dev5"
 
 
 # ------------------------------------------------------------
@@ -55,6 +55,16 @@ DATABASE_FILE = (
 # ------------------------------------------------------------
 
 REQUIRED_RUNS = 3
+
+
+# ------------------------------------------------------------
+# PROVENANCE DEFAULTS
+# ------------------------------------------------------------
+
+DEFAULT_SOURCE_TYPE = "internal_seed"
+DEFAULT_CONTRIBUTOR_ID = "founder_000001"
+DEFAULT_CONTRIBUTOR_TYPE = "founder"
+DEFAULT_VERIFICATION_STATUS = "internally_verified"
 
 
 # ------------------------------------------------------------
@@ -160,9 +170,17 @@ def print_hardware_profile(
 
 def process_submission(
     submission: Submission,
+    *,
+    source_type: str = DEFAULT_SOURCE_TYPE,
+    contributor_id: str = DEFAULT_CONTRIBUTOR_ID,
+    contributor_type: str = DEFAULT_CONTRIBUTOR_TYPE,
+    verification_status: str = DEFAULT_VERIFICATION_STATUS,
 ) -> dict | None:
     """
     Parse one submission and return a normalized result record.
+
+    Provenance is supplied by the trusted import workflow rather
+    than by contributor-controlled submission metadata.
 
     Returns None when the submission cannot produce a valid
     benchmark record.
@@ -384,6 +402,10 @@ def process_submission(
         parser_version=PARSER_VERSION,
         submitted_at=submitted_at,
         benchmark_timestamp=benchmark_timestamp,
+        source_type=source_type,
+        contributor_id=contributor_id,
+        contributor_type=contributor_type,
+        verification_status=verification_status,
     )
 
 
@@ -396,7 +418,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
     Build the parser orchestrator command-line interface.
     """
 
-    return argparse.ArgumentParser(
+    argument_parser = argparse.ArgumentParser(
         description=(
             "Process OpenLLMBench submissions from the "
             "incoming directory and update the benchmark "
@@ -404,15 +426,101 @@ def build_argument_parser() -> argparse.ArgumentParser:
         )
     )
 
+    argument_parser.add_argument(
+        "--submission",
+        help=(
+            "Process only the named submission directory "
+            "inside incoming. If omitted, all discovered "
+            "submissions are processed."
+        ),
+    )
+
+    argument_parser.add_argument(
+        "--source-type",
+        default=DEFAULT_SOURCE_TYPE,
+        help=(
+            "Trusted submission source type. "
+            f"Default: {DEFAULT_SOURCE_TYPE}"
+        ),
+    )
+
+    argument_parser.add_argument(
+        "--contributor-id",
+        default=DEFAULT_CONTRIBUTOR_ID,
+        help=(
+            "Trusted contributor identifier. "
+            f"Default: {DEFAULT_CONTRIBUTOR_ID}"
+        ),
+    )
+
+    argument_parser.add_argument(
+        "--contributor-type",
+        default=DEFAULT_CONTRIBUTOR_TYPE,
+        help=(
+            "Trusted contributor type. "
+            f"Default: {DEFAULT_CONTRIBUTOR_TYPE}"
+        ),
+    )
+
+    argument_parser.add_argument(
+        "--verification-status",
+        default=DEFAULT_VERIFICATION_STATUS,
+        help=(
+            "Maintainer-assigned verification status. "
+            f"Default: {DEFAULT_VERIFICATION_STATUS}"
+        ),
+    )
+
+    return argument_parser
+
+
+def resolve_submissions(
+    submission_name: str | None,
+) -> list[Submission]:
+    """
+    Resolve either one explicitly requested submission or all
+    submissions currently present in the incoming directory.
+    """
+
+    if submission_name is None:
+        return discover_submissions(
+            INCOMING_FOLDER
+        )
+
+    requested_path = (
+        INCOMING_FOLDER
+        / submission_name
+    )
+
+    if not requested_path.exists():
+        raise FileNotFoundError(
+            "Requested submission was not found: "
+            f"{requested_path}"
+        )
+
+    if not requested_path.is_dir():
+        raise NotADirectoryError(
+            "Requested submission is not a directory: "
+            f"{requested_path}"
+        )
+
+    return [
+        Submission.from_path(
+            requested_path
+        )
+    ]
+
 
 # ------------------------------------------------------------
 # MAIN
 # ------------------------------------------------------------
 
-def main() -> None:
+def main(
+    args: argparse.Namespace,
+) -> None:
     """
-    Process every discovered incoming submission and update
-    the persistent benchmark database.
+    Process selected incoming submissions and update the
+    persistent benchmark database.
     """
 
     print("Open LLM Benchmark Database")
@@ -422,8 +530,8 @@ def main() -> None:
     print("-" * 60)
 
     try:
-        submissions = discover_submissions(
-            INCOMING_FOLDER
+        submissions = resolve_submissions(
+            args.submission
         )
 
     except (
@@ -453,6 +561,25 @@ def main() -> None:
         print(INCOMING_FOLDER)
         return
 
+    print("Import Provenance")
+    print(
+        f"Source type: "
+        f"{args.source_type}"
+    )
+    print(
+        f"Contributor ID: "
+        f"{args.contributor_id}"
+    )
+    print(
+        f"Contributor type: "
+        f"{args.contributor_type}"
+    )
+    print(
+        "Verification status: "
+        f"{args.verification_status}"
+    )
+    print()
+
     try:
         database = load_database(
             database_file=DATABASE_FILE,
@@ -473,7 +600,13 @@ def main() -> None:
 
     for submission in submissions:
         record = process_submission(
-            submission
+            submission,
+            source_type=args.source_type,
+            contributor_id=args.contributor_id,
+            contributor_type=args.contributor_type,
+            verification_status=(
+                args.verification_status
+            ),
         )
 
         if record is None:
@@ -539,5 +672,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     argument_parser = build_argument_parser()
-    argument_parser.parse_args()
-    main()
+    arguments = argument_parser.parse_args()
+    main(arguments)

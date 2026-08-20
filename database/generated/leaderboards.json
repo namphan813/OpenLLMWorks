@@ -1,18 +1,18 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-08-17T06:52:10.459552+00:00",
+    "generatedAt": "2026-08-20T07:09:05.877972+00:00",
     "generator": {
         "name": "OpenLLMBench Leaderboard Publisher",
         "version": "0.2.1"
     },
     "summary": {
-        "gpuVariants": 6,
-        "pp512Ranked": 6,
-        "tg128Ranked": 6
+        "gpuVariants": 7,
+        "pp512Ranked": 7,
+        "tg128Ranked": 7
     },
     "leaderboards": {
         "pp512": {
-            "totalRanked": 6,
+            "totalRanked": 7,
             "bestValue": 7850.45,
             "worstValue": 133.22,
             "entries": [
@@ -46,6 +46,20 @@
                 },
                 {
                     "rank": 3,
+                    "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050 Ti",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 348.04
+                },
+                {
+                    "rank": 4,
                     "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
@@ -59,7 +73,7 @@
                     "value": 285.92
                 },
                 {
-                    "rank": 4,
+                    "rank": 5,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",
@@ -73,7 +87,7 @@
                     "value": 211.03
                 },
                 {
-                    "rank": 5,
+                    "rank": 6,
                     "variantId": "nvidia-geforce-gtx-1650-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1650",
@@ -87,7 +101,7 @@
                     "value": 153.575
                 },
                 {
-                    "rank": 6,
+                    "rank": 7,
                     "variantId": "quadro-t1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro T1000",
@@ -103,7 +117,7 @@
             ]
         },
         "tg128": {
-            "totalRanked": 6,
+            "totalRanked": 7,
             "bestValue": 148.35,
             "worstValue": 13.99,
             "entries": [
@@ -179,6 +193,20 @@
                 },
                 {
                     "rank": 6,
+                    "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050 Ti",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 22.11
+                },
+                {
+                    "rank": 7,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",

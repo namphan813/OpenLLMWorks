@@ -187,18 +187,40 @@ def parse_windows(file_path: Path) -> dict:
 
 def parse_nvidia_smi(file_path: Path) -> dict:
     """
-    Parse NVIDIA GPU, VRAM, driver, CUDA UMD, and driver model.
+    Parse NVIDIA GPU, VRAM, driver, CUDA version, and driver model.
+
+    Supports both current NVIDIA-SMI output and older Windows
+    output that reports KMD Version / CUDA UMD Version.
     """
 
     text = read_text_file(file_path)
 
+    # Current NVIDIA-SMI format:
+    #
+    # NVIDIA-SMI 582.66
+    # Driver Version: 582.66
+    # CUDA Version: 13.0
     version_match = re.search(
         r"NVIDIA-SMI\s+([0-9.]+).*?"
-        r"KMD Version:\s*([0-9.]+).*?"
-        r"CUDA UMD Version:\s*([0-9.]+)",
+        r"Driver Version:\s*([0-9.]+).*?"
+        r"CUDA Version:\s*([0-9.]+)",
         text,
         flags=re.DOTALL,
     )
+
+    # Legacy Windows NVIDIA-SMI format:
+    #
+    # NVIDIA-SMI ...
+    # KMD Version: ...
+    # CUDA UMD Version: ...
+    if version_match is None:
+        version_match = re.search(
+            r"NVIDIA-SMI\s+([0-9.]+).*?"
+            r"KMD Version:\s*([0-9.]+).*?"
+            r"CUDA UMD Version:\s*([0-9.]+)",
+            text,
+            flags=re.DOTALL,
+        )
 
     gpu_match = re.search(
         r"\|\s*0\s+(.+?)\s{2,}(WDDM|TCC)\s+\|",
