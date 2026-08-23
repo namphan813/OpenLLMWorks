@@ -1,29 +1,82 @@
-## Weekend 14 — Sprint 4 Complete
+# OpenLLMBench — Project Status
 
-**Focus:** Contributor Lifecycle & GitHub Workflow  
+## Weekend 14 — Sprint 5 Complete
+
+**Focus:** OpenLLMBench Runner v0  
 **Status:** Stable / Clean Checkpoint
 
-### Completed
+---
 
-- Added GitHub Benchmark Submission issue form
-- Validated end-to-end contributor submission workflow
-- Completed first reviewed GitHub benchmark submission
-- Imported Bench-001 / GTX 1050 Ti into the canonical database
-- Added maintainer-controlled submission provenance
-- Added single-submission parser targeting
-- Updated NVIDIA-SMI parsing for current driver output
-- Republished hardware and leaderboard data
-- Verified GTX 1050 Ti appears in the local comparison interface
+## Completed
 
-### First Reviewed Submission
+- Implemented the initial OpenLLMBench Runner
+- Added automatic NVIDIA GPU and environment detection
+- Added benchmark model verification using SHA-256
+- Added llama-bench executable verification using SHA-256
+- Added automatic benchmark workspace creation
+- Added automatic hardware evidence collection:
+  - CPU
+  - System memory
+  - System manufacturer and model
+  - Windows version and build
+  - NVIDIA GPU / driver information
+- Added automatic execution of the OpenLLMBench Benchmark Protocol v1.0
+- Runner executes three independent benchmark runs
+- Added automatic parsing of:
+  - pp512
+  - tg128
+  - llama.cpp commit
+  - llama.cpp build
+- Added benchmark result summary and averages
+- Added automatic `submission.json` manifest generation
+- Integrated the canonical OpenLLMBench submission validator
+- Added automatic ZIP packaging after successful validation
+- ZIP packages use the canonical flat submission structure
+- Failed validation prevents ZIP creation
+- Partial benchmark evidence is preserved when execution fails
+- Runner does not modify the canonical OpenLLMBench database
 
-- Submission: `Bench-001-GTX1050Ti`
-- Result ID: `result_dc6fdd4e1cbb5176`
-- pp512: `348.04 t/s`
-- tg128: `22.11 t/s`
-- Source: GitHub Issue
-- Verification: Maintainer verified
+---
 
-### Next
+## Runner Workflow
 
-Begin OpenLLMBench Runner v0 planning and implementation to automate benchmark execution, evidence capture, validation, and packaging on Bench-001.
+The current Runner pipeline is:
+
+```text
+Start Runner
+    │
+    ├── Detect NVIDIA GPU
+    │
+    ├── Verify benchmark model
+    │      └── SHA-256
+    │
+    ├── Verify llama-bench.exe
+    │      └── SHA-256
+    │
+    ├── Create benchmark workspace
+    │
+    ├── Capture hardware evidence
+    │      ├── cpu.txt
+    │      ├── memory.txt
+    │      ├── system.txt
+    │      ├── windows.txt
+    │      └── nvidia-smi.txt
+    │
+    ├── Execute Benchmark Protocol v1.0
+    │      ├── Run 1
+    │      ├── Run 2
+    │      └── Run 3
+    │
+    ├── Parse benchmark results
+    │      ├── pp512
+    │      ├── tg128
+    │      ├── llama.cpp commit
+    │      └── llama.cpp build
+    │
+    ├── Generate submission.json
+    │
+    ├── Run canonical submission validation
+    │
+    └── PASS
+           │
+           └── Create upload-ready ZIP
