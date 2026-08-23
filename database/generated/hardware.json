@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-08-20T07:09:05.875637+00:00",
+    "generatedAt": "2026-08-23T08:55:07.694479+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
-        "gpuVariants": 7,
-        "benchmarkResults": 8
+        "gpuVariants": 8,
+        "benchmarkResults": 9
     },
     "hardware": [
         {
@@ -46,6 +46,48 @@
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 16,
                     "vramGib": 4.0,
+                    "driverVersion": "582.66",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "582.66"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-gtx-1050-2gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1050",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1050",
+                "vramGib": 2.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 125.14,
+                "averageTg128": 3.99,
+                "bestPp512": 125.14,
+                "worstPp512": 125.14
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 2.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
+                    "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+                    "pp512": 125.14,
+                    "tg128": 3.99,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 2.0,
                     "driverVersion": "582.66",
                     "cudaUmdVersion": "13.0",
                     "nvidiaSmiVersion": "582.66"

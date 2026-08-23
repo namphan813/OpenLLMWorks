@@ -1,20 +1,20 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-08-20T07:09:05.877972+00:00",
+    "generatedAt": "2026-08-23T08:55:07.696859+00:00",
     "generator": {
         "name": "OpenLLMBench Leaderboard Publisher",
         "version": "0.2.1"
     },
     "summary": {
-        "gpuVariants": 7,
-        "pp512Ranked": 7,
-        "tg128Ranked": 7
+        "gpuVariants": 8,
+        "pp512Ranked": 8,
+        "tg128Ranked": 8
     },
     "leaderboards": {
         "pp512": {
-            "totalRanked": 7,
+            "totalRanked": 8,
             "bestValue": 7850.45,
-            "worstValue": 133.22,
+            "worstValue": 125.14,
             "entries": [
                 {
                     "rank": 1,
@@ -113,13 +113,27 @@
                     },
                     "submissionCount": 1,
                     "value": 133.22
+                },
+                {
+                    "rank": 8,
+                    "variantId": "nvidia-geforce-gtx-1050-2gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050",
+                        "vramGiB": 2.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 125.14
                 }
             ]
         },
         "tg128": {
-            "totalRanked": 7,
+            "totalRanked": 8,
             "bestValue": 148.35,
-            "worstValue": 13.99,
+            "worstValue": 3.99,
             "entries": [
                 {
                     "rank": 1,
@@ -218,6 +232,20 @@
                     },
                     "submissionCount": 1,
                     "value": 13.99
+                },
+                {
+                    "rank": 8,
+                    "variantId": "nvidia-geforce-gtx-1050-2gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050",
+                        "vramGiB": 2.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 3.99
                 }
             ]
         }
