@@ -37,6 +37,7 @@ from hashlib import sha256
 from pathlib import Path
 import json
 import re
+import socket
 import subprocess
 import sys
 import zipfile
@@ -1005,6 +1006,10 @@ def main() -> int:
     assert gpu is not None
     assert nvidia_output is not None
 
+    machine_name = sanitize_name(
+        socket.gethostname()
+    )
+
     gpu_name = sanitize_name(
         gpu["gpu_model"]
     )
@@ -1014,7 +1019,7 @@ def main() -> int:
     )
 
     submission_name = (
-        f"Runner-{gpu_name}-{local_timestamp}"
+        f"{machine_name}-{gpu_name}-{local_timestamp}"
     )
 
     result_path = (
