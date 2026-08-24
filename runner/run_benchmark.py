@@ -853,11 +853,13 @@ def build_submission_zip(
     result_path: Path,
 ) -> Path:
     """
-    Build an upload-ready ZIP containing the contents of the
-    validated submission workspace.
+    Build an upload-ready ZIP containing the validated
+    submission workspace.
 
-    Files are stored at the root of the ZIP rather than inside
-    an additional wrapper directory.
+    The ZIP contains one top-level directory named after the
+    submission workspace. This allows standard extraction tools
+    to recreate a validator-ready submission directory without
+    requiring the user or maintainer to create one manually.
     """
 
     if not result_path.is_dir():
@@ -893,10 +895,15 @@ def build_submission_zip(
             compression=zipfile.ZIP_DEFLATED,
         ) as archive:
             for file_path in files:
-                archive_name = (
+                relative_path = (
                     file_path.relative_to(
                         result_path
                     )
+                )
+
+                archive_name = (
+                    Path(result_path.name)
+                    / relative_path
                 )
 
                 archive.write(
