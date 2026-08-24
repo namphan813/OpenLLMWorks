@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-08-23T08:55:07.694479+00:00",
+    "generatedAt": "2026-08-23T20:46:16.288243+00:00",
     "generator": {
         "name": "OpenLLMBench Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
-        "gpuVariants": 8,
-        "benchmarkResults": 9
+        "gpuVariants": 9,
+        "benchmarkResults": 10
     },
     "hardware": [
         {
@@ -189,6 +189,48 @@
                     "driverVersion": "610.88",
                     "cudaUmdVersion": "13.3",
                     "nvidiaSmiVersion": "610.88"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-rtx-3060-12gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce RTX 3060",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce RTX 3060",
+                "vramGib": 12.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 3545.62,
+                "averageTg128": 100.19,
+                "bestPp512": 3545.62,
+                "worstPp512": 3545.62
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
+                "averageVramGib": 12.0,
+                "operatingSystems": [
+                    "Windows 11 Education 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
+                    "cpuModel": "13th Gen Intel(R) Core(TM) i5-13600K",
+                    "pp512": 3545.62,
+                    "tg128": 100.19,
+                    "operatingSystem": "Windows 11 Education 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 12.0,
+                    "driverVersion": "610.74",
+                    "cudaUmdVersion": "13.3",
+                    "nvidiaSmiVersion": "610.74"
                 }
             ]
         },
