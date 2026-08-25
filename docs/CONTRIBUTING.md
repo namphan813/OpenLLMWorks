@@ -86,19 +86,26 @@ A normal successful run follows:
 
 ```text
 Environment Verification
-        ↓
+        |
+        v
 Hardware Evidence Capture
-        ↓
+        |
+        v
 Benchmark Readiness Guidance
-        ↓
+        |
+        v
 Three Benchmark Runs
-        ↓
+        |
+        v
 Result Parsing
-        ↓
+        |
+        v
 submission.json
-        ↓
+        |
+        v
 Canonical Submission Validation
-        ↓
+        |
+        v
 Upload-Ready ZIP
 ```
 

@@ -139,18 +139,31 @@ OpenLLMBench is built around reproducible community benchmark results.
 
 Want to contribute benchmark data?
 
-1. Read the benchmark protocol in `docs/benchmark_v1.md`.
-2. Review the example submission in `example_submission/`.
-3. Run three benchmark passes using the required benchmark configuration.
-4. Preserve the raw benchmark output and required hardware evidence.
-5. Create a `submission.json` manifest.
-6. Validate the completed submission.
-7. Review the contribution requirements in `docs/CONTRIBUTING.md`.
+The preferred path is the OpenLLMBench Runner. The current Runner is a
+development version and still requires Python plus the frozen benchmark
+assets.
 
-To validate a submission before contributing it:
+From the repository root:
 
 ```powershell
-py -m parser.validate .\path\to\submission
+python runner\run_benchmark.py
+```
+
+A successful Runner session automatically:
+
+1. verifies the benchmark environment and frozen assets;
+2. captures the required hardware evidence;
+3. executes three Benchmark Protocol v1.0 runs;
+4. parses the benchmark results;
+5. creates `submission.json`;
+6. validates the completed submission;
+7. creates an upload-ready ZIP package.
+
+Submit the generated ZIP through the OpenLLMBench GitHub Issue submission
+workflow.
+
+For current setup requirements, troubleshooting, manual/advanced validation,
+and complete contribution guidance, see `docs/CONTRIBUTING.md`.
 
 ## Other Contributions
 
