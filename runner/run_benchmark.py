@@ -581,8 +581,10 @@ def execute_benchmark_run(
 
     if completed.returncode != 0:
         raise RuntimeError(
-            "Benchmark run failed. "
-            f"See {output_file}"
+            "Benchmark run failed with exit code "
+            f"{completed.returncode}. "
+            "Raw output was preserved at "
+            f"{output_file}"
         )
 
     print(
@@ -994,6 +996,15 @@ def main() -> int:
         print(
             "Environment verification FAILED."
         )
+        print()
+        print(
+            "Benchmarking did not start."
+        )
+        print(
+            "Correct the failed checks above, "
+            "then run the Runner again."
+        )
+        print()
 
         return 1
 
@@ -1123,6 +1134,18 @@ def main() -> int:
         return 1
 
     if not results_ok:
+        print()
+        print(
+            "Runner stopped because benchmark results "
+            "could not be parsed."
+        )
+        print()
+        print(
+            "Benchmark evidence has been preserved at:"
+        )
+        print(result_path)
+        print()
+
         return 1
 
     print()
