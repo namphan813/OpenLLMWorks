@@ -171,6 +171,7 @@ Important project documents include:
 - `WEBSITE_VISION.md`
 - `COMPONENT_LIBRARY.md`
 - `CONTRIBUTING.md`
+- `MAINTAINER_WORKFLOW.md`
 - `ARCHITECTURE.md`
 - `DESIGN_PRINCIPLES.md`
 
