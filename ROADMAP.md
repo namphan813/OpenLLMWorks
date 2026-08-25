@@ -803,184 +803,196 @@ rankings.
 
 ------------------------------------------------------------------------
 
-## 🟡 Weekend 14 --- Contributor Workflow & Documentation
+## Weekend 14 --- Contributor Workflow & Runner Foundation
 
-**Status:** In Progress --- Sprint 2 Complete
+**Status:** Complete
 
 ### Objective
 
-Make it practical for someone outside the project to contribute
-benchmark results.
-
-Weekend 14 builds on the hardened ingestion path from Weekend 12 by
-making the contributor journey easier to discover, understand, validate,
-and eventually complete.
-
-------------------------------------------------------------------------
-
-### ✅ Sprint 1 --- Contributor Journey & Onboarding
-
-**Status:** Complete
-
-Established a clearer front door for prospective benchmark contributors.
+Make it practical for someone outside the project to contribute benchmark
+results while preserving the canonical trust boundary.
 
 ### Delivered
 
--   Audited the existing contributor journey
--   Identified contributor-path clarity as the primary onboarding gap
--   Updated the root `README.md` with a first-benchmark path
--   Directed contributors to the canonical benchmark protocol
--   Directed contributors to the preserved example submission
--   Directed contributors to the detailed contribution guide
--   Updated `docs/CONTRIBUTING.md` with an explicit first-submission
-    path
--   Preserved `docs/benchmark_v1.md` as the canonical benchmark protocol
--   Preserved the historical two-run example submission
--   Documented that public submission tooling remains under development
-
-### Contributor Path
-
-``` text
-README.md
-    ↓
-docs/benchmark_v1.md
-    ↓
-example_submission/
-    ↓
-docs/CONTRIBUTING.md
-```
+- Contributor journey and onboarding documentation
+- Contributor-facing canonical validator
+- Clear validation warnings and failure states
+- Initial OpenLLMBench Runner
+- NVIDIA environment detection
+- Frozen model and `llama-bench.exe` SHA-256 verification
+- Automatic hardware-evidence collection
+- Automatic three-run Benchmark Protocol v1.0 execution
+- pp512 and tg128 result parsing
+- Automatic `submission.json` generation
+- Canonical submission validation
+- Upload-ready ZIP packaging
+- GitHub Issue benchmark-submission workflow
+- First fresh-GPU end-to-end Runner rehearsal using a GTX 1050 2 GB
+- Maintainer download and independent validation
+- Controlled canonical database import
+- Publisher regeneration
+- Website verification of the imported result
 
 ### Outcome
 
-Newcomers now have an intentional path through existing documentation
-rather than needing to discover the correct files and their order
-independently.
+Weekend 14 proved the complete contribution lifecycle:
+
+```text
+Runner
+    |
+    v
+Validated Submission ZIP
+    |
+    v
+GitHub Issue
+    |
+    v
+Maintainer Validation / Import
+    |
+    v
+Canonical Database
+    |
+    v
+Publisher
+    |
+    v
+Website
+```
+
+The benchmark system and maintainer system can remain separate, and the
+Runner does not receive authority to modify the canonical database.
 
 ------------------------------------------------------------------------
 
-### ✅ Sprint 2 --- Contributor Submission Validator
+## Weekend 15 --- Runner to Contributor Ready
 
 **Status:** Complete
 
-Exposed the existing submission preflight machinery through a
-contributor-facing command-line validator.
+### Objective
+
+Harden the proven Runner workflow, formalize maintainer ingestion, align the
+contributor experience, and regression-test the complete handoff boundary.
+
+### Completed Sprints
+
+- Sprint 1 --- Runner Hardening
+- Sprint 2 --- Maintainer Workflow
+- Sprint 3 --- Contributor UX & Documentation
+- Sprint 4 --- Regression Testing
+- Sprint 5 --- Cleanup & Checkpoint
 
 ### Delivered
 
--   Added `parser/validate.py`
--   Reused `Submission.from_path()`
--   Reused `validate_submission_preflight()`
--   Added contributor-friendly validation output
--   Added clear `[OK]`, `[WARN]`, and error reporting
--   Added successful exit code `0`
--   Added failure exit code `1`
--   Added clean handling for nonexistent submission directories
--   Preserved existing parser/preflight validation authority
--   Avoided creating a second validation engine
--   Documented the validator in the root `README.md`
--   Added detailed validation guidance to `docs/CONTRIBUTING.md`
--   Added a runnable validation example to
-    `example_submission/README.md`
--   Documented the expected historical two-run warning
-
-### Contributor Command
-
-From the repository root:
-
-``` powershell
-py -m parser.validate .\example_submission
-```
-
-The preserved example submission passes structural validation while
-reporting the expected warning that only two benchmark runs are present.
-
-### Validation Behavior
-
-A structurally valid submission exits with code `0`.
-
-A submission that cannot safely proceed exits with code `1`.
-
-This makes the validator useful both to human contributors and to future
-automation or CI workflows.
+- Hardened canonical submission-name validation
+- Added benchmark-readiness guidance
+- Improved environment, execution, and parsing failure guidance
+- Added focused single-submission maintainer processing
+- Added maintainer-controlled provenance and verification inputs
+- Documented the maintainer submission workflow
+- Updated contributor documentation to a Runner-first model
+- Updated the GitHub benchmark-submission Issue template
+- Improved ZIP packaging so extraction recreates one validator-ready
+  top-level submission directory
+- Preserved manual and advanced validation workflows
+- Performed a fresh current-build Quadro T1000 regression run
+- Verified Runner version `0.3.0-dev3` end to end
+- Extracted the generated ZIP into a clean temporary location
+- Independently revalidated the extracted package successfully
 
 ### Outcome
 
-OpenLLMBench now has a practical contributor-facing preflight step:
-
-``` text
-Prepare Submission
-        ↓
-Run Contributor Validator
-        ↓
-        +----------------------+
-        |                      |
-        v                      v
-Pass / Warnings             Errors
-        |                      |
-        v                      v
-Continue Review          Correct Package
-                               ↓
-                         Validate Again
+```text
+Contributor Runner
+    |
+    v
+Upload-Ready ZIP
+    |
+    v
+GitHub Submission
+    |
+    v
+Independent Maintainer Validation
+    |
+    v
+Controlled Import
 ```
 
-The validation logic remains owned by the existing parser/submission
-layer. The CLI exposes that authority instead of duplicating it.
+The contribution path is technically complete. Distribution and setup
+friction are now the primary contributor-facing barriers.
 
 ------------------------------------------------------------------------
 
-### Next Weekend 14 Work
-
-The next contributor-workflow slice should focus on making validation
-failures and contribution states easier for a newcomer to understand.
-
-Candidate work includes:
-
--   Validation troubleshooting
--   Clear accepted/rejected states
--   Deliberately broken submission rehearsals
--   Contributor-facing remediation guidance
--   Contribution lifecycle documentation
--   GitHub contribution workflow
--   First external submission rehearsal
-
-Weekend 14 should continue favoring small, testable improvements over
-building the full public submission platform prematurely.
-
-------------------------------------------------------------------------
-
-## ⚪ Weekend 15 --- Website Polish, UX & SEO
+## Weekend 16 --- Standalone Runner & Distribution
 
 **Status:** Planned
 
 ### Objective
 
-Prepare the public website for a broader audience.
+Reduce the technical prerequisites between a new Windows contributor and a
+successful OpenLLMBench benchmark submission.
 
 ### Candidate Work
 
--   Cross-page UX review
--   Navigation refinement
--   Empty states
--   Error states
--   Loading states
--   Accessibility review
--   Mobile polish
--   Metadata
--   Open Graph / social sharing
--   Search-engine metadata
--   Shareable hardware/comparison pages
--   Performance review
+- Decide standalone Runner packaging architecture
+- Build the first Windows Runner executable
+- Evaluate executable-packaging approaches
+- Decide bundled versus bootstrapped dependencies
+- Define `llama-bench.exe` acquisition and verification
+- Define benchmark-model acquisition and verification
+- Revisit the fixed `C:\AI-Benchmark` directory assumption
+- Preserve frozen SHA-256 trust checks
+- Test installation/bootstrap on a clean Windows environment
+- Evaluate console UX versus a lightweight GUI
+- Explore polished progress presentation, checkmarks, and status indicators
+- Preserve raw evidence and canonical validation behavior
 
-### Note
+### Outcome Target
 
-Weekend 11 delivered meaningful UX work early.
+```text
+Download
+    |
+    v
+Launch
+    |
+    v
+Benchmark
+    |
+    v
+Receive Validated Submission ZIP
+```
 
-Weekend 15 therefore becomes a **site-wide release-polish pass**, not
-the first time UX is considered.
+without requiring contributors to understand Python, repository internals, or
+command-line setup.
 
 ------------------------------------------------------------------------
 
-## ⚪ Weekend 16 --- Release Candidate & Testing
+## Future --- Website Polish, UX & SEO
+
+**Status:** Planned
+
+### Objective
+
+Prepare the public website for a broader audience after contributor
+distribution is simplified.
+
+### Candidate Work
+
+- Cross-page UX review
+- Navigation refinement
+- Empty states
+- Error states
+- Loading states
+- Accessibility review
+- Mobile polish
+- Metadata
+- Open Graph / social sharing
+- Search-engine metadata
+- Shareable hardware/comparison pages
+- Performance review
+
+------------------------------------------------------------------------
+
+## Future --- Release Candidate & Testing
 
 **Status:** Planned
 
@@ -990,20 +1002,20 @@ Stabilize the project for the initial public release.
 
 ### Candidate Work
 
--   Feature freeze
--   End-to-end regression testing
--   Parser regression testing
--   Submission failure testing
--   Publisher validation
--   Production website build
--   Cross-browser testing
--   Responsive testing
--   Documentation review
--   Broken-link review
--   Dataset integrity verification
--   Backup verification
--   Release notes
--   Final bug fixes
+- Feature freeze
+- End-to-end regression testing
+- Parser regression testing
+- Submission failure testing
+- Publisher validation
+- Production website build
+- Cross-browser testing
+- Responsive testing
+- Documentation review
+- Broken-link review
+- Dataset integrity verification
+- Backup verification
+- Release notes
+- Final bug fixes
 
 ### Outcome Target
 
@@ -1064,24 +1076,28 @@ Instead, later sprints should extend and validate them.
 
 The current critical path is:
 
-``` text
-Submission Pipeline Hardening
-    ↓
-Contributor Workflow
-    ↓
-Deeper Analytics
-    ↓
+```text
+Standalone Runner / Distribution
+    |
+    v
+Contributor Setup Validation
+    |
+    v
 Site-Wide Polish
-    ↓
+    |
+    v
 Release Candidate Testing
-    ↓
+    |
+    v
 OpenLLMBench v1.0
 ```
 
-Discovery and comparison are no longer blockers for the initial release.
+Submission trust, contributor validation, Runner execution, maintainer
+ingestion, hardware discovery, and comparison are no longer primary blockers.
 
-Submission trust and contributor usability are now the larger
-dependencies.
+The largest remaining contributor-facing dependency is reducing setup and
+distribution friction while preserving the frozen benchmark protocol and
+maintainer-controlled trust model.
 
 ------------------------------------------------------------------------
 

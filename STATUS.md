@@ -1,4 +1,185 @@
-# OpenLLMBench — Project Status
+# OpenLLMBench - Project Status
+
+## Weekend 15 - Sprint 5 In Progress
+
+**Focus:** Runner to Contributor Ready
+**Status:** Stable / Final Cleanup and Checkpoint
+
+---
+
+## Weekend 15 Objective
+
+Move the OpenLLMBench Runner from a proven development workflow toward a
+safer, clearer contributor-facing system while preserving
+maintainer-controlled ingestion.
+
+---
+
+## Completed Sprints
+
+### Sprint 1 - Runner Hardening
+
+- Hardened canonical `submission_name` validation.
+- Restricted canonical submission names to letters, numbers, hyphens, and underscores.
+- Added a 128-character submission-name limit.
+- Added benchmark-readiness guidance before execution.
+- Clarified that Benchmark Protocol v1.0 does not require a fixed cooldown period.
+- Improved environment-verification failure guidance.
+- Improved benchmark-process failure reporting while preserving raw output.
+- Improved result-parsing failure guidance while preserving benchmark evidence.
+
+### Sprint 2 - Maintainer Workflow
+
+- Added a focused single-submission maintainer processing path.
+- Added trusted maintainer-controlled provenance inputs.
+- Added `scripts/process_submission.py`.
+- Preserved deterministic result IDs and canonical duplicate detection.
+- Documented the maintainer submission workflow.
+- Kept contributor packages separate from maintainer-assigned trust metadata.
+
+### Sprint 3 - Contributor UX and Documentation
+
+- Updated contributor documentation around the Runner-first workflow.
+- Documented current Runner setup requirements and limitations.
+- Documented Runner output, validation, packaging, and failure states.
+- Updated the GitHub benchmark-submission Issue workflow.
+- Added Runner vs manual/advanced submission-method selection.
+- Aligned the root README with the Runner-first contribution path.
+- Preserved manual validation for troubleshooting and advanced workflows.
+- Standardized contributor-facing validation examples on `python -m parser.validate`.
+- Documented that a standalone contributor executable is planned but not yet available.
+
+### Sprint 4 - Regression Testing
+
+Performed a fresh current-build end-to-end smoke test using:
+
+- NVIDIA Quadro T1000
+- 4 GB VRAM
+- Runner version `0.3.0-dev3`
+
+The Runner successfully verified the environment and frozen assets, captured
+all required hardware evidence, displayed readiness guidance, completed three
+benchmark runs, parsed the results, generated `submission.json`, passed
+canonical validation, and created an upload-ready ZIP.
+
+| Run | pp512 | tg128 |
+|---|---:|---:|
+| 1 | 117.41 t/s | 35.41 t/s |
+| 2 | 114.78 t/s | 32.13 t/s |
+| 3 | 117.29 t/s | 29.98 t/s |
+| **Average** | **116.49 t/s** | **32.51 t/s** |
+
+The generated ZIP was extracted into a clean temporary directory and
+independently validated with the canonical validator.
+
+Independent validation confirmed:
+
+- `submission.json` present
+- manifest schema 1.0 valid
+- hardware evidence 5/5 present
+- benchmark runs 3/3 present
+- validation passed
+
+---
+
+## Current Proven Contributor Handoff
+
+```text
+Contributor System
+    |
+    v
+OpenLLMBench Runner
+    |
+    v
+Environment and Asset Verification
+    |
+    v
+Hardware Evidence Capture
+    |
+    v
+Three Benchmark Runs
+    |
+    v
+Result Parsing
+    |
+    v
+submission.json
+    |
+    v
+Canonical Validation
+    |
+    v
+Upload-Ready ZIP
+    |
+    v
+GitHub Benchmark Submission Issue
+    |
+    v
+Maintainer Download / Extraction
+    |
+    v
+Independent Canonical Validation
+    |
+    v
+Controlled Maintainer Import
+    |
+    v
+Canonical Database
+    |
+    v
+Publisher
+    |
+    v
+Website
+```
+
+The Runner remains intentionally isolated from the canonical database.
+
+---
+
+## Current Runner Constraints
+
+The development Runner currently requires Windows, Python, the OpenLLMBench
+repository or Runner source, the frozen Benchmark Protocol v1.0 model, the
+frozen `llama-bench.exe` engine, and the expected benchmark directory
+structure.
+
+These are now the primary usability barriers between the proven workflow and
+a low-friction public contributor experience.
+
+---
+
+## Sprint 5 - Cleanup / Checkpoint
+
+Current landing work:
+
+- repository health checks
+- project-status reconciliation
+- roadmap reconciliation
+- stale README milestone cleanup
+- final documentation consistency review
+- final commit and clean-tree checkpoint
+
+Repository health checks completed so far:
+
+- working tree clean before checkpoint edits
+- `git diff --check` clean
+- `python -m compileall parser runner scripts` completed without errors
+
+---
+
+## Next
+
+**Weekend 16 - Standalone Runner and Distribution**
+
+Primary questions include executable packaging, dependency/bootstrap strategy,
+frozen asset acquisition and verification, clean-Windows setup, fixed-path
+assumptions, and console versus lightweight-GUI presentation.
+
+The goal is to reduce contributor setup friction without weakening benchmark
+reproducibility, raw-evidence preservation, or maintainer-controlled ingestion.
+
+---
 
 ## Weekend 14 — Sprint 6 Complete
 
