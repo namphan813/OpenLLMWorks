@@ -14,6 +14,7 @@ Version:
 from dataclasses import dataclass
 from datetime import datetime
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -134,6 +135,48 @@ def _validate_timestamp(
     return normalized_value
 
 
+def _validate_submission_name(
+    value: Any,
+) -> str:
+    """
+    Validate one canonical submission name.
+
+    Submission names are used as canonical identifiers and must
+    contain only safe, predictable characters.
+    """
+
+    if not isinstance(value, str):
+        raise ValueError(
+            "Manifest field 'submission_name' must "
+            "be a string."
+        )
+
+    normalized_value = value.strip()
+
+    if not normalized_value:
+        raise ValueError(
+            "Manifest field 'submission_name' must "
+            "be a non-empty string."
+        )
+
+    if len(normalized_value) > 128:
+        raise ValueError(
+            "Manifest field 'submission_name' must "
+            "be 128 characters or fewer."
+        )
+
+    if re.fullmatch(
+        r"[A-Za-z0-9_-]+",
+        normalized_value,
+    ) is None:
+        raise ValueError(
+            "Manifest field 'submission_name' may contain "
+            "only letters, numbers, hyphens, and underscores."
+        )
+
+    return normalized_value
+
+
 def load_submission_manifest(
     submission: Submission,
 ) -> SubmissionManifest | None:
@@ -198,18 +241,11 @@ def load_submission_manifest(
             f"{SUPPORTED_MANIFEST_SCHEMA_VERSION!r}."
         )
 
-    submission_name = manifest_data.get(
-        "submission_name"
-    )
-
-    if (
-        not isinstance(submission_name, str)
-        or not submission_name.strip()
-    ):
-        raise ValueError(
-            "Manifest field 'submission_name' must "
-            "be a non-empty string."
+    submission_name = _validate_submission_name(
+        manifest_data.get(
+            "submission_name"
         )
+    )
 
     submitted_at = _validate_timestamp(
         manifest_data.get("submitted_at"),
@@ -225,7 +261,7 @@ def load_submission_manifest(
 
     return SubmissionManifest(
         schema_version=schema_version,
-        submission_name=submission_name.strip(),
+        submission_name=submission_name,
         submitted_at=submitted_at,
         benchmark_timestamp=benchmark_timestamp,
     )
