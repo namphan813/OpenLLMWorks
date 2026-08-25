@@ -1055,6 +1055,31 @@ def main() -> int:
         )
 
         print("=" * 60)
+        print("Benchmark Readiness")
+        print("=" * 60)
+        print()
+        print("For best consistency:")
+        print(
+            "- Allow the system to reach a normal idle state."
+        )
+        print(
+            "- Close unnecessary heavy applications or workloads."
+        )
+        print(
+            "- Avoid changing GPU clocks or power settings "
+            "during the run."
+        )
+        print()
+        print(
+            "Benchmark Protocol v1.0 does not require "
+            "a fixed cooldown period."
+        )
+        print(
+            "Benchmarking will begin automatically."
+        )
+        print()
+
+        print("=" * 60)
         print("Benchmark Execution")
         print("=" * 60)
         print()
