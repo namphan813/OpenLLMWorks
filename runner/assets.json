@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "v1.0",
+  "platform": "windows",
+  "accelerator": "nvidia",
+  "assets": {
+    "model": {
+      "filename": "Qwen3-4B-Q4_K_M.gguf",
+      "install_path": "models/Qwen3-4B-Q4_K_M.gguf",
+      "sha256": "7485FE6F11AF29433BC51CAB58009521F205840F5B4AE3A32FA7F92E8534FDF5"
+    },
+    "runtime": {
+      "archive_filename": "openllmbench-runtime-windows-nvidia-v1.0.zip",
+      "archive_size_bytes": 1043014769,
+      "archive_sha256": "6CA2FCEFA6C1E75A384A1C1EBF106D630811805FA9BA59EA54E7625D1006FBD4",
+      "install_path": "runtime",
+      "critical_file": "llama-bench.exe",
+      "critical_file_sha256": "060112797BC888544883C793300FA9EB45F7583E7128A1BE81C8BB24A6799C64"
+    }
+  }
+}
