@@ -403,3 +403,24 @@ non-negotiable architectural requirements.
 **Weekend 16 - Sprint 1: Distribution Architecture**
 
 **Status:** In Progress
+
+## Managed Runtime Validation
+
+Weekend 16 Sprint 3 validated the standalone Runner against the
+managed OpenLLMBench application directory.
+
+The Runner no longer requires the development-only
+`C:\AI-Benchmark` directory for normal benchmark execution.
+
+The validated Windows application layout is:
+
+```text
+%LOCALAPPDATA%\OpenLLMBench\
+├── protocols\
+│   └── v1.0\
+│       ├── models\
+│       │   └── Qwen3-4B-Q4_K_M.gguf
+│       └── runtime\
+│           ├── llama-bench.exe
+│           └── required runtime DLLs
+└── results\

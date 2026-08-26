@@ -36,6 +36,7 @@ from datetime import UTC, datetime
 from hashlib import sha256
 from pathlib import Path
 import json
+import os
 import re
 import socket
 import subprocess
@@ -70,25 +71,58 @@ from parser.validate import (
 # ------------------------------------------------------------
 
 RUNNER_VERSION = "0.3.0-dev3"
+PROTOCOL_VERSION = "v1.0"
 
-BENCHMARK_ROOT = Path(
-    r"C:\AI-Benchmark"
+
+def get_local_app_data() -> Path:
+    """
+    Return the Windows Local AppData directory.
+
+    OpenLLMBench stores managed runtime assets and benchmark results
+    outside the application and repository so the standalone Runner
+    can operate without a development checkout.
+    """
+
+    local_app_data = os.environ.get(
+        "LOCALAPPDATA"
+    )
+
+    if not local_app_data:
+        raise RuntimeError(
+            "LOCALAPPDATA is not available "
+            "in the current environment."
+        )
+
+    return Path(
+        local_app_data
+    )
+
+
+OPENLLMBENCH_ROOT = (
+    get_local_app_data()
+    / "OpenLLMBench"
+)
+
+PROTOCOL_ROOT = (
+    OPENLLMBENCH_ROOT
+    / "protocols"
+    / PROTOCOL_VERSION
 )
 
 MODEL_FILE = (
-    BENCHMARK_ROOT
+    PROTOCOL_ROOT
     / "models"
     / "Qwen3-4B-Q4_K_M.gguf"
 )
 
 LLAMA_BENCH_FILE = (
-    BENCHMARK_ROOT
-    / "llama.cpp"
+    PROTOCOL_ROOT
+    / "runtime"
     / "llama-bench.exe"
 )
 
 RESULTS_ROOT = (
-    BENCHMARK_ROOT
+    OPENLLMBENCH_ROOT
     / "results"
 )
 
