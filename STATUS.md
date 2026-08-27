@@ -1,8 +1,8 @@
 # OpenLLMBench - Project Status
 
-## Weekend 16 - Sprint 5 Complete
+## Weekend 16 - Sprint 6 Complete
 
-**Focus:** Standalone Runner Validation, Asset Recovery, and Contributor Failure Testing  
+**Focus:** Contributor UX, Failure Recovery, and Provisioning Visibility  
 **Status:** Stable / Clean Checkpoint
 
 ---
@@ -21,6 +21,12 @@ workflow from standalone execution to an upload-ready submission ZIP.
 
 Sprint 5 validated this workflow from a controlled clean contributor state
 outside the OpenLLMBench development environment.
+
+Sprint 6 converted the contributor-experience findings from that validation
+into deliberate standalone Runner behavior. Successful completion, handled
+failure, and user cancellation now remain visible in packaged execution, while
+asset provisioning now reports local-artifact checks, network acquisition,
+download progress, verification, and installation stages.
 
 ---
 
@@ -341,6 +347,7 @@ Current responsibilities include:
 - size validation
 - SHA-256 validation
 - verified file download
+- contributor-visible artifact status and download progress
 - verified local artifact reuse
 - upstream runtime-source acquisition
 - staging and extraction
@@ -620,79 +627,131 @@ architecture failure was discovered during Sprint 5.
 
 ---
 
-## Contributor UX Findings
+## Sprint 6 Contributor UX and Failure Recovery
 
-Sprint 5 identified contributor-experience issues that do not weaken benchmark
-integrity but should be addressed before public beta.
+Sprint 6 addressed the four contributor-experience findings identified during
+Sprint 5 without changing Benchmark Protocol v1.0 or weakening asset,
+submission, or validation guarantees.
 
-### UX-001 - Completion and Output Discoverability
+Sprint 6 was implemented and validated in two focused checkpoints.
 
-When the standalone Runner is launched by double-clicking the executable, the
-console closes immediately after successful completion.
+### Sprint 6A - Completion, Failure, and Cancellation UX
 
-The upload-ready ZIP is correctly written under:
+The packaged Runner now keeps its console visible at the end of standalone
+execution so contributors can read the final state before the window closes.
+
+Source/developer execution remains non-interactive.
+
+Standalone validation confirmed:
 
 ```text
-%LOCALAPPDATA%\OpenLLMBench\results
+6A-1  Successful completion             PASS
+6A-2  Ctrl+C cancellation               PASS
+6A-3  Provisioning failure visibility   PASS
 ```
 
-but the contributor may not have enough time to read the completion message or
-discover the output location.
+Successful standalone execution now:
 
-Desired improvement:
+- leaves the final completion state visible
+- leaves the validated workspace path visible
+- leaves the upload-ready ZIP path visible
+- waits for the contributor to press Enter before closing
 
-- keep the completion state visible
-- clearly identify the generated submission ZIP
-- clearly identify its filesystem location
-- provide an obvious next step for submission
+A deliberate `Ctrl+C` interruption during benchmark execution now:
 
-### UX-002 - Provisioning and Download Progress
+- reports that the Runner was interrupted by the user
+- states that no valid submission ZIP was created by the interrupted run
+- reports the retained partial workspace when one exists
+- tells the contributor that rerunning the Runner is safe
+- waits for Enter before closing the packaged console
 
-Large asset downloads and some provisioning operations currently provide
-limited visible progress.
+A deliberate provisioning failure also remained visible until the contributor
+dismissed the console.
 
-During forced model reacquisition, external network activity confirmed that the
-Runner was downloading the model, but the console did not provide enough
-progress information for a contributor to distinguish active downloading from
-a stalled process.
+This resolved the disappearing-console behavior identified in UX-001 and the
+cancellation behavior identified in UX-003, while also resolving the
+console-lifecycle portion of UX-004.
 
-Desired improvement:
+### Sprint 6B - Provisioning and Download Visibility
 
-- distinguish local artifact reuse from network acquisition
-- show when a large download has started
-- provide useful download/provisioning progress
-- clearly indicate verification and installation stages
+Asset provisioning now provides contributor-visible status around the existing
+verified-download path.
 
-### UX-003 - Graceful User Cancellation
+When provisioning is required, the Runner distinguishes:
 
-`Ctrl+C` safely prevented an incomplete benchmark from becoming a valid
-submission.
+```text
+Check Local Artifact
+    |
+    +--> Verified Artifact Available
+    |        |
+    |        v
+    |    Reuse Verified Artifact
+    |
+    +--> Artifact Missing / Invalid
+             |
+             v
+         Network Download
+             |
+             v
+         10% Progress Milestones
+             |
+             v
+         Verify Downloaded Artifact
+             |
+             v
+         Promote Verified Artifact
+             |
+             v
+         Install / Provision Managed Asset
+```
 
-Contributor-facing cancellation messaging should still be improved.
+Large downloads report progress at 10 percent intervals with downloaded and
+expected MiB values.
 
-Desired improvement:
+The implementation intentionally remains simple console output and introduces
+no additional progress-bar dependency.
 
-- report that the benchmark was interrupted by the user
-- state that no valid submission was created
-- identify any retained partial diagnostic workspace
-- tell the contributor that the benchmark can safely be run again
+The existing integrity architecture remains unchanged:
 
-### UX-004 - Provisioning / Network Failure Visibility
+- downloads are written to temporary `.part` files
+- exact size and SHA-256 verification occurs before promotion
+- invalid downloads are rejected
+- failed partial downloads are cleaned up
+- existing verified artifacts may be reused
+- managed assets are still independently verified before benchmark execution
 
-When required provisioning was attempted without network connectivity, the
-standalone console displayed output briefly and then closed.
+Sprint 6B validation confirmed:
 
-The failure remained technically safe, but the contributor would have little
-opportunity to understand what happened.
+```text
+Existing cached artifact detection       PASS
+Local artifact status visibility         PASS
+Missing artifact visibility              PASS
+Network download visibility              PASS
+10% download progress milestones         PASS
+Download completion                      PASS
+Downloaded artifact verification         PASS
+Managed model provisioning               PASS
+Full Runner workflow regression          PASS
+```
 
-Desired improvement:
+The forced network-download test reacquired the frozen benchmark model and
+completed the full standalone Runner workflow successfully.
 
-- keep fatal error output visible
-- clearly identify network/download failure
-- provide an actionable recovery message
-- tell the contributor that rerunning after connectivity is restored is safe
+### Sprint 5 UX Findings - Resolution
 
-These findings form the primary input for Weekend 16 Sprint 6.
+The four Sprint 5 findings are now resolved for the current Windows NVIDIA
+standalone path:
+
+```text
+UX-001  Completion and output discoverability       RESOLVED
+UX-002  Provisioning and download progress          RESOLVED
+UX-003  Graceful user cancellation                  RESOLVED
+UX-004  Provisioning / failure visibility           RESOLVED
+```
+
+Further wording and contributor guidance can still be refined during public
+documentation and external beta testing, but these findings are no longer
+known blockers in the standalone Runner implementation.
 
 ---
 
@@ -858,6 +917,30 @@ positioning rather than fundamental benchmark architecture.
 
 ---
 
+### Weekend 16 - Sprint 6
+
+The standalone Runner's contributor-facing lifecycle was hardened around the
+failure and uncertainty cases exposed by Sprint 5.
+
+Major work included:
+
+- packaged-console persistence after success and handled failure
+- upload-ready ZIP and workspace discoverability at completion
+- graceful `Ctrl+C` cancellation behavior
+- retained partial-workspace reporting
+- safe-to-rerun contributor guidance
+- local artifact status visibility
+- network-download visibility
+- 10 percent download progress milestones
+- visible downloaded-artifact verification
+- successful full standalone regression after forced model reacquisition
+
+Sprint 6 moved the remaining public-beta work beyond the known Runner UX
+findings and toward release/distribution, public documentation, external beta
+testing, and product positioning.
+
+---
+
 ## Current Constraints
 
 The contributor-ready path remains intentionally narrow.
@@ -870,10 +953,6 @@ Windows + NVIDIA
 
 Remaining public-beta work includes:
 
-- contributor-facing completion and output UX
-- download/provisioning progress visibility
-- graceful interruption handling
-- actionable network/download failure messaging
 - public distribution location for the standalone Runner
 - Windows trust / SmartScreen expectations
 - contributor-facing installation and first-run documentation
@@ -929,8 +1008,8 @@ Current planned sequence:
 Weekend 16
     Sprint 4 - Managed Assets                         COMPLETE
     Sprint 5 - Pristine / Recovery Validation        COMPLETE
-    Sprint 6 - Contributor UX & Failure Recovery     NEXT
-    Sprint 7 - Release / Distribution
+    Sprint 6 - Contributor UX & Failure Recovery     COMPLETE
+    Sprint 7 - Release / Distribution                NEXT
     Sprint 8 - Public Contributor Documentation
         |
         v
@@ -963,19 +1042,39 @@ requirements.
 
 ## Repository State
 
-Sprint 5 validation was completed with no required repository implementation
-changes.
+Sprint 6 implementation was completed in two clean checkpoints.
 
-The development working tree was confirmed clean after Sprint 5 testing.
+Sprint 6A updated:
 
-Sprint 5 destructive and recovery testing was performed against the standalone
-Runner and its managed environment on Bench-001 rather than by modifying
-repository code.
+```text
+runner/run_benchmark.py
+```
+
+to improve packaged completion, failure, and cancellation behavior.
+
+Sprint 6B updated:
+
+```text
+runner/provisioning.py
+```
+
+to add contributor-visible artifact checks and download progress.
+
+The standalone executable was rebuilt and exercised on Bench-001 through:
+
+- successful full benchmark completion
+- deliberate `Ctrl+C` interruption
+- deliberate provisioning failure
+- verified local artifact reuse
+- forced network model reacquisition
+- final successful end-to-end regression
+
+The development working tree was confirmed clean after the Sprint 6B commit.
 
 Current checkpoint:
 
 ```text
-Weekend 16 - Sprint 5 Complete
+Weekend 16 - Sprint 6 Complete
 Working tree clean
 ```
 
@@ -983,37 +1082,37 @@ Working tree clean
 
 ## Next
 
-### Weekend 16 - Sprint 6
+### Weekend 16 - Sprint 7
 
-**Focus:** Contributor UX and Failure Recovery
+**Focus:** Release / Distribution
 
-Sprint 6 should convert the contributor-experience findings from Sprint 5 into
-deliberate Runner behavior.
+Sprint 7 should convert the proven standalone Windows NVIDIA Runner into a
+deliberate beta-distribution artifact and release workflow.
 
-Primary targets:
+Primary targets should include:
 
-1. successful completion UX
-2. submission ZIP discoverability
-3. download and provisioning progress visibility
-4. graceful `Ctrl+C` handling
-5. actionable provisioning/network failure messages
-6. contributor-friendly pause/exit behavior
-7. regression testing of the improved standalone executable
+1. define the public distribution location for the standalone Runner
+2. define the beta Runner artifact naming/version convention
+3. define repeatable release-build and release-verification steps
+4. document expected Windows trust / SmartScreen behavior
+5. verify the distributed artifact from a contributor-style download location
+6. define integrity information contributors can use for the distributed EXE
+7. preserve the clean separation between the Runner artifact and large managed
+   Benchmark Protocol assets
+8. perform release-candidate regression before public documentation work
 
-Sprint 6 should preserve the benchmark and provisioning architecture proven
-during Sprints 4 and 5.
+Sprint 7 should not change Benchmark Protocol v1.0 unless a release-blocking
+technical issue is discovered.
 
-No Benchmark Protocol v1.0 changes are currently required.
+After Sprint 7, the roadmap should continue toward:
 
-After Sprint 6, the roadmap should continue toward:
-
-1. release and distribution packaging
-2. public contributor documentation
-3. the pre-public-beta product/naming gate
-4. small external beta testing
+1. public contributor documentation
+2. the pre-public-beta product/naming gate
+3. small external beta testing
+4. beta feedback and Runner stabilization
 5. website launch integration
 6. public-beta release readiness
 
-The benchmark execution, managed assets, asset recovery, evidence, validation,
-submission, maintainer import, publishing, and database foundations are now in
-place.
+The benchmark execution, managed assets, asset recovery, contributor UX,
+evidence, validation, submission, maintainer import, publishing, and database
+foundations are now in place.
