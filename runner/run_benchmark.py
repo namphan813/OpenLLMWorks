@@ -66,8 +66,10 @@ from parser.validate import (
 )
 
 from runner.provisioning import (
+    inspect_model,
     inspect_runtime,
     load_asset_manifest,
+    provision_model_from_artifact,
     provision_runtime_from_archive,
 )
 
@@ -235,6 +237,135 @@ def calculate_sha256(
             digest.update(chunk)
 
     return digest.hexdigest().upper()
+
+
+# ------------------------------------------------------------
+# Managed model provisioning
+# ------------------------------------------------------------
+
+def ensure_model_ready() -> bool:
+    """
+    Verify or locally provision the Protocol v1.0 benchmark model.
+
+    Network acquisition is intentionally not implemented yet.
+    If provisioning is required, the canonical model artifact
+    must already exist in the managed artifacts directory.
+    """
+
+    print("Benchmark Model")
+    print("-" * 60)
+
+    try:
+        manifest = load_asset_manifest(
+            ASSET_MANIFEST_FILE
+        )
+
+    except RuntimeError as error:
+        print(
+            f"[FAIL] {error}"
+        )
+        print()
+        return False
+
+    manifest_protocol = manifest.get(
+        "protocol_version"
+    )
+
+    if manifest_protocol != PROTOCOL_VERSION:
+        print(
+            "[FAIL] Asset manifest protocol version "
+            "does not match the Runner."
+        )
+        print(
+            f"Runner:   {PROTOCOL_VERSION}"
+        )
+        print(
+            f"Manifest: {manifest_protocol}"
+        )
+        print()
+        return False
+
+    model_ok, model_message = (
+        inspect_model(
+            protocol_root=PROTOCOL_ROOT,
+            manifest=manifest,
+        )
+    )
+
+    if model_ok:
+        print(
+            "[OK] "
+            f"{model_message}"
+        )
+        print()
+        return True
+
+    print(
+        "[INFO] "
+        f"{model_message}"
+    )
+    print(
+        "Model provisioning is required."
+    )
+
+    model = manifest["assets"]["model"]
+
+    filename = model.get(
+        "filename"
+    )
+
+    if not filename:
+        print(
+            "[FAIL] Model manifest does not define "
+            "filename."
+        )
+        print()
+        return False
+
+    artifact_path = (
+        ARTIFACTS_ROOT
+        / filename
+    )
+
+    print(
+        f"Artifact: {artifact_path}"
+    )
+
+    if not artifact_path.is_file():
+        print(
+            "[FAIL] Canonical model artifact "
+            "is not available locally."
+        )
+        print(
+            "Automatic download is not implemented "
+            "in this Runner phase."
+        )
+        print()
+        return False
+
+    provisioned_ok, provisioned_message = (
+        provision_model_from_artifact(
+            protocol_root=PROTOCOL_ROOT,
+            artifact_path=artifact_path,
+            manifest=manifest,
+        )
+    )
+
+    if not provisioned_ok:
+        print(
+            "[FAIL] "
+            f"{provisioned_message}"
+        )
+        print()
+        return False
+
+    print(
+        "[OK] "
+        f"{provisioned_message}"
+    )
+    print()
+
+    return True
 
 
 # ------------------------------------------------------------
@@ -1145,16 +1276,22 @@ def main() -> int:
         check_gpu()
     )
 
-    print("Benchmark Model")
-    print("-" * 60)
+    model_ready = ensure_model_ready()
 
-    model_ok = check_file(
-        label="Qwen3-4B-Q4_K_M.gguf",
-        file_path=MODEL_FILE,
-        expected_sha256=(
-            EXPECTED_MODEL_SHA256
-        ),
-    )
+    if model_ready:
+        model_ok = check_file(
+            label="Qwen3-4B-Q4_K_M.gguf",
+            file_path=MODEL_FILE,
+            expected_sha256=(
+                EXPECTED_MODEL_SHA256
+            ),
+        )
+    else:
+        model_ok = False
+        print(
+            "[FAIL] Benchmark model is not ready."
+        )
+        print()
 
     runtime_ok = ensure_runtime_ready()
 

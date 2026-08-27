@@ -6,6 +6,7 @@
   "assets": {
     "model": {
       "filename": "Qwen3-4B-Q4_K_M.gguf",
+      "size_bytes": 2497280256,
       "install_path": "models/Qwen3-4B-Q4_K_M.gguf",
       "sha256": "7485FE6F11AF29433BC51CAB58009521F205840F5B4AE3A32FA7F92E8534FDF5"
     },

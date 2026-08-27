@@ -213,6 +213,363 @@ def inspect_runtime(
     )
 
 
+
+def inspect_model(
+    *,
+    protocol_root: Path,
+    manifest: dict[str, Any],
+) -> tuple[bool, str]:
+    """
+    Inspect the installed benchmark model.
+    """
+
+    model = manifest["assets"]["model"]
+
+    install_path = model.get(
+        "install_path"
+    )
+
+    expected_sha256 = model.get(
+        "sha256"
+    )
+
+    if not install_path:
+        return (
+            False,
+            "Model manifest does not define "
+            "install_path.",
+        )
+
+    if not expected_sha256:
+        return (
+            False,
+            "Model manifest does not define "
+            "sha256.",
+        )
+
+    model_path = (
+        protocol_root
+        / install_path
+    )
+
+    if not model_path.is_file():
+        return (
+            False,
+            "Managed benchmark model "
+            "is not installed.",
+        )
+
+    try:
+        actual_sha256 = calculate_sha256(
+            model_path
+        )
+
+    except OSError as error:
+        return (
+            False,
+            "Could not verify managed model: "
+            f"{error}",
+        )
+
+    if (
+        actual_sha256.upper()
+        != str(expected_sha256).upper()
+    ):
+        return (
+            False,
+            "Managed benchmark model "
+            "SHA-256 does not match.",
+        )
+
+    return (
+        True,
+        "Managed benchmark model is installed "
+        "and verified.",
+    )
+
+
+def verify_model_artifact(
+    *,
+    artifact_path: Path,
+    manifest: dict[str, Any],
+) -> tuple[bool, str]:
+    """
+    Verify the canonical local benchmark-model artifact.
+    """
+
+    model = manifest["assets"]["model"]
+
+    expected_size = model.get(
+        "size_bytes"
+    )
+
+    expected_sha256 = model.get(
+        "sha256"
+    )
+
+    if expected_size is None:
+        return (
+            False,
+            "Model manifest does not define "
+            "size_bytes.",
+        )
+
+    if not expected_sha256:
+        return (
+            False,
+            "Model manifest does not define "
+            "sha256.",
+        )
+
+    if not artifact_path.is_file():
+        return (
+            False,
+            "Benchmark model artifact was not found.",
+        )
+
+    try:
+        actual_size = artifact_path.stat().st_size
+
+    except OSError as error:
+        return (
+            False,
+            "Could not inspect model artifact: "
+            f"{error}",
+        )
+
+    if actual_size != int(expected_size):
+        return (
+            False,
+            "Benchmark model artifact size "
+            "does not match.",
+        )
+
+    try:
+        actual_sha256 = calculate_sha256(
+            artifact_path
+        )
+
+    except OSError as error:
+        return (
+            False,
+            "Could not hash model artifact: "
+            f"{error}",
+        )
+
+    if (
+        actual_sha256.upper()
+        != str(expected_sha256).upper()
+    ):
+        return (
+            False,
+            "Benchmark model artifact SHA-256 "
+            "does not match.",
+        )
+
+    return (
+        True,
+        "Benchmark model artifact size and "
+        "SHA-256 verified.",
+    )
+
+
+def provision_model_from_artifact(
+    *,
+    protocol_root: Path,
+    artifact_path: Path,
+    manifest: dict[str, Any],
+) -> tuple[bool, str]:
+    """
+    Install the benchmark model from a verified local artifact.
+
+    The model is copied into a staging location, verified there,
+    then promoted into the managed protocol directory.
+    """
+
+    model = manifest["assets"]["model"]
+
+    install_path = model.get(
+        "install_path"
+    )
+
+    if not install_path:
+        return (
+            False,
+            "Model manifest does not define "
+            "install_path.",
+        )
+
+    artifact_ok, artifact_message = (
+        verify_model_artifact(
+            artifact_path=artifact_path,
+            manifest=manifest,
+        )
+    )
+
+    if not artifact_ok:
+        return (
+            False,
+            artifact_message,
+        )
+
+    protocol_root.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    model_path = (
+        protocol_root
+        / install_path
+    )
+
+    model_parent = (
+        model_path.parent
+    )
+
+    model_parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    staging_parent = (
+        protocol_root
+        / ".staging"
+    )
+
+    staging_parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    staging_root = Path(
+        tempfile.mkdtemp(
+            prefix="model-",
+            dir=staging_parent,
+        )
+    )
+
+    staged_model = (
+        staging_root
+        / model_path.name
+    )
+
+    backup_path = (
+        model_path.with_name(
+            model_path.name
+            + ".backup"
+        )
+    )
+
+    try:
+        shutil.copy2(
+            artifact_path,
+            staged_model,
+        )
+
+        try:
+            staged_sha256 = calculate_sha256(
+                staged_model
+            )
+
+        except OSError as error:
+            return (
+                False,
+                "Could not verify staged model: "
+                f"{error}",
+            )
+
+        expected_sha256 = str(
+            model["sha256"]
+        ).upper()
+
+        if staged_sha256.upper() != expected_sha256:
+            return (
+                False,
+                "Staged benchmark model "
+                "SHA-256 does not match.",
+            )
+
+        if backup_path.exists():
+            backup_path.unlink()
+
+        if model_path.exists():
+            shutil.move(
+                str(model_path),
+                str(backup_path),
+            )
+
+        try:
+            shutil.move(
+                str(staged_model),
+                str(model_path),
+            )
+
+        except Exception:
+            if (
+                backup_path.exists()
+                and not model_path.exists()
+            ):
+                shutil.move(
+                    str(backup_path),
+                    str(model_path),
+                )
+
+            raise
+
+        installed_ok, installed_message = (
+            inspect_model(
+                protocol_root=protocol_root,
+                manifest=manifest,
+            )
+        )
+
+        if not installed_ok:
+            if model_path.exists():
+                model_path.unlink()
+
+            if backup_path.exists():
+                shutil.move(
+                    str(backup_path),
+                    str(model_path),
+                )
+
+            return (
+                False,
+                "Installed model verification failed: "
+                f"{installed_message}"
+            )
+
+        if backup_path.exists():
+            backup_path.unlink()
+
+        return (
+            True,
+            "Managed benchmark model was provisioned "
+            "and verified successfully.",
+        )
+
+    except OSError as error:
+        return (
+            False,
+            "Model provisioning failed: "
+            f"{error}",
+        )
+
+    finally:
+        if staging_root.exists():
+            shutil.rmtree(
+                staging_root,
+                ignore_errors=True,
+            )
+
+        if (
+            staging_parent.exists()
+            and not any(
+                staging_parent.iterdir()
+            )
+        ):
+            staging_parent.rmdir()
+
 def verify_runtime_archive(
     *,
     archive_path: Path,
