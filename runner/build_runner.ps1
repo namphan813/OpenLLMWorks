@@ -12,9 +12,14 @@
 #
 #   %TEMP%\OpenLLMBench-runner-build\
 #
-# The resulting executable bundles the Python runtime and OpenLLMBench
-# Runner/parser code. Benchmark protocol assets such as the model and
-# llama-bench.exe are not bundled into the executable.
+# The resulting executable bundles:
+# - the Python runtime
+# - OpenLLMBench Runner/parser code
+# - runner/assets.json
+#
+# Large Benchmark Protocol assets such as the model and llama.cpp
+# runtime archives are not bundled into the executable. The Runner
+# acquires and verifies those assets separately at runtime.
 #
 # The standalone executable has been validated through the complete
 # Benchmark Protocol v1.0 Runner workflow, including submission manifest
@@ -31,6 +36,7 @@ $ErrorActionPreference = "Stop"
 
 $RepositoryRoot = Split-Path -Parent $PSScriptRoot
 $RunnerSource = Join-Path $PSScriptRoot "run_benchmark.py"
+$AssetManifest = Join-Path $PSScriptRoot "assets.json"
 
 $BuildRoot = Join-Path $env:TEMP "OpenLLMBench-runner-build"
 $DistPath = Join-Path $BuildRoot "dist"
@@ -44,11 +50,16 @@ Write-Host ""
 
 Write-Host "Repository: $RepositoryRoot"
 Write-Host "Source:     $RunnerSource"
+Write-Host "Assets:     $AssetManifest"
 Write-Host "Build root: $BuildRoot"
 Write-Host ""
 
 if (-not (Test-Path $RunnerSource)) {
     throw "Runner source not found: $RunnerSource"
+}
+
+if (-not (Test-Path $AssetManifest)) {
+    throw "Runner asset manifest not found: $AssetManifest"
 }
 
 Write-Host "Checking Python..."
@@ -79,6 +90,7 @@ try {
         --onefile `
         --console `
         --name "OpenLLMBench-Runner" `
+        --add-data "$AssetManifest;runner" `
         --distpath $DistPath `
         --workpath $WorkPath `
         --specpath $SpecPath `

@@ -1148,27 +1148,3 @@ def provision_runtime_from_sources(
             )
         ):
             staging_parent.rmdir()
-
-
-def provision_runtime_from_archive(
-    *,
-    protocol_root: Path,
-    archive_path: Path,
-    manifest: dict[str, Any],
-) -> tuple[bool, str]:
-    """
-    Compatibility shim for the retired single-archive runtime.
-
-    Manifest schema 1.1 uses frozen upstream runtime sources
-    instead of one OpenLLMBench-hosted runtime archive.
-    """
-
-    del protocol_root
-    del archive_path
-    del manifest
-
-    return (
-        False,
-        "Single-archive runtime provisioning is retired. "
-        "Use provision_runtime_from_sources().",
-    )
