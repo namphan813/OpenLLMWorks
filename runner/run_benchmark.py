@@ -66,11 +66,12 @@ from parser.validate import (
 )
 
 from runner.provisioning import (
+    download_verified_file,
     inspect_model,
     inspect_runtime,
     load_asset_manifest,
     provision_model_from_artifact,
-    provision_runtime_from_archive,
+    provision_runtime_from_sources,
 )
 
 
@@ -245,11 +246,8 @@ def calculate_sha256(
 
 def ensure_model_ready() -> bool:
     """
-    Verify or locally provision the Protocol v1.0 benchmark model.
-
-    Network acquisition is intentionally not implemented yet.
-    If provisioning is required, the canonical model artifact
-    must already exist in the managed artifacts directory.
+    Verify or automatically acquire and provision the Protocol
+    v1.0 benchmark model.
     """
 
     print("Benchmark Model")
@@ -314,10 +312,60 @@ def ensure_model_ready() -> bool:
         "filename"
     )
 
+    size_bytes = model.get(
+        "size_bytes"
+    )
+
+    expected_sha256 = model.get(
+        "sha256"
+    )
+
+    source = model.get(
+        "source"
+    )
+
     if not filename:
         print(
             "[FAIL] Model manifest does not define "
             "filename."
+        )
+        print()
+        return False
+
+    if size_bytes is None:
+        print(
+            "[FAIL] Model manifest does not define "
+            "size_bytes."
+        )
+        print()
+        return False
+
+    if not expected_sha256:
+        print(
+            "[FAIL] Model manifest does not define "
+            "sha256."
+        )
+        print()
+        return False
+
+    if not isinstance(
+        source,
+        dict,
+    ):
+        print(
+            "[FAIL] Model manifest does not define "
+            "a source."
+        )
+        print()
+        return False
+
+    url = source.get(
+        "url"
+    )
+
+    if not url:
+        print(
+            "[FAIL] Model source does not define url."
         )
         print()
         return False
@@ -331,17 +379,30 @@ def ensure_model_ready() -> bool:
         f"Artifact: {artifact_path}"
     )
 
-    if not artifact_path.is_file():
-        print(
-            "[FAIL] Canonical model artifact "
-            "is not available locally."
+    acquired_ok, acquired_message = (
+        download_verified_file(
+            url=str(url),
+            destination=artifact_path,
+            expected_size=int(size_bytes),
+            expected_sha256=str(
+                expected_sha256
+            ),
+            label="Benchmark model artifact",
         )
+    )
+
+    if not acquired_ok:
         print(
-            "Automatic download is not implemented "
-            "in this Runner phase."
+            "[FAIL] "
+            f"{acquired_message}"
         )
         print()
         return False
+
+    print(
+        "[OK] "
+        f"{acquired_message}"
+    )
 
     provisioned_ok, provisioned_message = (
         provision_model_from_artifact(
@@ -374,11 +435,8 @@ def ensure_model_ready() -> bool:
 
 def ensure_runtime_ready() -> bool:
     """
-    Verify or locally provision the Protocol v1.0 runtime.
-
-    Network acquisition is intentionally not implemented yet.
-    If provisioning is required, the canonical runtime archive
-    must already exist in the managed artifacts directory.
+    Verify or automatically acquire and provision the frozen
+    Protocol v1.0 llama.cpp Windows NVIDIA runtime.
     """
 
     print("Benchmark Runtime")
@@ -439,43 +497,128 @@ def ensure_runtime_ready() -> bool:
 
     runtime = manifest["assets"]["runtime"]
 
-    archive_filename = runtime.get(
-        "archive_filename"
+    sources = runtime.get(
+        "sources"
     )
 
-    if not archive_filename:
+    if not isinstance(
+        sources,
+        list,
+    ) or not sources:
         print(
             "[FAIL] Runtime manifest does not define "
-            "archive_filename."
+            "sources."
         )
         print()
         return False
 
-    archive_path = (
-        ARTIFACTS_ROOT
-        / archive_filename
-    )
+    artifact_paths: dict[str, Path] = {}
 
-    print(
-        f"Archive: {archive_path}"
-    )
+    for source in sources:
+        source_id = source.get(
+            "id"
+        )
 
-    if not archive_path.is_file():
-        print(
-            "[FAIL] Canonical runtime archive "
-            "is not available locally."
+        filename = source.get(
+            "filename"
         )
-        print(
-            "Automatic download is not implemented "
-            "in this Runner phase."
+
+        size_bytes = source.get(
+            "size_bytes"
         )
-        print()
-        return False
+
+        expected_sha256 = source.get(
+            "sha256"
+        )
+
+        url = source.get(
+            "url"
+        )
+
+        if not source_id:
+            print(
+                "[FAIL] Runtime source does not define id."
+            )
+            print()
+            return False
+
+        if not filename:
+            print(
+                "[FAIL] Runtime source does not define "
+                f"filename: {source_id}"
+            )
+            print()
+            return False
+
+        if size_bytes is None:
+            print(
+                "[FAIL] Runtime source does not define "
+                f"size_bytes: {source_id}"
+            )
+            print()
+            return False
+
+        if not expected_sha256:
+            print(
+                "[FAIL] Runtime source does not define "
+                f"sha256: {source_id}"
+            )
+            print()
+            return False
+
+        if not url:
+            print(
+                "[FAIL] Runtime source does not define "
+                f"url: {source_id}"
+            )
+            print()
+            return False
+
+        artifact_path = (
+            ARTIFACTS_ROOT
+            / filename
+        )
+
+        print(
+            f"Artifact: {artifact_path}"
+        )
+
+        acquired_ok, acquired_message = (
+            download_verified_file(
+                url=str(url),
+                destination=artifact_path,
+                expected_size=int(size_bytes),
+                expected_sha256=str(
+                    expected_sha256
+                ),
+                label=(
+                    "Runtime source "
+                    f"{source_id}"
+                ),
+            )
+        )
+
+        if not acquired_ok:
+            print(
+                "[FAIL] "
+                f"{acquired_message}"
+            )
+            print()
+            return False
+
+        print(
+            "[OK] "
+            f"{acquired_message}"
+        )
+
+        artifact_paths[
+            str(source_id)
+        ] = artifact_path
 
     provisioned_ok, provisioned_message = (
-        provision_runtime_from_archive(
+        provision_runtime_from_sources(
             protocol_root=PROTOCOL_ROOT,
-            archive_path=archive_path,
+            artifact_paths=artifact_paths,
             manifest=manifest,
         )
     )
