@@ -205,6 +205,24 @@ def print_header() -> None:
     print()
 
 
+def pause_before_exit() -> None:
+    """
+    Keep the packaged Windows console visible so contributors can
+    read the final success, failure, or cancellation message.
+
+    Source/developer execution remains non-interactive.
+    """
+
+    if not getattr(sys, "frozen", False):
+        return
+
+    print()
+    try:
+        input("Press Enter to close OpenLLMBench Runner...")
+    except (EOFError, KeyboardInterrupt):
+        pass
+
+
 def utc_timestamp() -> str:
     """
     Return a normalized UTC ISO-8601 timestamp ending in Z.
@@ -1408,10 +1426,15 @@ def build_submission_zip(
 # Main runner
 # ------------------------------------------------------------
 
-def main() -> int:
+ACTIVE_RESULT_PATH: Path | None = None
+
+
+def run_main_workflow() -> int:
     """
-    Run Runner v0 Phase 3C.
+    Run the OpenLLMBench benchmark workflow.
     """
+
+    global ACTIVE_RESULT_PATH
 
     print_header()
 
@@ -1541,6 +1564,8 @@ def main() -> int:
         parents=True,
         exist_ok=False,
     )
+
+    ACTIVE_RESULT_PATH = result_path
 
     print("=" * 60)
     print("Benchmark Workspace")
@@ -1789,6 +1814,53 @@ def main() -> int:
     return 0
 
 
+def main() -> int:
+    """
+    Run the workflow with contributor-facing cancellation handling.
+    """
+
+    global ACTIVE_RESULT_PATH
+
+    ACTIVE_RESULT_PATH = None
+
+    try:
+        return run_main_workflow()
+
+    except KeyboardInterrupt:
+        print()
+        print()
+        print("=" * 60)
+        print("OpenLLMBench Runner Interrupted")
+        print("=" * 60)
+        print()
+        print(
+            "The Runner was interrupted by the user."
+        )
+        print()
+        print(
+            "No valid submission ZIP was created "
+            "by this interrupted run."
+        )
+
+        if ACTIVE_RESULT_PATH is not None:
+            print()
+            print(
+                "Partial benchmark workspace preserved at:"
+            )
+            print(ACTIVE_RESULT_PATH)
+
+        print()
+        print(
+            "You can safely run OpenLLMBench Runner again."
+        )
+        print()
+
+        return 130
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    exit_code = main()
+    pause_before_exit()
+    sys.exit(exit_code)
+
 
