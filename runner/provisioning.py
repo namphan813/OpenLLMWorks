@@ -23,6 +23,7 @@ import zipfile
 
 
 DOWNLOAD_CHUNK_SIZE = 1024 * 1024
+DOWNLOAD_PROGRESS_PERCENT_STEP = 10
 DOWNLOAD_USER_AGENT = "OpenLLMBench-Runner/0.3"
 
 
@@ -191,7 +192,15 @@ def download_verified_file(
     The completed download is promoted to its canonical artifact
     path only after exact size and SHA-256 verification succeeds.
     Existing verified artifacts are reused.
+
+    Contributor-facing status output distinguishes local artifact
+    checks, network acquisition, download progress, verification,
+    and final artifact installation.
     """
+
+    print(
+        f"Checking local artifact: {label}..."
+    )
 
     existing_ok, existing_message = (
         verify_file_identity(
@@ -203,11 +212,22 @@ def download_verified_file(
     )
 
     if existing_ok:
+        print(
+            f"[OK] Local artifact verified: {label}"
+        )
+
         return (
             True,
             "Existing artifact reused. "
             f"{existing_message}"
         )
+
+    print(
+        f"[INFO] Local artifact unavailable or invalid: {label}"
+    )
+    print(
+        f"Downloading {label}..."
+    )
 
     destination.parent.mkdir(
         parents=True,
@@ -228,6 +248,15 @@ def download_verified_file(
         },
     )
 
+    expected_size_int = int(
+        expected_size
+    )
+
+    downloaded_bytes = 0
+    next_progress_percent = (
+        DOWNLOAD_PROGRESS_PERCENT_STEP
+    )
+
     try:
         with urlopen(
             request,
@@ -246,6 +275,49 @@ def download_verified_file(
 
                     output.write(chunk)
 
+                    downloaded_bytes += len(
+                        chunk
+                    )
+
+                    if expected_size_int > 0:
+                        progress_percent = min(
+                            100,
+                            int(
+                                downloaded_bytes
+                                * 100
+                                / expected_size_int
+                            ),
+                        )
+
+                        if (
+                            progress_percent
+                            >= next_progress_percent
+                        ):
+                            downloaded_mib = (
+                                downloaded_bytes
+                                / (1024 * 1024)
+                            )
+
+                            expected_mib = (
+                                expected_size_int
+                                / (1024 * 1024)
+                            )
+
+                            print(
+                                "Progress: "
+                                f"{progress_percent}% "
+                                f"({downloaded_mib:.0f} MiB / "
+                                f"{expected_mib:.0f} MiB)"
+                            )
+
+                            while (
+                                next_progress_percent
+                                <= progress_percent
+                            ):
+                                next_progress_percent += (
+                                    DOWNLOAD_PROGRESS_PERCENT_STEP
+                                )
+
     except (
         HTTPError,
         URLError,
@@ -259,6 +331,10 @@ def download_verified_file(
             False,
             f"{label} download failed: {error}",
         )
+
+    print(
+        f"Verifying downloaded artifact: {label}..."
+    )
 
     verified_ok, verified_message = (
         verify_file_identity(
@@ -291,6 +367,10 @@ def download_verified_file(
             False,
             f"Could not promote {label}: {error}",
         )
+
+    print(
+        f"[OK] Download verified and installed: {label}"
+    )
 
     return (
         True,
@@ -1148,3 +1228,4 @@ def provision_runtime_from_sources(
             )
         ):
             staging_parent.rmdir()
+
