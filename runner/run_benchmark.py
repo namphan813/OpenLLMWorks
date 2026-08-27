@@ -65,6 +65,12 @@ from parser.validate import (
     print_preflight_result,
 )
 
+from runner.provisioning import (
+    inspect_runtime,
+    load_asset_manifest,
+    provision_runtime_from_archive,
+)
+
 
 # ------------------------------------------------------------
 # Runner configuration
@@ -72,6 +78,25 @@ from parser.validate import (
 
 RUNNER_VERSION = "0.3.0-dev3"
 PROTOCOL_VERSION = "v1.0"
+
+
+def get_resource_root() -> Path:
+    """
+    Return the root containing packaged Runner resources.
+
+    Source execution uses the repository root. A PyInstaller
+    build uses its temporary extraction directory.
+    """
+
+    if (
+        getattr(sys, "frozen", False)
+        and hasattr(sys, "_MEIPASS")
+    ):
+        return Path(
+            sys._MEIPASS
+        )
+
+    return REPOSITORY_ROOT
 
 
 def get_local_app_data() -> Path:
@@ -124,6 +149,21 @@ LLAMA_BENCH_FILE = (
 RESULTS_ROOT = (
     OPENLLMBENCH_ROOT
     / "results"
+)
+
+ARTIFACTS_ROOT = (
+    OPENLLMBENCH_ROOT
+    / "artifacts"
+)
+
+RESOURCE_ROOT = (
+    get_resource_root()
+)
+
+ASSET_MANIFEST_FILE = (
+    RESOURCE_ROOT
+    / "runner"
+    / "assets.json"
 )
 
 EXPECTED_MODEL_SHA256 = (
@@ -195,6 +235,135 @@ def calculate_sha256(
             digest.update(chunk)
 
     return digest.hexdigest().upper()
+
+
+# ------------------------------------------------------------
+# Managed runtime provisioning
+# ------------------------------------------------------------
+
+def ensure_runtime_ready() -> bool:
+    """
+    Verify or locally provision the Protocol v1.0 runtime.
+
+    Network acquisition is intentionally not implemented yet.
+    If provisioning is required, the canonical runtime archive
+    must already exist in the managed artifacts directory.
+    """
+
+    print("Benchmark Runtime")
+    print("-" * 60)
+
+    try:
+        manifest = load_asset_manifest(
+            ASSET_MANIFEST_FILE
+        )
+
+    except RuntimeError as error:
+        print(
+            f"[FAIL] {error}"
+        )
+        print()
+        return False
+
+    manifest_protocol = manifest.get(
+        "protocol_version"
+    )
+
+    if manifest_protocol != PROTOCOL_VERSION:
+        print(
+            "[FAIL] Asset manifest protocol version "
+            "does not match the Runner."
+        )
+        print(
+            f"Runner:   {PROTOCOL_VERSION}"
+        )
+        print(
+            f"Manifest: {manifest_protocol}"
+        )
+        print()
+        return False
+
+    runtime_ok, runtime_message = (
+        inspect_runtime(
+            protocol_root=PROTOCOL_ROOT,
+            manifest=manifest,
+        )
+    )
+
+    if runtime_ok:
+        print(
+            "[OK] "
+            f"{runtime_message}"
+        )
+        print()
+        return True
+
+    print(
+        "[INFO] "
+        f"{runtime_message}"
+    )
+    print(
+        "Runtime provisioning is required."
+    )
+
+    runtime = manifest["assets"]["runtime"]
+
+    archive_filename = runtime.get(
+        "archive_filename"
+    )
+
+    if not archive_filename:
+        print(
+            "[FAIL] Runtime manifest does not define "
+            "archive_filename."
+        )
+        print()
+        return False
+
+    archive_path = (
+        ARTIFACTS_ROOT
+        / archive_filename
+    )
+
+    print(
+        f"Archive: {archive_path}"
+    )
+
+    if not archive_path.is_file():
+        print(
+            "[FAIL] Canonical runtime archive "
+            "is not available locally."
+        )
+        print(
+            "Automatic download is not implemented "
+            "in this Runner phase."
+        )
+        print()
+        return False
+
+    provisioned_ok, provisioned_message = (
+        provision_runtime_from_archive(
+            protocol_root=PROTOCOL_ROOT,
+            archive_path=archive_path,
+            manifest=manifest,
+        )
+    )
+
+    if not provisioned_ok:
+        print(
+            "[FAIL] "
+            f"{provisioned_message}"
+        )
+        print()
+        return False
+
+    print(
+        "[OK] "
+        f"{provisioned_message}"
+    )
+    print()
+
+    return True
 
 
 # ------------------------------------------------------------
@@ -987,16 +1156,25 @@ def main() -> int:
         ),
     )
 
+    runtime_ok = ensure_runtime_ready()
+
     print("Benchmark Engine")
     print("-" * 60)
 
-    engine_ok = check_file(
-        label="llama-bench.exe",
-        file_path=LLAMA_BENCH_FILE,
-        expected_sha256=(
-            EXPECTED_LLAMA_BENCH_SHA256
-        ),
-    )
+    if runtime_ok:
+        engine_ok = check_file(
+            label="llama-bench.exe",
+            file_path=LLAMA_BENCH_FILE,
+            expected_sha256=(
+                EXPECTED_LLAMA_BENCH_SHA256
+            ),
+        )
+    else:
+        engine_ok = False
+        print(
+            "[FAIL] Benchmark runtime is not ready."
+        )
+        print()
 
     print("=" * 60)
     print("Environment Verification Summary")
@@ -1015,6 +1193,12 @@ def main() -> int:
     )
 
     print(
+        "[PASS] Benchmark runtime"
+        if runtime_ok
+        else "[FAIL] Benchmark runtime"
+    )
+
+    print(
         "[PASS] Benchmark engine"
         if engine_ok
         else "[FAIL] Benchmark engine"
@@ -1025,6 +1209,7 @@ def main() -> int:
     if not (
         gpu_ok
         and model_ok
+        and runtime_ok
         and engine_ok
     ):
         print(
@@ -1326,3 +1511,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
