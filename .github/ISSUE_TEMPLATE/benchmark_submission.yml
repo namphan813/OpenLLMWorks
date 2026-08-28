@@ -33,6 +33,16 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: submission_name
+    attributes:
+      label: Submission name
+      description: >
+        Enter the submission name used in your submission.json manifest.
+      placeholder: GTX1660Ti_Test_System
+    validations:
+      required: true
+
   - type: dropdown
     id: submission_method
     attributes:
@@ -41,6 +51,18 @@ body:
       options:
         - OpenLLMWorks Runner
         - Manual / advanced workflow
+    validations:
+      required: true
+
+  - type: dropdown
+    id: validation
+    attributes:
+      label: Local validation result
+      description: >
+        What result did you receive from the OpenLLMWorks submission validator?
+      options:
+        - PASSED
+        - PASSED with warnings
     validations:
       required: true
 
