@@ -80,7 +80,7 @@ from runner.provisioning import (
 # Runner configuration
 # ------------------------------------------------------------
 
-RUNNER_VERSION = "0.3.0-dev3"
+RUNNER_VERSION = "0.3.0-beta.1"
 PROTOCOL_VERSION = "v1.0"
 
 
