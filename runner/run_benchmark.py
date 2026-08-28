@@ -23,7 +23,7 @@ The submission workspace contains:
 - submission.json
 
 The completed workspace is validated using the canonical
-OpenLLMBench submission validation path.
+OpenLLMWorks submission validation path.
 
 A ZIP package is created only when validation passes.
 
@@ -199,7 +199,7 @@ def print_header() -> None:
 
     print()
     print("=" * 60)
-    print("OpenLLMBench Runner")
+    print("OpenLLMWorks Runner")
     print(f"Version: {RUNNER_VERSION}")
     print("=" * 60)
     print()
@@ -218,7 +218,7 @@ def pause_before_exit() -> None:
 
     print()
     try:
-        input("Press Enter to close OpenLLMBench Runner...")
+        input("Press Enter to close OpenLLMWorks Runner...")
     except (EOFError, KeyboardInterrupt):
         pass
 
@@ -921,7 +921,7 @@ def capture_hardware_evidence(
     nvidia_smi_output: str,
 ) -> None:
     """
-    Capture required OpenLLMBench hardware evidence files.
+    Capture required OpenLLMWorks hardware evidence files.
     """
 
     print("=" * 60)
@@ -1252,7 +1252,7 @@ def create_submission_manifest(
     benchmark_timestamp: str,
 ) -> Path:
     """
-    Create the canonical OpenLLMBench submission.json manifest.
+    Create the canonical OpenLLMWorks submission.json manifest.
     """
 
     submitted_at = utc_timestamp()
@@ -1299,7 +1299,7 @@ def validate_submission_workspace(
 ) -> bool:
     """
     Validate a completed runner workspace using the canonical
-    OpenLLMBench submission validation path.
+    OpenLLMWorks submission validation path.
     """
 
     print()
@@ -1431,7 +1431,7 @@ ACTIVE_RESULT_PATH: Path | None = None
 
 def run_main_workflow() -> int:
     """
-    Run the OpenLLMBench benchmark workflow.
+    Run the OpenLLMWorks benchmark workflow.
     """
 
     global ACTIVE_RESULT_PATH
@@ -1807,7 +1807,7 @@ def run_main_workflow() -> int:
     print()
 
     print(
-        "OpenLLMBench Runner completed successfully."
+        "OpenLLMWorks Runner completed successfully."
     )
     print()
 
@@ -1830,7 +1830,7 @@ def main() -> int:
         print()
         print()
         print("=" * 60)
-        print("OpenLLMBench Runner Interrupted")
+        print("OpenLLMWorks Runner Interrupted")
         print("=" * 60)
         print()
         print(
@@ -1851,7 +1851,7 @@ def main() -> int:
 
         print()
         print(
-            "You can safely run OpenLLMBench Runner again."
+            "You can safely run OpenLLMWorks Runner again."
         )
         print()
 

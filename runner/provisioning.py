@@ -1,5 +1,5 @@
 """
-OpenLLMBench Runner asset provisioning.
+OpenLLMWorks Runner asset provisioning.
 
 This module owns managed benchmark asset inspection, verified
 artifact acquisition, and installation.
@@ -24,7 +24,7 @@ import zipfile
 
 DOWNLOAD_CHUNK_SIZE = 1024 * 1024
 DOWNLOAD_PROGRESS_PERCENT_STEP = 10
-DOWNLOAD_USER_AGENT = "OpenLLMBench-Runner/0.3"
+DOWNLOAD_USER_AGENT = "OpenLLMWorks-Runner/0.3"
 
 
 def calculate_sha256(

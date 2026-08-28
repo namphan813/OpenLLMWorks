@@ -1,6 +1,6 @@
-﻿# OpenLLMBench Runner Build Script
+# OpenLLMWorks Runner Build Script
 #
-# Creates the standalone Windows OpenLLMBench Runner executable using
+# Creates the standalone Windows OpenLLMWorks Runner executable using
 # PyInstaller.
 #
 # Current development requirements:
@@ -10,11 +10,11 @@
 #
 # Build output is intentionally written outside the repository under:
 #
-#   %TEMP%\OpenLLMBench-runner-build\
+#   %TEMP%\OpenLLMWorks-runner-build\
 #
 # The resulting executable bundles:
 # - the Python runtime
-# - OpenLLMBench Runner/parser code
+# - OpenLLMWorks Runner/parser code
 # - runner/assets.json
 #
 # Large Benchmark Protocol assets such as the model and llama.cpp
@@ -38,13 +38,13 @@ $RepositoryRoot = Split-Path -Parent $PSScriptRoot
 $RunnerSource = Join-Path $PSScriptRoot "run_benchmark.py"
 $AssetManifest = Join-Path $PSScriptRoot "assets.json"
 
-$BuildRoot = Join-Path $env:TEMP "OpenLLMBench-runner-build"
+$BuildRoot = Join-Path $env:TEMP "OpenLLMWorks-runner-build"
 $DistPath = Join-Path $BuildRoot "dist"
 $WorkPath = Join-Path $BuildRoot "build"
 $SpecPath = Join-Path $BuildRoot "spec"
 
 Write-Host ""
-Write-Host "OpenLLMBench Runner Build"
+Write-Host "OpenLLMWorks Runner Build"
 Write-Host "========================="
 Write-Host ""
 
@@ -78,7 +78,7 @@ New-Item -ItemType Directory -Path $WorkPath -Force | Out-Null
 New-Item -ItemType Directory -Path $SpecPath -Force | Out-Null
 
 Write-Host ""
-Write-Host "Building OpenLLMBench-Runner.exe..."
+Write-Host "Building OpenLLMWorks-Runner.exe..."
 Write-Host ""
 
 Push-Location $RepositoryRoot
@@ -89,7 +89,7 @@ try {
         --clean `
         --onefile `
         --console `
-        --name "OpenLLMBench-Runner" `
+        --name "OpenLLMWorks-Runner" `
         --add-data "$AssetManifest;runner" `
         --distpath $DistPath `
         --workpath $WorkPath `
@@ -104,7 +104,7 @@ finally {
     Pop-Location
 }
 
-$Executable = Join-Path $DistPath "OpenLLMBench-Runner.exe"
+$Executable = Join-Path $DistPath "OpenLLMWorks-Runner.exe"
 
 if (-not (Test-Path $Executable)) {
     throw "Expected executable was not created: $Executable"
