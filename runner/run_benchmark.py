@@ -1,12 +1,13 @@
 """
-OpenLLMBench Runner
+OpenLLMWorks Runner
 
 Phase:
 Runner v0 - Validated Submission Package
 
 Purpose:
 Verify the benchmark environment, collect required hardware
-evidence, execute three OpenLLMBench Benchmark Protocol v1.0
+evidence, execute three Open LLM Benchmark Database (OLBD)
+Protocol v1.0
 runs, create a submission.json manifest, validate the completed
 submission workspace, and build an upload-ready ZIP package.
 
@@ -27,7 +28,7 @@ OpenLLMWorks submission validation path.
 
 A ZIP package is created only when validation passes.
 
-This phase does not modify the OpenLLMBench database.
+This phase does not modify the canonical Open LLM Benchmark Database.
 """
 
 from __future__ import annotations
@@ -106,7 +107,7 @@ def get_local_app_data() -> Path:
     """
     Return the Windows Local AppData directory.
 
-    OpenLLMBench stores managed runtime assets and benchmark results
+    OpenLLMWorks stores managed runtime assets and benchmark results
     outside the application and repository so the standalone Runner
     can operate without a development checkout.
     """
@@ -126,13 +127,57 @@ def get_local_app_data() -> Path:
     )
 
 
-OPENLLMBENCH_ROOT = (
+LOCAL_APP_DATA_ROOT = (
     get_local_app_data()
+)
+
+OPENLLMWORKS_ROOT = (
+    LOCAL_APP_DATA_ROOT
+    / "OpenLLMWorks"
+)
+
+LEGACY_OPENLLMBENCH_ROOT = (
+    LOCAL_APP_DATA_ROOT
     / "OpenLLMBench"
 )
 
+
+def get_managed_root() -> Path:
+    """
+    Resolve the managed OpenLLMWorks application directory.
+
+    New installations use:
+
+        %LOCALAPPDATA%\\OpenLLMWorks
+
+    Existing installations created before the OpenLLMWorks rebrand
+    may already contain verified protocol assets under:
+
+        %LOCALAPPDATA%\\OpenLLMBench
+
+    When the new OpenLLMWorks directory does not yet exist, an
+    existing legacy OpenLLMBench directory is reused in place.
+
+    This preserves already-downloaded and verified benchmark assets,
+    avoids unnecessary large downloads, and keeps the rebrand
+    backward-compatible without moving or deleting user data.
+    """
+
+    if OPENLLMWORKS_ROOT.exists():
+        return OPENLLMWORKS_ROOT
+
+    if LEGACY_OPENLLMBENCH_ROOT.exists():
+        return LEGACY_OPENLLMBENCH_ROOT
+
+    return OPENLLMWORKS_ROOT
+
+
+MANAGED_ROOT = (
+    get_managed_root()
+)
+
 PROTOCOL_ROOT = (
-    OPENLLMBENCH_ROOT
+    MANAGED_ROOT
     / "protocols"
     / PROTOCOL_VERSION
 )
@@ -150,12 +195,12 @@ LLAMA_BENCH_FILE = (
 )
 
 RESULTS_ROOT = (
-    OPENLLMBENCH_ROOT
+    MANAGED_ROOT
     / "results"
 )
 
 ARTIFACTS_ROOT = (
-    OPENLLMBENCH_ROOT
+    MANAGED_ROOT
     / "artifacts"
 )
 
