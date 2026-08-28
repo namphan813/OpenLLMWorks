@@ -1,8 +1,8 @@
-# OpenLLMBench Architecture
+# OpenLLMWorks Architecture
 
 ## Overview
 
-OpenLLMBench is an open-source platform for collecting, normalizing, preserving, and analyzing local Large Language Model inference benchmarks.
+OpenLLMWorks is an open-source platform for collecting, normalizing, preserving, and analyzing local Large Language Model inference benchmarks.
 
 The project is organized around a simple lifecycle:
 
@@ -24,7 +24,7 @@ Each stage has a distinct responsibility. This separation keeps the project unde
 
 ## Architectural Goals
 
-OpenLLMBench is designed to:
+OpenLLMWorks is designed to:
 
 - preserve benchmark data without inventing missing values;
 - keep computation separate from presentation;
@@ -99,7 +99,7 @@ The architecture favors small modules with clear responsibilities over large, ti
 ## Repository Structure
 
 ```text
-OpenLLMBench/
+OpenLLMWorks/
 │
 ├── parser/
 │   ├── parser.py
@@ -155,7 +155,7 @@ Some files and folders shown above represent the intended architecture and may s
 
 **Location:** `parser/`
 
-The Parser layer converts incoming benchmark files into normalized records that the rest of OpenLLMBench can trust.
+The Parser layer converts incoming benchmark files into normalized records that the rest of OpenLLMWorks can trust.
 
 Its responsibilities include:
 
@@ -209,7 +209,7 @@ Unknown historical values remain unknown rather than being inferred.
 **Primary module:** `parser/database.py`  
 **Persistent data:** `database/benchmark_database.json`
 
-The Database layer is the system of record for OpenLLMBench.
+The Database layer is the system of record for OpenLLMWorks.
 
 It is responsible for:
 
@@ -224,7 +224,7 @@ It is responsible for:
 
 The Database layer answers:
 
-> What does OpenLLMBench know?
+> What does OpenLLMWorks know?
 
 ### Deterministic result identity
 
@@ -254,7 +254,7 @@ This allows identical benchmark content to be recognized even when it is submitt
 
 ### Database evolution
 
-OpenLLMBench supports explicit schema migration:
+OpenLLMWorks supports explicit schema migration:
 
 ```text
 Schema 0.6
@@ -278,7 +278,7 @@ Historical fields that cannot be reconstructed remain `None`.
 
 **Location:** `utilities/`
 
-Utilities protect and maintain the data used by OpenLLMBench.
+Utilities protect and maintain the data used by OpenLLMWorks.
 
 They orchestrate critical operations by reusing Parser and Database capabilities rather than duplicating them.
 
@@ -411,7 +411,7 @@ Examples:
 
 Question answered:
 
-> What does OpenLLMBench know about this hardware?
+> What does OpenLLMWorks know about this hardware?
 
 ### `analytics/facts.py`
 
@@ -435,7 +435,7 @@ Combines statistics, leaderboards, profiles, and facts into one current-state re
 
 Question answered:
 
-> What does OpenLLMBench look like at this moment?
+> What does OpenLLMWorks look like at this moment?
 
 ### `analytics/trends.py`
 
@@ -622,7 +622,7 @@ Final Verification
 
 # Data Integrity Rules
 
-OpenLLMBench follows several non-negotiable rules.
+OpenLLMWorks follows several non-negotiable rules.
 
 ## Unknown means unknown
 
@@ -858,7 +858,7 @@ This preserves the reasoning behind the architecture rather than documenting onl
 
 # Guiding Principle
 
-OpenLLMBench architecture should remain:
+OpenLLMWorks architecture should remain:
 
 - simple at first glance;
 - powerful when explored;
@@ -873,7 +873,7 @@ When deciding where new work belongs, ask:
 2. Which layer owns that responsibility?
 3. Can the logic be reused by more than one presentation?
 4. Does it preserve data integrity?
-5. Does it help OpenLLMBench measure, understand, or preserve?
+5. Does it help OpenLLMWorks measure, understand, or preserve?
 
 ---
 

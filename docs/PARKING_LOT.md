@@ -1,4 +1,4 @@
-# OpenLLMBench Parking Lot
+# OpenLLMWorks Parking Lot
 
 The Parking Lot is a collection of ideas that are intentionally **not** part of the current sprint.
 

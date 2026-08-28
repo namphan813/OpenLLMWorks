@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.1",
+  "protocol_version": "v1.0",
+  "platform": "windows",
+  "accelerator": "nvidia",
+  "assets": {
+    "model": {
+      "filename": "Qwen3-4B-Q4_K_M.gguf",
+      "size_bytes": 2497280256,
+      "install_path": "models/Qwen3-4B-Q4_K_M.gguf",
+      "sha256": "7485FE6F11AF29433BC51CAB58009521F205840F5B4AE3A32FA7F92E8534FDF5",
+      "source": {
+        "provider": "huggingface",
+        "repository": "Qwen/Qwen3-4B-GGUF",
+        "revision": "a9a60d0",
+        "url": "https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/a9a60d0/Qwen3-4B-Q4_K_M.gguf?download=true"
+      }
+    },
+    "runtime": {
+      "install_path": "runtime",
+      "llama_cpp_release": "b10069",
+      "llama_cpp_commit": "178a6c449",
+      "critical_file": "llama-bench.exe",
+      "critical_file_sha256": "060112797BC888544883C793300FA9EB45F7583E7128A1BE81C8BB24A6799C64",
+      "sources": [
+        {
+          "id": "llama_cpp_cuda_12_4",
+          "filename": "llama-b10069-bin-win-cuda-12.4-x64.zip",
+          "size_bytes": 249038755,
+          "sha256": "5933CF07087CC2515EA25654CEF7913CDB5F9C29B738CB303A01A01C153014FE",
+          "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10069/llama-b10069-bin-win-cuda-12.4-x64.zip"
+        },
+        {
+          "id": "cuda_12_4_runtime",
+          "filename": "cudart-llama-bin-win-cuda-12.4-x64.zip",
+          "size_bytes": 391443627,
+          "sha256": "8C79A9B226DE4B3CACFD1F83D24F962D0773BE79F1E7B75C6AF4DED7E32AE1D6",
+          "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10069/cudart-llama-bin-win-cuda-12.4-x64.zip"
+        }
+      ],
+      "required_files": [
+        "cublas64_12.dll",
+        "cublasLt64_12.dll",
+        "cudart64_12.dll",
+        "ggml.dll",
+        "ggml-base.dll",
+        "ggml-cpu-alderlake.dll",
+        "ggml-cpu-cannonlake.dll",
+        "ggml-cpu-cascadelake.dll",
+        "ggml-cpu-cooperlake.dll",
+        "ggml-cpu-haswell.dll",
+        "ggml-cpu-icelake.dll",
+        "ggml-cpu-ivybridge.dll",
+        "ggml-cpu-piledriver.dll",
+        "ggml-cpu-sandybridge.dll",
+        "ggml-cpu-sapphirerapids.dll",
+        "ggml-cpu-skylakex.dll",
+        "ggml-cpu-sse42.dll",
+        "ggml-cpu-x64.dll",
+        "ggml-cpu-zen4.dll",
+        "ggml-cuda.dll",
+        "ggml-rpc.dll",
+        "libomp140.x86_64.dll",
+        "llama.dll",
+        "llama-batched-bench-impl.dll",
+        "llama-bench.exe",
+        "llama-bench-impl.dll",
+        "llama-cli-impl.dll",
+        "llama-common.dll",
+        "llama-completion-impl.dll",
+        "llama-fit-params-impl.dll",
+        "llama-perplexity-impl.dll",
+        "llama-quantize-impl.dll",
+        "llama-server-impl.dll",
+        "mtmd.dll"
+      ]
+    }
+  }
+}

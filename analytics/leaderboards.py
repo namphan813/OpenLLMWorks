@@ -1,12 +1,12 @@
 """
-OpenLLMBench Leaderboard Engine
+OpenLLMWorks Leaderboard Engine
 
 Purpose:
 Builds reusable performance and hardware leaderboards from
-the OpenLLMBench benchmark database.
+the OpenLLMWorks benchmark database.
 
 Version:
-0.7.0-dev2
+0.7.0-dev3
 """
 
 from collections import Counter
@@ -18,7 +18,7 @@ from analytics.statistics import (
 )
 
 
-LEADERBOARD_MODULE_VERSION = "0.7.0-dev2"
+LEADERBOARD_MODULE_VERSION = "0.7.0-dev3"
 
 
 # ------------------------------------------------------------
@@ -126,6 +126,109 @@ def rank_by_metric(
         leaderboard.append(entry)
 
     return leaderboard
+
+
+# ------------------------------------------------------------
+# GPU PROFILE LEADERBOARDS
+# ------------------------------------------------------------
+
+def rank_gpu_profiles_by_metric(
+    gpu_profiles: dict,
+    metric_name: str,
+) -> list[dict]:
+    """
+    Rank aggregated GPU profiles by one numeric performance metric.
+
+    Unlike rank_by_metric(), which ranks individual benchmark
+    results, this function ranks canonical GPU variants produced
+    by analytics.profiles.build_gpu_profiles().
+
+    Higher values rank first.
+    """
+
+    ranked_profiles: list[dict] = []
+
+    for profile_key, profile in gpu_profiles.items():
+        value = profile.get(
+            metric_name
+        )
+
+        if not valid_number(value):
+            continue
+
+        gpu_identity = profile.get(
+            "gpu_identity",
+            {},
+        )
+
+        if not isinstance(
+            gpu_identity,
+            dict,
+        ):
+            gpu_identity = {}
+
+        ranked_profiles.append(
+            {
+                "profile_key": profile_key,
+                "gpu_vendor": clean_label(
+                    gpu_identity.get(
+                        "vendor",
+                        profile.get(
+                            "gpu_vendor"
+                        ),
+                    )
+                ),
+                "gpu_model": clean_label(
+                    gpu_identity.get(
+                        "model",
+                        profile.get(
+                            "gpu_model"
+                        ),
+                    )
+                ),
+                "vram_gib": (
+                    gpu_identity.get(
+                        "vram_gib"
+                    )
+                ),
+                "form_factor": clean_label(
+                    gpu_identity.get(
+                        "form_factor",
+                        profile.get(
+                            "gpu_form_factor"
+                        ),
+                    )
+                ),
+                "submission_count": (
+                    profile.get(
+                        "submission_count",
+                        0,
+                    )
+                ),
+                "metric": metric_name,
+                "value": value,
+            }
+        )
+
+    ranked_profiles.sort(
+        key=lambda entry: (
+            -entry["value"],
+            entry[
+                "gpu_model"
+            ].lower(),
+            entry[
+                "profile_key"
+            ].lower(),
+        )
+    )
+
+    for position, entry in enumerate(
+        ranked_profiles,
+        start=1,
+    ):
+        entry["rank"] = position
+
+    return ranked_profiles
 
 
 # ------------------------------------------------------------
@@ -269,7 +372,7 @@ def build_leaderboards(
     limit: int = 10,
 ) -> dict:
     """
-    Build the complete OpenLLMBench leaderboard report.
+    Build the complete OpenLLMWorks leaderboard report.
 
     The returned data contains no terminal formatting and can
     later be reused by:

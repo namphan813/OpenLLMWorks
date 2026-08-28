@@ -1,23 +1,28 @@
 name: Benchmark Submission
-description: Submit a validated OpenLLMBench benchmark package for review.
+description: Submit an OpenLLMWorks benchmark package for maintainer review.
 title: "[Benchmark Submission]: "
 labels:
   - benchmark-submission
+
 body:
   - type: markdown
     attributes:
       value: |
-        # OpenLLMBench Benchmark Submission
+        # OpenLLMWorks Benchmark Submission
 
-        Thank you for contributing benchmark data to OpenLLMBench.
+        Thank you for contributing benchmark data to OpenLLMWorks.
 
-        Before submitting, please make sure your benchmark package has been
-        validated locally using:
+        The preferred submission method is the OpenLLMWorks Runner.
+        A successful Runner session automatically validates the completed
+        submission before creating the upload-ready ZIP package.
 
-        `py -m parser.validate <submission>`
+        If you created the submission manually, validate it from the
+        repository root before submitting:
 
-        Attach the complete submission package as a ZIP file in the section
-        below. A maintainer will re-validate the package before importing it.
+        `python -m parser.validate <submission>`
+
+        Attach the complete OpenLLMWorks submission ZIP below.
+        A maintainer will independently validate the package before import.
 
   - type: input
     id: gpu
@@ -39,11 +44,22 @@ body:
       required: true
 
   - type: dropdown
+    id: submission_method
+    attributes:
+      label: Submission method
+      description: How was this benchmark package created?
+      options:
+        - OpenLLMWorks Runner
+        - Manual / advanced workflow
+    validations:
+      required: true
+
+  - type: dropdown
     id: validation
     attributes:
       label: Local validation result
       description: >
-        What result did you receive from the OpenLLMBench submission validator?
+        What result did you receive from the OpenLLMWorks submission validator?
       options:
         - PASSED
         - PASSED with warnings
@@ -55,8 +71,8 @@ body:
     attributes:
       label: Submission package
       description: >
-        Drag and drop the ZIP file containing your complete validated
-        submission package into this field.
+        Drag and drop the complete OpenLLMWorks submission ZIP into this field.
+        If you used the Runner, attach the upload-ready ZIP it generated.
       placeholder: Drag your submission ZIP file here.
     validations:
       required: true
@@ -66,7 +82,8 @@ body:
     attributes:
       label: Additional notes
       description: >
-        Add anything that may help maintainers review this benchmark.
+        Add anything that may help maintainers review this benchmark,
+        including unusual behavior, hardware modifications, or Runner issues.
         This field is optional.
       placeholder: Optional notes about the system, benchmark run, or submission.
 
@@ -75,11 +92,11 @@ body:
     attributes:
       label: Submission checklist
       options:
-        - label: I ran the OpenLLMBench submission validator against this package.
+        - label: The attached ZIP is the complete submission package produced or validated for this benchmark.
           required: true
-        - label: The attached ZIP contains the complete submission package that I validated.
+        - label: I have not intentionally modified the raw benchmark output or hardware evidence.
           required: true
-        - label: I have not intentionally modified the benchmark output or hardware evidence.
+        - label: I understand that maintainers will independently validate this submission before import.
           required: true
         - label: I understand that maintainers may request changes before accepting this benchmark.
           required: true

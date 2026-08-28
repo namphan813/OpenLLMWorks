@@ -1,5 +1,5 @@
 """
-OpenLLMBench Hardware Profile Viewer
+OpenLLMWorks Hardware Profile Viewer
 
 Version:
 0.7.0-dev1
@@ -63,7 +63,7 @@ def print_profile(name: str, profile: dict) -> None:
 
 def main():
 
-    print("OpenLLMBench Hardware Profiles")
+    print("OpenLLMWorks Hardware Profiles")
     print("Profile Viewer v0.7.0-dev1")
     print()
 

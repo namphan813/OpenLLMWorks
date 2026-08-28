@@ -1,8 +1,8 @@
 """
-OpenLLMBench Snapshot Engine
+OpenLLMWorks Snapshot Engine
 
 Purpose:
-Builds a reusable current-state snapshot of the OpenLLMBench
+Builds a reusable current-state snapshot of the OpenLLMWorks
 database for terminal reports, milestone infographics,
 websites, and future monthly summaries.
 
@@ -289,11 +289,11 @@ def build_snapshot(
     database: dict,
     *,
     snapshot_name: str = (
-        "OpenLLMBench Weekend Snapshot"
+        "OpenLLMWorks Weekend Snapshot"
     ),
 ) -> dict:
     """
-    Build a complete current-state OpenLLMBench snapshot.
+    Build a complete current-state OpenLLMWorks snapshot.
 
     This version intentionally reports the present database state.
     Time-period comparisons will be added after submission and

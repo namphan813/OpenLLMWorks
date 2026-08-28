@@ -1,20 +1,33 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-08-08T21:46:49.876885+00:00",
+    "generatedAt": "2026-08-28T02:21:53.976207+00:00",
     "generator": {
-        "name": "OpenLLMBench Publisher",
-        "version": "0.1"
+        "name": "OpenLLMWorks Publisher",
+        "version": "0.2"
     },
     "stats": {
-        "benchmarkResults": 3,
-        "gpuModels": 2,
-        "cpuModels": 3,
-        "importEvents": 14,
-        "averageTg128": 30.91
+        "benchmarkResults": 10,
+        "gpuModels": 9,
+        "cpuModels": 8,
+        "importEvents": 60,
+        "averagePp512": 1522.02,
+        "medianPp512": 248.48,
+        "minPp512": 125.14,
+        "maxPp512": 7850.45,
+        "averageTg128": 51.95,
+        "medianTg128": 35.29,
+        "minTg128": 3.99,
+        "maxTg128": 148.35,
+        "averageVramGib": 5.8,
+        "minVramGib": 2.0,
+        "maxVramGib": 12.0,
+        "averageMemoryGb": 28.8,
+        "minMemoryGb": 16,
+        "maxMemoryGb": 64
     },
     "featuredStory": {
-        "title": "The GTX 1650 is OpenLLMBench's first recorded GPU.",
-        "description": "This benchmark established the first historical performance reference point in the OpenLLMBench database.",
+        "title": "The GTX 1650 is OpenLLMWorks's first recorded GPU.",
+        "description": "This benchmark established the first historical performance reference point in the OpenLLMWorks database.",
         "snapshot": "2026-08-02 14:17 UTC",
         "badge": "Data Snapshot"
     }

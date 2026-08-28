@@ -1,9 +1,9 @@
 """
-OpenLLMBench Database Validator
+OpenLLMWorks Database Validator
 
 Purpose:
 Validates the structure and internal consistency of the
-persistent OpenLLMBench benchmark database.
+persistent OpenLLMWorks benchmark database.
 
 Version:
 0.6.0-dev4
@@ -14,8 +14,8 @@ from typing import Any
 import json
 
 
-VALIDATOR_VERSION = "0.6.0-dev4"
-SUPPORTED_SCHEMA_VERSION = "0.6"
+VALIDATOR_VERSION = "0.7.0-dev1"
+SUPPORTED_SCHEMA_VERSION = "0.7"
 
 VALID_BENCHMARK_STATUSES = {
     "complete",
@@ -469,7 +469,7 @@ def validate_database(
     database: dict,
 ) -> dict:
     """
-    Validate a complete OpenLLMBench database.
+    Validate a complete OpenLLMWorks database.
 
     Returns:
         A validation report containing:

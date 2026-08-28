@@ -1,9 +1,9 @@
 {
     "publisher": {
-        "name": "OpenLLMBench Publisher",
-        "version": "0.1"
+        "name": "OpenLLMWorks Publisher",
+        "version": "0.2"
     },
-    "generatedAt": "2026-08-08T21:46:49.876885+00:00",
+    "generatedAt": "2026-08-28T02:21:53.976207+00:00",
     "source": {
         "database": "benchmark_database.json",
         "statisticsVersion": "0.7.0-dev1"
@@ -15,6 +15,10 @@
         },
         {
             "name": "hardware.json",
+            "contractVersion": "1.0"
+        },
+        {
+            "name": "leaderboards.json",
             "contractVersion": "1.0"
         }
     ]

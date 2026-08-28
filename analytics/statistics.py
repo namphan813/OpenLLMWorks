@@ -1,5 +1,5 @@
 """
-OpenLLMBench Statistics Engine
+OpenLLMWorks Statistics Engine
 
 Purpose:
 Transforms validated benchmark database records into aggregate
@@ -10,7 +10,7 @@ Version:
 """
 
 from collections import Counter
-from statistics import mean
+from statistics import mean, median
 from typing import Any
 
 
@@ -356,12 +356,50 @@ def extract_result_rows(
                     "type",
                 )
             ),
+            "gpu_form_factor": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "form_factor",
+                )
+            ),
             "vram_gib": get_nested(
                 record,
                 "hardware",
                 "gpu",
                 "vram",
                 "capacity_gib",
+            ),
+            "driver_version": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "software",
+                    "driver_version",
+                ),
+                fallback="",
+            ),
+            "cuda_umd_version": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "software",
+                    "cuda_umd_version",
+                ),
+                fallback="",
+            ),
+            "nvidia_smi_version": clean_text(
+                get_nested(
+                    record,
+                    "hardware",
+                    "gpu",
+                    "software",
+                    "nvidia_smi_version",
+                ),
+                fallback="",
             ),
             "cpu_vendor": detect_cpu_vendor(
                 cpu_model
@@ -467,8 +505,38 @@ def calculate_performance_statistics(
             if pp_values
             else None
         ),
+        "median_pp512": (
+            round(median(pp_values), 2)
+            if pp_values
+            else None
+        ),
+        "min_pp512": (
+            round(min(pp_values), 2)
+            if pp_values
+            else None
+        ),
+        "max_pp512": (
+            round(max(pp_values), 2)
+            if pp_values
+            else None
+        ),
         "average_tg128": (
             round(mean(tg_values), 2)
+            if tg_values
+            else None
+        ),
+        "median_tg128": (
+            round(median(tg_values), 2)
+            if tg_values
+            else None
+        ),
+        "min_tg128": (
+            round(min(tg_values), 2)
+            if tg_values
+            else None
+        ),
+        "max_tg128": (
+            round(max(tg_values), 2)
             if tg_values
             else None
         ),
@@ -572,8 +640,28 @@ def calculate_hardware_statistics(
             if vram_values
             else None
         ),
+        "min_vram_gib": (
+            round(min(vram_values), 2)
+            if vram_values
+            else None
+        ),
+        "max_vram_gib": (
+            round(max(vram_values), 2)
+            if vram_values
+            else None
+        ),
         "average_memory_gb": (
             round(mean(memory_values), 2)
+            if memory_values
+            else None
+        ),
+        "min_memory_gb": (
+            round(min(memory_values), 2)
+            if memory_values
+            else None
+        ),
+        "max_memory_gb": (
+            round(max(memory_values), 2)
             if memory_values
             else None
         ),
@@ -589,13 +677,145 @@ def calculate_submission_statistics(
     database: dict,
 ) -> dict:
     """
-    Calculate benchmark status and import-history statistics.
+    Calculate benchmark status, provenance, coverage, and
+    import-history statistics.
     """
 
     status_counter = Counter(
         row["benchmark_status"]
         for row in rows
     )
+
+    results = database.get(
+        "results",
+        [],
+    )
+
+    if not isinstance(results, list):
+        results = []
+
+    verification_status_counter = Counter()
+    contributor_type_counter = Counter()
+    source_type_counter = Counter()
+    run_count_counter = Counter()
+
+    submitted_at_present = 0
+    benchmark_timestamp_present = 0
+
+    for record in results:
+        if not isinstance(record, dict):
+            continue
+
+        submission = record.get(
+            "submission",
+            {},
+        )
+
+        benchmark = record.get(
+            "benchmark",
+            {},
+        )
+
+        if not isinstance(submission, dict):
+            submission = {}
+
+        if not isinstance(benchmark, dict):
+            benchmark = {}
+
+        verification_status = clean_text(
+            submission.get(
+                "verification_status"
+            )
+        )
+
+        contributor_type = clean_text(
+            submission.get(
+                "contributor_type"
+            )
+        )
+
+        source_type = clean_text(
+            submission.get(
+                "source_type"
+            )
+        )
+
+        verification_status_counter[
+            verification_status
+        ] += 1
+
+        contributor_type_counter[
+            contributor_type
+        ] += 1
+
+        source_type_counter[
+            source_type
+        ] += 1
+
+        runs_completed = submission.get(
+            "runs_completed"
+        )
+
+        if (
+            isinstance(runs_completed, int)
+            and not isinstance(
+                runs_completed,
+                bool,
+            )
+        ):
+            run_count_label = str(
+                runs_completed
+            )
+        else:
+            run_count_label = "Unknown"
+
+        run_count_counter[
+            run_count_label
+        ] += 1
+
+        submitted_at = submission.get(
+            "submitted_at"
+        )
+
+        if (
+            isinstance(submitted_at, str)
+            and submitted_at.strip()
+        ):
+            submitted_at_present += 1
+
+        benchmark_timestamp = benchmark.get(
+            "benchmark_timestamp"
+        )
+
+        if (
+            isinstance(
+                benchmark_timestamp,
+                str,
+            )
+            and benchmark_timestamp.strip()
+        ):
+            benchmark_timestamp_present += 1
+
+    result_count = len(results)
+
+    timestamp_coverage = {
+        "submitted_at": {
+            "present": submitted_at_present,
+            "missing": (
+                result_count
+                - submitted_at_present
+            ),
+        },
+        "benchmark_timestamp": {
+            "present": (
+                benchmark_timestamp_present
+            ),
+            "missing": (
+                result_count
+                - benchmark_timestamp_present
+            ),
+        },
+    }
 
     import_history = database.get(
         "import_history",
@@ -623,6 +843,29 @@ def calculate_submission_statistics(
                 status_counter
             )
         ),
+        "verification_status_counts": (
+            counter_to_dict(
+                verification_status_counter
+            )
+        ),
+        "contributor_type_counts": (
+            counter_to_dict(
+                contributor_type_counter
+            )
+        ),
+        "source_type_counts": (
+            counter_to_dict(
+                source_type_counter
+            )
+        ),
+        "run_count_distribution": (
+            counter_to_dict(
+                run_count_counter
+            )
+        ),
+        "timestamp_coverage": (
+            timestamp_coverage
+        ),
         "import_event_count": len(
             import_history
         ),
@@ -642,7 +885,7 @@ def build_statistics(
     database: dict,
 ) -> dict:
     """
-    Build the complete OpenLLMBench statistics report.
+    Build the complete OpenLLMWorks statistics report.
 
     The returned dictionary contains no terminal formatting and
     can be reused by command-line tools, websites, reports, or APIs.

@@ -1,4 +1,4 @@
-# OpenLLMBench Development Guidelines
+# OpenLLMWorks Development Guidelines
 
 ## Philosophy
 

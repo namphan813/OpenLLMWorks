@@ -1,240 +1,13 @@
 {
   "project": "Open LLM Benchmark Database",
   "schema_version": "0.7",
-  "parser_version": "0.6.0-dev3",
+  "parser_version": "0.6.0-dev5",
   "created_at": "2026-08-02T14:17:33+00:00",
-  "generated_at": "2026-08-08T18:35:35+00:00",
-  "result_count": 3,
+  "generated_at": "2026-08-23T20:41:54+00:00",
+  "result_count": 10,
   "results": [
     {
-      "result_id": "result_2637a2f40e9ff1da",
-      "submission": {
-        "submission_name": "Game_Server_GTX1650",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Game_Server_GTX1650",
-        "source_type": "internal_seed",
-        "contributor_id": "founder_000001",
-        "contributor_type": "founder",
-        "verification_status": "internally_verified",
-        "runs_completed": 2,
-        "submitted_at": null
-      },
-      "hardware": {
-        "system": {
-          "manufacturer": "System manufacturer",
-          "model": "System Product Name",
-          "generic_firmware_identity": true
-        },
-        "cpu": {
-          "model": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
-          "physical_cores": 6,
-          "logical_processors": 6
-        },
-        "memory": {
-          "reported_bytes": 34218823680,
-          "calculated_gib": 31.87,
-          "installed_capacity_gb": 32
-        },
-        "operating_system": {
-          "platform": "Windows",
-          "reported": {
-            "product_name": "Windows 10 Pro",
-            "version": "2009",
-            "build": 26200
-          },
-          "normalized": {
-            "family": "Windows 11",
-            "edition": "Pro",
-            "name": "Windows 11 Pro",
-            "release": "25H2",
-            "recognition_status": "recognized_build"
-          }
-        },
-        "gpu": {
-          "vendor": "NVIDIA",
-          "model": "NVIDIA GeForce GTX 1650",
-          "type": "discrete",
-          "driver_model": "WDDM",
-          "vram": {
-            "reported_mib": 4096,
-            "capacity_gib": 4.0
-          },
-          "software": {
-            "nvidia_smi_version": "610.74",
-            "driver_version": "610.74",
-            "cuda_umd_version": "13.3"
-          }
-        }
-      },
-      "benchmark": {
-        "status": "legacy_two_run",
-        "protocol": {
-          "id": "OLBD-BP-1.0",
-          "version": "1.0",
-          "required_runs": 3,
-          "prompt_tokens": 512,
-          "generation_tokens": 128,
-          "backend": "CUDA"
-        },
-        "llama_cpp": {
-          "commit": "178a6c449",
-          "build": 10069,
-          "all_detected_commits": [
-            "178a6c449"
-          ],
-          "all_detected_builds": [
-            10069
-          ],
-          "consistent_across_runs": true
-        },
-        "runs": [
-          {
-            "run_number": 1,
-            "filename": "benchmark-v0.9-p512-run1.txt",
-            "pp512": 144.06,
-            "tg128": 31.76
-          },
-          {
-            "run_number": 2,
-            "filename": "benchmark-v0.9-p512-run2.txt",
-            "pp512": 143.49,
-            "tg128": 31.62
-          }
-        ],
-        "average": {
-          "pp512": 143.78,
-          "tg128": 31.69
-        },
-        "benchmark_timestamp": null
-      },
-      "metadata": {
-        "parser_version": "0.6.0-dev3",
-        "database_module_version": "0.6.0-dev3",
-        "schema_version": "0.7",
-        "processed_at": "2026-08-02T14:17:33+00:00",
-        "imported_at": "2026-08-02T14:17:33+00:00",
-        "last_updated": "2026-08-08T02:21:16+00:00",
-        "migrated_from_schema": "0.6",
-        "migration_module_version": "0.8.0-dev1",
-        "migrated_at": "2026-08-08T02:21:16+00:00"
-      }
-    },
-    {
-      "result_id": "result_2e30784bddd6fade",
-      "submission": {
-        "submission_name": "Xbox-One-PC-GTX1650",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Xbox-One-PC-GTX1650",
-        "source_type": "internal_seed",
-        "contributor_id": "founder_000001",
-        "contributor_type": "founder",
-        "verification_status": "internally_verified",
-        "runs_completed": 3,
-        "submitted_at": null
-      },
-      "hardware": {
-        "system": {
-          "manufacturer": "To Be Filled By O.E.M.",
-          "model": "To Be Filled By O.E.M.",
-          "generic_firmware_identity": true
-        },
-        "cpu": {
-          "model": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
-          "physical_cores": 6,
-          "logical_processors": 6
-        },
-        "memory": {
-          "reported_bytes": 17094324224,
-          "calculated_gib": 15.92,
-          "installed_capacity_gb": 16
-        },
-        "operating_system": {
-          "platform": "Windows",
-          "reported": {
-            "product_name": "Windows 10 Pro",
-            "version": "2009",
-            "build": 26100
-          },
-          "normalized": {
-            "family": "Windows 11",
-            "edition": "Pro",
-            "name": "Windows 11 Pro",
-            "release": "24H2",
-            "recognition_status": "recognized_build"
-          }
-        },
-        "gpu": {
-          "vendor": "NVIDIA",
-          "model": "NVIDIA GeForce GTX 1650",
-          "type": "discrete",
-          "driver_model": "WDDM",
-          "vram": {
-            "reported_mib": 4096,
-            "capacity_gib": 4.0
-          },
-          "software": {
-            "nvidia_smi_version": null,
-            "driver_version": null,
-            "cuda_umd_version": null
-          }
-        }
-      },
-      "benchmark": {
-        "status": "complete",
-        "benchmark_timestamp": null,
-        "protocol": {
-          "id": "OLBD-BP-1.0",
-          "version": "1.0",
-          "required_runs": 3,
-          "prompt_tokens": 512,
-          "generation_tokens": 128,
-          "backend": "CUDA"
-        },
-        "llama_cpp": {
-          "commit": "178a6c449",
-          "build": 10069,
-          "all_detected_commits": [
-            "178a6c449"
-          ],
-          "all_detected_builds": [
-            10069
-          ],
-          "consistent_across_runs": true
-        },
-        "runs": [
-          {
-            "run_number": 1,
-            "filename": "benchmark-v0.9-p512-run1.txt",
-            "pp512": 164.55,
-            "tg128": 39.06
-          },
-          {
-            "run_number": 2,
-            "filename": "benchmark-v0.9-p512-run2.txt",
-            "pp512": 166.28,
-            "tg128": 38.95
-          },
-          {
-            "run_number": 3,
-            "filename": "benchmark-v0.9-p512-run3.txt",
-            "pp512": 159.28,
-            "tg128": 38.62
-          }
-        ],
-        "average": {
-          "pp512": 163.37,
-          "tg128": 38.88
-        }
-      },
-      "metadata": {
-        "parser_version": "0.6.0-dev3",
-        "database_module_version": "0.8.0-dev3",
-        "schema_version": "0.7",
-        "processed_at": "2026-08-08T18:35:35+00:00",
-        "imported_at": "2026-08-08T18:35:35+00:00",
-        "last_updated": "2026-08-08T18:35:35+00:00"
-      }
-    },
-    {
-      "result_id": "result_d7d8e49cbdcf91fe",
+      "result_id": "result_0200fb0ee70bb08a",
       "submission": {
         "submission_name": "Z2-MINI-G5-T1000",
         "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Z2-MINI-G5-T1000",
@@ -345,7 +118,1039 @@
         "schema_version": "0.7",
         "processed_at": "2026-08-08T02:21:16+00:00",
         "imported_at": "2026-08-08T02:21:16+00:00",
-        "last_updated": "2026-08-08T02:21:16+00:00"
+        "last_updated": "2026-08-09T15:59:42+00:00",
+        "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_05147b71a0ae576b",
+      "submission": {
+        "submission_name": "Xbox-One-PC-GTX1650",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Xbox-One-PC-GTX1650",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 3,
+        "submitted_at": null
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "To Be Filled By O.E.M.",
+          "model": "To Be Filled By O.E.M.",
+          "generic_firmware_identity": true
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 17094324224,
+          "calculated_gib": 15.92,
+          "installed_capacity_gb": 16
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26100
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "24H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1650",
+          "type": "discrete",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": null,
+            "driver_version": null,
+            "cuda_umd_version": null
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": null,
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 164.55,
+            "tg128": 39.06
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 166.28,
+            "tg128": 38.95
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v0.9-p512-run3.txt",
+            "pp512": 159.28,
+            "tg128": 38.62
+          }
+        ],
+        "average": {
+          "pp512": 163.37,
+          "tg128": 38.88
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.8.0-dev3",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-08T18:35:35+00:00",
+        "imported_at": "2026-08-08T18:35:35+00:00",
+        "last_updated": "2026-08-09T15:59:42+00:00",
+        "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_08eba4cfd37d6856",
+      "submission": {
+        "submission_name": "Viet-RTX4070",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Viet-RTX4070",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 2,
+        "submitted_at": null
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "ASUS",
+          "model": "System Product Name",
+          "generic_firmware_identity": true
+        },
+        "cpu": {
+          "model": "AMD Ryzen 7 7800X3D 8-Core Processor",
+          "physical_cores": 8,
+          "logical_processors": 16
+        },
+        "memory": {
+          "reported_bytes": 68411613184,
+          "calculated_gib": 63.71,
+          "installed_capacity_gb": 64
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Home",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Home",
+            "name": "Windows 11 Home",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce RTX 4070",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 12282,
+            "capacity_gib": 11.99
+          },
+          "software": {
+            "nvidia_smi_version": null,
+            "driver_version": null,
+            "cuda_umd_version": null
+          }
+        }
+      },
+      "benchmark": {
+        "status": "legacy_two_run",
+        "benchmark_timestamp": null,
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 7716.98,
+            "tg128": 148.52
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 7983.93,
+            "tg128": 148.18
+          }
+        ],
+        "average": {
+          "pp512": 7850.45,
+          "tg128": 148.35
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.8.0-dev3",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-09T15:23:48+00:00",
+        "imported_at": "2026-08-09T15:23:48+00:00",
+        "last_updated": "2026-08-09T15:59:42+00:00",
+        "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_7cd0f649f5e9467c",
+      "submission": {
+        "submission_name": "Viet-Mobile-GTX1650",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Viet-Mobile-GTX1650",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 3,
+        "submitted_at": null
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "ASUSTeK COMPUTER INC.",
+          "model": "TUF Gaming FX505DU_FX505DU",
+          "generic_firmware_identity": false
+        },
+        "cpu": {
+          "model": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx",
+          "physical_cores": 4,
+          "logical_processors": 8
+        },
+        "memory": {
+          "reported_bytes": 34158047232,
+          "calculated_gib": 31.81,
+          "installed_capacity_gb": 32
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Home",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Home",
+            "name": "Windows 11 Home",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1660 Ti",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 6144,
+            "capacity_gib": 6.0
+          },
+          "software": {
+            "nvidia_smi_version": "610.88",
+            "driver_version": "610.88",
+            "cuda_umd_version": "13.3"
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": null,
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 283.9,
+            "tg128": 70.73
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 286.94,
+            "tg128": 71.36
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v0.9-p512-run3.txt",
+            "pp512": 286.91,
+            "tg128": 71.18
+          }
+        ],
+        "average": {
+          "pp512": 285.92,
+          "tg128": 71.09
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.8.0-dev3",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-09T15:23:48+00:00",
+        "imported_at": "2026-08-09T15:23:48+00:00",
+        "last_updated": "2026-08-09T15:59:42+00:00",
+        "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_a64036c1c64f3997",
+      "submission": {
+        "submission_name": "Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
+        "source_type": "github_issue",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-08-23T08:36:59+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "Gigabyte Technology Co., Ltd.",
+          "model": "Z390 UD",
+          "generic_firmware_identity": false
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 17017065472,
+          "calculated_gib": 15.85,
+          "installed_capacity_gb": 16
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1050",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 2048,
+            "capacity_gib": 2.0
+          },
+          "software": {
+            "nvidia_smi_version": "582.66",
+            "driver_version": "582.66",
+            "cuda_umd_version": "13.0"
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-08-23T08:34:10+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 123.09,
+            "tg128": 3.99
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 126.7,
+            "tg128": 3.99
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 125.62,
+            "tg128": 3.99
+          }
+        ],
+        "average": {
+          "pp512": 125.14,
+          "tg128": 3.99
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev5",
+        "database_module_version": "0.8.0-dev5",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-23T08:53:32+00:00",
+        "imported_at": "2026-08-23T08:53:32+00:00",
+        "last_updated": "2026-08-23T08:53:32+00:00"
+      }
+    },
+    {
+      "result_id": "result_a66ff7ef3577be89",
+      "submission": {
+        "submission_name": "Vivi-P1000",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Vivi-P1000",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 3,
+        "submitted_at": null
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "HP",
+          "model": "HP Z2 Mini G4 Workstation",
+          "generic_firmware_identity": false
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 17018560512,
+          "calculated_gib": 15.85,
+          "installed_capacity_gb": 16
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "Quadro P1000",
+          "type": "discrete",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": null,
+            "driver_version": null,
+            "cuda_umd_version": null
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": null,
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 212.16,
+            "tg128": 14.0
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 212.15,
+            "tg128": 13.99
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v0.9-p512-run3.txt",
+            "pp512": 208.77,
+            "tg128": 13.97
+          }
+        ],
+        "average": {
+          "pp512": 211.03,
+          "tg128": 13.99
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.8.0-dev3",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-09T06:12:21+00:00",
+        "imported_at": "2026-08-09T06:12:21+00:00",
+        "last_updated": "2026-08-09T15:59:42+00:00",
+        "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_aa7c3907e6d0e94a",
+      "submission": {
+        "submission_name": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
+        "source_type": "github_issue",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-08-23T20:29:18+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "Micro-Star International Co., Ltd.",
+          "model": "MS-7D91",
+          "generic_firmware_identity": false
+        },
+        "cpu": {
+          "model": "13th Gen Intel(R) Core(TM) i5-13600K",
+          "physical_cores": 14,
+          "logical_processors": 20
+        },
+        "memory": {
+          "reported_bytes": 34039902208,
+          "calculated_gib": 31.7,
+          "installed_capacity_gb": 32
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Education",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Education",
+            "name": "Windows 11 Education",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce RTX 3060",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 12288,
+            "capacity_gib": 12.0
+          },
+          "software": {
+            "nvidia_smi_version": "610.74",
+            "driver_version": "610.74",
+            "cuda_umd_version": "13.3"
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-08-23T20:28:57+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 3540.05,
+            "tg128": 100.24
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 3514.67,
+            "tg128": 100.33
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 3582.15,
+            "tg128": 100.0
+          }
+        ],
+        "average": {
+          "pp512": 3545.62,
+          "tg128": 100.19
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev5",
+        "database_module_version": "0.8.0-dev5",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-23T20:41:54+00:00",
+        "imported_at": "2026-08-23T20:41:54+00:00",
+        "last_updated": "2026-08-23T20:41:54+00:00"
+      }
+    },
+    {
+      "result_id": "result_b70f39e84c7e9411",
+      "submission": {
+        "submission_name": "Game_Server_GTX1650",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Game_Server_GTX1650",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 2,
+        "submitted_at": null
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "System manufacturer",
+          "model": "System Product Name",
+          "generic_firmware_identity": true
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 34218823680,
+          "calculated_gib": 31.87,
+          "installed_capacity_gb": 32
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1650",
+          "type": "discrete",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": "610.74",
+            "driver_version": "610.74",
+            "cuda_umd_version": "13.3"
+          }
+        }
+      },
+      "benchmark": {
+        "status": "legacy_two_run",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 144.06,
+            "tg128": 31.76
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 143.49,
+            "tg128": 31.62
+          }
+        ],
+        "average": {
+          "pp512": 143.78,
+          "tg128": 31.69
+        },
+        "benchmark_timestamp": null
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.6.0-dev3",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-02T14:17:33+00:00",
+        "imported_at": "2026-08-02T14:17:33+00:00",
+        "last_updated": "2026-08-09T15:59:42+00:00",
+        "migrated_from_schema": "0.6",
+        "migration_module_version": "0.8.0-dev1",
+        "migrated_at": "2026-08-08T02:21:16+00:00",
+        "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_dc6fdd4e1cbb5176",
+      "submission": {
+        "submission_name": "Bench-001-GTX1050Ti",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Bench-001-GTX1050Ti",
+        "source_type": "github_issue",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-08-20T02:13:20+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "Gigabyte Technology Co., Ltd.",
+          "model": "Z390 UD",
+          "generic_firmware_identity": false
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 17017065472,
+          "calculated_gib": 15.85,
+          "installed_capacity_gb": 16
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1050 Ti",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": "582.66",
+            "driver_version": "582.66",
+            "cuda_umd_version": "13.0"
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-08-20T02:13:20+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 347.89,
+            "tg128": 22.13
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 348.0,
+            "tg128": 22.12
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 348.24,
+            "tg128": 22.08
+          }
+        ],
+        "average": {
+          "pp512": 348.04,
+          "tg128": 22.11
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev4",
+        "database_module_version": "0.8.0-dev4",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-20T05:51:23+00:00",
+        "imported_at": "2026-08-20T05:51:23+00:00",
+        "last_updated": "2026-08-20T05:51:23+00:00"
+      }
+    },
+    {
+      "result_id": "result_fab5e657b3d9df8d",
+      "submission": {
+        "submission_name": "Studio-15-G8",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Studio-15-G8",
+        "source_type": "internal_seed",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "internally_verified",
+        "runs_completed": 2,
+        "submitted_at": null
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "HP",
+          "model": "HP ZBook Studio 15.6 inch G8",
+          "generic_firmware_identity": false
+        },
+        "cpu": {
+          "model": "11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz",
+          "physical_cores": 8,
+          "logical_processors": 16
+        },
+        "memory": {
+          "reported_bytes": 34007023616,
+          "calculated_gib": 31.67,
+          "installed_capacity_gb": 32
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA RTX A3000 Laptop GPU",
+          "type": "discrete",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 6144,
+            "capacity_gib": 6.0
+          },
+          "software": {
+            "nvidia_smi_version": null,
+            "driver_version": null,
+            "cuda_umd_version": null
+          }
+        }
+      },
+      "benchmark": {
+        "status": "legacy_two_run",
+        "benchmark_timestamp": null,
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v0.9-p512-run1.txt",
+            "pp512": 2422.75,
+            "tg128": 66.83
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v0.9-p512-run2.txt",
+            "pp512": 2404.52,
+            "tg128": 67.26
+          }
+        ],
+        "average": {
+          "pp512": 2413.64,
+          "tg128": 67.05
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev3",
+        "database_module_version": "0.8.0-dev3",
+        "schema_version": "0.7",
+        "processed_at": "2026-08-09T06:19:07+00:00",
+        "imported_at": "2026-08-09T06:19:07+00:00",
+        "last_updated": "2026-08-09T15:59:42+00:00",
+        "canonical_result_id_version": "0.1"
       }
     }
   ],
@@ -454,6 +1259,362 @@
       "submission_name": "Z2-MINI-G5-T1000",
       "status": "duplicate",
       "duplicate_of": "result_d7d8e49cbdcf91fe"
+    },
+    {
+      "processed_at": "2026-08-09T06:12:21+00:00",
+      "imported_at": "2026-08-09T06:12:21+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-09T06:12:21+00:00",
+      "imported_at": "2026-08-09T06:12:21+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-09T06:12:21+00:00",
+      "imported_at": "2026-08-09T06:12:21+00:00",
+      "result_id": "result_bf39871c21b0884e",
+      "submission_name": "Vivi-P1000",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T06:12:21+00:00",
+      "imported_at": "2026-08-09T06:12:21+00:00",
+      "result_id": "result_2e30784bddd6fade",
+      "submission_name": "Xbox-One-PC-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_2e30784bddd6fade"
+    },
+    {
+      "processed_at": "2026-08-09T06:12:21+00:00",
+      "imported_at": "2026-08-09T06:12:21+00:00",
+      "result_id": "result_d7d8e49cbdcf91fe",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "duplicate",
+      "duplicate_of": "result_d7d8e49cbdcf91fe"
+    },
+    {
+      "processed_at": "2026-08-09T06:19:07+00:00",
+      "imported_at": "2026-08-09T06:19:07+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-09T06:19:07+00:00",
+      "imported_at": "2026-08-09T06:19:07+00:00",
+      "result_id": "result_2637a2f40e9ff1da",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_2637a2f40e9ff1da"
+    },
+    {
+      "processed_at": "2026-08-09T06:19:07+00:00",
+      "imported_at": "2026-08-09T06:19:07+00:00",
+      "result_id": "result_eeff34ef3103f581",
+      "submission_name": "Studio-15-G8",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T06:19:07+00:00",
+      "imported_at": "2026-08-09T06:19:07+00:00",
+      "result_id": "result_bf39871c21b0884e",
+      "submission_name": "Vivi-P1000",
+      "status": "duplicate",
+      "duplicate_of": "result_bf39871c21b0884e"
+    },
+    {
+      "processed_at": "2026-08-09T06:19:07+00:00",
+      "imported_at": "2026-08-09T06:19:07+00:00",
+      "result_id": "result_2e30784bddd6fade",
+      "submission_name": "Xbox-One-PC-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_2e30784bddd6fade"
+    },
+    {
+      "processed_at": "2026-08-09T06:19:07+00:00",
+      "imported_at": "2026-08-09T06:19:07+00:00",
+      "result_id": "result_d7d8e49cbdcf91fe",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "duplicate",
+      "duplicate_of": "result_d7d8e49cbdcf91fe"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:47+00:00",
+      "imported_at": "2026-08-09T15:23:47+00:00",
+      "result_id": "result_e04804026f0618f7",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:48+00:00",
+      "imported_at": "2026-08-09T15:23:48+00:00",
+      "result_id": "result_e04804026f0618f7",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_e04804026f0618f7"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:48+00:00",
+      "imported_at": "2026-08-09T15:23:48+00:00",
+      "result_id": "result_c3701e4c687deced",
+      "submission_name": "Studio-15-G8",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:48+00:00",
+      "imported_at": "2026-08-09T15:23:48+00:00",
+      "result_id": "result_2d34ccd036fd9906",
+      "submission_name": "Viet-Mobile-GTX1650",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:48+00:00",
+      "imported_at": "2026-08-09T15:23:48+00:00",
+      "result_id": "result_3576e7f66386a8d8",
+      "submission_name": "Viet-RTX4070",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:48+00:00",
+      "imported_at": "2026-08-09T15:23:48+00:00",
+      "result_id": "result_5acb45cc36c38688",
+      "submission_name": "Vivi-P1000",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:48+00:00",
+      "imported_at": "2026-08-09T15:23:48+00:00",
+      "result_id": "result_0229443451c39d06",
+      "submission_name": "Xbox-One-PC-GTX1650",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T15:23:48+00:00",
+      "imported_at": "2026-08-09T15:23:48+00:00",
+      "result_id": "result_d219b11f696da4ef",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_b70f39e84c7e9411",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_b70f39e84c7e9411"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_b70f39e84c7e9411",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_b70f39e84c7e9411"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_fab5e657b3d9df8d",
+      "submission_name": "Studio-15-G8",
+      "status": "duplicate",
+      "duplicate_of": "result_fab5e657b3d9df8d"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_7cd0f649f5e9467c",
+      "submission_name": "Viet-Mobile-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_7cd0f649f5e9467c"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_08eba4cfd37d6856",
+      "submission_name": "Viet-RTX4070",
+      "status": "duplicate",
+      "duplicate_of": "result_08eba4cfd37d6856"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_a66ff7ef3577be89",
+      "submission_name": "Vivi-P1000",
+      "status": "duplicate",
+      "duplicate_of": "result_a66ff7ef3577be89"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_05147b71a0ae576b",
+      "submission_name": "Xbox-One-PC-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_05147b71a0ae576b"
+    },
+    {
+      "processed_at": "2026-08-09T16:02:21+00:00",
+      "imported_at": "2026-08-09T16:02:21+00:00",
+      "result_id": "result_0200fb0ee70bb08a",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "duplicate",
+      "duplicate_of": "result_0200fb0ee70bb08a"
+    },
+    {
+      "processed_at": "2026-08-20T05:51:23+00:00",
+      "imported_at": "2026-08-20T05:51:23+00:00",
+      "result_id": "result_dc6fdd4e1cbb5176",
+      "submission_name": "Bench-001-GTX1050Ti",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_b70f39e84c7e9411",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_b70f39e84c7e9411"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_b70f39e84c7e9411",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_b70f39e84c7e9411"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_fab5e657b3d9df8d",
+      "submission_name": "Studio-15-G8",
+      "status": "duplicate",
+      "duplicate_of": "result_fab5e657b3d9df8d"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_7cd0f649f5e9467c",
+      "submission_name": "Viet-Mobile-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_7cd0f649f5e9467c"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_08eba4cfd37d6856",
+      "submission_name": "Viet-RTX4070",
+      "status": "duplicate",
+      "duplicate_of": "result_08eba4cfd37d6856"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_a66ff7ef3577be89",
+      "submission_name": "Vivi-P1000",
+      "status": "duplicate",
+      "duplicate_of": "result_a66ff7ef3577be89"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_05147b71a0ae576b",
+      "submission_name": "Xbox-One-PC-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_05147b71a0ae576b"
+    },
+    {
+      "processed_at": "2026-08-20T06:15:52+00:00",
+      "imported_at": "2026-08-20T06:15:52+00:00",
+      "result_id": "result_0200fb0ee70bb08a",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "duplicate",
+      "duplicate_of": "result_0200fb0ee70bb08a"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_b70f39e84c7e9411",
+      "submission_name": "Game_Server_GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_b70f39e84c7e9411"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_b70f39e84c7e9411",
+      "submission_name": "Game_Server_GTX1650 - Copy",
+      "status": "duplicate",
+      "duplicate_of": "result_b70f39e84c7e9411"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_fab5e657b3d9df8d",
+      "submission_name": "Studio-15-G8",
+      "status": "duplicate",
+      "duplicate_of": "result_fab5e657b3d9df8d"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_7cd0f649f5e9467c",
+      "submission_name": "Viet-Mobile-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_7cd0f649f5e9467c"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_08eba4cfd37d6856",
+      "submission_name": "Viet-RTX4070",
+      "status": "duplicate",
+      "duplicate_of": "result_08eba4cfd37d6856"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_a66ff7ef3577be89",
+      "submission_name": "Vivi-P1000",
+      "status": "duplicate",
+      "duplicate_of": "result_a66ff7ef3577be89"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_05147b71a0ae576b",
+      "submission_name": "Xbox-One-PC-GTX1650",
+      "status": "duplicate",
+      "duplicate_of": "result_05147b71a0ae576b"
+    },
+    {
+      "processed_at": "2026-08-20T06:16:47+00:00",
+      "imported_at": "2026-08-20T06:16:47+00:00",
+      "result_id": "result_0200fb0ee70bb08a",
+      "submission_name": "Z2-MINI-G5-T1000",
+      "status": "duplicate",
+      "duplicate_of": "result_0200fb0ee70bb08a"
+    },
+    {
+      "processed_at": "2026-08-23T08:53:32+00:00",
+      "imported_at": "2026-08-23T08:53:32+00:00",
+      "result_id": "result_a64036c1c64f3997",
+      "submission_name": "Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-08-23T20:41:54+00:00",
+      "imported_at": "2026-08-23T20:41:54+00:00",
+      "result_id": "result_aa7c3907e6d0e94a",
+      "submission_name": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
+      "status": "added"
     }
   ],
   "migration_history": [
@@ -463,6 +1624,69 @@
       "migrated_at": "2026-08-08T02:21:16+00:00",
       "migration_module_version": "0.8.0-dev1",
       "records_migrated": 1
+    },
+    {
+      "type": "result_id_reconciliation",
+      "version": "0.1",
+      "reconciled_at": "2026-08-09T15:59:42+00:00",
+      "records_before": 12,
+      "records_after": 7,
+      "collision_groups": 5,
+      "duplicate_records_removed": 5,
+      "groups": [
+        {
+          "canonical_result_id": "result_0200fb0ee70bb08a",
+          "survivor_previous_result_id": "result_d7d8e49cbdcf91fe",
+          "removed_duplicate_result_ids": [
+            "result_d219b11f696da4ef"
+          ],
+          "records_collapsed": 2
+        },
+        {
+          "canonical_result_id": "result_05147b71a0ae576b",
+          "survivor_previous_result_id": "result_2e30784bddd6fade",
+          "removed_duplicate_result_ids": [
+            "result_0229443451c39d06"
+          ],
+          "records_collapsed": 2
+        },
+        {
+          "canonical_result_id": "result_08eba4cfd37d6856",
+          "survivor_previous_result_id": "result_3576e7f66386a8d8",
+          "removed_duplicate_result_ids": [],
+          "records_collapsed": 1
+        },
+        {
+          "canonical_result_id": "result_7cd0f649f5e9467c",
+          "survivor_previous_result_id": "result_2d34ccd036fd9906",
+          "removed_duplicate_result_ids": [],
+          "records_collapsed": 1
+        },
+        {
+          "canonical_result_id": "result_a66ff7ef3577be89",
+          "survivor_previous_result_id": "result_bf39871c21b0884e",
+          "removed_duplicate_result_ids": [
+            "result_5acb45cc36c38688"
+          ],
+          "records_collapsed": 2
+        },
+        {
+          "canonical_result_id": "result_b70f39e84c7e9411",
+          "survivor_previous_result_id": "result_2637a2f40e9ff1da",
+          "removed_duplicate_result_ids": [
+            "result_e04804026f0618f7"
+          ],
+          "records_collapsed": 2
+        },
+        {
+          "canonical_result_id": "result_fab5e657b3d9df8d",
+          "survivor_previous_result_id": "result_eeff34ef3103f581",
+          "removed_duplicate_result_ids": [
+            "result_c3701e4c687deced"
+          ],
+          "records_collapsed": 2
+        }
+      ]
     }
   ]
 }

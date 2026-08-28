@@ -1,10 +1,10 @@
-# OpenLLMBench
+# OpenLLMWorks
 
 > **Building the historical record of local AI hardware performance.**
 
-OpenLLMBench is an open-source benchmark platform focused on measuring, preserving, and exploring Large Language Model (LLM) inference performance across consumer, workstation, laptop, and enterprise hardware.
+OpenLLMWorks is an open-source benchmark platform focused on measuring, preserving, and exploring Large Language Model (LLM) inference performance across consumer, workstation, laptop, and enterprise hardware.
 
-Rather than simply collecting benchmark numbers, OpenLLMBench aims to build a living historical record of local AI performance that helps the community understand how hardware, software, and models evolve over time.
+Rather than simply collecting benchmark numbers, OpenLLMWorks aims to build a living historical record of local AI performance that helps the community understand how hardware, software, and models evolve over time.
 
 ---
 
@@ -20,7 +20,7 @@ The project is currently transitioning from a backend benchmarking platform into
 
 # Vision
 
-OpenLLMBench exists to answer questions like:
+OpenLLMWorks exists to answer questions like:
 
 - How fast is my GPU compared to others?
 - Which models run best on my hardware?
@@ -28,7 +28,7 @@ OpenLLMBench exists to answer questions like:
 - What hardware should I upgrade to next?
 - What is the community discovering?
 
-Instead of isolated benchmark screenshots scattered across forums and social media, OpenLLMBench provides a centralized, reproducible benchmark database built by the community.
+Instead of isolated benchmark screenshots scattered across forums and social media, OpenLLMWorks provides a centralized, reproducible benchmark database built by the community.
 
 ---
 
@@ -94,7 +94,7 @@ website/
 
 # Design Philosophy
 
-OpenLLMBench follows several core principles.
+OpenLLMWorks follows several core principles.
 
 ### Measure
 
@@ -133,17 +133,60 @@ Long-term goals include:
 
 # Contributing
 
-Documentation is located in the `/docs` directory.
+OpenLLMWorks is built around reproducible community benchmark results.
+
+## Run Your First Benchmark
+
+Want to contribute benchmark data?
+
+The preferred path is the OpenLLMWorks Runner. The current Runner is a
+development version and still requires Python plus the frozen benchmark
+assets.
+
+From the repository root:
+
+```powershell
+python runner\run_benchmark.py
+```
+
+A successful Runner session automatically:
+
+1. verifies the benchmark environment and frozen assets;
+2. captures the required hardware evidence;
+3. executes three Benchmark Protocol v1.0 runs;
+4. parses the benchmark results;
+5. creates `submission.json`;
+6. validates the completed submission;
+7. creates an upload-ready ZIP package.
+
+Submit the generated ZIP through the OpenLLMWorks GitHub Issue submission
+workflow.
+
+For current setup requirements, troubleshooting, manual/advanced validation,
+and complete contribution guidance, see `docs/CONTRIBUTING.md`.
+
+## Other Contributions
+
+Benchmark results are only one way to contribute.
+
+Bug reports, documentation improvements, testing, analytics improvements, hardware normalization corrections, website improvements, feature ideas, and code contributions are also welcome.
+
+See `docs/CONTRIBUTING.md` for the complete contribution guide.
+
+## Project Documentation
+
+Additional project documentation is located in the `/docs` directory.
 
 Important project documents include:
 
-- ROADMAP.md
-- STATUS.md
-- WEBSITE_VISION.md
-- COMPONENT_LIBRARY.md
-- CONTRIBUTING.md
-- ARCHITECTURE.md
-- DESIGN_PRINCIPLES.md
+- `ROADMAP.md`
+- `STATUS.md`
+- `WEBSITE_VISION.md`
+- `COMPONENT_LIBRARY.md`
+- `CONTRIBUTING.md`
+- `MAINTAINER_WORKFLOW.md`
+- `ARCHITECTURE.md`
+- `DESIGN_PRINCIPLES.md`
 
 ---
 
@@ -174,7 +217,7 @@ Future
 
 # Current Status
 
-OpenLLMBench is under active development.
+OpenLLMWorks is under active development.
 
 The project currently includes:
 
@@ -195,7 +238,7 @@ License selection is currently under consideration and will be added before the 
 
 ---
 
-## OpenLLMBench
+## OpenLLMWorks
 
 **Measure.**
 

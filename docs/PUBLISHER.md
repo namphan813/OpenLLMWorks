@@ -1,8 +1,8 @@
-# OpenLLMBench Publisher
+# OpenLLMWorks Publisher
 
 ## Purpose
 
-The Publisher transforms internal OpenLLMBench data into stable, generated files that external consumers can safely use.
+The Publisher transforms internal OpenLLMWorks data into stable, generated files that external consumers can safely use.
 
 It acts as the boundary between the benchmark platform and presentation layers such as the React website.
 
@@ -234,7 +234,7 @@ python generate_site.py
 Expected future output:
 
 ```text
-OpenLLMBench Publisher
+OpenLLMWorks Publisher
 
 Loading benchmark database...
 ✓ Database loaded
@@ -327,7 +327,7 @@ Potential future Publisher features include:
 
 # Final Principle
 
-The Publisher is the controlled gateway between OpenLLMBench's internal intelligence and its public consumers.
+The Publisher is the controlled gateway between OpenLLMWorks's internal intelligence and its public consumers.
 
 The parser parses.
 

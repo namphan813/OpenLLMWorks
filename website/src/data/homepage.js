@@ -1,5 +1,5 @@
 export const hero = {
-    title: "OpenLLMBench",
+    title: "OpenLLMWorks",
     subtitle: "Building the historical record of local AI performance.",
     tagline: [
         "Measure.",
@@ -35,9 +35,9 @@ export const metrics = [
 export const communityStory = {
     eyebrow: "Community Story",
     badge: "Data Snapshot",
-    title: "The GTX 1650 is OpenLLMBench's first recorded GPU.",
+    title: "The GTX 1650 is OpenLLMWorks's first recorded GPU.",
     description:
-        "The current database contains one verified benchmark result, establishing the first historical reference point for the OpenLLMBench community.",
+        "The current database contains one verified benchmark result, establishing the first historical reference point for the OpenLLMWorks community.",
     evidence: [
         {
             label: "Based on",

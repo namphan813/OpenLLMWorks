@@ -2,13 +2,13 @@
 
 ## Vision
 
-OpenLLMBench is not simply a benchmark database.
+OpenLLMWorks is not simply a benchmark database.
 
 It is a living historical record of local AI hardware performance.
 
 Every benchmark submission expands the community's understanding of hardware capabilities while preserving a permanent snapshot in time.
 
-Unlike traditional benchmark websites that primarily display rankings, OpenLLMBench aims to tell the ongoing story of local AI.
+Unlike traditional benchmark websites that primarily display rankings, OpenLLMWorks aims to tell the ongoing story of local AI.
 
 ---
 
@@ -176,13 +176,13 @@ Potential examples include:
 - Cost-per-token leaders
 - Long-term performance trends
 
-Rather than simply reporting data, OpenLLMBench should interpret the database and surface insights for the community.
+Rather than simply reporting data, OpenLLMWorks should interpret the database and surface insights for the community.
 
 ---
 
 # Long-Term Goal
 
-Visitors should return to OpenLLMBench not only to compare hardware, but to discover what is happening across the world of local AI.
+Visitors should return to OpenLLMWorks not only to compare hardware, but to discover what is happening across the world of local AI.
 
 The database grows.
 

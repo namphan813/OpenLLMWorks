@@ -1,8 +1,8 @@
 """
-OpenLLMBench Historical Snapshot Viewer
+OpenLLMWorks Historical Snapshot Viewer
 
 Purpose:
-Prints monthly OpenLLMBench snapshot history and comparisons.
+Prints monthly OpenLLMWorks snapshot history and comparisons.
 
 Version:
 0.8.0-dev1
@@ -160,7 +160,7 @@ def print_snapshot(
 def main() -> None:
     """Load the database and print historical snapshots."""
 
-    print("OpenLLMBench Historical Snapshots")
+    print("OpenLLMWorks Historical Snapshots")
     print(
         f"Historical Viewer "
         f"v{HISTORICAL_VIEWER_VERSION}"

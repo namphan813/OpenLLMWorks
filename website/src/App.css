@@ -804,18 +804,21 @@ body {
     gap: 1rem;
 }
 
-.hardware-vendor-filter {
+.hardware-vendor-filter,
+.hardware-vram-filter {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.hardware-vendor-filter span {
+.hardware-vendor-filter span,
+.hardware-vram-filter span {
     color: var(--text-muted);
     font-size: 0.8rem;
 }
 
-.hardware-vendor-filter select {
+.hardware-vendor-filter select,
+.hardware-vram-filter select {
     padding: 0.8rem 0.9rem;
 
     border: 1px solid var(--border);
@@ -827,11 +830,11 @@ body {
     font: inherit;
 }
 
-.hardware-vendor-filter select:focus {
+.hardware-vendor-filter select:focus,
+.hardware-vram-filter select:focus {
     outline: 2px solid #60a5fa;
     outline-offset: 2px;
 }
-
 @media (max-width: 700px) {
     .hardware-filter-group {
         flex-direction: column;
@@ -965,4 +968,1064 @@ body {
     color: var(--text-muted);
     font-size: 0.85rem;
     line-height: 1.4;
+}
+
+/* Hardware profile filters */
+
+.hardware-profile-details button {
+  appearance: none;
+  border: 1px solid #303746;
+  border-radius: 6px;
+  background: #171b25;
+  color: #b8c9e8;
+  padding: 4px 9px;
+  margin: 3px 4px 3px 0;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.hardware-profile-details button:hover {
+  border-color: #5ca9ff;
+  color: #ffffff;
+  background: #1d2430;
+}
+
+.hardware-profile-details button:focus-visible {
+  outline: 2px solid #5ca9ff;
+  outline-offset: 2px;
+}
+
+.hardware-profile-details button[aria-pressed="true"] {
+  border-color: #5ca9ff;
+  background: rgba(92, 169, 255, 0.14);
+  color: #ffffff;
+}
+
+.hardware-benchmark-results-header button {
+  appearance: none;
+  border: 1px solid #303746;
+  border-radius: 6px;
+  background: transparent;
+  color: #8ebcf2;
+  padding: 5px 9px;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.hardware-benchmark-results-header button:hover {
+  border-color: #5ca9ff;
+  color: #ffffff;
+  background: #171b25;
+}
+
+.hardware-profile-details strong button {
+  font-weight: 700;
+}
+
+/* ==========================================================
+   Hardware Comparison
+   ========================================================== */
+
+.hardware-compare-page {
+  width: min(1200px, calc(100% - 4rem));
+  margin: 0 auto;
+  padding: 8rem 0 4rem;
+}
+
+.hardware-compare-page > h1 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.hardware-compare-intro {
+  max-width: 720px;
+  margin: 1rem 0 0;
+
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.hardware-compare-head {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+
+  margin-top: 3rem;
+}
+
+.hardware-compare-gpu {
+  min-height: 180px;
+  padding: 1.75rem;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background: var(--surface);
+}
+
+.hardware-compare-gpu h2 {
+  margin: 0 0 0.75rem;
+
+  color: var(--text);
+  font-size: clamp(
+    1.4rem,
+    3vw,
+    2rem
+  );
+  line-height: 1.2;
+}
+
+.hardware-compare-gpu > p:last-child {
+  margin: 0;
+
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.hardware-compare-vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hardware-compare-section {
+  max-width: 960px;
+  margin-top: 4rem;
+}
+
+.hardware-compare-section h2 {
+  margin: 0.25rem 0 0;
+
+  color: var(--text);
+  font-size: 1.5rem;
+}
+
+.hardware-compare-metric-name {
+  margin: 0.5rem 0 0;
+
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.hardware-compare-metrics {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  margin-top: 1.5rem;
+}
+
+.hardware-compare-difference {
+  margin: 1rem 0 0;
+  padding: 1rem 1.25rem;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--surface);
+
+  color: var(--text-secondary);
+}
+
+.hardware-compare-difference strong {
+  color: var(--text);
+}
+
+.hardware-compare-table {
+  margin-top: 1.5rem;
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  overflow: hidden;
+}
+
+.hardware-compare-row {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 0.7fr)
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+}
+
+.hardware-compare-row + .hardware-compare-row {
+  border-top: 1px solid var(--border);
+}
+
+.hardware-compare-row > * {
+  padding: 1rem 1.25rem;
+
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.hardware-compare-row > * + * {
+  border-left: 1px solid var(--border);
+}
+
+.hardware-compare-row strong {
+  color: var(--text);
+}
+
+.hardware-compare-row-head {
+  background: var(--surface);
+}
+
+.hardware-compare-row-head > div {
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.hardware-compare-actions {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  max-width: 960px;
+  margin-top: 2rem;
+}
+
+.hardware-compare-actions a {
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface);
+
+  color: #60a5fa;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hardware-compare-actions a:hover {
+  border-color: #5ca9ff;
+  transform: translateY(-1px);
+}
+
+.hardware-compare-actions a:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.hardware-compare-note {
+  max-width: 960px;
+  margin: 1.5rem 0 0;
+
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+
+/* ==========================================================
+   Hardware Comparison Responsive Layout
+   ========================================================== */
+
+@media (max-width: 760px) {
+  .hardware-compare-head {
+    grid-template-columns: 1fr;
+  }
+
+  .hardware-compare-vs {
+    margin: 0 auto;
+  }
+
+  .hardware-compare-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .hardware-compare-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hardware-compare-row > * + * {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .hardware-compare-row-head {
+    display: none;
+  }
+
+  .hardware-compare-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 560px) {
+  .hardware-compare-page {
+    width: min(100% - 2rem, 500px);
+    padding-top: 6.5rem;
+  }
+}
+
+/* ==========================================================
+   Hardware Comparison Selection
+   ========================================================== */
+
+.hardware-compare-selection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  margin: 2rem 0 0;
+  padding: 1rem 1.25rem;
+
+  border: 1px solid #5ca9ff;
+  border-radius: 14px;
+
+  background: rgba(92, 169, 255, 0.08);
+}
+
+.hardware-compare-selection > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hardware-compare-selection span,
+.hardware-compare-selection small {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.hardware-compare-selection strong {
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.hardware-compare-selection button {
+  appearance: none;
+
+  padding: 0.7rem 0.9rem;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background: var(--surface);
+
+  color: var(--text-secondary);
+
+  font: inherit;
+  font-size: 0.85rem;
+
+  cursor: pointer;
+}
+
+.hardware-compare-selection button:hover {
+  border-color: #5ca9ff;
+  color: var(--text);
+}
+
+.hardware-card-selected {
+  border-color: #5ca9ff;
+
+  box-shadow:
+    0 0 0 1px
+    rgba(92, 169, 255, 0.35);
+}
+
+.hardware-card-actions {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+
+  border-top: 1px solid var(--border);
+}
+
+.hardware-card-actions a,
+.hardware-card-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+  padding: 0.7rem 0.8rem;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background: var(--surface);
+
+  color: #60a5fa;
+
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  text-align: center;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.hardware-card-actions a:hover,
+.hardware-card-actions button:hover {
+  border-color: #5ca9ff;
+  transform: translateY(-1px);
+}
+
+.hardware-card-actions a:focus-visible,
+.hardware-card-actions button:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.hardware-card-actions
+.hardware-compare-button-selected {
+  border-color: #5ca9ff;
+
+  background:
+    rgba(92, 169, 255, 0.14);
+
+  color: var(--text);
+}
+
+
+@media (max-width: 700px) {
+  .hardware-compare-selection {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+
+@media (max-width: 560px) {
+  .hardware-card-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   Hardware Compare Selector
+   ========================================================== */
+
+.hardware-compare-select-page {
+  width: min(1000px, calc(100% - 4rem));
+  margin: 0 auto;
+  padding: 8rem 0 4rem;
+}
+
+.hardware-compare-select-page > h1 {
+  margin: 0;
+
+  color: var(--text);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.hardware-compare-select-intro {
+  max-width: 700px;
+  margin: 1rem 0 0;
+
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.hardware-compare-select-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+
+  margin-top: 3rem;
+}
+
+.hardware-compare-select-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  min-height: 210px;
+  padding: 1.5rem;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background: var(--surface);
+}
+
+.hardware-compare-select-card > span {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hardware-compare-select-card select {
+  width: 100%;
+  padding: 0.9rem;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+}
+
+.hardware-compare-select-card select:focus {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.hardware-compare-select-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+
+  border-top: 1px solid var(--border);
+}
+
+.hardware-compare-select-summary strong {
+  color: var(--text);
+}
+
+.hardware-compare-select-summary span {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.hardware-compare-select-vs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hardware-compare-select-warning {
+  margin: 1rem 0 0;
+
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.hardware-compare-select-button {
+  display: block;
+
+  min-width: 220px;
+  margin: 2rem auto 0;
+  padding: 0.9rem 1.2rem;
+
+  border: 1px solid #5ca9ff;
+  border-radius: 10px;
+
+  background: rgba(92, 169, 255, 0.14);
+
+  color: var(--text);
+
+  font: inherit;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.hardware-compare-select-button:hover:not(:disabled) {
+  background: rgba(92, 169, 255, 0.22);
+}
+
+.hardware-compare-select-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.hardware-compare-select-button:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.hardware-compare-select-count {
+  margin: 1rem 0 0;
+
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+
+@media (max-width: 760px) {
+  .hardware-compare-select-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hardware-compare-select-vs {
+    margin: 0 auto;
+  }
+}
+
+
+@media (max-width: 560px) {
+  .hardware-compare-select-page {
+    width: min(100% - 2rem, 500px);
+    padding-top: 6.5rem;
+  }
+
+  .hardware-compare-select-button {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   Hardware Compare — Navigation & State Polish
+   ========================================================= */
+
+.hardware-compare-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hardware-compare-navigation a {
+  text-decoration: none;
+}
+
+.hardware-compare-navigation a:hover {
+  text-decoration: underline;
+}
+
+
+/* Compare page status / recovery states */
+
+.hardware-compare-state {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color, #2a3140);
+  border-radius: 10px;
+  background: var(--surface-color, #151922);
+}
+
+.hardware-compare-state p {
+  margin: 0;
+}
+
+.hardware-compare-state a {
+  display: inline-block;
+  margin-top: 0.9rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hardware-compare-state a:hover {
+  text-decoration: underline;
+}
+
+
+/* Mobile compare navigation */
+
+@media (max-width: 640px) {
+  .hardware-compare-navigation {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+.hardware-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hardware-summary-row p {
+  margin: 0;
+}
+
+.hardware-compare-link {
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .hardware-summary-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* =========================================================
+   Hardware Performance Rankings
+   ========================================================= */
+
+.hardware-card-performance {
+  padding: 0.8rem 0;
+
+  border-top: 1px solid var(--border);
+}
+
+.hardware-card-performance-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  margin-bottom: 0.35rem;
+}
+
+.hardware-card-performance-header > span {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.hardware-card-performance-header > small {
+  flex-shrink: 0;
+
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hardware-card-performance > strong {
+  display: block;
+
+  margin-bottom: 0.6rem;
+
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hardware-card-performance > strong small {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.hardware-performance-track {
+  width: 100%;
+  height: 5px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  overflow: hidden;
+}
+
+.hardware-performance-track > span {
+  display: block;
+
+  height: 100%;
+  min-width: 3px;
+
+  border-radius: inherit;
+
+  background: #5ca9ff;
+
+  transition: width 0.35s ease;
+}
+
+
+/* =========================================================
+   Hardware Performance Rankings — Mobile
+   ========================================================= */
+
+@media (max-width: 560px) {
+  .hardware-card-performance-header {
+    align-items: flex-start;
+  }
+
+  .hardware-card-performance-header > span {
+    font-size: 0.85rem;
+  }
+
+  .hardware-card-performance > strong {
+    font-size: 0.95rem;
+  }
+}
+
+/* Hardware profile performance ranking */
+
+.hardware-profile-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.hardware-profile-metric-header small {
+  color: #9fb7d9;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hardware-profile-metric .hardware-performance-track {
+  width: 100%;
+  margin-top: 0.65rem;
+}
+
+/* Hardware benchmark software provenance */
+
+.hardware-benchmark-software {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.5rem;
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  color: #9fb7d9;
+  font-size: 0.82rem;
+}
+
+.hardware-benchmark-software span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.hardware-benchmark-software strong {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .hardware-benchmark-software {
+    gap: 0.5rem 1rem;
+  }
+}
+
+/* =========================================================
+   Hardware Comparison — Evidence Context
+   ========================================================= */
+
+.hardware-compare-evidence {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+
+  border-top: 1px solid var(--border);
+}
+
+.hardware-compare-evidence > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.hardware-compare-evidence span {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.hardware-compare-evidence strong {
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+
+/* Comparison methodology / evidence note */
+
+.hardware-compare-context {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.hardware-compare-context > strong {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.hardware-compare-context > p {
+  margin: 0;
+
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   Hardware Comparison — Evidence Context Mobile
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .hardware-compare-evidence {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .hardware-compare-evidence {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .hardware-compare-evidence > div {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
+/* =========================================================
+   Hardware Compare Selection — Final Polish
+   ========================================================= */
+
+.hardware-card-selected {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(92, 169, 255, 0.07),
+      rgba(92, 169, 255, 0.025)
+    );
+
+  border-color: #5ca9ff;
+
+  box-shadow:
+    0 0 0 1px rgba(92, 169, 255, 0.35),
+    0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.hardware-compare-selection {
+  position: relative;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(92, 169, 255, 0.11),
+      rgba(92, 169, 255, 0.05)
+    );
+
+  box-shadow:
+    inset 3px 0 0 #5ca9ff;
+}
+
+.hardware-compare-selection > div {
+  flex: 1;
+}
+
+.hardware-compare-selection span {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+}
+
+.hardware-compare-selection strong {
+  margin-top: 0.1rem;
+  font-size: 1.05rem;
+}
+
+.hardware-compare-selection small {
+  margin-top: 0.1rem;
+}
+
+.hardware-card-actions
+  .hardware-compare-button-selected {
+  cursor: default;
+
+  background:
+    rgba(92, 169, 255, 0.18);
+
+  border-color: #5ca9ff;
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(92, 169, 255, 0.08);
+}
+
+.hardware-card-actions
+  .hardware-compare-button-selected:hover {
+  transform: none;
+  border-color: #5ca9ff;
+}
+
+
+/* =========================================================
+   Hardware Compare Selection — Mobile Polish
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .hardware-compare-selection {
+    gap: 1rem;
+  }
+
+  .hardware-compare-selection button {
+    width: 100%;
+  }
 }

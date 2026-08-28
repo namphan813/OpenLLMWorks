@@ -1,8 +1,8 @@
-# OpenLLMBench Data Contract v1.0
+# OpenLLMWorks Data Contract v1.0
 
 ## Purpose
 
-This document defines the generated data consumed by the OpenLLMBench website.
+This document defines the generated data consumed by the OpenLLMWorks website.
 
 The website never computes statistics directly.
 

@@ -1,8 +1,8 @@
 """
-OpenLLMBench Statistics
+OpenLLMWorks Statistics
 
 Purpose:
-Command-line statistics viewer for the OpenLLMBench
+Command-line statistics viewer for the OpenLLMWorks
 benchmark database.
 
 Version:
@@ -67,7 +67,7 @@ def format_metric(
 def main() -> None:
     """Validate the database and print aggregate statistics."""
 
-    print("OpenLLMBench Statistics")
+    print("OpenLLMWorks Statistics")
     print(f"Statistics Viewer v{STATS_VERSION}")
 
     try:
@@ -179,7 +179,7 @@ def main() -> None:
         hardware["backend_counts"],
     )
 
-    print_section("Hardware Averages")
+    print_section("Hardware Capacity")
 
     print(
         "Average VRAM:     "
@@ -187,8 +187,20 @@ def main() -> None:
     )
 
     print(
+        "VRAM range:       "
+        f"{format_metric(hardware['min_vram_gib'])} - "
+        f"{format_metric(hardware['max_vram_gib'])} GiB"
+    )
+
+    print(
         "Average memory:   "
         f"{format_metric(hardware['average_memory_gb'])} GB"
+    )
+
+    print(
+        "Memory range:     "
+        f"{format_metric(hardware['min_memory_gb'])} - "
+        f"{format_metric(hardware['max_memory_gb'])} GB"
     )
 
     performance = stats["performance"]
@@ -202,8 +214,36 @@ def main() -> None:
     )
 
     print(
+        "Median pp512:     "
+        f"{format_metric(performance['median_pp512'])} "
+        "tokens/sec"
+    )
+
+    print(
+        "pp512 range:      "
+        f"{format_metric(performance['min_pp512'])} - "
+        f"{format_metric(performance['max_pp512'])} "
+        "tokens/sec"
+    )
+
+    print()
+
+    print(
         "Average tg128:    "
         f"{format_metric(performance['average_tg128'])} "
+        "tokens/sec"
+    )
+
+    print(
+        "Median tg128:     "
+        f"{format_metric(performance['median_tg128'])} "
+        "tokens/sec"
+    )
+
+    print(
+        "tg128 range:      "
+        f"{format_metric(performance['min_tg128'])} - "
+        f"{format_metric(performance['max_tg128'])} "
         "tokens/sec"
     )
 

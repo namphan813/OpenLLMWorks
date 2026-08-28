@@ -1,9 +1,9 @@
 """
-OpenLLMBench Historical Snapshot Engine
+OpenLLMWorks Historical Snapshot Engine
 
 Purpose:
 Builds reusable monthly historical snapshots from timestamped
-OpenLLMBench benchmark observations.
+OpenLLMWorks benchmark observations.
 
 Version:
 0.8.0-dev1

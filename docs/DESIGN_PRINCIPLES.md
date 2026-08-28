@@ -1,4 +1,4 @@
-# OpenLLMBench Design Principles
+# OpenLLMWorks Design Principles
 
 Software changes.
 
@@ -8,7 +8,7 @@ Architectures change.
 
 Good engineering principles endure.
 
-These principles guide every design decision made within OpenLLMBench.
+These principles guide every design decision made within OpenLLMWorks.
 
 They are intentionally simple.
 
@@ -18,7 +18,7 @@ When in doubt, return to these principles.
 
 # 1. Measure. Understand. Preserve.
 
-This is the foundation of OpenLLMBench.
+This is the foundation of OpenLLMWorks.
 
 Measure benchmark performance accurately.
 
@@ -44,7 +44,7 @@ Always.
 
 # 3. Never Invent Benchmark Data
 
-OpenLLMBench documents observations.
+OpenLLMWorks documents observations.
 
 It does not manufacture them.
 
@@ -86,7 +86,7 @@ Every module should have one clear responsibility.
 
 # 6. Separate Responsibilities
 
-OpenLLMBench is intentionally divided into layers.
+OpenLLMWorks is intentionally divided into layers.
 
 Parser
 
@@ -114,7 +114,7 @@ No layer should assume the responsibilities of another.
 
 # 7. Build for Years, Not Weekends
 
-OpenLLMBench began as a weekend project.
+OpenLLMWorks began as a weekend project.
 
 It should not remain limited by weekend decisions.
 
@@ -154,7 +154,7 @@ Always.
 
 # 10. Leave Things Better Than You Found Them
 
-Every contribution should improve OpenLLMBench.
+Every contribution should improve OpenLLMWorks.
 
 Sometimes that means writing code.
 
@@ -168,7 +168,7 @@ Small improvements accumulate over time.
 
 # A Final Thought
 
-OpenLLMBench is not trying to become the biggest benchmark repository.
+OpenLLMWorks is not trying to become the biggest benchmark repository.
 
 It is trying to become one of the most trustworthy.
 

@@ -1,8 +1,8 @@
 """
-OpenLLMBench Leaderboard Viewer
+OpenLLMWorks Leaderboard Viewer
 
 Purpose:
-Validates the OpenLLMBench database, builds leaderboard data,
+Validates the OpenLLMWorks database, builds leaderboard data,
 and prints a clean command-line leaderboard report.
 
 Version:
@@ -176,7 +176,7 @@ def print_popularity_leaderboard(
 def main() -> None:
     """Validate the database and print all leaderboards."""
 
-    print("OpenLLMBench Leaderboards")
+    print("OpenLLMWorks Leaderboards")
     print(
         f"Leaderboard Viewer "
         f"v{LEADERBOARD_VIEWER_VERSION}"

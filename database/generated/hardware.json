@@ -1,18 +1,109 @@
 {
-    "contractVersion": "1.3",
-    "generatedAt": "2026-08-08T21:46:49.890888+00:00",
+    "contractVersion": "1.6",
+    "generatedAt": "2026-08-28T02:21:53.979543+00:00",
     "generator": {
-        "name": "OpenLLMBench Hardware Publisher",
-        "version": "0.4"
+        "name": "OpenLLMWorks Hardware Publisher",
+        "version": "0.6.2"
     },
     "summary": {
-        "gpuModels": 2,
-        "benchmarkResults": 3
+        "gpuVariants": 9,
+        "benchmarkResults": 10
     },
     "hardware": [
         {
+            "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1050 Ti",
+                "vramGib": 4.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 348.04,
+                "averageTg128": 22.11,
+                "bestPp512": 348.04,
+                "worstPp512": 348.04
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Bench-001-GTX1050Ti",
+                    "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+                    "pp512": 348.04,
+                    "tg128": 22.11,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 4.0,
+                    "driverVersion": "582.66",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "582.66"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-gtx-1050-2gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1050",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1050",
+                "vramGib": 2.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 125.14,
+                "averageTg128": 3.99,
+                "bestPp512": 125.14,
+                "worstPp512": 125.14
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 2.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
+                    "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+                    "pp512": 125.14,
+                    "tg128": 3.99,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 2.0,
+                    "driverVersion": "582.66",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "582.66"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-gtx-1650-4gb",
             "gpuVendor": "NVIDIA",
             "gpuModel": "NVIDIA GeForce GTX 1650",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1650",
+                "vramGib": 4.0,
+                "formFactor": "Unknown"
+            },
             "submissionCount": 2,
             "performance": {
                 "averagePp512": 153.575,
@@ -34,28 +125,251 @@
             },
             "benchmarkResults": [
                 {
-                    "submissionName": "Game_Server_GTX1650",
-                    "cpuModel": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
-                    "pp512": 143.78,
-                    "tg128": 31.69,
-                    "operatingSystem": "Windows 11 Pro 25H2",
-                    "memoryGb": 32,
-                    "vramGib": 4.0
-                },
-                {
                     "submissionName": "Xbox-One-PC-GTX1650",
                     "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
                     "pp512": 163.37,
                     "tg128": 38.88,
                     "operatingSystem": "Windows 11 Pro 24H2",
                     "memoryGb": 16,
-                    "vramGib": 4.0
+                    "vramGib": 4.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
+                },
+                {
+                    "submissionName": "Game_Server_GTX1650",
+                    "cpuModel": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
+                    "pp512": 143.78,
+                    "tg128": 31.69,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 4.0,
+                    "driverVersion": "610.74",
+                    "cudaUmdVersion": "13.3",
+                    "nvidiaSmiVersion": "610.74"
                 }
             ]
         },
         {
+            "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1660 Ti",
+                "vramGib": 6.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 285.92,
+                "averageTg128": 71.09,
+                "bestPp512": 285.92,
+                "worstPp512": 285.92
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
+                "averageVramGib": 6.0,
+                "operatingSystems": [
+                    "Windows 11 Home 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Viet-Mobile-GTX1650",
+                    "cpuModel": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx",
+                    "pp512": 285.92,
+                    "tg128": 71.09,
+                    "operatingSystem": "Windows 11 Home 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 6.0,
+                    "driverVersion": "610.88",
+                    "cudaUmdVersion": "13.3",
+                    "nvidiaSmiVersion": "610.88"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-rtx-3060-12gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce RTX 3060",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce RTX 3060",
+                "vramGib": 12.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 3545.62,
+                "averageTg128": 100.19,
+                "bestPp512": 3545.62,
+                "worstPp512": 3545.62
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
+                "averageVramGib": 12.0,
+                "operatingSystems": [
+                    "Windows 11 Education 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
+                    "cpuModel": "13th Gen Intel(R) Core(TM) i5-13600K",
+                    "pp512": 3545.62,
+                    "tg128": 100.19,
+                    "operatingSystem": "Windows 11 Education 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 12.0,
+                    "driverVersion": "610.74",
+                    "cudaUmdVersion": "13.3",
+                    "nvidiaSmiVersion": "610.74"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-rtx-4070-12gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce RTX 4070",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce RTX 4070",
+                "vramGib": 12.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 7850.45,
+                "averageTg128": 148.35,
+                "bestPp512": 7850.45,
+                "worstPp512": 7850.45
+            },
+            "system": {
+                "averageMemoryGb": 64.0,
+                "memoryConfigurationsGb": [
+                    64
+                ],
+                "averageVramGib": 11.99,
+                "operatingSystems": [
+                    "Windows 11 Home 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Viet-RTX4070",
+                    "cpuModel": "AMD Ryzen 7 7800X3D 8-Core Processor",
+                    "pp512": 7850.45,
+                    "tg128": 148.35,
+                    "operatingSystem": "Windows 11 Home 25H2",
+                    "memoryGb": 64,
+                    "vramGib": 11.99,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA RTX A3000 Laptop GPU",
+                "vramGib": 6.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 2413.64,
+                "averageTg128": 67.05,
+                "bestPp512": 2413.64,
+                "worstPp512": 2413.64
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
+                "averageVramGib": 6.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Studio-15-G8",
+                    "cpuModel": "11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz",
+                    "pp512": 2413.64,
+                    "tg128": 67.05,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 6.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
+                }
+            ]
+        },
+        {
+            "variantId": "quadro-p1000-4gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "Quadro P1000",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "Quadro P1000",
+                "vramGib": 4.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 211.03,
+                "averageTg128": 13.99,
+                "bestPp512": 211.03,
+                "worstPp512": 211.03
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Vivi-P1000",
+                    "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
+                    "pp512": 211.03,
+                    "tg128": 13.99,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 4.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
+                }
+            ]
+        },
+        {
+            "variantId": "quadro-t1000-4gb",
             "gpuVendor": "NVIDIA",
             "gpuModel": "Quadro T1000",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "Quadro T1000",
+                "vramGib": 4.0,
+                "formFactor": "Unknown"
+            },
             "submissionCount": 1,
             "performance": {
                 "averagePp512": 133.22,
@@ -81,7 +395,10 @@
                     "tg128": 22.17,
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 32,
-                    "vramGib": 4.0
+                    "vramGib": 4.0,
+                    "driverVersion": "",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
                 }
             ]
         }
