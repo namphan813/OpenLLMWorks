@@ -1,5 +1,5 @@
 """
-OpenLLMBench Parser Orchestrator
+OpenLLMWorks Parser Orchestrator
 
 Purpose:
 Discovers incoming benchmark submissions, parses each
@@ -420,7 +420,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
 
     argument_parser = argparse.ArgumentParser(
         description=(
-            "Process OpenLLMBench submissions from the "
+            "Process OpenLLMWorks submissions from the "
             "incoming directory and update the benchmark "
             "database."
         )

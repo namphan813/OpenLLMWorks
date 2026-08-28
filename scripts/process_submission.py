@@ -1,8 +1,8 @@
 """
-OpenLLMBench Maintainer Submission Workflow
+OpenLLMWorks Maintainer Submission Workflow
 
 Purpose:
-Process one extracted OpenLLMBench submission through the existing
+Process one extracted OpenLLMWorks submission through the existing
 canonical maintainer pipeline:
 
 1. Validate the source submission.
@@ -34,7 +34,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
             "Validate, stage, import, and publish one "
-            "OpenLLMBench submission."
+            "OpenLLMWorks submission."
         )
     )
 
@@ -42,7 +42,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
         "submission_path",
         type=Path,
         help=(
-            "Path to one extracted OpenLLMBench submission "
+            "Path to one extracted OpenLLMWorks submission "
             "directory."
         ),
     )
@@ -79,7 +79,7 @@ def run_command(
     phase_name: str,
 ) -> bool:
     """
-    Run one canonical OpenLLMBench CLI command.
+    Run one canonical OpenLLMWorks CLI command.
 
     Returns True when the command exits successfully.
     """
@@ -163,7 +163,7 @@ def main() -> int:
     args = parser.parse_args()
 
     print()
-    print("OpenLLMBench Maintainer Workflow")
+    print("OpenLLMWorks Maintainer Workflow")
     print("=" * 60)
     print()
 

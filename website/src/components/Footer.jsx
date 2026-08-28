@@ -4,7 +4,7 @@ function Footer() {
             <div className="footer-content">
                 <div className="footer-brand">
                     <p className="footer-logo">
-                        OpenLLMBench
+                        OpenLLMWorks
                     </p>
 
                     <p className="footer-description">
@@ -47,7 +47,7 @@ function Footer() {
 
             <div className="footer-bottom">
                 <p>
-                    © 2026 OpenLLMBench
+                    © 2026 OpenLLMWorks
                 </p>
 
                 <p>

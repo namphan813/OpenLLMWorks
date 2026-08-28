@@ -1,1 +1,1 @@
-print("OpenLLMBench is ready!")
+print("OpenLLMWorks is ready!")

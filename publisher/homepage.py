@@ -11,7 +11,7 @@ def publish_homepage(
     statistics_report: dict,
 ):
     """
-    Publish homepage.json using real OpenLLMBench analytics.
+    Publish homepage.json using real OpenLLMWorks analytics.
     """
 
     database_stats = statistics_report["database"]
@@ -122,13 +122,13 @@ def publish_homepage(
         },
         "featuredStory": {
             "title": (
-                "The GTX 1650 is OpenLLMBench's "
+                "The GTX 1650 is OpenLLMWorks's "
                 "first recorded GPU."
             ),
             "description": (
                 "This benchmark established the first "
                 "historical performance reference point "
-                "in the OpenLLMBench database."
+                "in the OpenLLMWorks database."
             ),
             "snapshot": "2026-08-02 14:17 UTC",
             "badge": "Data Snapshot",

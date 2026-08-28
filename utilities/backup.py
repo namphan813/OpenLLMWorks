@@ -1,5 +1,5 @@
 """
-OpenLLMBench Backup Utility
+OpenLLMWorks Backup Utility
 
 Purpose:
 Creates verified backups of the benchmark database.

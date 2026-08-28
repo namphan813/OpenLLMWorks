@@ -1,6 +1,6 @@
-# OpenLLMBench Component Library
+# OpenLLMWorks Component Library
 
-The Component Library defines the reusable building blocks of the OpenLLMBench website.
+The Component Library defines the reusable building blocks of the OpenLLMWorks website.
 
 Rather than designing each page independently, the website is assembled from a consistent set of reusable components.
 
@@ -72,7 +72,7 @@ Button
 
 ## Purpose
 
-Introduce OpenLLMBench.
+Introduce OpenLLMWorks.
 
 Immediately explain the project's mission.
 
@@ -90,7 +90,7 @@ Immediately explain the project's mission.
 Example
 
 ```
-OpenLLMBench
+OpenLLMWorks
 
 Building the historical record
 of local AI performance.

@@ -1,5 +1,5 @@
 """
-OpenLLMBench Submission Validation CLI
+OpenLLMWorks Submission Validation CLI
 
 Provides a contributor-facing command for validating a benchmark
 submission package before it is submitted or imported.
@@ -26,7 +26,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(
         description=(
-            "Validate an OpenLLMBench benchmark submission package."
+            "Validate an OpenLLMWorks benchmark submission package."
         )
     )
 
@@ -51,7 +51,7 @@ def print_preflight_result(
     result = validate_submission_preflight(submission)
 
     print()
-    print("OpenLLMBench Submission Validation")
+    print("OpenLLMWorks Submission Validation")
     print("=" * 34)
     print()
     print(f"Submission: {submission.submission_name}")
@@ -152,7 +152,7 @@ def main() -> int:
         )
     except (FileNotFoundError, NotADirectoryError) as error:
         print()
-        print("OpenLLMBench Submission Validation")
+        print("OpenLLMWorks Submission Validation")
         print("=" * 34)
         print()
         print(f"ERROR: {error}")

@@ -1,7 +1,7 @@
 function Hero() {
     return (
         <section className="hero">
-            <h1>OpenLLMBench</h1>
+            <h1>OpenLLMWorks</h1>
 
             <h2>
                 Building the historical record

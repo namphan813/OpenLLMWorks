@@ -1,5 +1,5 @@
 """
-OpenLLMBench Database Module
+OpenLLMWorks Database Module
 
 Purpose:
 Builds normalized benchmark records, generates deterministic
@@ -57,7 +57,7 @@ def build_result_fingerprint(
     - NVIDIA driver and CUDA versions
     - submission provenance and verification metadata
 
-    This allows OpenLLMBench to enrich historical records without
+    This allows OpenLLMWorks to enrich historical records without
     accidentally turning an existing benchmark measurement into
     a new result.
     """

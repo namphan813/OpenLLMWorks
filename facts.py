@@ -1,5 +1,5 @@
 """
-OpenLLMBench Interesting Facts Viewer
+OpenLLMWorks Interesting Facts Viewer
 
 Version:
 0.7.0-dev1
@@ -31,7 +31,7 @@ def print_fact(fact: dict):
 
 def main():
 
-    print("OpenLLMBench Interesting Facts")
+    print("OpenLLMWorks Interesting Facts")
     print("Facts Viewer v0.7.0-dev1")
     print()
 

@@ -1,8 +1,8 @@
 """
-OpenLLMBench Leaderboard Publisher
+OpenLLMWorks Leaderboard Publisher
 
 Purpose:
-Build the public leaderboard data contract consumed by the OpenLLMBench
+Build the public leaderboard data contract consumed by the OpenLLMWorks
 website and other public-facing tools.
 
 The publisher does not calculate benchmark analytics from raw benchmark
@@ -180,7 +180,7 @@ def build_leaderboards_payload(
         "generatedAt": generated_at,
         "generator": {
             "name": (
-                "OpenLLMBench Leaderboard Publisher"
+                "OpenLLMWorks Leaderboard Publisher"
             ),
             "version": (
                 LEADERBOARD_PUBLISHER_VERSION

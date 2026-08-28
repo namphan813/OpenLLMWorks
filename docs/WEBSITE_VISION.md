@@ -1,12 +1,12 @@
-# OpenLLMBench Website Vision
+# OpenLLMWorks Website Vision
 
 ## Purpose
 
-The OpenLLMBench website is the public-facing experience for the benchmark data, analytics, and historical records created by the project.
+The OpenLLMWorks website is the public-facing experience for the benchmark data, analytics, and historical records created by the project.
 
 The website should help visitors:
 
-- understand what OpenLLMBench is;
+- understand what OpenLLMWorks is;
 - discover what their hardware can do;
 - explore community benchmark data;
 - learn what is changing in local AI;
@@ -15,7 +15,7 @@ The website should help visitors:
 
 The website is not the source of benchmark intelligence.
 
-It is a presentation layer built on top of the existing OpenLLMBench engines.
+It is a presentation layer built on top of the existing OpenLLMWorks engines.
 
 ```text
 Parser and Database
@@ -31,7 +31,7 @@ Business logic should remain outside the website whenever practical.
 
 # Product Vision
 
-OpenLLMBench should feel like a modern hardware-intelligence platform rather than a traditional benchmark table.
+OpenLLMWorks should feel like a modern hardware-intelligence platform rather than a traditional benchmark table.
 
 It should combine:
 
@@ -55,7 +55,7 @@ The supporting project identity is:
 
 > **Measure. Understand. Preserve.**
 
-Visitors should understand that OpenLLMBench is not only concerned with identifying the fastest system today.
+Visitors should understand that OpenLLMWorks is not only concerned with identifying the fastest system today.
 
 It is also designed to explain:
 
@@ -69,7 +69,7 @@ It is also designed to explain:
 
 # Primary Audience
 
-OpenLLMBench should be approachable to everyone, while naturally leaning toward curious and technically interested users.
+OpenLLMWorks should be approachable to everyone, while naturally leaning toward curious and technically interested users.
 
 The core audience includes:
 
@@ -119,7 +119,7 @@ It should feel like an introduction to what is happening in local AI performance
 The primary first-time visitor journey is:
 
 ```text
-Discover OpenLLMBench
+Discover OpenLLMWorks
         ↓
 Understand the project
         ↓
@@ -177,7 +177,7 @@ Examples include:
 
 The homepage should answer four questions quickly:
 
-1. What is OpenLLMBench?
+1. What is OpenLLMWorks?
 2. Why does it matter?
 3. What is happening in local AI right now?
 4. How can I test my own machine?
@@ -197,7 +197,7 @@ The hero should introduce the project without excessive marketing language.
 Suggested structure:
 
 ```text
-OpenLLMBench
+OpenLLMWorks
 
 Building the historical record
 of local AI performance.
@@ -368,7 +368,7 @@ Provide links to:
 
 GitHub Discussions should be the initial community venue.
 
-OpenLLMBench should avoid creating and maintaining multiple community platforms before demand justifies them.
+OpenLLMWorks should avoid creating and maintaining multiple community platforms before demand justifies them.
 
 ---
 
@@ -428,7 +428,7 @@ The page should serve both newcomers and experts.
 
 # Beginner and Advanced Views
 
-OpenLLMBench should expose different levels of detail without maintaining separate products.
+OpenLLMWorks should expose different levels of detail without maintaining separate products.
 
 ## Beginner experience
 
@@ -502,7 +502,7 @@ Any affiliate link should follow a recommendation rather than influence it.
 
 # Community Strategy
 
-OpenLLMBench should begin with one primary community location:
+OpenLLMWorks should begin with one primary community location:
 
 > **GitHub Discussions**
 
@@ -542,13 +542,13 @@ Possible content includes:
 
 Editorial content should be evidence-driven and clearly distinguish observation from interpretation.
 
-Articles should support the benchmark platform rather than turn OpenLLMBench into a general AI-news site.
+Articles should support the benchmark platform rather than turn OpenLLMWorks into a general AI-news site.
 
 ---
 
 # Visual Direction
 
-OpenLLMBench should feel more refined than a traditional desktop benchmark utility.
+OpenLLMWorks should feel more refined than a traditional desktop benchmark utility.
 
 The visual direction should be:
 
@@ -671,7 +671,7 @@ Avoid:
 
 # AI Collaboration Transparency
 
-OpenLLMBench has used AI-assisted planning, coding, debugging, and documentation.
+OpenLLMWorks has used AI-assisted planning, coding, debugging, and documentation.
 
 The website and repository should explain this transparently.
 
@@ -834,7 +834,7 @@ They should be introduced only when their benefit clearly exceeds their cost.
 
 The homepage succeeds when a first-time visitor can answer:
 
-- What is OpenLLMBench?
+- What is OpenLLMWorks?
 - Why does benchmark history matter?
 - What is interesting right now?
 - How do I benchmark my machine?
@@ -888,7 +888,7 @@ Before building a page, ask:
 
 # Guiding Experience
 
-OpenLLMBench should be:
+OpenLLMWorks should be:
 
 > Easy enough for someone asking, “How fast is my computer?”
 

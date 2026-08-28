@@ -1,6 +1,6 @@
-# OpenLLMBench Design Assets
+# OpenLLMWorks Design Assets
 
-This folder contains design references, mockups, and UI concepts for OpenLLMBench.
+This folder contains design references, mockups, and UI concepts for OpenLLMWorks.
 
 These assets are intended to document the visual evolution of the project and should not be considered final implementations.
 

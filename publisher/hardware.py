@@ -1,8 +1,8 @@
 """
-OpenLLMBench Hardware Publisher
+OpenLLMWorks Hardware Publisher
 
 Purpose:
-Build the public hardware data contract consumed by the OpenLLMBench
+Build the public hardware data contract consumed by the OpenLLMWorks
 website Hardware Explorer.
 
 The publisher does not calculate benchmark analytics itself.
@@ -344,7 +344,7 @@ def build_hardware_payload(
 
         "generator": {
             "name": (
-                "OpenLLMBench Hardware Publisher"
+                "OpenLLMWorks Hardware Publisher"
             ),
             "version": (
                 HARDWARE_PUBLISHER_VERSION

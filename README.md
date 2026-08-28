@@ -1,10 +1,10 @@
-# OpenLLMBench
+# OpenLLMWorks
 
 > **Building the historical record of local AI hardware performance.**
 
-OpenLLMBench is an open-source benchmark platform focused on measuring, preserving, and exploring Large Language Model (LLM) inference performance across consumer, workstation, laptop, and enterprise hardware.
+OpenLLMWorks is an open-source benchmark platform focused on measuring, preserving, and exploring Large Language Model (LLM) inference performance across consumer, workstation, laptop, and enterprise hardware.
 
-Rather than simply collecting benchmark numbers, OpenLLMBench aims to build a living historical record of local AI performance that helps the community understand how hardware, software, and models evolve over time.
+Rather than simply collecting benchmark numbers, OpenLLMWorks aims to build a living historical record of local AI performance that helps the community understand how hardware, software, and models evolve over time.
 
 ---
 
@@ -20,7 +20,7 @@ The project is currently transitioning from a backend benchmarking platform into
 
 # Vision
 
-OpenLLMBench exists to answer questions like:
+OpenLLMWorks exists to answer questions like:
 
 - How fast is my GPU compared to others?
 - Which models run best on my hardware?
@@ -28,7 +28,7 @@ OpenLLMBench exists to answer questions like:
 - What hardware should I upgrade to next?
 - What is the community discovering?
 
-Instead of isolated benchmark screenshots scattered across forums and social media, OpenLLMBench provides a centralized, reproducible benchmark database built by the community.
+Instead of isolated benchmark screenshots scattered across forums and social media, OpenLLMWorks provides a centralized, reproducible benchmark database built by the community.
 
 ---
 
@@ -94,7 +94,7 @@ website/
 
 # Design Philosophy
 
-OpenLLMBench follows several core principles.
+OpenLLMWorks follows several core principles.
 
 ### Measure
 
@@ -133,13 +133,13 @@ Long-term goals include:
 
 # Contributing
 
-OpenLLMBench is built around reproducible community benchmark results.
+OpenLLMWorks is built around reproducible community benchmark results.
 
 ## Run Your First Benchmark
 
 Want to contribute benchmark data?
 
-The preferred path is the OpenLLMBench Runner. The current Runner is a
+The preferred path is the OpenLLMWorks Runner. The current Runner is a
 development version and still requires Python plus the frozen benchmark
 assets.
 
@@ -159,7 +159,7 @@ A successful Runner session automatically:
 6. validates the completed submission;
 7. creates an upload-ready ZIP package.
 
-Submit the generated ZIP through the OpenLLMBench GitHub Issue submission
+Submit the generated ZIP through the OpenLLMWorks GitHub Issue submission
 workflow.
 
 For current setup requirements, troubleshooting, manual/advanced validation,
@@ -217,7 +217,7 @@ Future
 
 # Current Status
 
-OpenLLMBench is under active development.
+OpenLLMWorks is under active development.
 
 The project currently includes:
 
@@ -238,7 +238,7 @@ License selection is currently under consideration and will be added before the 
 
 ---
 
-## OpenLLMBench
+## OpenLLMWorks
 
 **Measure.**
 

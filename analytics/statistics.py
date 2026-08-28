@@ -1,5 +1,5 @@
 """
-OpenLLMBench Statistics Engine
+OpenLLMWorks Statistics Engine
 
 Purpose:
 Transforms validated benchmark database records into aggregate
@@ -885,7 +885,7 @@ def build_statistics(
     database: dict,
 ) -> dict:
     """
-    Build the complete OpenLLMBench statistics report.
+    Build the complete OpenLLMWorks statistics report.
 
     The returned dictionary contains no terminal formatting and
     can be reused by command-line tools, websites, reports, or APIs.

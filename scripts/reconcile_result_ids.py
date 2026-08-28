@@ -1,5 +1,5 @@
 """
-OpenLLMBench Result ID Reconciliation Utility
+OpenLLMWorks Result ID Reconciliation Utility
 
 Purpose:
 Recompute canonical result IDs using the current identity rules,
@@ -330,7 +330,7 @@ def print_report(
     )
 
     print(
-        "OpenLLMBench Result ID Reconciliation"
+        "OpenLLMWorks Result ID Reconciliation"
     )
     print("=" * 44)
     print()
@@ -450,7 +450,7 @@ def apply_reconciliation(
 def parse_args():
     parser = argparse.ArgumentParser(
         description=(
-            "Reconcile OpenLLMBench "
+            "Reconcile OpenLLMWorks "
             "deterministic result IDs."
         )
     )

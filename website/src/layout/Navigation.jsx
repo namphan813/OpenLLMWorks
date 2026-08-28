@@ -12,7 +12,7 @@ function Navigation() {
     <nav className="navigation">
       <div className="logo">
         <Link to="/" onClick={closeMenu}>
-          OpenLLMBench
+          OpenLLMWorks
         </Link>
       </div>
 

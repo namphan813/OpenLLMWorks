@@ -1,5 +1,5 @@
 """
-OpenLLMBench Hardware Profile Engine
+OpenLLMWorks Hardware Profile Engine
 
 Purpose:
 Build reusable hardware profiles from the benchmark database.

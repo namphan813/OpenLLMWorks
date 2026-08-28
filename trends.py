@@ -1,5 +1,5 @@
 """
-OpenLLMBench Trend Viewer
+OpenLLMWorks Trend Viewer
 
 Purpose:
 Loads the benchmark database and prints current monthly
@@ -131,7 +131,7 @@ def main() -> None:
     Load the database and print the trend report.
     """
 
-    print("OpenLLMBench Trends")
+    print("OpenLLMWorks Trends")
     print(
         f"Trend Viewer "
         f"v{TREND_VIEWER_VERSION}"

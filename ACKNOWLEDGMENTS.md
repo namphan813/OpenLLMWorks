@@ -1,6 +1,6 @@
 # Acknowledgments
 
-OpenLLMBench was developed with assistance from ChatGPT by OpenAI.
+OpenLLMWorks was developed with assistance from ChatGPT by OpenAI.
 
 ChatGPT was used as a collaborative tool for:
 
@@ -13,4 +13,4 @@ ChatGPT was used as a collaborative tool for:
 
 All project decisions, testing, implementation, maintenance, and published content remain under human review and responsibility.
 
-OpenLLMBench is an independent project and is not affiliated with, sponsored by, or endorsed by OpenAI.
+OpenLLMWorks is an independent project and is not affiliated with, sponsored by, or endorsed by OpenAI.

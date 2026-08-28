@@ -19,7 +19,7 @@ from publisher.leaderboards import publish_leaderboards
 DATABASE_FILE = ROOT / "database" / "benchmark_database.json"
 OUTPUT_DIR = ROOT / "database" / "generated"
 
-PUBLISHER_NAME = "OpenLLMBench Publisher"
+PUBLISHER_NAME = "OpenLLMWorks Publisher"
 PUBLISHER_VERSION = "0.2"
 CONTRACT_VERSION = "1.0"
 

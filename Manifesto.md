@@ -1,8 +1,8 @@
-# OpenLLMBench Manifesto
+# OpenLLMWorks Manifesto
 
 ## Why We Exist
 
-OpenLLMBench began as a simple weekend project.
+OpenLLMWorks began as a simple weekend project.
 
 The original goal was straightforward:
 create a better way to organize and compare local Large Language Model benchmark results.
@@ -58,7 +58,7 @@ Technology moves quickly.
 
 History disappears even faster.
 
-OpenLLMBench exists to make sure it doesn't.
+OpenLLMWorks exists to make sure it doesn't.
 
 ---
 
@@ -100,13 +100,13 @@ on devices we haven't imagined yet.
 
 Local AI deserves professional benchmarking tools.
 
-OpenLLMBench is our contribution to that future.
+OpenLLMWorks is our contribution to that future.
 
 ---
 
 ## Community
 
-OpenLLMBench belongs to its community.
+OpenLLMWorks belongs to its community.
 
 Whether you contribute code,
 benchmark results,

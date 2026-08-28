@@ -1,12 +1,12 @@
-# OpenLLMBench Maintainer Workflow
+# OpenLLMWorks Maintainer Workflow
 
 ## Purpose
 
 This document describes the trusted maintainer workflow for processing one
-OpenLLMBench submission after it has been downloaded and extracted.
+OpenLLMWorks submission after it has been downloaded and extracted.
 
 The workflow is intentionally orchestrated through existing canonical
-OpenLLMBench components rather than reimplementing validation, parsing,
+OpenLLMWorks components rather than reimplementing validation, parsing,
 database ingestion, or publishing logic.
 
 The normal pipeline is:
@@ -208,7 +208,7 @@ If publishing fails after a successful database import:
 A successful workflow should resemble:
 
 ```text
-OpenLLMBench Maintainer Workflow
+OpenLLMWorks Maintainer Workflow
 
 [1/4] Validate submission
 [PASS] Submission validation
@@ -229,7 +229,7 @@ Maintainer workflow completed successfully.
 
 ## Duplicate Submissions
 
-OpenLLMBench uses deterministic result IDs to detect duplicate benchmark
+OpenLLMWorks uses deterministic result IDs to detect duplicate benchmark
 measurements.
 
 A duplicate result is not added as a second benchmark result.
@@ -275,7 +275,7 @@ tracked submission content should be investigated before continuing.
 
 ## Design Principle
 
-The maintainer workflow orchestrates existing OpenLLMBench authorities.
+The maintainer workflow orchestrates existing OpenLLMWorks authorities.
 
 ```text
 Validator validates.

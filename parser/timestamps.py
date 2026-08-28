@@ -1,5 +1,5 @@
 """
-OpenLLMBench Timestamp Utilities
+OpenLLMWorks Timestamp Utilities
 
 Purpose:
 Creates, parses, validates, and normalizes timestamps used by

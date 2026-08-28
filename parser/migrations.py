@@ -1,8 +1,8 @@
 """
-OpenLLMBench Database Migration Engine
+OpenLLMWorks Database Migration Engine
 
 Purpose:
-Upgrades older OpenLLMBench database structures to newer schema
+Upgrades older OpenLLMWorks database structures to newer schema
 versions without discarding existing benchmark records.
 
 Version:
@@ -157,7 +157,7 @@ def migrate_database_0_6_to_0_7(
     database: dict,
 ) -> dict:
     """
-    Upgrade a complete OpenLLMBench database from schema 0.6
+    Upgrade a complete OpenLLMWorks database from schema 0.6
     to schema 0.7.
 
     This function returns a migrated copy and does not modify the

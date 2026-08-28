@@ -1,9 +1,9 @@
 """
-OpenLLMBench Snapshot Viewer
+OpenLLMWorks Snapshot Viewer
 
 Purpose:
 Validates the benchmark database, builds a current-state
-OpenLLMBench snapshot, and prints a compact milestone report.
+OpenLLMWorks snapshot, and prints a compact milestone report.
 
 Version:
 0.7.0-dev1
@@ -382,7 +382,7 @@ def print_selected_facts(
 def main() -> None:
     """Validate the database and print the current snapshot."""
 
-    print("OpenLLMBench Weekend Snapshot")
+    print("OpenLLMWorks Weekend Snapshot")
     print(
         f"Snapshot Viewer "
         f"v{SNAPSHOT_VIEWER_VERSION}"
@@ -426,7 +426,7 @@ def main() -> None:
     snapshot = build_snapshot(
         database=database,
         snapshot_name=(
-            "OpenLLMBench Weekend 4 Snapshot"
+            "OpenLLMWorks Weekend 4 Snapshot"
         ),
     )
 

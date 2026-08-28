@@ -1,5 +1,5 @@
 """
-Windows operating-system normalization for OpenLLMBench.
+Windows operating-system normalization for OpenLLMWorks.
 
 PowerShell and WMI may report Windows 11 as "Windows 10."
 The OS build number is therefore used to identify the actual

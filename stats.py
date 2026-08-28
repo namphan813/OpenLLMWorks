@@ -1,8 +1,8 @@
 """
-OpenLLMBench Statistics
+OpenLLMWorks Statistics
 
 Purpose:
-Command-line statistics viewer for the OpenLLMBench
+Command-line statistics viewer for the OpenLLMWorks
 benchmark database.
 
 Version:
@@ -67,7 +67,7 @@ def format_metric(
 def main() -> None:
     """Validate the database and print aggregate statistics."""
 
-    print("OpenLLMBench Statistics")
+    print("OpenLLMWorks Statistics")
     print(f"Statistics Viewer v{STATS_VERSION}")
 
     try:

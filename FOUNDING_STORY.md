@@ -1,8 +1,8 @@
-# The Founding Story of OpenLLMBench
+# The Founding Story of OpenLLMWorks
 
 ## It Started With a Simple Idea
 
-OpenLLMBench didn't begin with a business plan.
+OpenLLMWorks didn't begin with a business plan.
 
 It didn't begin with investors.
 
@@ -66,7 +66,7 @@ Individually, they seem small.
 
 Together, they tell the story of how local AI has evolved.
 
-OpenLLMBench exists to preserve that story.
+OpenLLMWorks exists to preserve that story.
 
 ---
 
@@ -100,7 +100,7 @@ Every addition was designed with longevity in mind.
 
 ## Community First
 
-OpenLLMBench is an open-source project because we believe benchmark history belongs to everyone.
+OpenLLMWorks is an open-source project because we believe benchmark history belongs to everyone.
 
 The project will always value thoughtful contributions over rapid growth.
 

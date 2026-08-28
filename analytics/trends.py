@@ -1,9 +1,9 @@
 """
-OpenLLMBench Trend Analytics Engine
+OpenLLMWorks Trend Analytics Engine
 
 Purpose:
 Builds time-aware benchmark observations and monthly trend
-summaries from the OpenLLMBench database.
+summaries from the OpenLLMWorks database.
 
 Version:
 0.8.0-dev1

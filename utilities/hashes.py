@@ -1,9 +1,9 @@
 """
-OpenLLMBench Hash Utilities
+OpenLLMWorks Hash Utilities
 
 Purpose:
 Provides reusable hashing functions used throughout
-OpenLLMBench.
+OpenLLMWorks.
 
 Version:
 0.1.0

@@ -1,9 +1,9 @@
 """
-OpenLLMBench Benchmark Record Model
+OpenLLMWorks Benchmark Record Model
 
 Purpose:
 Defines the structured benchmark record produced from one parsed
-OpenLLMBench submission.
+OpenLLMWorks submission.
 
 Version:
 0.6.0-dev2

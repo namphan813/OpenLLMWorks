@@ -1,5 +1,5 @@
 """
-OpenLLMBench Submission Model
+OpenLLMWorks Submission Model
 
 Purpose:
 Represents benchmark submission directories, discovers

@@ -1,8 +1,8 @@
-# Contributing to OpenLLMBench
+# Contributing to OpenLLMWorks
 
-Thank you for your interest in OpenLLMBench.
+Thank you for your interest in OpenLLMWorks.
 
-OpenLLMBench is an open-source, community-driven project focused on measuring, understanding, and preserving the history of local Large Language Model inference performance.
+OpenLLMWorks is an open-source, community-driven project focused on measuring, understanding, and preserving the history of local Large Language Model inference performance.
 
 Contributions of many kinds are welcome. You do not need to be an experienced software engineer to help.
 
@@ -30,24 +30,24 @@ The short version is:
 
 # Submit Benchmark Results
 
-Benchmark submissions are the foundation of OpenLLMBench.
+Benchmark submissions are the foundation of OpenLLMWorks.
 
-The preferred submission path is the OpenLLMBench Runner. The Runner automates environment verification, hardware evidence collection, benchmark execution, result parsing, manifest generation, validation, and submission packaging.
+The preferred submission path is the OpenLLMWorks Runner. The Runner automates environment verification, hardware evidence collection, benchmark execution, result parsing, manifest generation, validation, and submission packaging.
 
 ## Runner Status
 
-The current OpenLLMBench Runner is a development version.
+The current OpenLLMWorks Runner is a development version.
 
 It currently requires:
 
 - Windows 11
 - an NVIDIA GPU with a working NVIDIA driver
 - Python
-- the frozen OpenLLMBench benchmark model
+- the frozen OpenLLMWorks benchmark model
 - the frozen `llama-bench.exe` benchmark engine
-- the OpenLLMBench repository or Runner source
+- the OpenLLMWorks repository or Runner source
 
-A standalone contributor-facing OpenLLMBench Runner executable is planned but is not yet available.
+A standalone contributor-facing OpenLLMWorks Runner executable is planned but is not yet available.
 
 ---
 
@@ -76,7 +76,7 @@ See `docs/benchmark_v1.md` for the frozen benchmark specification.
 
 # Run the Benchmark
 
-From the OpenLLMBench repository root:
+From the OpenLLMWorks repository root:
 
 ```powershell
 python runner\run_benchmark.py
@@ -139,7 +139,7 @@ benchmark-v1.0-p512-run2.txt
 benchmark-v1.0-p512-run3.txt
 ```
 
-It then generates `submission.json` and validates the completed workspace using the canonical OpenLLMBench submission validator.
+It then generates `submission.json` and validates the completed workspace using the canonical OpenLLMWorks submission validator.
 
 A ZIP package is created only when validation passes.
 
@@ -181,7 +181,7 @@ The generated ZIP is the package intended for contribution.
 
 # Submit the Generated ZIP
 
-After the Runner completes successfully, submit the generated ZIP through the OpenLLMBench GitHub Issue submission workflow.
+After the Runner completes successfully, submit the generated ZIP through the OpenLLMWorks GitHub Issue submission workflow.
 
 Upload the Runner-generated ZIP rather than manually rebuilding or editing the submission package.
 
@@ -193,7 +193,7 @@ Maintainers will:
 4. import accepted results into the canonical database;
 5. republish generated website data.
 
-Contributors do not directly modify the canonical OpenLLMBench database.
+Contributors do not directly modify the canonical OpenLLMWorks database.
 
 Follow any additional instructions in the current GitHub submission Issue template.
 
@@ -290,7 +290,7 @@ The current Runner automates benchmark execution and validated submission packag
 
 Planned improvements include:
 
-- standalone OpenLLMBench Runner executable packaging;
+- standalone OpenLLMWorks Runner executable packaging;
 - reduced or eliminated Python setup for contributors;
 - simpler dependency/bootstrap handling;
 - improved upload workflow;

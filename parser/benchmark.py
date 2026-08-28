@@ -1,9 +1,9 @@
 """
-OpenLLMBench Benchmark Parser
+OpenLLMWorks Benchmark Parser
 
 Purpose:
 Provides functions for reading and parsing benchmark output files
-generated under the OpenLLMBench Benchmark Protocol.
+generated under the OpenLLMWorks Benchmark Protocol.
 
 Version:
 0.5.5

@@ -1,5 +1,5 @@
 """
-OpenLLMBench Interesting Facts Engine
+OpenLLMWorks Interesting Facts Engine
 
 Purpose:
 Transforms database statistics and leaderboard results into
@@ -118,7 +118,7 @@ def build_database_facts(
         title="Database Results",
         value=total_results,
         description=(
-            f"OpenLLMBench currently contains "
+            f"OpenLLMWorks currently contains "
             f"{total_results} unique "
             f"{pluralize(total_results, 'benchmark result')}."
         ),
@@ -415,7 +415,7 @@ def build_interesting_facts(
     database: dict,
 ) -> dict:
     """
-    Build the complete OpenLLMBench interesting-facts report.
+    Build the complete OpenLLMWorks interesting-facts report.
 
     The returned structure contains no terminal or website
     formatting. It can later power:

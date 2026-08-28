@@ -1,9 +1,9 @@
 """
-OpenLLMBench Leaderboard Engine
+OpenLLMWorks Leaderboard Engine
 
 Purpose:
 Builds reusable performance and hardware leaderboards from
-the OpenLLMBench benchmark database.
+the OpenLLMWorks benchmark database.
 
 Version:
 0.7.0-dev3
@@ -372,7 +372,7 @@ def build_leaderboards(
     limit: int = 10,
 ) -> dict:
     """
-    Build the complete OpenLLMBench leaderboard report.
+    Build the complete OpenLLMWorks leaderboard report.
 
     The returned data contains no terminal formatting and can
     later be reused by:
