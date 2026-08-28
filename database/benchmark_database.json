@@ -10,7 +10,7 @@
       "result_id": "result_0200fb0ee70bb08a",
       "submission": {
         "submission_name": "Z2-MINI-G5-T1000",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Z2-MINI-G5-T1000",
+        "source_path": "incoming\\\\Z2-MINI-G5-T1000",
         "source_type": "internal_seed",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -126,7 +126,7 @@
       "result_id": "result_05147b71a0ae576b",
       "submission": {
         "submission_name": "Xbox-One-PC-GTX1650",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Xbox-One-PC-GTX1650",
+        "source_path": "incoming\\\\Xbox-One-PC-GTX1650",
         "source_type": "internal_seed",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -242,7 +242,7 @@
       "result_id": "result_08eba4cfd37d6856",
       "submission": {
         "submission_name": "Viet-RTX4070",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Viet-RTX4070",
+        "source_path": "incoming\\\\Viet-RTX4070",
         "source_type": "internal_seed",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -353,7 +353,7 @@
       "result_id": "result_7cd0f649f5e9467c",
       "submission": {
         "submission_name": "Viet-Mobile-GTX1650",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Viet-Mobile-GTX1650",
+        "source_path": "incoming\\\\Viet-Mobile-GTX1650",
         "source_type": "internal_seed",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -470,7 +470,7 @@
       "result_id": "result_a64036c1c64f3997",
       "submission": {
         "submission_name": "Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
+        "source_path": "incoming\\\\Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
         "source_type": "github_issue",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -586,7 +586,7 @@
       "result_id": "result_a66ff7ef3577be89",
       "submission": {
         "submission_name": "Vivi-P1000",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Vivi-P1000",
+        "source_path": "incoming\\\\Vivi-P1000",
         "source_type": "internal_seed",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -702,7 +702,7 @@
       "result_id": "result_aa7c3907e6d0e94a",
       "submission": {
         "submission_name": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
+        "source_path": "incoming\\\\Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
         "source_type": "github_issue",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -818,7 +818,7 @@
       "result_id": "result_b70f39e84c7e9411",
       "submission": {
         "submission_name": "Game_Server_GTX1650",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Game_Server_GTX1650",
+        "source_path": "incoming\\\\Game_Server_GTX1650",
         "source_type": "internal_seed",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -931,7 +931,7 @@
       "result_id": "result_dc6fdd4e1cbb5176",
       "submission": {
         "submission_name": "Bench-001-GTX1050Ti",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Bench-001-GTX1050Ti",
+        "source_path": "incoming\\\\Bench-001-GTX1050Ti",
         "source_type": "github_issue",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
@@ -1047,7 +1047,7 @@
       "result_id": "result_fab5e657b3d9df8d",
       "submission": {
         "submission_name": "Studio-15-G8",
-        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Studio-15-G8",
+        "source_path": "incoming\\\\Studio-15-G8",
         "source_type": "internal_seed",
         "contributor_id": "founder_000001",
         "contributor_type": "founder",
