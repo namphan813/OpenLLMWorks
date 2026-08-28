@@ -1,13 +1,13 @@
-# OpenLLMBench Roadmap
+# OpenLLMWorks Roadmap
 
-The roadmap describes the long-term evolution of OpenLLMBench.
+The roadmap describes the long-term evolution of OpenLLMWorks.
 
 Each phase builds upon the previous one while remaining aligned with the
 project's mission:
 
 > **Measure. Understand. Preserve.**
 
-OpenLLMBench is intentionally built in phases.
+OpenLLMWorks is intentionally built in phases.
 
 Each phase establishes a stable foundation before introducing the next
 major capability.
@@ -43,7 +43,7 @@ Research Platform
 
 **Status:** Complete
 
-Established the technical foundation of OpenLLMBench.
+Established the technical foundation of OpenLLMWorks.
 
 ### Highlights
 
@@ -55,7 +55,7 @@ Established the technical foundation of OpenLLMBench.
 
 ### Outcome
 
-OpenLLMBench became capable of reliably collecting and storing benchmark
+OpenLLMWorks became capable of reliably collecting and storing benchmark
 data.
 
 ------------------------------------------------------------------------
@@ -86,7 +86,7 @@ The project evolved from storing data to explaining it.
 
 **Status:** Complete
 
-Prepared OpenLLMBench for long-term growth and safe maintenance.
+Prepared OpenLLMWorks for long-term growth and safe maintenance.
 
 ### Highlights
 
@@ -109,7 +109,7 @@ integrity over time.
 **Status:** Complete
 
 Defined the philosophy, documentation, and engineering culture of
-OpenLLMBench.
+OpenLLMWorks.
 
 ### Highlights
 
@@ -135,7 +135,7 @@ The project now documents not only *how* it works, but *why* it exists.
 
 Current objective:
 
-Prepare OpenLLMBench for meaningful community use and contribution.
+Prepare OpenLLMWorks for meaningful community use and contribution.
 
 The public-facing experience now has a strong v1 foundation. The next
 major dependency is making contribution and ingestion equally
@@ -171,13 +171,13 @@ Move from a strong read/explore experience toward a trustworthy
 contribution experience.
 
 That means strengthening the path by which benchmark data enters
-OpenLLMBench before opening that path more broadly to the community.
+OpenLLMWorks before opening that path more broadly to the community.
 
 ### Outcome Target
 
 A newcomer should eventually be able to:
 
-1.  Understand what OpenLLMBench measures.
+1.  Understand what OpenLLMWorks measures.
 2.  Explore real benchmark data.
 3.  Understand the evidence behind published results.
 4.  Run the benchmark protocol.
@@ -218,7 +218,7 @@ values.
 
 **Status:** Future
 
-Expand OpenLLMBench into a broader community platform.
+Expand OpenLLMWorks into a broader community platform.
 
 ### Planned Features
 
@@ -268,7 +268,7 @@ time.
 The website has progressed beyond its original role as a presentation
 layer.
 
-It is becoming the primary interface for exploring the OpenLLMBench
+It is becoming the primary interface for exploring the OpenLLMWorks
 dataset.
 
 The current product journey is:
@@ -425,7 +425,7 @@ originally planned.
 
 **Status:** v1 Foundation Complete
 
-OpenLLMBench should preserve not only benchmark performance, but also
+OpenLLMWorks should preserve not only benchmark performance, but also
 the environment that produced it.
 
 ### Current Context
@@ -483,7 +483,7 @@ evidence behind them.
 
 The current labels are intentionally simple.
 
-As the dataset grows, OpenLLMBench may explore:
+As the dataset grows, OpenLLMWorks may explore:
 
 -   Evidence scores
 -   Confidence indicators
@@ -501,7 +501,7 @@ supports.
 
 # Development Validation Model
 
-OpenLLMBench now uses two complementary forms of validation.
+OpenLLMWorks now uses two complementary forms of validation.
 
 ## Engineering Validation
 
@@ -673,7 +673,7 @@ Weekend 11 expanded beyond its original scope.
 
 ### Outcome
 
-OpenLLMBench gained a connected hardware exploration experience.
+OpenLLMWorks gained a connected hardware exploration experience.
 
 Weekend 11 also delivered the v1 foundation of Browse / Filter / Compare
 UX earlier than originally scheduled.
@@ -739,7 +739,7 @@ hardware or benchmark data.
 
 ### Outcome
 
-OpenLLMBench now has a stronger trust boundary at the beginning of the
+OpenLLMWorks now has a stronger trust boundary at the beginning of the
 submission pipeline.
 
 Structurally invalid submissions can fail before deeper parsing, valid
@@ -817,7 +817,7 @@ results while preserving the canonical trust boundary.
 - Contributor journey and onboarding documentation
 - Contributor-facing canonical validator
 - Clear validation warnings and failure states
-- Initial OpenLLMBench Runner
+- Initial OpenLLMWorks Runner
 - NVIDIA environment detection
 - Frozen model and `llama-bench.exe` SHA-256 verification
 - Automatic hardware-evidence collection
@@ -922,47 +922,179 @@ friction are now the primary contributor-facing barriers.
 
 ------------------------------------------------------------------------
 
-## Weekend 16 --- Standalone Runner & Distribution
+## Weekend 16 --- Standalone Runner, Contributor UX & Product Identity
 
-**Status:** Planned
+**Status:** Active - Sprints 4-6 and Product / Name Gate Complete
 
 ### Objective
 
 Reduce the technical prerequisites between a new Windows contributor and a
-successful OpenLLMBench benchmark submission.
+successful OpenLLMWorks benchmark submission, while preserving the frozen
+benchmark protocol, verified assets, raw evidence, and maintainer-controlled
+trust boundary.
 
-### Candidate Work
+Weekend 16 expanded beyond the original standalone-packaging plan. The Runner
+is now self-provisioning, recovery-tested, contributor-visible during long
+operations, backward compatible with legacy managed assets, and operating
+under the new OpenLLMWorks public identity.
 
-- Decide standalone Runner packaging architecture
-- Build the first Windows Runner executable
-- Evaluate executable-packaging approaches
-- Decide bundled versus bootstrapped dependencies
-- Define `llama-bench.exe` acquisition and verification
-- Define benchmark-model acquisition and verification
-- Revisit the fixed `C:\AI-Benchmark` directory assumption
-- Preserve frozen SHA-256 trust checks
-- Test installation/bootstrap on a clean Windows environment
-- Evaluate console UX versus a lightweight GUI
-- Explore polished progress presentation, checkmarks, and status indicators
-- Preserve raw evidence and canonical validation behavior
+### Completed Work
 
-### Outcome Target
+#### Sprint 4 --- Managed Assets
+
+- Built the standalone Windows Runner with PyInstaller
+- Embedded `runner/assets.json`
+- Established managed protocol storage outside the repository
+- Added verified frozen-model acquisition
+- Added verified upstream llama.cpp runtime acquisition
+- Added deterministic runtime assembly
+- Retired the custom project-hosted runtime archive
+- Preserved exact size and SHA-256 verification
+- Completed end-to-end standalone benchmark validation
+
+#### Sprint 5 --- Pristine / Recovery Validation
+
+Validated on Bench-001:
+
+- Clean-state first run
+- Existing verified-asset reuse
+- Corrupt managed-model recovery
+- Forced model reacquisition
+- Corrupt managed-runtime reconstruction
+- User-aborted benchmark behavior
+- Offline provisioning fail-closed behavior
+- Connectivity-restored recovery
+- Final healthy end-to-end regression
+
+#### Sprint 6 --- Contributor UX & Failure Recovery
+
+- Kept packaged completion and handled-failure states visible
+- Improved upload-ready ZIP and workspace discoverability
+- Added graceful `Ctrl+C` handling
+- Added retained partial-workspace reporting
+- Added safe-to-rerun guidance
+- Added local artifact status visibility
+- Added network-download visibility
+- Added 10 percent download-progress milestones
+- Preserved existing verification and integrity guarantees
+
+#### Product / Name Gate --- Complete
+
+The planned pre-public-beta product gate was pulled forward before release and
+distribution.
+
+Decision:
 
 ```text
-Download
+Public ecosystem:       OpenLLMWorks
+Contributor app:        OpenLLMWorks Runner
+Canonical dataset:      Open LLM Benchmark Database
+Frozen methodology:     OLBD Protocol v1.0
+```
+
+Completed:
+
+- Competitive and naming review
+- Public rebrand from OpenLLMBench to OpenLLMWorks
+- GitHub repository rename
+- Git remote update and verification
+- `OpenLLMWorks.com` secured
+- Project-layer rebrand
+- Runner product rebrand
+- Standalone artifact renamed to `OpenLLMWorks-Runner.exe`
+- Backward-compatible legacy managed-asset reuse
+- New benchmark results redirected to `%LOCALAPPDATA%\OpenLLMWorks\results`
+- Bench-001 legacy-upgrade regression
+- Clean repository checkpoint
+
+Frozen historical provenance and the Open LLM Benchmark Database / OLBD
+Protocol v1.0 technical identity are preserved where appropriate rather than
+being cosmetically rewritten.
+
+### Current Compatibility Boundary
+
+Existing verified assets may remain under:
+
+```text
+%LOCALAPPDATA%\OpenLLMBench\
+```
+
+New installations use:
+
+```text
+%LOCALAPPDATA%\OpenLLMWorks\
+```
+
+New benchmark output always belongs to:
+
+```text
+%LOCALAPPDATA%\OpenLLMWorks\results\
+```
+
+This allows existing contributors to reuse multi-gigabyte verified assets
+without destructive migration, duplicate model storage, or forced redownloads.
+
+### Current Proven Contributor Path
+
+```text
+Download / Copy OpenLLMWorks-Runner.exe
     |
     v
 Launch
     |
     v
+Verify / Provision Frozen Assets
+    |
+    v
 Benchmark
     |
     v
-Receive Validated Submission ZIP
+Canonical Validation
+    |
+    v
+Receive Upload-Ready Submission ZIP
 ```
 
-without requiring contributors to understand Python, repository internals, or
-command-line setup.
+Contributors do not need to understand Python, repository internals, or manual
+benchmark setup.
+
+### Next --- Sprint 7: Release / Distribution
+
+Primary targets:
+
+- Define public Runner distribution location
+- Define beta artifact naming/version convention
+- Define repeatable release-build and verification steps
+- Document Windows trust / SmartScreen expectations
+- Publish contributor-verifiable integrity information
+- Test the distributed artifact from a contributor-style download location
+- Reconcile rebrand-sensitive distribution documentation
+- Regenerate public website/publisher outputs from canonical sources
+- Perform a final residual old-name audit
+- Perform release-candidate regression
+
+Sprint 7 should not change OLBD Protocol v1.0 unless a release-blocking
+technical issue is discovered.
+
+### Then --- Sprint 8: Public Contributor Documentation
+
+Focus on stranger-followable installation, first-run, benchmark, submission,
+failure-recovery, and support guidance.
+
+### Outcome Target
+
+```text
+OpenLLMWorks Runner
+    |
+    v
+Repeatable Beta Distribution
+    |
+    v
+Public Contributor Documentation
+    |
+    v
+Beta Candidate
+```
 
 ------------------------------------------------------------------------
 
@@ -1019,14 +1151,14 @@ Stabilize the project for the initial public release.
 
 ### Outcome Target
 
-Produce an OpenLLMBench v1.0 release candidate that is stable enough for
+Produce an OpenLLMWorks public-beta release candidate that is stable enough for
 public use.
 
 ------------------------------------------------------------------------
 
 # Target Release
 
-## OpenLLMBench v1.0
+## OpenLLMWorks Public Beta
 
 **Target:** Late September -- Early October 2026
 
@@ -1077,33 +1209,43 @@ Instead, later sprints should extend and validate them.
 The current critical path is:
 
 ```text
-Standalone Runner / Distribution
+Release / Distribution
     |
     v
-Contributor Setup Validation
+Public Contributor Documentation
     |
     v
-Site-Wide Polish
+Beta Candidate
     |
     v
-Release Candidate Testing
+Small External Beta
     |
     v
-OpenLLMBench v1.0
+Runner Stabilization
+    |
+    v
+Website Launch Integration
+    |
+    v
+Launch Readiness
+    |
+    v
+OpenLLMWorks Public Beta
 ```
 
-Submission trust, contributor validation, Runner execution, maintainer
-ingestion, hardware discovery, and comparison are no longer primary blockers.
+Standalone execution, managed provisioning, recovery behavior, contributor UX,
+submission trust, maintainer ingestion, hardware discovery, comparison, and
+the public naming decision are no longer primary blockers.
 
-The largest remaining contributor-facing dependency is reducing setup and
-distribution friction while preserving the frozen benchmark protocol and
-maintainer-controlled trust model.
+The largest remaining risks are distribution friction, Windows trust
+expectations, stranger-followable documentation, external-machine validation,
+and release integration.
 
 ------------------------------------------------------------------------
 
-# Beyond v1.0
+# Beyond Public Beta
 
-After the initial public release, development can expand toward:
+After the initial public beta, development can expand toward:
 
 -   Larger community datasets
 -   Richer statistical analysis
@@ -1120,7 +1262,7 @@ After the initial public release, development can expand toward:
 
 The roadmap should remain flexible.
 
-OpenLLMBench should grow in response to the quality and usefulness of
+OpenLLMWorks should grow in response to the quality and usefulness of
 its dataset rather than accumulating features for their own sake.
 
 ------------------------------------------------------------------------

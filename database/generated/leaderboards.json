@@ -1,8 +1,8 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-08-23T20:46:16.290201+00:00",
+    "generatedAt": "2026-08-28T02:21:53.981584+00:00",
     "generator": {
-        "name": "OpenLLMBench Leaderboard Publisher",
+        "name": "OpenLLMWorks Leaderboard Publisher",
         "version": "0.2.1"
     },
     "summary": {

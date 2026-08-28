@@ -1,47 +1,134 @@
-# OpenLLMBench - Project Status
+# OpenLLMWorks - Project Status
 
-## Weekend 16 - Sprint 6 Complete
+## Weekend 16 - Product / Name Gate Complete
 
-**Focus:** Contributor UX, Failure Recovery, and Provisioning Visibility  
+**Focus:** Public identity, Runner rebrand, backward compatibility, and pre-release validation  
 **Status:** Stable / Clean Checkpoint
 
 ---
 
 ## Current Objective
 
-Move OpenLLMBench from a proven developer-operated benchmark workflow toward
+Move OpenLLMWorks from a proven developer-operated benchmark workflow toward
 a low-friction public-beta contributor experience without weakening benchmark
 reproducibility, asset verification, raw-evidence preservation, or
 maintainer-controlled ingestion.
 
-The Windows NVIDIA Runner can now be packaged as a standalone executable,
-manage the frozen Benchmark Protocol v1.0 assets required to execute a
-benchmark, recover damaged managed assets, and complete the contributor
-workflow from standalone execution to an upload-ready submission ZIP.
+Weekend 16 established the standalone Windows NVIDIA Runner, validated clean
+provisioning and recovery behavior, hardened contributor UX, and completed the
+pre-public-beta product/name gate.
 
-Sprint 5 validated this workflow from a controlled clean contributor state
-outside the OpenLLMBench development environment.
+The public project is now **OpenLLMWorks**.
 
-Sprint 6 converted the contributor-experience findings from that validation
-into deliberate standalone Runner behavior. Successful completion, handled
-failure, and user cancellation now remain visible in packaged execution, while
-asset provisioning now reports local-artifact checks, network acquisition,
-download progress, verification, and installation stages.
+The existing frozen benchmark methodology and canonical dataset retain their
+technical heritage as the **Open LLM Benchmark Database (OLBD)** and
+**Protocol v1.0**. Historical provenance is not being rewritten merely to
+match the new public brand.
+
+The next engineering focus is release and distribution.
+
+---
+
+## Public Product Identity
+
+Current public architecture:
+
+```text
+OpenLLMWorks
+    |
+    +-- OpenLLMWorks Runner
+    |
+    +-- Open LLM Benchmark Database
+    |       |
+    |       +-- Protocol v1.0
+    |
+    +-- Hardware Results / Leaderboards
+    |
+    +-- The Works
+    |       |
+    |       +-- Future research / editorial
+    |
+    +-- Community
+```
+
+Brand roles:
+
+- **OpenLLMWorks** - public project and ecosystem
+- **OpenLLMWorks Runner** - contributor benchmark application
+- **Open LLM Benchmark Database** - canonical technical benchmark dataset
+- **OLBD Protocol v1.0** - frozen benchmark methodology and provenance
+- **The Works** - reserved future research/editorial identity
+
+The public brand should not normally be shortened to "LLM Works" because that
+name is already used by unrelated projects and companies.
+
+Current positioning:
+
+```text
+Real hardware. Reproducible local AI benchmarks.
+```
+
+Primary domain:
+
+```text
+OpenLLMWorks.com
+```
+
+The domain was secured for a two-year registration period during Weekend 16.
+
+GitHub repository:
+
+```text
+https://github.com/namphan813/OpenLLMWorks
+```
+
+The repository was renamed from `OpenLLMBench` and the local Git remote was
+updated and verified.
+
+---
+
+## Product / Name Gate Decision
+
+The pre-public-beta naming and competitive-landscape gate is complete.
+
+The review found that the former `OpenLLMBench` identity carried avoidable
+name-confusion risk with other benchmark projects.
+
+Adjacent local-LLM benchmarking projects also reinforced the need for a public
+identity that could differentiate the project while leaving room for future
+research, editorial, tooling, and community work beyond a single benchmark.
+
+Decision:
+
+```text
+Former public brand: OpenLLMBench
+New public brand:    OpenLLMWorks
+Technical dataset:   Open LLM Benchmark Database
+Protocol:            OLBD Protocol v1.0
+```
+
+The rebrand intentionally preserves frozen technical history rather than
+performing a blind global replacement of every historical OpenLLMBench or OLBD
+reference.
+
+Historical database provenance, frozen protocol identity, backups, and legacy
+compatibility paths remain intact where changing them would reduce traceability
+or backward compatibility.
 
 ---
 
 ## Current Runner
 
-**Runner:** OpenLLMBench Runner  
+**Runner:** OpenLLMWorks Runner  
 **Version:** `0.3.0-dev3`  
 **Current platform:** Windows  
 **Current accelerator:** NVIDIA  
-**Benchmark Protocol:** v1.0
+**Benchmark Protocol:** OLBD Protocol v1.0
 
 The Runner performs the contributor-side benchmark workflow:
 
 ```text
-Start Runner
+Start OpenLLMWorks Runner
     |
     v
 Detect NVIDIA Environment
@@ -104,14 +191,14 @@ Canonical Validation
 Create Upload-Ready ZIP
 ```
 
-The Runner remains intentionally isolated from the canonical OpenLLMBench
-database.
+The Runner remains intentionally isolated from the canonical Open LLM
+Benchmark Database.
 
 ---
 
 ## Standalone Windows Runner
 
-OpenLLMBench has a standalone Windows executable build path using PyInstaller.
+OpenLLMWorks has a standalone Windows executable build path using PyInstaller.
 
 Build script:
 
@@ -119,22 +206,22 @@ Build script:
 runner/build_runner.ps1
 ```
 
-Build output:
+Current build output:
 
 ```text
-%TEMP%\OpenLLMBench-runner-build\
+%TEMP%\OpenLLMWorks-runner-build\
     dist\
-        OpenLLMBench-Runner.exe
+        OpenLLMWorks-Runner.exe
 ```
 
 The standalone executable bundles:
 
 - Python runtime
-- OpenLLMBench Runner code
-- OpenLLMBench parser/validation dependencies
+- OpenLLMWorks Runner code
+- parser/validation dependencies
 - `runner/assets.json`
 
-Large benchmark protocol assets are intentionally not embedded in the
+Large Benchmark Protocol assets are intentionally not embedded in the
 executable.
 
 The Runner acquires and verifies those assets separately.
@@ -142,21 +229,58 @@ The Runner acquires and verifies those assets separately.
 This keeps the Runner executable independent from the multi-gigabyte benchmark
 asset payload while preserving a frozen and verifiable protocol environment.
 
-Sprint 5 confirmed that the standalone executable can be copied by itself to a
-controlled contributor test location and complete the benchmark workflow
-without requiring the OpenLLMBench repository.
+Weekend 16 confirmed that the standalone executable can be copied by itself to
+a contributor-style location and complete the benchmark workflow without
+requiring the development repository.
 
 ---
 
-## Managed Protocol Storage
+## Managed Protocol Storage and Rebrand Compatibility
 
-OpenLLMBench maintains benchmark assets outside the repository under:
+The rebrand deliberately separates **legacy verified assets** from **new
+OpenLLMWorks output**.
+
+New installations use:
+
+```text
+%LOCALAPPDATA%\OpenLLMWorks\
+```
+
+Existing installations that already contain verified managed assets under:
 
 ```text
 %LOCALAPPDATA%\OpenLLMBench\
 ```
 
-Current managed structure:
+may reuse those assets in place.
+
+Managed-root resolution is intentionally backward compatible:
+
+```text
+If %LOCALAPPDATA%\OpenLLMWorks exists:
+    use OpenLLMWorks managed assets
+
+Else if %LOCALAPPDATA%\OpenLLMBench exists:
+    reuse legacy OpenLLMBench managed assets in place
+
+Else:
+    create/use OpenLLMWorks
+```
+
+New benchmark results always belong to the current product identity:
+
+```text
+%LOCALAPPDATA%\OpenLLMWorks\results\
+```
+
+This avoids:
+
+- forcing existing contributors to redownload the frozen model
+- duplicating multi-gigabyte verified assets
+- destructively moving a known-good managed environment
+- continuing to place newly generated benchmark results under the retired brand
+
+A previously provisioned machine may therefore legitimately contain:
 
 ```text
 %LOCALAPPDATA%\OpenLLMBench\
@@ -164,25 +288,73 @@ Current managed structure:
     protocols\
         v1.0\
             models\
-                Qwen3-4B-Q4_K_M.gguf
-
             runtime\
-                llama-bench.exe
-                llama-bench-impl.dll
-                llama-common.dll
-                llama.dll
-                ggml.dll
-                ggml-base.dll
-                ggml-cuda.dll
-                ...
+
+%LOCALAPPDATA%\OpenLLMWorks\
     results\
 ```
 
-Benchmark execution no longer depends on protocol assets being stored inside
-the OpenLLMBench repository.
+The legacy directory is compatibility infrastructure, not the current public
+product identity.
 
-The artifact cache also allows verified downloads to be reused when a managed
-protocol asset must be repaired.
+---
+
+## Rebrand Regression - Bench-001
+
+The new standalone `OpenLLMWorks-Runner.exe` was tested on Bench-001 against an
+existing legacy OpenLLMBench managed environment.
+
+Precondition:
+
+```text
+Test-Path %LOCALAPPDATA%\OpenLLMBench   True
+Test-Path %LOCALAPPDATA%\OpenLLMWorks   False
+```
+
+The OpenLLMWorks Runner successfully reused the existing verified protocol
+assets without forcing the multi-gigabyte model to be downloaded again.
+
+During the first compatibility pass, new results were observed still being
+written beneath the legacy managed root. This behavior matched the initial
+implementation but was not desirable as a long-term brand boundary.
+
+`RESULTS_ROOT` was therefore decoupled from the compatibility-managed asset
+root.
+
+The final behavior was validated as:
+
+```text
+Legacy verified assets:
+%LOCALAPPDATA%\OpenLLMBench
+
+New benchmark results:
+%LOCALAPPDATA%\OpenLLMWorks\results
+```
+
+Final path state:
+
+```text
+Test-Path %LOCALAPPDATA%\OpenLLMBench   True
+Test-Path %LOCALAPPDATA%\OpenLLMWorks   True
+```
+
+This is the expected PASS state for an upgraded legacy installation.
+
+The regression confirmed:
+
+```text
+OpenLLMWorks Runner branding             PASS
+Standalone EXE build                     PASS
+Legacy managed-asset reuse               PASS
+No forced model redownload               PASS
+No destructive legacy migration          PASS
+No duplicate model required              PASS
+New OpenLLMWorks results path             PASS
+Three benchmark runs                     PASS
+Canonical validation                     PASS
+Upload-ready ZIP creation                PASS
+Bench-001 upgrade path                   PASS
+```
 
 ---
 
@@ -196,7 +368,7 @@ runner/assets.json
 
 **Manifest schema:** `1.1`
 
-The manifest defines the frozen assets required by Benchmark Protocol v1.0.
+The manifest defines the frozen assets required by Protocol v1.0.
 
 ### Model
 
@@ -223,16 +395,10 @@ Current frozen model size:
 The Runner verifies the model before it is accepted into the managed protocol
 environment.
 
-Sprint 5 confirmed that an invalid managed model is rejected and can be
-restored either from a verified local artifact or by reacquiring the frozen
-model from its configured source.
-
 ### Runtime
 
-The runtime is no longer distributed as a custom OpenLLMBench-hosted archive.
-
-Instead, schema 1.1 defines frozen upstream runtime sources and the required
-files that make up the canonical Windows NVIDIA runtime.
+Schema 1.1 defines frozen upstream runtime sources and the required files that
+make up the canonical Windows NVIDIA runtime.
 
 The Runner:
 
@@ -246,19 +412,6 @@ The Runner:
 
 Verified local upstream artifacts may be reused rather than downloaded again.
 
-This makes the runtime reproducible from verified upstream artifacts rather
-than requiring OpenLLMBench to redistribute a large custom binary bundle.
-
----
-
-## Windows NVIDIA Runtime
-
-The canonical runtime is assembled from frozen upstream llama.cpp Windows CUDA
-artifacts.
-
-The assembled runtime contains the files required by the frozen benchmark
-engine and its dependencies.
-
 During Sprint 4 validation, the managed runtime contained:
 
 ```text
@@ -266,68 +419,7 @@ During Sprint 4 validation, the managed runtime contained:
 1,589.87 MiB
 ```
 
-A comparison against freshly downloaded upstream archives confirmed that the
-required runtime files matched their upstream counterparts.
-
-The earlier custom runtime contained redundant CUDA 13 libraries in addition
-to the CUDA 12 runtime.
-
-Those CUDA 13 files are no longer part of the canonical assembled runtime.
-
-Sprint 5 deliberately corrupted the managed:
-
-```text
-llama-bench.exe
-```
-
-The Runner successfully:
-
-- detected the critical-file SHA-256 mismatch
-- rejected the invalid managed runtime
-- reused verified upstream source artifacts
-- reconstructed the managed runtime
-- verified the repaired benchmark engine
-- passed environment verification
-- returned to benchmark execution
-
-This validated managed runtime recovery outside the normal happy path.
-
----
-
-## Retired Runtime Architecture
-
-The earlier prototype runtime architecture used:
-
-```text
-openllmbench-runtime-windows-nvidia-v1.0.zip
-```
-
-That custom archive was approximately:
-
-```text
-994.7 MiB compressed
-```
-
-This architecture has been retired.
-
-The following legacy manifest fields have been removed:
-
-```text
-archive_filename
-archive_size_bytes
-archive_sha256
-```
-
-The retired compatibility provisioning path:
-
-```text
-provision_runtime_from_archive()
-```
-
-has also been removed.
-
-Repository searches confirmed that active references to the retired
-single-archive runtime architecture are gone.
+The earlier custom runtime archive architecture has been retired.
 
 ---
 
@@ -347,7 +439,8 @@ Current responsibilities include:
 - size validation
 - SHA-256 validation
 - verified file download
-- contributor-visible artifact status and download progress
+- contributor-visible artifact status
+- 10 percent download-progress milestones
 - verified local artifact reuse
 - upstream runtime-source acquisition
 - staging and extraction
@@ -356,140 +449,21 @@ Current responsibilities include:
 - safe replacement of managed runtime assets
 - cleanup of temporary staging data
 
-The Runner wires these provisioning functions into startup and environment
-verification.
+The existing integrity architecture remains unchanged:
 
-Sprint 5 exercised both normal provisioning and recovery paths.
-
----
-
-## Contributor Bootstrap
-
-The current Windows NVIDIA contributor flow does not require the contributor
-to manually place the frozen model or llama.cpp runtime into the repository.
-
-The intended flow is:
-
-```text
-Contributor
-    |
-    v
-OpenLLMBench-Runner.exe
-    |
-    v
-Inspect Managed Protocol v1.0 Assets
-    |
-    +--> Assets Valid
-    |        |
-    |        v
-    |    Continue
-    |
-    +--> Assets Missing / Invalid
-             |
-             v
-         Acquire Frozen Assets
-             |
-             v
-         Verify Assets
-             |
-             v
-         Install Managed Protocol Assets
-    |
-    v
-Run Benchmark
-```
-
-Sprint 5 validated this bootstrap flow from a controlled clean state with no
-existing:
-
-```text
-%LOCALAPPDATA%\OpenLLMBench
-```
-
-managed environment.
-
-The standalone Runner successfully created the managed environment, acquired
-the required assets, verified them, executed Benchmark Protocol v1.0, and
-created an upload-ready submission ZIP.
+- downloads use temporary `.part` files
+- exact size and SHA-256 verification occurs before promotion
+- invalid downloads are rejected
+- failed partial downloads are cleaned up
+- existing verified artifacts may be reused
+- managed assets are independently verified before benchmark execution
 
 ---
 
-## Standalone Packaging Validation
-
-The standalone executable is built with the asset manifest embedded through
-PyInstaller.
-
-The build process:
-
-- verifies `runner/run_benchmark.py` exists
-- verifies `runner/assets.json` exists
-- bundles `runner/assets.json` into the executable
-- produces a one-file Windows console Runner
-
-A previous PATH-isolation test confirmed that the standalone executable can
-launch and perform environment verification without system Python being
-available through `PATH`.
-
-Sprint 5 extended this validation by copying only the standalone executable
-into a contributor-style test folder on Bench-001 and launching it normally
-through Windows.
-
-No OpenLLMBench repository files were placed beside the executable.
-
-The Runner successfully provisioned its managed protocol environment and
-completed the benchmark workflow.
-
-Additional external-machine testing remains valuable before broad public
-distribution, but the standalone clean-state contributor path has now been
-demonstrated.
-
----
-
-## Sprint 4 Runtime Validation
-
-The managed-asset architecture was exercised during Sprint 4 using an NVIDIA
-Quadro T1000.
-
-The Runner successfully:
-
-- detected the NVIDIA environment
-- loaded the asset manifest
-- verified the managed model
-- verified the managed runtime
-- executed Benchmark Protocol v1.0
-- completed all three benchmark runs
-- parsed benchmark results
-- generated `submission.json`
-- passed canonical submission validation
-- created the upload-ready submission ZIP
-
-Observed performance during Sprint 4 testing included approximately:
-
-```text
-pp512 average: 130.38 t/s
-tg128 average: 38.92 t/s
-tg128 max:     41.32 t/s
-```
-
-An earlier run during the same runtime work produced:
-
-```text
-tg128 average: 40.40 t/s
-tg128 max:     42.46 t/s
-```
-
-These measurements were observed during development validation and are not
-being treated as new canonical leaderboard results unless submitted through
-the normal OpenLLMBench submission workflow.
-
----
-
-## Sprint 5 Standalone and Recovery Validation
+## Sprint 5 - Standalone and Recovery Validation
 
 Sprint 5 exercised the standalone Windows NVIDIA Runner on Bench-001 using an
 NVIDIA GeForce GTX 1050 2 GB.
-
-The controlled test began with no existing managed OpenLLMBench environment.
 
 Validation matrix:
 
@@ -505,142 +479,22 @@ Validation matrix:
 5.5   Final healthy regression           PASS
 ```
 
-### Clean-State First Run
-
-The standalone executable was copied by itself into a contributor-style test
-folder and launched normally through Windows.
-
-The Runner successfully:
-
-- created the managed OpenLLMBench environment
-- acquired the frozen Benchmark Protocol v1.0 assets
-- verified the model and runtime
-- captured hardware evidence
-- completed all three benchmark runs
-- generated `submission.json`
-- passed canonical validation
-- created an upload-ready ZIP
-
-### Existing Asset Reuse
-
-A second launch confirmed that the Runner:
-
-- detected the existing managed model
-- verified the model SHA-256
-- detected the existing managed runtime
-- verified the runtime and benchmark engine
-- skipped unnecessary reprovisioning
-- returned directly to benchmark execution
-
-### Managed Model Recovery
-
-The managed model was deliberately corrupted while the verified artifact cache
-remained intact.
-
-The Runner:
-
-- detected the SHA-256 mismatch
-- rejected the invalid managed model
-- reused the verified local artifact
-- restored the managed model
-- verified the repaired model
-- returned to benchmark execution
-
-### Forced Model Re-download
-
-Both the managed model and cached model artifact were deliberately corrupted.
-
-The Runner:
-
-- rejected both invalid copies
-- reacquired the frozen model
-- verified the downloaded artifact
-- installed the managed model
-- verified the installed model
-- returned to benchmark execution
-
-### Managed Runtime Recovery
-
-The managed `llama-bench.exe` was deliberately corrupted.
-
-The Runner:
-
-- detected the critical-file SHA-256 mismatch
-- rejected the invalid managed runtime
-- reused verified upstream source artifacts
-- reconstructed the managed runtime
-- verified the repaired benchmark engine
-- passed environment verification
-- returned to benchmark execution
-
-### User-Aborted Benchmark
-
-A benchmark was deliberately interrupted with:
-
-```text
-Ctrl+C
-```
-
-The interrupted workspace retained partial diagnostic/evidence data.
-
-The interrupted run did not produce:
-
-- a canonical `submission.json`
-- an upload-ready submission ZIP
-
-The incomplete run therefore could not masquerade as a valid Benchmark
-Protocol v1.0 submission.
-
-### Offline Provisioning Failure
-
-The managed model and cached model artifact were invalidated while the test
-machine was disconnected from the network.
-
-The Runner could not complete required provisioning and terminated before
-benchmark execution.
-
-No valid submission ZIP was observed from the failed provisioning attempt.
-
-This demonstrated fail-closed behavior when required verified assets could not
-be obtained.
-
-### Connectivity-Restored Recovery
-
-Network connectivity was restored without manually repairing the invalid model
-state.
-
-The Runner:
-
-- reacquired the frozen model
-- restored the managed model
-- completed all three benchmark runs
-- generated the expected submission workspace
-- generated the upload-ready ZIP
-
-The completed workspace and ZIP each contained the expected nine submission
-files.
-
-This recovery run also served as the final healthy regression for Sprint 5.
+This demonstrated clean bootstrap, persistent verified-asset reuse, corruption
+recovery, fail-closed offline behavior, safe cancellation, and automatic
+recovery after connectivity restoration.
 
 No fundamental benchmark, validation, provisioning, or managed-asset
-architecture failure was discovered during Sprint 5.
+architecture failure was discovered.
 
 ---
 
-## Sprint 6 Contributor UX and Failure Recovery
+## Sprint 6 - Contributor UX and Failure Recovery
 
-Sprint 6 addressed the four contributor-experience findings identified during
-Sprint 5 without changing Benchmark Protocol v1.0 or weakening asset,
-submission, or validation guarantees.
-
-Sprint 6 was implemented and validated in two focused checkpoints.
+Sprint 6 addressed the contributor-experience findings identified during
+Sprint 5 without changing Protocol v1.0 or weakening asset, submission, or
+validation guarantees.
 
 ### Sprint 6A - Completion, Failure, and Cancellation UX
-
-The packaged Runner now keeps its console visible at the end of standalone
-execution so contributors can read the final state before the window closes.
-
-Source/developer execution remains non-interactive.
 
 Standalone validation confirmed:
 
@@ -650,77 +504,20 @@ Standalone validation confirmed:
 6A-3  Provisioning failure visibility   PASS
 ```
 
-Successful standalone execution now:
+Packaged execution now:
 
-- leaves the final completion state visible
-- leaves the validated workspace path visible
-- leaves the upload-ready ZIP path visible
-- waits for the contributor to press Enter before closing
+- keeps successful completion visible
+- leaves workspace and ZIP paths visible
+- handles `Ctrl+C` deliberately
+- reports retained partial workspaces
+- explains that rerunning is safe
+- keeps handled failures visible before the console closes
 
-A deliberate `Ctrl+C` interruption during benchmark execution now:
+Source/developer Python execution remains non-interactive.
 
-- reports that the Runner was interrupted by the user
-- states that no valid submission ZIP was created by the interrupted run
-- reports the retained partial workspace when one exists
-- tells the contributor that rerunning the Runner is safe
-- waits for Enter before closing the packaged console
+### Sprint 6B - Provisioning Visibility
 
-A deliberate provisioning failure also remained visible until the contributor
-dismissed the console.
-
-This resolved the disappearing-console behavior identified in UX-001 and the
-cancellation behavior identified in UX-003, while also resolving the
-console-lifecycle portion of UX-004.
-
-### Sprint 6B - Provisioning and Download Visibility
-
-Asset provisioning now provides contributor-visible status around the existing
-verified-download path.
-
-When provisioning is required, the Runner distinguishes:
-
-```text
-Check Local Artifact
-    |
-    +--> Verified Artifact Available
-    |        |
-    |        v
-    |    Reuse Verified Artifact
-    |
-    +--> Artifact Missing / Invalid
-             |
-             v
-         Network Download
-             |
-             v
-         10% Progress Milestones
-             |
-             v
-         Verify Downloaded Artifact
-             |
-             v
-         Promote Verified Artifact
-             |
-             v
-         Install / Provision Managed Asset
-```
-
-Large downloads report progress at 10 percent intervals with downloaded and
-expected MiB values.
-
-The implementation intentionally remains simple console output and introduces
-no additional progress-bar dependency.
-
-The existing integrity architecture remains unchanged:
-
-- downloads are written to temporary `.part` files
-- exact size and SHA-256 verification occurs before promotion
-- invalid downloads are rejected
-- failed partial downloads are cleaned up
-- existing verified artifacts may be reused
-- managed assets are still independently verified before benchmark execution
-
-Sprint 6B validation confirmed:
+Validation confirmed:
 
 ```text
 Existing cached artifact detection       PASS
@@ -734,13 +531,7 @@ Managed model provisioning               PASS
 Full Runner workflow regression          PASS
 ```
 
-The forced network-download test reacquired the frozen benchmark model and
-completed the full standalone Runner workflow successfully.
-
-### Sprint 5 UX Findings - Resolution
-
-The four Sprint 5 findings are now resolved for the current Windows NVIDIA
-standalone path:
+Resolved Sprint 5 UX findings:
 
 ```text
 UX-001  Completion and output discoverability       RESOLVED
@@ -748,10 +539,6 @@ UX-002  Provisioning and download progress          RESOLVED
 UX-003  Graceful user cancellation                  RESOLVED
 UX-004  Provisioning / failure visibility           RESOLVED
 ```
-
-Further wording and contributor guidance can still be refined during public
-documentation and external beta testing, but these findings are no longer
-known blockers in the standalone Runner implementation.
 
 ---
 
@@ -763,7 +550,7 @@ The proven contribution lifecycle is:
 Contributor System
     |
     v
-OpenLLMBench-Runner.exe
+OpenLLMWorks-Runner.exe
     |
     v
 Managed Asset Verification / Provisioning
@@ -802,7 +589,7 @@ Independent Canonical Validation
 Controlled Maintainer Import
     |
     v
-Canonical Database
+Open LLM Benchmark Database
     |
     v
 Publisher
@@ -817,10 +604,10 @@ Contributor execution and maintainer ingestion remain deliberately separated.
 
 ## Preserved Benchmark Guarantees
 
-The standalone, managed-asset, and recovery work does not change the core
-Benchmark Protocol v1.0 guarantees.
+The standalone, managed-asset, recovery, UX, and rebrand work does not change
+the core Protocol v1.0 guarantees.
 
-OpenLLMBench continues to preserve:
+OpenLLMWorks continues to preserve:
 
 - frozen benchmark protocol
 - frozen benchmark model
@@ -835,8 +622,8 @@ OpenLLMBench continues to preserve:
 - maintainer-controlled database ingestion
 - separation between contributor systems and the canonical database
 
-Sprint 5 additionally demonstrated that corrupted or unavailable assets fail
-closed rather than weakening these guarantees.
+The rebrand also preserves historical technical provenance instead of
+rewriting old canonical records for cosmetic consistency.
 
 ---
 
@@ -846,8 +633,6 @@ closed rather than weakening these guarantees.
 
 The first complete Runner-to-database lifecycle was demonstrated using
 Bench-001 and an NVIDIA GeForce GTX 1050 2 GB.
-
-That test proved:
 
 ```text
 Runner
@@ -888,7 +673,7 @@ Major work included:
 - verified model acquisition
 - verified upstream runtime acquisition
 - deterministic runtime assembly
-- removal of the custom OpenLLMBench runtime archive
+- retirement of the custom runtime archive
 - packaged asset manifest
 - end-to-end benchmark validation
 - packaging and repository hardening
@@ -899,45 +684,37 @@ The standalone Runner and managed-asset architecture were exercised through
 clean-state, corruption, recovery, interruption, offline, and restored-network
 scenarios.
 
-Major validation included:
-
-- standalone clean-state contributor bootstrap
-- persistent managed-asset reuse
-- corrupt managed-model recovery
-- forced model reacquisition
-- corrupt runtime reconstruction
-- safe user-aborted benchmark behavior
-- offline provisioning fail-closed behavior
-- automatic recovery after network restoration
-- final successful end-to-end regression
-
-Sprint 5 shifted the remaining public-beta concerns primarily toward
-contributor UX, distribution, documentation, release readiness, and public
-positioning rather than fundamental benchmark architecture.
-
----
-
 ### Weekend 16 - Sprint 6
 
-The standalone Runner's contributor-facing lifecycle was hardened around the
-failure and uncertainty cases exposed by Sprint 5.
+The contributor-facing lifecycle was hardened around completion, failure,
+cancellation, artifact visibility, and download progress.
+
+### Weekend 16 - Product / Name Gate
+
+The planned pre-public-beta product gate was pulled forward before release and
+distribution so the project would not create public release artifacts under a
+name already scheduled for reconsideration.
 
 Major work included:
 
-- packaged-console persistence after success and handled failure
-- upload-ready ZIP and workspace discoverability at completion
-- graceful `Ctrl+C` cancellation behavior
-- retained partial-workspace reporting
-- safe-to-rerun contributor guidance
-- local artifact status visibility
-- network-download visibility
-- 10 percent download progress milestones
-- visible downloaded-artifact verification
-- successful full standalone regression after forced model reacquisition
+- competitive and naming review
+- selection of **OpenLLMWorks** as the public project identity
+- preservation of **Open LLM Benchmark Database / OLBD Protocol v1.0** as the
+  technical dataset and frozen methodology identity
+- GitHub repository rename to `OpenLLMWorks`
+- local Git remote update and verification
+- acquisition of `OpenLLMWorks.com`
+- project-layer rebrand
+- standalone Runner rebrand
+- PyInstaller build identity change to `OpenLLMWorks-Runner.exe`
+- backward-compatible managed-asset root resolution
+- separation of new OpenLLMWorks results from legacy asset storage
+- Bench-001 legacy-upgrade regression
+- final clean working-tree checkpoint
 
-Sprint 6 moved the remaining public-beta work beyond the known Runner UX
-findings and toward release/distribution, public documentation, external beta
-testing, and product positioning.
+This work changed relatively little benchmark logic but established the
+long-term public identity and compatibility boundaries required before public
+distribution.
 
 ---
 
@@ -954,49 +731,19 @@ Windows + NVIDIA
 Remaining public-beta work includes:
 
 - public distribution location for the standalone Runner
+- beta artifact naming/version convention
 - Windows trust / SmartScreen expectations
 - contributor-facing installation and first-run documentation
 - additional GPU regression coverage
 - additional external-machine testing
-- final public-beta release/version strategy
+- website/source regeneration after the rebrand
+- final residual old-name audit
+- public-beta release/version strategy
 - website integration and launch readiness
-- competitive landscape and naming/brand review
 - eventual support for additional accelerator vendors and platforms
 
-These are now primarily contributor-experience, distribution, positioning, and
+These are primarily distribution, documentation, external validation, and
 release-readiness concerns rather than fundamental benchmark-pipeline blockers.
-
----
-
-## Pre-Public-Beta Product Gate
-
-Before broader external public-beta distribution, conduct a focused competitive
-landscape and naming/brand review.
-
-This work is intentionally parked as a pre-public-beta product gate and should
-not interrupt current Runner engineering or contributor-UX work.
-
-Goals:
-
-- document adjacent OpenLLMBench or similarly named projects
-- review potential naming and brand-confusion risks
-- compare adjacent community local-LLM benchmark platforms
-- document OpenLLMBench's differentiated position
-- define public-beta messaging around:
-  - standardized and frozen benchmark protocols
-  - verified benchmark assets
-  - standalone contributor Runner
-  - validated evidence-backed submissions
-  - historical consumer/workstation GPU performance data
-  - Open Lab research and analysis
-- make an explicit go / adjust / rename decision before broader public launch
-
-The purpose of this review is not to change the technical direction of the
-project unless evidence warrants it.
-
-The goal is to ensure that OpenLLMBench enters public beta with a clear name,
-clear differentiation, and clear public positioning rather than presenting
-itself simply as another LLM benchmark website.
 
 ---
 
@@ -1009,15 +756,15 @@ Weekend 16
     Sprint 4 - Managed Assets                         COMPLETE
     Sprint 5 - Pristine / Recovery Validation        COMPLETE
     Sprint 6 - Contributor UX & Failure Recovery     COMPLETE
-    Sprint 7 - Release / Distribution                NEXT
-    Sprint 8 - Public Contributor Documentation
-        |
-        v
-    Pre-Public-Beta Product Gate
+    Product / Name Gate                              COMPLETE
         - Competitive landscape review
         - Naming / brand review
-        - Differentiation and positioning
-        - Go / adjust / rename decision
+        - OpenLLMWorks decision
+        - GitHub / Runner rebrand
+        - Domain secured
+        - Compatibility regression
+    Sprint 7 - Release / Distribution                NEXT
+    Sprint 8 - Public Contributor Documentation
         |
         v
     Beta Candidate
@@ -1029,7 +776,7 @@ Weekend 17
     Sprint 11 - Launch Readiness
         |
         v
-    OpenLLMBench Public Beta
+    OpenLLMWorks Public Beta
 ```
 
 This sequence is a planning framework rather than a frozen protocol
@@ -1042,41 +789,42 @@ requirements.
 
 ## Repository State
 
-Sprint 6 implementation was completed in two clean checkpoints.
+The public project-layer rename and Runner identity changes were completed in
+clean checkpoints.
 
-Sprint 6A updated:
-
-```text
-runner/run_benchmark.py
-```
-
-to improve packaged completion, failure, and cancellation behavior.
-
-Sprint 6B updated:
+Relevant rebrand commits include:
 
 ```text
-runner/provisioning.py
+Rebrand project layer to OpenLLMWorks
+Rebrand Runner product as OpenLLMWorks
+Add legacy managed asset compatibility
+Write new Runner results under OpenLLMWorks
 ```
 
-to add contributor-visible artifact checks and download progress.
+The standalone executable was rebuilt as:
 
-The standalone executable was rebuilt and exercised on Bench-001 through:
+```text
+OpenLLMWorks-Runner.exe
+```
 
-- successful full benchmark completion
-- deliberate `Ctrl+C` interruption
-- deliberate provisioning failure
-- verified local artifact reuse
-- forced network model reacquisition
-- final successful end-to-end regression
+and exercised on Bench-001 through a real legacy-install compatibility path.
 
-The development working tree was confirmed clean after the Sprint 6B commit.
+The development working tree was confirmed clean after the final results-root
+change and regression.
 
 Current checkpoint:
 
 ```text
-Weekend 16 - Sprint 6 Complete
+Weekend 16 - Product / Name Gate Complete
+OpenLLMWorks Runner regression PASS
 Working tree clean
 ```
+
+Generated publisher/site output and remaining rebrand-sensitive documentation
+should be reconciled from their canonical sources rather than blindly edited.
+
+Historical database provenance and frozen Protocol v1.0 identity should remain
+intact where intentional.
 
 ---
 
@@ -1086,10 +834,11 @@ Working tree clean
 
 **Focus:** Release / Distribution
 
-Sprint 7 should convert the proven standalone Windows NVIDIA Runner into a
-deliberate beta-distribution artifact and release workflow.
+Sprint 7 should convert the proven standalone Windows NVIDIA
+`OpenLLMWorks-Runner.exe` into a deliberate beta-distribution artifact and
+repeatable release workflow.
 
-Primary targets should include:
+Primary targets:
 
 1. define the public distribution location for the standalone Runner
 2. define the beta Runner artifact naming/version convention
@@ -1098,21 +847,38 @@ Primary targets should include:
 5. verify the distributed artifact from a contributor-style download location
 6. define integrity information contributors can use for the distributed EXE
 7. preserve the clean separation between the Runner artifact and large managed
-   Benchmark Protocol assets
-8. perform release-candidate regression before public documentation work
+   Protocol v1.0 assets
+8. reconcile rebrand-sensitive distribution documentation
+9. regenerate website/publisher outputs from canonical sources where required
+10. perform a final residual old-name audit
+11. perform release-candidate regression before public contributor
+    documentation work
 
-Sprint 7 should not change Benchmark Protocol v1.0 unless a release-blocking
-technical issue is discovered.
+Sprint 7 should not change Protocol v1.0 unless a release-blocking technical
+issue is discovered.
 
-After Sprint 7, the roadmap should continue toward:
+After Sprint 7:
 
-1. public contributor documentation
-2. the pre-public-beta product/naming gate
-3. small external beta testing
-4. beta feedback and Runner stabilization
-5. website launch integration
-6. public-beta release readiness
+```text
+Public Contributor Documentation
+    |
+    v
+Beta Candidate
+    |
+    v
+Small External Beta
+    |
+    v
+Feedback / Stabilization
+    |
+    v
+Website Launch Integration
+    |
+    v
+OpenLLMWorks Public Beta
+```
 
 The benchmark execution, managed assets, asset recovery, contributor UX,
-evidence, validation, submission, maintainer import, publishing, and database
-foundations are now in place.
+evidence, validation, submission, maintainer import, publishing, canonical
+database, public identity, and legacy compatibility foundations are now in
+place.

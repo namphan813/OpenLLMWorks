@@ -1,31 +1,32 @@
-# OpenLLMBench Runner Distribution
+# OpenLLMWorks Runner Distribution
 
 ## Purpose
 
 This document defines the distribution architecture for the
-contributor-facing OpenLLMBench Runner.
+contributor-facing **OpenLLMWorks Runner**.
 
-The goal is to allow a contributor to run the OpenLLMBench benchmark and
-produce a validated submission package without requiring knowledge of Python,
-Git, repository internals, or command-line development workflows.
+The goal is to allow a contributor to run the benchmark and produce a
+validated submission package without requiring knowledge of Python, Git,
+repository internals, or command-line development workflows.
 
 The distribution architecture must preserve the reproducibility and trust
-requirements of the OpenLLMBench benchmark protocol.
+requirements of the frozen **Open LLM Benchmark Database (OLBD) Protocol
+v1.0**.
 
 ---
 
 # Distribution Goals
 
-The contributor experience should eventually approach:
+The contributor experience should approach:
 
 ```text
-Download OpenLLMBench Runner
+Download OpenLLMWorks Runner
         |
         v
 Launch Runner
         |
         v
-Verify / Prepare Benchmark Environment
+Verify / Provision Benchmark Environment
         |
         v
 Run Benchmark
@@ -37,114 +38,198 @@ Validate Submission
 Receive Upload-Ready ZIP
 ```
 
-The Runner must not receive authority to modify the canonical OpenLLMBench
-database.
+The Runner must not receive authority to modify the canonical Open LLM
+Benchmark Database.
 
 ---
 
 # Application Packaging
 
-The standalone Runner should package the Python application layer required for
+The standalone Runner packages the Python application layer required for
 benchmark execution.
 
 This includes:
 
 - `runner/run_benchmark.py`
+- `runner/assets.json`
 - `parser.submission`
 - `parser.validate`
-- required OpenLLMBench internal modules
-- required Python standard-library/runtime components
+- required OpenLLMWorks internal modules
+- required Python runtime and standard-library components
 
-The contributor should not need to install Python separately.
+The contributor does not need to install Python separately.
 
-Current dependency inspection shows that the Runner and required validation
-modules rely primarily on the Python standard library and OpenLLMBench
-internal modules.
+The current Windows build uses PyInstaller and is produced by:
 
-This makes standalone application packaging relatively self-contained.
+```text
+runner/build_runner.ps1
+```
+
+Current standalone artifact:
+
+```text
+OpenLLMWorks-Runner.exe
+```
+
+The executable contains the application and validation layer but intentionally
+does not contain the multi-gigabyte benchmark model or llama.cpp runtime.
 
 ---
 
 # Benchmark Assets
 
-The benchmark engine and model should remain external to the Runner
-application package.
+Benchmark Protocol assets remain external to the Runner application package.
 
-Required frozen Benchmark Protocol v1.0 assets currently include:
+Current frozen OLBD Protocol v1.0 assets include:
 
 ```text
-llama-bench.exe
 Qwen3-4B-Q4_K_M.gguf
+llama.cpp Windows CUDA runtime
+    |
+    +-- llama-bench.exe
+    +-- required runtime DLLs
 ```
 
 These assets are part of the benchmark environment rather than the Runner
 application itself.
 
-They should therefore be managed independently from the packaged Runner.
+They are managed independently from the packaged Runner.
+
+The current asset manifest is:
+
+```text
+runner/assets.json
+```
+
+The manifest records the frozen source identity, expected size, expected
+SHA-256, and installation information required by the Runner.
 
 ---
 
 # Asset Verification
 
-The Runner must continue to verify frozen benchmark assets before benchmark
-execution.
+The Runner must verify frozen benchmark assets before benchmark execution.
 
-Current Benchmark Protocol v1.0 verification includes:
+Current OLBD Protocol v1.0 verification includes:
 
-- expected model SHA-256
-- expected `llama-bench.exe` SHA-256
+- expected model size and SHA-256
+- expected frozen upstream runtime-source size and SHA-256
+- required runtime-file presence
+- critical `llama-bench.exe` identity verification
 
-A missing or mismatched required asset must prevent benchmark execution.
+A missing or mismatched required asset must prevent benchmark execution until a
+verified replacement can be provisioned.
 
 The standalone distribution must not weaken these checks.
 
-Unverified substitute assets must not silently enter Benchmark Protocol v1.0.
+Unverified substitute assets must not silently enter Protocol v1.0.
 
 ---
 
-# Proposed Architecture
+# Current Architecture
 
-The current conceptual distribution architecture is:
+The validated architecture separates the portable Runner executable from
+persistent managed protocol assets and benchmark results.
 
 ```text
-OpenLLMBench
-|
-+-- OpenLLMBench-Runner.exe
-|
-+-- runtime
-|   |
-|   +-- llama-bench.exe
-|
-+-- models
-|   |
-|   +-- Qwen3-4B-Q4_K_M.gguf
-|
-+-- results
+OpenLLMWorks-Runner.exe
+        |
+        v
+%LOCALAPPDATA%
+    |
+    +-- OpenLLMWorks
+    |       |
+    |       +-- protocols\
+    |       |       +-- v1.0\
+    |       |               +-- models\
+    |       |               +-- runtime\
+    |       |
+    |       +-- artifacts\
+    |       |
+    |       +-- results\
+    |
+    +-- OpenLLMBench\            legacy compatibility only
+            |
+            +-- protocols\
+            +-- artifacts\
 ```
 
-The final directory location and installation strategy remain undecided.
+For a new installation, managed assets are stored under:
+
+```text
+%LOCALAPPDATA%\OpenLLMWorks\
+```
+
+For an existing installation, verified legacy assets may remain under:
+
+```text
+%LOCALAPPDATA%\OpenLLMBench\
+```
+
+The Runner may reuse those legacy verified assets in place.
+
+New benchmark output always belongs to the current public product identity:
+
+```text
+%LOCALAPPDATA%\OpenLLMWorks\results\
+```
+
+This compatibility boundary avoids destructive migration, duplicate
+multi-gigabyte model storage, and unnecessary redownloads.
 
 ---
 
-# Future Asset Bootstrap
+# Managed Asset Bootstrap
 
-A future contributor-facing Runner may automatically prepare missing benchmark
-assets.
+The standalone Runner automatically prepares missing benchmark assets.
 
-Conceptually:
+Current flow:
 
 ```text
 Launch Runner
         |
         v
-Check Benchmark Model
-        |
-        +-- Missing --> Acquire Asset --> Verify SHA-256
+Load Frozen Asset Manifest
         |
         v
-Check Benchmark Engine
+Inspect Managed Model
         |
-        +-- Missing --> Acquire Asset --> Verify SHA-256
+        +-- Valid ------> Reuse
+        |
+        +-- Missing /
+            Invalid
+                |
+                v
+        Reuse Verified Local Artifact
+                |
+                +-- unavailable --> Download Frozen Model
+                |
+                v
+        Verify Size + SHA-256
+        |
+        v
+Inspect Managed Runtime
+        |
+        +-- Valid ------> Reuse
+        |
+        +-- Missing /
+            Invalid
+                |
+                v
+        Acquire Frozen Upstream Sources
+                |
+                +-- Reuse Verified Local Artifacts
+                |
+                +-- Download Frozen Sources
+                |
+                v
+        Verify Size + SHA-256
+                |
+                v
+        Assemble Managed Runtime
+                |
+                v
+        Verify Required Runtime Files
         |
         v
 Environment Ready
@@ -153,64 +238,97 @@ Environment Ready
 Run Benchmark
 ```
 
-Asset acquisition must fail safely if:
+Asset acquisition fails safely if:
 
-- the download fails;
-- the asset is incomplete;
-- SHA-256 verification fails;
-- the expected protocol asset is unavailable.
+- the download fails
+- the asset is incomplete
+- size verification fails
+- SHA-256 verification fails
+- the expected protocol asset is unavailable
+- required runtime files cannot be assembled or verified
 
-A successfully downloaded asset must still pass canonical SHA-256 verification
-before benchmark execution begins.
+Downloads use temporary files and are verified before promotion into the
+managed environment.
+
+A failed, incomplete, or mismatched download must not replace an existing
+verified asset.
+
+Verified assets persist across Runner executions and Runner updates.
+
+---
+
+# Provisioning Visibility
+
+Long-running provisioning operations must remain visible to contributors.
+
+Current Runner behavior includes:
+
+- local cache inspection messages
+- verified-artifact reuse messages
+- explicit network-download messages
+- 10 percent download-progress milestones
+- downloaded-artifact verification messages
+- managed-asset provisioning status
+
+These messages are contributor UX only.
+
+They do not change the underlying integrity or verification requirements.
 
 ---
 
 # External Requirements
 
-Some requirements remain outside the OpenLLMBench distribution.
+Some requirements remain outside the OpenLLMWorks distribution.
 
 Current expected platform requirements include:
 
-- supported Windows environment;
-- compatible NVIDIA GPU;
-- functioning NVIDIA driver;
-- sufficient storage for benchmark assets and results.
+- supported Windows environment
+- compatible NVIDIA GPU
+- functioning NVIDIA driver
+- network access when required frozen assets are not already available locally
+- sufficient storage for benchmark assets and results
 
-Python and Git should not be contributor requirements for the standalone
-Runner.
+Python and Git are not contributor requirements for the standalone Runner.
+
+The initial public-beta target remains intentionally narrow:
+
+```text
+Windows + NVIDIA
+```
+
+Additional operating systems and accelerator vendors may be evaluated after
+the initial public workflow is stable.
 
 ---
 
 # Public Distribution Direction
 
-The development Runner currently uses:
+The first public OpenLLMWorks Runner uses a **portable-first** distribution
+model rather than requiring a traditional Windows installer.
+
+The contributor should be able to:
 
 ```text
-C:\AI-Benchmark
+Download OpenLLMWorks-Runner.exe
+        |
+        v
+Place It in a Convenient Folder
+        |
+        v
+Launch It
 ```
 
-as its benchmark root.
+Persistent protocol assets and results are managed separately under
+`%LOCALAPPDATA%`.
 
-`C:\AI-Benchmark` remains the benchmark root for the current development
-Runner, but it is not the target location for the public standalone Runner.
+The executable can therefore be replaced or updated without forcing verified
+Protocol v1.0 assets to be downloaded again.
 
-The public Runner should manage its own application data and benchmark assets
-without requiring the contributor to manually reproduce a development-style
-directory structure.
+A traditional Windows installer may be evaluated later if it provides
+meaningful usability or trust benefits.
 
-A likely Windows location is:
-
-```text
-%LOCALAPPDATA%\OpenLLMBench\
-    runtime\
-    models\
-    results\
-```
-
-This location is a design candidate rather than a finalized public contract.
-
-The final directory layout should be validated during standalone packaging and
-clean-machine testing.
+The old development-only `C:\AI-Benchmark` layout is not a public contributor
+requirement.
 
 ---
 
@@ -218,23 +336,53 @@ clean-machine testing.
 
 The standalone Runner is responsible for:
 
-- environment verification;
-- benchmark asset verification;
-- hardware evidence capture;
-- benchmark execution;
-- result parsing;
-- manifest generation;
-- canonical submission validation;
-- submission packaging.
+- environment verification
+- benchmark asset verification and provisioning
+- hardware evidence capture
+- benchmark execution
+- result parsing
+- `submission.json` generation
+- canonical submission validation
+- upload-ready ZIP creation
 
 The standalone Runner is not responsible for:
 
-- assigning trusted contributor provenance;
-- assigning maintainer verification;
-- modifying the canonical benchmark database;
-- publishing canonical website data.
+- assigning trusted contributor provenance
+- assigning maintainer verification
+- modifying the canonical benchmark database
+- publishing canonical website data
 
 Those operations remain maintainer-controlled.
+
+The intended lifecycle remains:
+
+```text
+Contributor
+    |
+    v
+OpenLLMWorks Runner
+    |
+    v
+Validated Submission ZIP
+    |
+    v
+GitHub Benchmark Submission Issue
+    |
+    v
+Maintainer Validation
+    |
+    v
+Controlled Import
+    |
+    v
+Open LLM Benchmark Database
+    |
+    v
+Publisher
+    |
+    v
+Website
+```
 
 ---
 
@@ -242,155 +390,276 @@ Those operations remain maintainer-controlled.
 
 ## Decision 1 - Package the Application Layer
 
-The OpenLLMBench Runner, validator, required internal modules, and required
-Python runtime should be packaged into the standalone application.
+The OpenLLMWorks Runner, validator, required internal modules, asset manifest,
+and Python runtime are packaged into the standalone application.
 
-The contributor should not need a separate Python installation.
+The contributor does not need a separate Python installation.
 
 ## Decision 2 - Keep Benchmark Assets External
 
-The benchmark model and `llama-bench.exe` should remain independently managed
-frozen assets rather than being embedded directly into the Runner executable.
+The benchmark model and llama.cpp Windows CUDA runtime remain independently
+managed frozen assets rather than being embedded directly into the Runner
+executable.
 
-Both assets remain subject to canonical SHA-256 verification before benchmark
+Protocol assets remain subject to canonical verification before benchmark
 execution.
 
-## Decision 3 - Retire the Development Path as a Public Requirement
+## Decision 3 - Retire Development Paths as Public Requirements
 
-`C:\AI-Benchmark` should remain supported by the current development Runner,
-but it should not become a requirement of the public standalone distribution.
+Development-only repository and benchmark paths must not become contributor
+requirements.
 
-The public Runner should manage its own working environment.
+The public Runner manages its own persistent environment under
+`%LOCALAPPDATA%`.
 
 ## Decision 4 - Portable-First Application
 
-The first public OpenLLMBench Runner should use a portable-first
-distribution model rather than requiring a traditional Windows installer.
-
-The Runner executable may be downloaded and launched directly, while
-persistent benchmark assets and results are managed separately under a
-stable application-data location such as:
+The first public OpenLLMWorks Runner is distributed as a standalone executable:
 
 ```text
-%LOCALAPPDATA%\OpenLLMBench\
-    runtime\
-    models\
-    results\
+OpenLLMWorks-Runner.exe
 ```
 
-This allows the Runner executable to be replaced or updated without
-requiring benchmark assets to be downloaded again.
-
-A traditional Windows installer may be evaluated later if it provides
-meaningful usability benefits after the standalone Runner workflow is proven.
+A traditional Windows installer is not required for the initial beta.
 
 ## Decision 5 - Verified Asset Bootstrap
 
-The public Runner should automatically acquire missing frozen benchmark
-assets rather than requiring contributors to prepare them manually.
+The public Runner automatically acquires or reconstructs missing frozen
+benchmark assets.
 
-Assets must be downloaded into a temporary location and must pass the
-canonical SHA-256 check before being promoted into the managed
-OpenLLMBench asset cache.
+Downloaded artifacts must pass the canonical verification requirements before
+being promoted into the managed environment.
 
-A failed, incomplete, or mismatched download must not replace an existing
-verified asset and must prevent benchmark execution.
-
-Verified assets should persist across Runner updates so contributors do not
-need to repeatedly download large protocol assets.
+Verified assets persist across Runner updates.
 
 ## Decision 6 - Split Canonical Asset Sources
 
-The public Runner should use different canonical distribution sources for
-the benchmark model and benchmark engine.
+The public Runner may use different authoritative distribution sources for
+different frozen protocol assets.
 
-The frozen benchmark model should be acquired from a version-pinned
-Hugging Face repository or equivalent large-model distribution source.
+The frozen benchmark model may be acquired from its pinned model distribution
+source.
 
-The frozen llama.cpp Windows benchmark package should be acquired from the
-official llama.cpp GitHub Release associated with the protocol build.
+Frozen llama.cpp Windows runtime sources are acquired from the upstream
+llama.cpp release assets defined by the protocol asset manifest.
 
-Both downloads must still pass OpenLLMBench's canonical SHA-256 verification
-before they are promoted into the managed asset cache.
+Remote hosting platforms are distribution mechanisms only.
 
-The remote hosting platform is a distribution mechanism only.
+**OLBD Protocol v1.0 and the OpenLLMWorks asset manifest remain authoritative
+for the expected asset identity, version, size, and hash.**
 
-OpenLLMBench remains the authority for the expected asset identity and hash.
+## Decision 7 - Protocol-Aware Managed Storage
 
-## Decision 7 - Protocol-Aware Asset Cache
+Frozen benchmark assets are stored beneath a protocol-specific directory.
 
-The public Runner should store frozen benchmark assets under a
-protocol-specific cache rather than one shared unversioned directory.
-
-A likely layout is:
+New-install layout:
 
 ```text
-%LOCALAPPDATA%\OpenLLMBench\
+%LOCALAPPDATA%\OpenLLMWorks\
     protocols\
         v1.0\
             runtime\
                 llama-bench.exe
+                required runtime DLLs
             models\
                 Qwen3-4B-Q4_K_M.gguf
+    artifacts\
     results\
 ```
 
-This keeps Benchmark Protocol v1.0 assets isolated from future protocol
-revisions.
+This keeps Protocol v1.0 assets isolated from future protocol revisions.
 
-A later Benchmark Protocol v1.1 or v2.0 may use different benchmark assets
-without overwriting or invalidating the preserved v1.0 environment.
+A future Protocol v1.1 or v2.0 may use different assets without overwriting or
+invalidating the preserved v1.0 environment.
 
-Each protocol-specific asset remains subject to its own canonical SHA-256
-verification before benchmark execution.
+## Decision 8 - Preserve Legacy Managed Assets
+
+Existing verified assets beneath:
+
+```text
+%LOCALAPPDATA%\OpenLLMBench\
+```
+
+may be reused in place for backward compatibility.
+
+The Runner does not need to copy or move a multi-gigabyte verified environment
+solely to change the directory name.
+
+Managed-root resolution follows this compatibility model:
+
+```text
+If %LOCALAPPDATA%\OpenLLMWorks exists:
+    use OpenLLMWorks managed assets
+
+Else if %LOCALAPPDATA%\OpenLLMBench exists:
+    reuse legacy managed assets in place
+
+Else:
+    create/use OpenLLMWorks
+```
+
+This is a compatibility mechanism, not a continuation of the retired public
+brand.
+
+## Decision 9 - New Results Belong to OpenLLMWorks
+
+Benchmark results generated by the current Runner are written beneath:
+
+```text
+%LOCALAPPDATA%\OpenLLMWorks\results\
+```
+
+even when frozen protocol assets are being reused from the legacy
+`%LOCALAPPDATA%\OpenLLMBench` environment.
+
+This establishes a clean product boundary while retaining backward-compatible
+asset reuse.
+
+## Decision 10 - Preserve the Canonical Database Trust Boundary
+
+The OpenLLMWorks public brand does not change the authority model of the
+canonical dataset.
+
+Contributor-side execution ends with a validated submission package.
+
+Maintainer-side validation, provenance, import, and publication remain
+separate controlled operations.
 
 ---
 
-# Open Decisions
+# Validated Recovery Behavior
 
-Weekend 16 must still resolve:
+Weekend 16 validation established the following standalone behavior:
 
-1. Standalone executable packaging technology.
-2. Exact Hugging Face repository/revision for the frozen benchmark model.
-3. Exact llama.cpp GitHub release/tag and Windows package for Protocol v1.0.
-4. Resume/retry behavior for interrupted downloads.
-5. Clean-Windows bootstrap behavior.
-6. Console versus lightweight GUI presentation.
-7. How contributors locate completed submission packages.
-8. How application updates are distributed.
-9. Whether a traditional installer should be added after the portable beta.
+```text
+Clean-state first run              PASS
+Existing asset reuse               PASS
+Corrupt managed model recovery     PASS
+Forced model re-download           PASS
+Corrupt managed runtime recovery   PASS
+User-aborted benchmark             PASS
+Offline provisioning failure       PASS
+Connectivity-restored recovery     PASS
+Final healthy regression           PASS
+```
+
+The rebranded OpenLLMWorks Runner was also validated on Bench-001 against an
+existing legacy managed environment.
+
+That regression confirmed:
+
+```text
+OpenLLMWorks branding              PASS
+Standalone EXE build               PASS
+Legacy verified-asset reuse        PASS
+No forced model redownload         PASS
+No destructive asset migration     PASS
+New OpenLLMWorks results path      PASS
+Three benchmark runs               PASS
+Canonical validation               PASS
+Upload-ready ZIP creation          PASS
+```
 
 ---
 
-# Out of Scope for Sprint 1
+# Contributor Completion and Failure UX
 
-Sprint 1 defines the distribution architecture.
+Packaged execution currently:
 
-It does not need to implement:
+- keeps successful completion visible
+- displays workspace and ZIP locations
+- handles `Ctrl+C` deliberately
+- reports retained partial workspaces
+- explains that rerunning is safe
+- keeps handled provisioning failures visible before exit
 
-- executable packaging;
-- automatic asset downloads;
-- Runner self-updates;
-- GUI development;
-- automatic GitHub submission;
-- automatic canonical database ingestion.
+Source/developer Python execution remains non-interactive.
 
-Those capabilities should be evaluated or implemented in later sprints after
-the distribution architecture is established.
+These behaviors are part of the standalone contributor experience and should
+be preserved by future release packaging.
+
+---
+
+# Resolved Decisions
+
+The original Weekend 16 distribution design left several questions open.
+Current status:
+
+```text
+Standalone executable technology          RESOLVED - PyInstaller
+Frozen model acquisition                  RESOLVED - manifest-controlled
+Frozen llama.cpp acquisition              RESOLVED - manifest-controlled upstream assets
+Interrupted / failed provisioning         RESOLVED - fail closed; rerun safely
+Clean-Windows bootstrap                    VALIDATED
+Console presentation                       RESOLVED FOR BETA - console
+Completed submission discoverability      RESOLVED
+Portable vs installer                      RESOLVED FOR BETA - portable
+Managed application-data location         RESOLVED
+Legacy asset compatibility                 RESOLVED
+New results location                       RESOLVED
+```
+
+Application self-update behavior remains intentionally deferred.
+
+---
+
+# Remaining Release / Distribution Decisions
+
+The remaining work belongs primarily to **Weekend 16 Sprint 7 - Release /
+Distribution** rather than to core Runner architecture.
+
+Sprint 7 should resolve:
+
+1. Public download/release location for `OpenLLMWorks-Runner.exe`.
+2. Beta artifact naming and version convention.
+3. Repeatable release-build procedure.
+4. Release-artifact verification procedure.
+5. Contributor-visible SHA-256 or equivalent integrity information for the
+   distributed executable.
+6. Windows SmartScreen / unsigned-executable expectations and documentation.
+7. Contributor-style download-and-run regression.
+8. Release notes and version metadata.
+9. Rebrand-sensitive generated publisher/site output.
+10. Final residual old-name audit.
+
+A traditional installer and automatic application updates remain optional
+future enhancements rather than public-beta blockers.
+
+---
+
+# Out of Scope
+
+The current release/distribution architecture does not require:
+
+- automatic canonical database ingestion
+- automatic maintainer verification
+- automatic GitHub submission
+- a graphical Runner UI
+- a traditional Windows installer
+- automatic Runner self-update
+- support for every operating system
+- support for every accelerator vendor
+
+These may be evaluated after the portable Windows NVIDIA beta path is proven
+with external contributors.
 
 ---
 
 # Current Direction
 
-The current Weekend 16 architecture direction is:
+The current architecture is:
 
-> Package the OpenLLMBench Runner, validator, required internal modules, and
-> Python runtime into a standalone application while keeping the benchmark
-> engine and benchmark model as independently managed frozen assets.
+> Package the OpenLLMWorks Runner, validator, required internal modules, asset
+> manifest, and Python runtime into a standalone portable application while
+> keeping the benchmark model and llama.cpp runtime as independently managed,
+> cryptographically verified frozen Protocol v1.0 assets.
 
-The public Runner should eventually manage its own benchmark environment and
-remove the contributor requirement for Python, Git, repository knowledge, and
-manual `C:\AI-Benchmark` setup.
+The public Runner manages its own benchmark environment and removes the
+contributor requirement for Python, Git, repository knowledge, and manual
+development-path setup.
+
+Existing verified legacy assets may be reused without migration, while new
+benchmark results are written beneath the OpenLLMWorks product identity.
 
 Benchmark reproducibility, frozen asset verification, raw evidence
 preservation, canonical validation, and maintainer-controlled ingestion remain
@@ -400,27 +669,33 @@ non-negotiable architectural requirements.
 
 # Status
 
-**Weekend 16 - Sprint 1: Distribution Architecture**
+**Weekend 16 - Distribution Architecture / Rebrand Reconciliation**
 
-**Status:** In Progress
+**Status:** Architecture Validated / Sprint 7 Release Work Next
 
-## Managed Runtime Validation
+The standalone Runner architecture has been proven through clean provisioning,
+asset reuse, corruption recovery, interruption, offline failure, restored
+connectivity, contributor UX validation, and the OpenLLMWorks legacy-upgrade
+regression.
 
-Weekend 16 Sprint 3 validated the standalone Runner against the
-managed OpenLLMBench application directory.
-
-The Runner no longer requires the development-only
-`C:\AI-Benchmark` directory for normal benchmark execution.
-
-The validated Windows application layout is:
+Current release artifact:
 
 ```text
-%LOCALAPPDATA%\OpenLLMBench\
-├── protocols\
-│   └── v1.0\
-│       ├── models\
-│       │   └── Qwen3-4B-Q4_K_M.gguf
-│       └── runtime\
-│           ├── llama-bench.exe
-│           └── required runtime DLLs
-└── results\
+OpenLLMWorks-Runner.exe
+```
+
+Current public project:
+
+```text
+OpenLLMWorks
+```
+
+Canonical technical dataset and frozen methodology:
+
+```text
+Open LLM Benchmark Database
+OLBD Protocol v1.0
+```
+
+The next step is to turn the proven standalone artifact into a deliberate,
+repeatable public-beta distribution workflow.

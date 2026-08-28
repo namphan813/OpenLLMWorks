@@ -76,7 +76,7 @@ Do not create or modify benchmark output solely to eliminate this warning.
 
 ## Validate the Example
 
-From the OpenLLMBench repository root, run:
+From the OpenLLMWorks repository root, run:
 
 ```powershell
 py -m parser.validate .\example_submission
@@ -100,7 +100,7 @@ Validation PASSED with 1 warning(s).
 
 This warning is expected.
 
-It demonstrates that OpenLLMBench can preserve and recognize legitimate historical submissions while enforcing the current three-run requirement for new benchmark contributions.
+It demonstrates that OpenLLMWorks can preserve and recognize legitimate historical submissions while enforcing the current three-run requirement for new benchmark contributions.
 
 A warning does not mean that the preserved historical result should be altered. Raw benchmark evidence should remain unchanged.
 
