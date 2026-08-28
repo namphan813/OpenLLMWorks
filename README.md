@@ -10,11 +10,13 @@ Rather than simply collecting benchmark numbers, OpenLLMWorks aims to build a li
 
 ## 🚧 Project Status
 
-**Status:** Active Development
+**Status:** Public Alpha
 
-**Current Milestone:** Weekend 6 — Community
+**Current Milestone:** Weekend 16 — Standalone Runner & Public Launch
 
-The project is currently transitioning from a backend benchmarking platform into a full React-powered web experience.
+OpenLLMWorks now has a validated end-to-end benchmark workflow, including a standalone Windows Runner, managed benchmark assets, canonical submission validation, historical benchmark storage, analytics, leaderboards, and a publishing pipeline.
+
+The project is now entering its first public testing and distribution phase.
 
 ---
 
