@@ -195,7 +195,7 @@ LLAMA_BENCH_FILE = (
 )
 
 RESULTS_ROOT = (
-    MANAGED_ROOT
+    OPENLLMWORKS_ROOT
     / "results"
 )
 
