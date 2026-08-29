@@ -1,4 +1,9 @@
 function Hero() {
+    function openRunnerRelease() {
+        window.location.href =
+            "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.3.0-beta.1";
+    }
+
     return (
         <section className="hero">
             <h1>OpenLLMWorks</h1>
@@ -32,7 +37,7 @@ function Hero() {
                 Preserve.
             </p>
 
-            <button>
+            <button type="button" onClick={openRunnerRelease}>
                 Run Your First Benchmark
             </button>
         </section>
