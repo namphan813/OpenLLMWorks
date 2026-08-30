@@ -1,0 +1,19 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "openllmworks-submissions",
+	"main": "src/index.js",
+	"compatibility_date": "2026-08-25",
+
+	"observability": {
+		"enabled": true
+	},
+
+	"upload_source_maps": true,
+
+	"r2_buckets": [
+		{
+			"binding": "SUBMISSIONS_BUCKET",
+			"bucket_name": "openllmworks-submissions"
+		}
+	]
+}
