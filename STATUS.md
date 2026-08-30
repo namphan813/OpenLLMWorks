@@ -1,45 +1,65 @@
 # OpenLLMWorks - Project Status
 
-## Weekend 16 - Public Beta Launch Complete
+## Weekend 17 - Direct Submission MVP
 
-**Focus:** Public release, distribution, website launch, analytics baseline, and external contributor readiness
-**Status:** Public Beta / Stable / Clean Checkpoint
+**Focus:** Direct contributor submission, production ingestion, Runner transport, and end-to-end validation  
+**Status:** Direct Submission MVP / Production E2E PASS / Clean Checkpoint
 
 ---
 
 ## Current Objective
 
-Move OpenLLMWorks from a proven maintainer-operated benchmark workflow into a
-real community benchmark that external contributors can discover, run, submit
-to, and understand without direct maintainer assistance.
+Move OpenLLMWorks from a publicly available benchmark with a GitHub-based
+submission handoff into a community benchmark that can accept validated
+contributor packages directly from the standalone Runner.
 
-Weekend 16 established the standalone Windows NVIDIA Runner, validated clean
-provisioning and recovery behavior, hardened contributor UX, completed the
-OpenLLMWorks rebrand, reconciled the repository, published the project and
-Runner, launched OpenLLMWorks.com, and validated the public visitor experience.
+Weekend 16 established the public product, standalone Windows NVIDIA Runner,
+managed Protocol v1.0 assets, recovery behavior, contributor UX, public GitHub
+repository, OpenLLMWorks.com, and analytics baseline.
 
-The public project is now **OpenLLMWorks**.
-
-The existing frozen benchmark methodology and canonical dataset retain their
-technical heritage as the **Open LLM Benchmark Database (OLBD)** and
-**Protocol v1.0**. Historical provenance is not being rewritten merely to
-match the new public brand.
-
-The public-beta infrastructure is now operational.
-
-The next major validation gate is:
+Weekend 17 removes one of the largest remaining contributor barriers:
 
 ```text
-FIRST EXTERNAL CONTRIBUTOR
+Run benchmark
+    |
+    v
+Create validated canonical ZIP
+    |
+    v
+Review submission disclosure
+    |
+    v
+Upload to OpenLLMWorks? [Y/N]
+    |
+    +--> N --> Preserve local ZIP / manual fallback
+    |
+    +--> Y --> HTTPS direct submission
 ```
 
-The next question is no longer whether the maintainer can complete the
-OpenLLMWorks lifecycle.
+The direct-submission architecture is now proven end to end in production.
 
-The next question is whether someone outside the development environment can
-discover OpenLLMWorks, download the public Runner, complete a benchmark, locate
-the resulting submission ZIP, and follow the public submission workflow without
-maintainer coaching.
+A fresh standalone Runner build was executed on Bench-001, completed the full
+OLBD Protocol v1.0 benchmark, generated and locally validated the canonical
+submission package, received explicit contributor consent, uploaded the ZIP to
+the production OpenLLMWorks submission API, returned a traceable submission ID,
+and preserved the local ZIP.
+
+The matching object was independently confirmed in production private R2
+storage.
+
+The next major engineering gate is therefore no longer basic Runner transport.
+
+It is:
+
+```text
+DIRECT SUBMISSION HARDENING
+```
+
+This includes authoritative server-side validation, maintainer intake,
+duplicate/error handling, security and abuse controls, and publication
+integration.
+
+External contributor validation remains an important Public Beta gate.
 
 ---
 
@@ -88,142 +108,30 @@ Primary domain:
 https://openllmworks.com
 ```
 
-The domain was secured for a two-year registration period during Weekend 16.
-
 GitHub repository:
 
 ```text
 https://github.com/namphan813/OpenLLMWorks
 ```
 
-The repository was renamed from `OpenLLMBench`, the local Git remote was
-updated and verified, and the repository was subsequently made public.
-
----
-
-## Product / Name Gate Decision
-
-The pre-public-beta naming and competitive-landscape gate is complete.
-
-The review found that the former `OpenLLMBench` identity carried avoidable
-name-confusion risk with other benchmark projects.
-
-Adjacent local-LLM benchmarking projects also reinforced the need for a public
-identity that could differentiate the project while leaving room for future
-research, editorial, tooling, and community work beyond a single benchmark.
-
-Decision:
+Submission API:
 
 ```text
-Former public brand: OpenLLMBench
-New public brand:    OpenLLMWorks
-Technical dataset:   Open LLM Benchmark Database
-Protocol:            OLBD Protocol v1.0
+https://api.openllmworks.com/v1/submissions
 ```
-
-The rebrand intentionally preserves frozen technical history rather than
-performing a blind global replacement of every historical OpenLLMBench or OLBD
-reference.
-
-Historical database provenance, frozen protocol identity, backups, and legacy
-compatibility paths remain intact where changing them would reduce traceability
-or backward compatibility.
-
----
-
-## Rebrand Reconciliation
-
-After the primary product and Runner rename, the repository underwent a
-reconciliation pass to distinguish stale public-facing references from
-intentional historical or compatibility references.
-
-Current-facing documentation was updated where appropriate.
-
-Generated publisher data was regenerated from canonical sources rather than
-manually edited.
-
-The website production build was regenerated after source reconciliation.
-
-Intentional old-name references remain only where they serve a legitimate
-technical purpose, including:
-
-- historical provenance
-- canonical database history
-- database backups
-- frozen protocol history
-- legacy managed-asset compatibility
-- explicit rebrand documentation
-
-Functional compatibility identifiers such as the legacy OpenLLMBench managed
-root remain intentionally present.
-
-The final residual audit found no unexplained current-facing OpenLLMBench
-branding.
-
-Rebrand reconciliation therefore established the boundary:
-
-```text
-OpenLLMWorks
-    = current public identity
-
-Open LLM Benchmark Database / OLBD
-    = canonical technical dataset and protocol heritage
-
-OpenLLMBench
-    = historical provenance or explicit legacy compatibility only
-```
-
----
-
-## Public Launch State
-
-OpenLLMWorks now has an operational public presence.
-
-Validated public components:
-
-```text
-Public GitHub repository                  PASS
-OpenLLMWorks public branding              PASS
-Public standalone Runner release          PASS
-Public release artifact verification      PASS
-Production website deployment             PASS
-OpenLLMWorks.com                           PASS
-HTTPS / SSL                               PASS
-www.openllmworks.com                       PASS
-Public Beta visitor navigation             PASS
-Hardware pages                             PASS
-GPU comparison interaction                PASS
-Private-browser public smoke test          PASS
-GA4 baseline collection                    PASS
-```
-
-The project has therefore moved beyond a private Beta Candidate.
-
-Current state:
-
-```text
-OPENLLMWORKS PUBLIC BETA
-```
-
-Public Beta does not mean Protocol v1.0 or the Runner are considered
-feature-complete across all platforms and accelerators.
-
-It means the current Windows NVIDIA benchmark path is publicly accessible,
-documented, distributable, and ready for controlled external contributor
-validation.
 
 ---
 
 ## Current Runner
 
-**Runner:** OpenLLMWorks Runner
-**Development version:** `0.3.0-dev3`
-**First public beta release:** `v0.3.0-beta.1`
-**Current platform:** Windows
-**Current accelerator:** NVIDIA
+**Runner:** OpenLLMWorks Runner  
+**Development version:** `0.3.0-dev3`  
+**First public beta release:** `v0.3.0-beta.1`  
+**Current platform:** Windows  
+**Current accelerator:** NVIDIA  
 **Benchmark Protocol:** OLBD Protocol v1.0
 
-The Runner performs the contributor-side benchmark workflow:
+The current contributor-side workflow is:
 
 ```text
 Start OpenLLMWorks Runner
@@ -232,40 +140,7 @@ Start OpenLLMWorks Runner
 Detect NVIDIA Environment
     |
     v
-Load Embedded Asset Manifest
-    |
-    v
-Inspect Managed Protocol Assets
-    |
-    +--> Missing / Invalid Model
-    |        |
-    |        v
-    |    Acquire Frozen Model
-    |        |
-    |        +--> Reuse Verified Local Artifact
-    |        |
-    |        +--> Download Frozen Model
-    |        |
-    |        v
-    |    Verify Size + SHA-256
-    |
-    +--> Missing / Invalid Runtime
-             |
-             v
-         Acquire Frozen Upstream Sources
-             |
-             +--> Reuse Verified Local Artifacts
-             |
-             +--> Download Frozen Upstream Sources
-             |
-             v
-         Verify Size + SHA-256
-             |
-             v
-         Assemble Managed Runtime
-             |
-             v
-         Verify Required Runtime Files
+Verify / Provision Managed Protocol Assets
     |
     v
 Benchmark Readiness
@@ -283,14 +158,398 @@ Parse pp512 + tg128
 Generate submission.json
     |
     v
-Canonical Validation
+Canonical Local Validation
     |
     v
-Create Upload-Ready ZIP
+Create Canonical Submission ZIP
+    |
+    v
+Show Submission Disclosure
+    |
+    v
+Upload to OpenLLMWorks? [Y/N]
+    |
+    +--> N --> Preserve ZIP / manual submission available
+    |
+    +--> Y
+             |
+             v
+         HTTPS Upload
+             |
+             v
+         Submission ID
 ```
 
 The Runner remains intentionally isolated from the canonical Open LLM
 Benchmark Database.
+
+Direct submission does not grant contributor systems write access to the
+canonical database.
+
+---
+
+## Direct Submission Architecture
+
+Weekend 17 introduced a direct submission path while preserving the existing
+canonical submission format.
+
+The Runner does not create a second submission format.
+
+It uploads the same canonical ZIP that is already generated and locally
+validated by the existing benchmark workflow.
+
+Current architecture:
+
+```text
+Contributor System
+    |
+    v
+OpenLLMWorks-Runner.exe
+    |
+    v
+OLBD Protocol v1.0 Benchmark
+    |
+    v
+Canonical Local Validation
+    |
+    v
+Canonical Submission ZIP
+    |
+    v
+Contributor Disclosure
+    |
+    v
+Upload to OpenLLMWorks? [Y/N]
+    |
+    +--> N
+    |     |
+    |     v
+    |   Preserve Local ZIP
+    |     |
+    |     v
+    |   Manual Submission Available
+    |
+    +--> Y
+          |
+          v
+https://api.openllmworks.com/v1/submissions
+          |
+          v
+openllmworks-submissions Worker
+          |
+          v
+Private R2 Bucket
+openllmworks-submissions
+          |
+          v
+incoming/sub_<uuid>.zip
+          |
+          v
+Status: received
+```
+
+The production API is intentionally an ingestion boundary rather than a direct
+database-write endpoint.
+
+Current response semantics use:
+
+```text
+received
+```
+
+rather than:
+
+```text
+accepted
+```
+
+This distinction is deliberate.
+
+A package being successfully received does not yet mean it has passed
+authoritative server-side validation, been imported into the canonical
+database, or been published.
+
+Future submission lifecycle states may include:
+
+```text
+received
+validated
+rejected
+imported
+published
+```
+
+---
+
+## Contributor Consent and Disclosure
+
+Direct submission is explicitly opt-in.
+
+The Runner does not automatically upload benchmark results.
+
+After canonical ZIP creation, the contributor is shown submission information
+and asked:
+
+```text
+Upload this benchmark to OpenLLMWorks? [Y/N]
+```
+
+If the contributor selects `N`:
+
+- the benchmark remains successful
+- the canonical ZIP remains local
+- no direct upload occurs
+- manual submission remains available
+
+If the contributor selects `Y`:
+
+- the existing canonical ZIP is uploaded over HTTPS
+- the production service stores the package in private incoming storage
+- a traceable submission ID is returned
+- the local ZIP remains preserved
+
+Cancellation during the consent stage is handled deliberately.
+
+Upload failure also does not convert a successful benchmark into a failed
+benchmark. The local canonical package remains available for retry or manual
+submission.
+
+---
+
+## Direct Submission Client
+
+Runner-side direct submission transport is implemented in:
+
+```text
+runner/submission_client.py
+```
+
+Current production endpoint:
+
+```text
+https://api.openllmworks.com/v1/submissions
+```
+
+Current transport:
+
+```text
+HTTPS POST
+Content-Type: application/zip
+```
+
+The client uses Python standard-library HTTP functionality to avoid introducing
+an additional runtime dependency solely for submission transport.
+
+Current client behavior includes:
+
+- local ZIP existence checks
+- non-empty package checks
+- explicit contributor consent
+- HTTPS upload
+- upload timeout handling
+- HTTP error handling
+- network error handling
+- malformed response handling
+- expected HTTP 201 handling
+- expected `status = received` verification
+- submission ID verification
+- preservation of the local ZIP
+- graceful fallback when upload fails
+
+A successful production response returns a submission identifier in the form:
+
+```text
+sub_<uuid>
+```
+
+---
+
+## Submission Ingestion Worker
+
+Direct submission ingestion is handled by a dedicated Cloudflare Worker
+separate from the public website Worker.
+
+Worker:
+
+```text
+openllmworks-submissions
+```
+
+Production API hostname:
+
+```text
+api.openllmworks.com
+```
+
+Current endpoint:
+
+```text
+POST /v1/submissions
+```
+
+The submission Worker currently:
+
+1. accepts the supported submission endpoint
+2. rejects unsupported HTTP methods
+3. requires `application/zip`
+4. generates a unique `sub_<uuid>` submission ID
+5. stores the uploaded body in private incoming R2 storage
+6. returns HTTP 201
+7. reports submission status as `received`
+
+Validated production behavior includes:
+
+```text
+GET submission endpoint                   HTTP 405
+Wrong Content-Type                        HTTP 415
+Valid ZIP POST                            HTTP 201
+Submission ID returned                    PASS
+Status = received                         PASS
+Matching production R2 object             PASS
+```
+
+The Worker does not currently perform authoritative OLBD canonical validation.
+
+That is a deliberate Stage 1 MVP boundary.
+
+---
+
+## Private Submission Storage
+
+Incoming direct submissions are stored in Cloudflare R2.
+
+Bucket:
+
+```text
+openllmworks-submissions
+```
+
+Incoming object convention:
+
+```text
+incoming/sub_<uuid>.zip
+```
+
+The bucket is an intake/quarantine boundary.
+
+Receiving a package into this bucket does not publish it and does not directly
+modify the canonical Open LLM Benchmark Database.
+
+This preserves the architectural separation:
+
+```text
+Contributor Upload
+    !=
+Canonical Database Import
+```
+
+Maintainer-controlled validation and import remain required until a future
+trusted server-side workflow deliberately automates additional stages.
+
+---
+
+## Weekend 17 Production E2E Acceptance
+
+Weekend 17 concluded the Direct Submission MVP with a real production
+acceptance test using Bench-001.
+
+The test used a freshly rebuilt standalone:
+
+```text
+OpenLLMWorks-Runner.exe
+```
+
+The complete acceptance path was:
+
+```text
+OpenLLMWorks-Runner.exe
+        |
+        v
+Hardware Detection
+        |
+        v
+Managed Protocol Assets
+        |
+        v
+Three Benchmark Runs
+        |
+        v
+Canonical Local Validation
+        |
+        v
+Canonical Submission ZIP
+        |
+        v
+Contributor Disclosure
+        |
+        v
+Y Consent
+        |
+        v
+Production HTTPS Upload
+        |
+        v
+api.openllmworks.com
+        |
+        v
+openllmworks-submissions Worker
+        |
+        v
+Private Production R2
+        |
+        v
+Submission ID Returned
+```
+
+Acceptance matrix:
+
+```text
+Hardware detection                        PASS
+Managed assets                            PASS
+Three benchmark runs                      PASS
+Canonical validation                      PASS
+Submission ZIP creation                   PASS
+Contributor disclosure                    PASS
+Explicit Y consent                        PASS
+HTTPS upload                              PASS
+Production API                            PASS
+Submission Worker                         PASS
+Private R2 ingestion                      PASS
+Submission ID returned                    PASS
+Matching R2 ZIP verified                  PASS
+Local ZIP preserved                       PASS
+```
+
+This establishes:
+
+```text
+WEEKEND 17 - DIRECT SUBMISSION MVP
+END-TO-END PRODUCTION PASS
+```
+
+---
+
+## Manual Submission Fallback
+
+The GitHub submission workflow remains useful as a fallback and compatibility
+path.
+
+Current relationship:
+
+```text
+Primary path:
+Runner -> Y -> OpenLLMWorks Submission API
+
+Fallback path:
+Runner -> Local Canonical ZIP -> Manual GitHub Submission
+```
+
+The fallback remains valuable when contributors decline direct upload, network
+connectivity fails, the submission service is temporarily unavailable, or a
+manual recovery path is useful during beta.
+
+Direct submission therefore improves convenience without making benchmark
+completion dependent on the ingestion service.
 
 ---
 
@@ -314,37 +573,14 @@ Public release:
 https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.3.0-beta.1
 ```
 
-The release uses the standalone:
-
-```text
-OpenLLMWorks-Runner.exe
-```
-
 The public release was treated as a beta artifact rather than an implied
 production-final binary.
 
-The release process included:
+The current development Runner has advanced beyond the original beta.1
+artifact through the Weekend 17 direct-submission work.
 
-- standalone build from the OpenLLMWorks codebase
-- public beta version convention
-- GitHub Release publication
-- contributor-facing release notes
-- Windows / NVIDIA scope
-- expected first-run provisioning behavior
-- unsigned executable / Windows trust expectations
-- integrity information
-- public artifact download verification
-
-The publicly downloaded release artifact was checked against the intended
-release artifact.
-
-This established that the binary delivered through the public GitHub release
-path matched the binary intended for distribution.
-
-The public Runner is therefore no longer only a locally built development
-artifact.
-
-It is a real public distribution artifact.
+A future public Runner release should incorporate the proven direct-submission
+client after the desired beta checkpoint and release validation are complete.
 
 ---
 
@@ -372,27 +608,24 @@ The standalone executable bundles:
 - OpenLLMWorks Runner code
 - parser/validation dependencies
 - `runner/assets.json`
+- direct submission client code
 
 Large Benchmark Protocol assets are intentionally not embedded in the
 executable.
 
 The Runner acquires and verifies those assets separately.
 
-This keeps the Runner executable independent from the multi-gigabyte benchmark
-asset payload while preserving a frozen and verifiable protocol environment.
+Weekend 16 confirmed that the standalone executable can complete the benchmark
+workflow without requiring the development repository.
 
-Weekend 16 confirmed that the standalone executable can be copied by itself to
-a contributor-style location and complete the benchmark workflow without
-requiring the development repository.
+Weekend 17 confirmed that a freshly built standalone executable can also
+complete the production direct-submission path.
 
 Python and Git are not contributor requirements.
 
 ---
 
 ## Managed Protocol Storage and Rebrand Compatibility
-
-The rebrand deliberately separates **legacy verified assets** from **new
-OpenLLMWorks output**.
 
 New installations use:
 
@@ -427,92 +660,15 @@ New benchmark results always belong to the current product identity:
 %LOCALAPPDATA%\OpenLLMWorks\results\
 ```
 
-This avoids:
-
-- forcing existing contributors to redownload the frozen model
-- duplicating multi-gigabyte verified assets
-- destructively moving a known-good managed environment
-- continuing to place newly generated benchmark results under the retired brand
-
-A previously provisioned machine may therefore legitimately contain:
-
-```text
-%LOCALAPPDATA%\OpenLLMBench\
-    artifacts\
-    protocols\
-        v1.0\
-            models\
-            runtime\
-
-%LOCALAPPDATA%\OpenLLMWorks\
-    results\
-```
+This avoids forcing existing contributors to redownload frozen multi-gigabyte
+assets or destructively migrating a known-good managed environment.
 
 The legacy directory is compatibility infrastructure, not the current public
 product identity.
 
 ---
 
-## Rebrand Regression - Bench-001
-
-The new standalone `OpenLLMWorks-Runner.exe` was tested on Bench-001 against an
-existing legacy OpenLLMBench managed environment.
-
-Precondition:
-
-```text
-Test-Path %LOCALAPPDATA%\OpenLLMBench   True
-Test-Path %LOCALAPPDATA%\OpenLLMWorks   False
-```
-
-The OpenLLMWorks Runner successfully reused the existing verified protocol
-assets without forcing the multi-gigabyte model to be downloaded again.
-
-During the first compatibility pass, new results were observed still being
-written beneath the legacy managed root. This behavior matched the initial
-implementation but was not desirable as a long-term brand boundary.
-
-`RESULTS_ROOT` was therefore decoupled from the compatibility-managed asset
-root.
-
-The final behavior was validated as:
-
-```text
-Legacy verified assets:
-%LOCALAPPDATA%\OpenLLMBench
-
-New benchmark results:
-%LOCALAPPDATA%\OpenLLMWorks\results
-```
-
-Final path state:
-
-```text
-Test-Path %LOCALAPPDATA%\OpenLLMBench   True
-Test-Path %LOCALAPPDATA%\OpenLLMWorks   True
-```
-
-This is the expected PASS state for an upgraded legacy installation.
-
-The regression confirmed:
-
-```text
-OpenLLMWorks Runner branding             PASS
-Standalone EXE build                     PASS
-Legacy managed-asset reuse               PASS
-No forced model redownload               PASS
-No destructive legacy migration          PASS
-No duplicate model required              PASS
-New OpenLLMWorks results path             PASS
-Three benchmark runs                     PASS
-Canonical validation                     PASS
-Upload-ready ZIP creation                PASS
-Bench-001 upgrade path                   PASS
-```
-
----
-
-## Asset Manifest
+## Asset Manifest and Provisioning
 
 Runner asset acquisition is controlled by:
 
@@ -522,23 +678,11 @@ runner/assets.json
 
 **Manifest schema:** `1.1`
 
-The manifest defines the frozen assets required by Protocol v1.0.
-
-### Model
-
-Current model:
+Current frozen model:
 
 ```text
 Qwen3-4B-Q4_K_M.gguf
 ```
-
-Recorded model properties include:
-
-- source URL
-- filename
-- size
-- install path
-- SHA-256
 
 Current frozen model size:
 
@@ -546,46 +690,16 @@ Current frozen model size:
 2,497,280,256 bytes
 ```
 
-The Runner verifies the model before it is accepted into the managed protocol
-environment.
-
-### Runtime
-
-Schema 1.1 defines frozen upstream runtime sources and the required files that
-make up the canonical Windows NVIDIA runtime.
-
-The Runner:
-
-1. acquires each frozen upstream source
-2. verifies source size and SHA-256
-3. extracts verified sources into staging
-4. selects the required runtime files
-5. assembles the managed runtime
-6. validates the resulting runtime
-7. atomically installs it into the managed protocol directory
-
-Verified local upstream artifacts may be reused rather than downloaded again.
-
-During Sprint 4 validation, the managed runtime contained:
-
-```text
-37 files
-1,589.87 MiB
-```
-
-The earlier custom runtime archive architecture has been retired.
-
----
-
-## Asset Provisioning
-
 Asset-management logic is implemented in:
 
 ```text
 runner/provisioning.py
 ```
 
-Current responsibilities include:
+The Runner verifies frozen assets using exact size and SHA-256 before they are
+accepted into the managed Protocol v1.0 environment.
+
+Current provisioning responsibilities include:
 
 - managed protocol path resolution
 - asset manifest loading
@@ -594,7 +708,7 @@ Current responsibilities include:
 - SHA-256 validation
 - verified file download
 - contributor-visible artifact status
-- 10 percent download-progress milestones
+- download-progress milestones
 - verified local artifact reuse
 - upstream runtime-source acquisition
 - staging and extraction
@@ -603,169 +717,14 @@ Current responsibilities include:
 - safe replacement of managed runtime assets
 - cleanup of temporary staging data
 
-The existing integrity architecture remains unchanged:
-
-- downloads use temporary `.part` files
-- exact size and SHA-256 verification occurs before promotion
-- invalid downloads are rejected
-- failed partial downloads are cleaned up
-- existing verified artifacts may be reused
-- managed assets are independently verified before benchmark execution
-
----
-
-## Sprint 5 - Standalone and Recovery Validation
-
-Sprint 5 exercised the standalone Windows NVIDIA Runner on Bench-001 using an
-NVIDIA GeForce GTX 1050 2 GB.
-
-Validation matrix:
-
-```text
-5.1   Clean-state first run              PASS
-5.2   Existing asset reuse               PASS
-5.3A  Corrupt managed model recovery     PASS
-5.3B  Forced model re-download           PASS
-5.3C  Managed runtime recovery           PASS
-5.4A  User-aborted benchmark             PASS
-5.4B  Offline provisioning failure       PASS
-5.4C  Connectivity-restored recovery     PASS
-5.5   Final healthy regression           PASS
-```
-
-This demonstrated clean bootstrap, persistent verified-asset reuse, corruption
-recovery, fail-closed offline behavior, safe cancellation, and automatic
-recovery after connectivity restoration.
-
-No fundamental benchmark, validation, provisioning, or managed-asset
-architecture failure was discovered.
-
----
-
-## Sprint 6 - Contributor UX and Failure Recovery
-
-Sprint 6 addressed the contributor-experience findings identified during
-Sprint 5 without changing Protocol v1.0 or weakening asset, submission, or
-validation guarantees.
-
-### Sprint 6A - Completion, Failure, and Cancellation UX
-
-Standalone validation confirmed:
-
-```text
-6A-1  Successful completion             PASS
-6A-2  Ctrl+C cancellation               PASS
-6A-3  Provisioning failure visibility   PASS
-```
-
-Packaged execution now:
-
-- keeps successful completion visible
-- leaves workspace and ZIP paths visible
-- handles `Ctrl+C` deliberately
-- reports retained partial workspaces
-- explains that rerunning is safe
-- keeps handled failures visible before the console closes
-
-Source/developer Python execution remains non-interactive.
-
-### Sprint 6B - Provisioning Visibility
-
-Validation confirmed:
-
-```text
-Existing cached artifact detection       PASS
-Local artifact status visibility         PASS
-Missing artifact visibility              PASS
-Network download visibility              PASS
-10% download progress milestones         PASS
-Download completion                      PASS
-Downloaded artifact verification         PASS
-Managed model provisioning               PASS
-Full Runner workflow regression          PASS
-```
-
-Resolved Sprint 5 UX findings:
-
-```text
-UX-001  Completion and output discoverability       RESOLVED
-UX-002  Provisioning and download progress          RESOLVED
-UX-003  Graceful user cancellation                  RESOLVED
-UX-004  Provisioning / failure visibility           RESOLVED
-```
-
----
-
-## Current Contributor Handoff
-
-The proven contribution lifecycle is:
-
-```text
-Contributor System
-    |
-    v
-OpenLLMWorks-Runner.exe
-    |
-    v
-Managed Asset Verification / Provisioning
-    |
-    v
-Environment Verification
-    |
-    v
-Hardware Evidence Capture
-    |
-    v
-Three Benchmark Runs
-    |
-    v
-Result Parsing
-    |
-    v
-submission.json
-    |
-    v
-Canonical Validation
-    |
-    v
-Upload-Ready ZIP
-    |
-    v
-GitHub Benchmark Submission Issue
-    |
-    v
-Maintainer Download / Extraction
-    |
-    v
-Independent Canonical Validation
-    |
-    v
-Controlled Maintainer Import
-    |
-    v
-Open LLM Benchmark Database
-    |
-    v
-Publisher
-    |
-    v
-Website
-```
-
-Contributor execution and maintainer ingestion remain deliberately separated.
-
-The maintainer-operated version of this lifecycle has already been proven.
-
-The next validation phase focuses on whether an external contributor can
-successfully complete the contributor side using only public-facing
-OpenLLMWorks resources.
+The earlier custom runtime archive architecture has been retired.
 
 ---
 
 ## Preserved Benchmark Guarantees
 
-The standalone, managed-asset, recovery, UX, rebrand, release, and public
-website work does not change the core Protocol v1.0 guarantees.
+The standalone, managed-asset, recovery, UX, rebrand, release, website, and
+direct-submission work does not change the core Protocol v1.0 guarantees.
 
 OpenLLMWorks continues to preserve:
 
@@ -782,31 +741,35 @@ OpenLLMWorks continues to preserve:
 - maintainer-controlled database ingestion
 - separation between contributor systems and the canonical database
 
-The rebrand also preserves historical technical provenance instead of
-rewriting old canonical records for cosmetic consistency.
+Direct submission changes transport and contributor convenience.
 
-Public distribution provides access to the benchmark system without weakening
-the benchmark system.
+It does not change benchmark methodology.
+
+It also does not currently replace authoritative maintainer-side validation.
 
 ---
 
-## Website Production Deployment
+## Website and Public Infrastructure
 
-The OpenLLMWorks website is now publicly deployed.
-
-Production domain:
+Production website:
 
 ```text
 https://openllmworks.com
 ```
 
-The website is served through Cloudflare.
+Additional public hostname:
 
-The deployment uses the Vite production build generated from the repository's
-website source.
+```text
+https://www.openllmworks.com
+```
 
-The production site was validated after deployment rather than relying only on
-local development behavior.
+Production submission API:
+
+```text
+https://api.openllmworks.com
+```
+
+The website and submission API are served by separate Cloudflare Workers.
 
 Current public homepage identity includes:
 
@@ -821,102 +784,18 @@ of local AI performance.
 Measure. Understand. Preserve.
 ```
 
-The primary contributor CTA is:
+The primary contributor CTA remains:
 
 ```text
 Run Your First Benchmark
 ```
 
-The CTA connects the public website to the public Runner distribution path.
+Website messaging and the contributor funnel may be refined as direct
+submission moves into a public Runner release.
 
-This establishes a direct public funnel:
-
-```text
-Discover OpenLLMWorks
-    |
-    v
-Understand the Project
-    |
-    v
-Run Your First Benchmark
-    |
-    v
-GitHub Runner Release
-    |
-    v
-OpenLLMWorks-Runner.exe
-```
-
----
-
-## Production Domain and DNS
-
-The primary OpenLLMWorks domain is:
-
-```text
-openllmworks.com
-```
-
-DNS authority was moved to Cloudflare during the public launch process.
-
-The production apex hostname is connected to the OpenLLMWorks Cloudflare
-Worker.
-
-HTTPS was validated successfully.
-
-The additional hostname:
-
-```text
-www.openllmworks.com
-```
-
-was also connected and confirmed to resolve successfully.
-
-Current desired public identity remains:
-
-```text
-https://openllmworks.com
-```
-
-The `www` hostname exists as a compatibility entry point for visitors who
-naturally enter the traditional `www` form.
-
-A future polish step may redirect `www` to the canonical non-`www` hostname
-rather than serving the site independently.
-
-That redirect is not a current public-beta blocker.
-
----
-
-## Public Visitor Smoke Test
-
-After the production domain and `www` hostname were operational, the site was
-tested through a private browser window to better approximate a new visitor
-rather than an existing development session.
-
-The smoke test included:
-
-```text
-Open OpenLLMWorks.com                    PASS
-Primary navigation                       PASS
-Public links                              PASS
-Hardware pages                            PASS
-Hardware interaction                      PASS
-GPU Compare interaction                   PASS
-GitHub destinations                       PASS
-Run Benchmark path                        PASS
-```
-
-The private-window test found no immediate broken public navigation or
-interaction path.
-
-This establishes a useful public-launch checkpoint:
-
-```text
-The site does not merely deploy.
-
-A fresh visitor can navigate it.
-```
+A private-browser public smoke test previously validated primary navigation,
+hardware pages, GPU comparison interaction, GitHub destinations, and the
+benchmark path.
 
 ---
 
@@ -936,45 +815,25 @@ Measurement ID:
 G-K47WJHVSNY
 ```
 
-The Google tag was added to the production website and deployed.
-
 Collection was verified through GA4 Realtime.
 
-Initial live events included:
-
-```text
-first_visit
-page_view
-session_start
-```
-
-This confirmed that production visitor activity is reaching the analytics
-property.
-
-The current analytics strategy is intentionally minimal.
-
-The immediate objective is:
+The current analytics strategy remains intentionally minimal:
 
 ```text
 Collect historical baseline data now.
 Transform and analyze it later.
 ```
 
-No major dashboard, attribution, or custom-event project is required for the
-current beta checkpoint.
-
 Potential future high-value events include:
 
 ```text
 Runner download / release clicks
 GitHub visits
-Submit Results clicks
+Direct submission attempts
+Direct submission success
 Hardware comparison usage
 Contributor conversion
 ```
-
-These should be introduced when they answer a useful product or contributor
-question rather than merely because additional tracking is possible.
 
 ---
 
@@ -1011,29 +870,11 @@ Major work included:
 - regression testing
 - standalone executable groundwork
 
-### Weekend 16 - Sprint 4
+### Weekend 16 - Managed Assets and Recovery
 
-The Runner moved from standalone packaging groundwork to managed,
-self-provisioning benchmark assets.
-
-Major work included:
-
-- standalone PyInstaller build
-- managed protocol storage
-- asset manifest schema 1.1
-- verified model acquisition
-- verified upstream runtime acquisition
-- deterministic runtime assembly
-- retirement of the custom runtime archive
-- packaged asset manifest
-- end-to-end benchmark validation
-- packaging and repository hardening
-
-### Weekend 16 - Sprint 5
-
-The standalone Runner and managed-asset architecture were exercised through
-clean-state, corruption, recovery, interruption, offline, and restored-network
-scenarios.
+The Runner moved to managed, self-provisioning Protocol v1.0 assets and was
+exercised through clean-state, reuse, corruption, interruption, offline, and
+recovery scenarios.
 
 Validation included:
 
@@ -1049,12 +890,9 @@ Connectivity-restored recovery           PASS
 Final healthy regression                 PASS
 ```
 
-### Weekend 16 - Sprint 6
+### Weekend 16 - Contributor UX
 
-The contributor-facing lifecycle was hardened around completion, failure,
-cancellation, artifact visibility, and download progress.
-
-Major improvements included:
+Contributor-facing lifecycle improvements included:
 
 - packaged completion pause
 - workspace and ZIP visibility
@@ -1063,86 +901,142 @@ Major improvements included:
 - safe-rerun guidance
 - failure visibility
 - artifact verification status
-- 10 percent provisioning progress
+- provisioning progress
 
 ### Weekend 16 - Product / Name Gate
-
-The planned pre-public-beta product gate was pulled forward before release and
-distribution so the project would not create public release artifacts under a
-name already scheduled for reconsideration.
 
 Major work included:
 
 - competitive and naming review
 - selection of **OpenLLMWorks** as the public project identity
-- preservation of **Open LLM Benchmark Database / OLBD Protocol v1.0** as the
-  technical dataset and frozen methodology identity
-- GitHub repository rename to `OpenLLMWorks`
-- local Git remote update and verification
+- preservation of **Open LLM Benchmark Database / OLBD Protocol v1.0**
+- GitHub repository rename
 - acquisition of `OpenLLMWorks.com`
-- project-layer rebrand
-- standalone Runner rebrand
-- PyInstaller build identity change to `OpenLLMWorks-Runner.exe`
+- project and Runner rebrand
 - backward-compatible managed-asset root resolution
-- separation of new OpenLLMWorks results from legacy asset storage
-- Bench-001 legacy-upgrade regression
-- final clean working-tree checkpoint
+- separation of new results from legacy asset storage
+- repository-wide rebrand reconciliation
 
-This work changed relatively little benchmark logic but established the
-long-term public identity and compatibility boundaries required before public
-distribution.
-
-### Weekend 16 - Rebrand Reconciliation
-
-The initial rebrand was followed by a deliberate repository-wide
-reconciliation.
+### Weekend 16 - Public Beta Launch
 
 Major work included:
 
-- current-facing documentation reconciliation
-- Runner distribution documentation update
-- example-submission branding cleanup
-- publisher regeneration from canonical sources
-- website production regeneration
-- classification of historical references
-- preservation of intentional compatibility references
-- final residual old-name audit
-
-The resulting repository contains no unexplained current-facing use of the
-retired public brand.
-
-### Weekend 16 - Sprint 7
-
-Sprint 7 moved OpenLLMWorks from a pre-release project into a publicly
-accessible beta.
-
-Major work included:
-
-- public repository readiness
-- GitHub repository made public
+- public GitHub repository
 - first public Runner beta release
 - public release artifact verification
-- public website source reconciliation
-- production website build
-- Cloudflare deployment
+- production website build and deployment
 - OpenLLMWorks.com activation
 - HTTPS validation
 - `www.openllmworks.com` activation
-- public visitor navigation cleanup
-- Hardware / Compare public smoke testing
+- public visitor smoke testing
 - GA4 baseline installation and verification
 
-Sprint 7 therefore crossed several milestones that the earlier planning
-framework expected to happen in later sprints.
+Weekend 16 crossed the Public Beta launch boundary.
 
-The project reached Public Beta sooner than the original Weekend 17 sequence
-anticipated.
+### Weekend 17 - Direct Submission MVP
+
+Weekend 17 removed the GitHub Issue workflow as a requirement for the primary
+future contributor submission experience.
+
+Major work included:
+
+- direct-submission architecture and design principles
+- `docs/DIRECT_SUBMISSION.md`
+- contributor disclosure and explicit `[Y/N]` consent
+- `runner/submission_client.py`
+- direct HTTPS transport using the existing canonical ZIP
+- dedicated Cloudflare submission Worker
+- private R2 incoming storage
+- production `api.openllmworks.com` hostname
+- unique `sub_<uuid>` submission identity
+- `received` status semantics
+- upload failure fallback
+- local ZIP preservation
+- production API method and media-type testing
+- direct transport testing
+- contributor-facing consent/upload testing
+- fresh standalone Runner rebuild
+- Bench-001 full benchmark acceptance test
+- production R2 verification
+
+Final acceptance:
+
+```text
+Runner -> Benchmark -> Canonical Validation -> ZIP
+       -> Disclosure -> Y
+       -> Production HTTPS API
+       -> Private Incoming R2
+       -> Submission ID
+
+PASS
+```
+
+---
+
+## Current Contributor Handoff
+
+The current preferred contributor lifecycle is:
+
+```text
+Contributor System
+    |
+    v
+OpenLLMWorks-Runner.exe
+    |
+    v
+Managed Asset Verification / Provisioning
+    |
+    v
+Hardware Evidence + Three Benchmark Runs
+    |
+    v
+Canonical Local Validation
+    |
+    v
+Canonical Submission ZIP
+    |
+    v
+Contributor Disclosure
+    |
+    v
+Upload to OpenLLMWorks? [Y/N]
+    |
+    +--> N --> Preserve ZIP / manual fallback
+    |
+    +--> Y
+             |
+             v
+         HTTPS Submission API
+             |
+             v
+         Private Incoming Storage
+             |
+             v
+         Submission ID
+             |
+             v
+         Maintainer Validation
+             |
+             v
+         Controlled Canonical Import
+             |
+             v
+         Open LLM Benchmark Database
+             |
+             v
+         Publisher
+             |
+             v
+         OpenLLMWorks.com
+```
+
+Contributor execution and canonical ingestion remain deliberately separated.
+
+The direct transport layer is now proven.
 
 ---
 
 ## Current Constraints
-
-The public contributor path remains intentionally narrow.
 
 Current primary target:
 
@@ -1152,58 +1046,31 @@ Windows + NVIDIA
 
 Current constraints and open questions include:
 
-- first external contributor has not yet completed the public workflow
+- direct submission is proven internally but has not yet been validated by an
+  unrelated external contributor
+- authoritative server-side canonical validation is not yet implemented
+- incoming submissions still require maintainer-controlled processing
+- duplicate/idempotency handling needs hardening
+- malformed ZIP and hostile-input handling needs hardening
+- submission size and abuse controls need deliberate review
+- rate limiting is not yet a mature submission policy
+- submission status visibility is minimal
+- the currently published beta.1 Runner predates the Weekend 17 direct
+  submission implementation
 - unsigned Windows executable may trigger SmartScreen or trust friction
-- contributor documentation still needs real-world external validation
-- additional external-machine testing is required
+- contributor documentation needs real-world external validation
 - broader NVIDIA GPU coverage remains valuable
 - AMD support is not yet part of the public Runner
 - Intel accelerator support is not yet part of the public Runner
 - public dataset breadth remains early
-- `www` canonical redirect is optional future polish
-- analytics currently provide baseline collection rather than mature reporting
 - SEO and public discovery remain early
-- release-process automation can mature after more beta experience
 
-These are now primarily beta-learning, platform-expansion, dataset-growth, and
-public-discovery concerns.
-
-They are not fundamental benchmark-pipeline blockers.
+These are now primarily submission-hardening, beta-learning,
+platform-expansion, dataset-growth, and public-discovery concerns.
 
 ---
 
-## Public-Beta Roadmap
-
-The original roadmap expected a longer sequence before website launch and
-Public Beta.
-
-Weekend 16 advanced through that sequence faster than expected.
-
-Original planning model:
-
-```text
-Weekend 16
-    Sprint 4 - Managed Assets
-    Sprint 5 - Pristine / Recovery Validation
-    Sprint 6 - Contributor UX & Failure Recovery
-    Product / Name Gate
-    Sprint 7 - Release / Distribution
-    Sprint 8 - Public Contributor Documentation
-        |
-        v
-    Beta Candidate
-
-Weekend 17
-    Small External Beta
-    Sprint 9  - Beta Feedback / Runner Stabilization
-    Sprint 10 - Website Launch Integration
-    Sprint 11 - Launch Readiness
-        |
-        v
-    OpenLLMWorks Public Beta
-```
-
-Actual progress:
+## Current Roadmap
 
 ```text
 Managed Assets                              COMPLETE
@@ -1221,16 +1088,7 @@ Product / Name Gate                         COMPLETE
 OpenLLMWorks Rebrand                        COMPLETE
     |
     v
-Rebrand Reconciliation                      COMPLETE
-    |
-    v
-Public GitHub                               COMPLETE
-    |
-    v
-Public Runner Release                       COMPLETE
-    |
-    v
-Website Launch Integration                  COMPLETE
+Public GitHub + Runner Release              COMPLETE
     |
     v
 OpenLLMWorks.com                            LIVE
@@ -1245,12 +1103,26 @@ Analytics Baseline                         LIVE
 OPENLLMWORKS PUBLIC BETA                    LIVE
     |
     v
-First External Contributor                  NEXT
+Direct Submission MVP                      E2E PASS
+    |
+    v
+Submission Hardening                       NEXT
+    |
+    +--> Server-Side Validation
+    +--> Maintainer Intake
+    +--> Duplicate / Error Handling
+    +--> Security / Abuse Controls
+    +--> Publication Integration
+    |
+    v
+External Contributor Validation            UPCOMING
+    |
+    v
+Small External Beta                        UPCOMING
 ```
 
-The roadmap should now be driven by observed contributor behavior rather than
-the old assumption that additional internal engineering must precede public
-availability.
+The roadmap should continue to be driven by observed contributor behavior and
+real production constraints rather than speculative feature accumulation.
 
 ---
 
@@ -1264,30 +1136,25 @@ Repository:
 https://github.com/namphan813/OpenLLMWorks
 ```
 
-The standalone Runner, project documentation, canonical benchmark
-infrastructure, website source, and public release history are now visible
-through the public repository.
-
-Relevant rebrand and launch checkpoints include work for:
+Relevant current components include:
 
 ```text
-Rebrand project layer to OpenLLMWorks
-Rebrand Runner product as OpenLLMWorks
-Add legacy managed asset compatibility
-Write new Runner results under OpenLLMWorks
-Complete OpenLLMWorks rebrand reconciliation
-```
+runner/run_benchmark.py
+runner/provisioning.py
+runner/submission_client.py
+runner/assets.json
+runner/build_runner.ps1
 
-The standalone executable is distributed as:
+submission-worker/
 
-```text
-OpenLLMWorks-Runner.exe
-```
+docs/benchmark_v1.md
+docs/DIRECT_SUBMISSION.md
 
-Public beta release:
-
-```text
-v0.3.0-beta.1
+scripts/
+results/
+analytics/
+leaderboards/
+website/
 ```
 
 Current high-level checkpoint:
@@ -1295,12 +1162,19 @@ Current high-level checkpoint:
 ```text
 OpenLLMWorks public repository             LIVE
 OpenLLMWorks Runner beta                   LIVE
-OpenLLMWorks.com                            LIVE
-www.openllmworks.com                        LIVE
-HTTPS                                       PASS
-Hardware / Compare public smoke test        PASS
-GA4 baseline collection                     LIVE
-First external contributor                  NEXT
+OpenLLMWorks.com                           LIVE
+www.openllmworks.com                       LIVE
+HTTPS                                      PASS
+Hardware / Compare public smoke test       PASS
+GA4 baseline collection                    LIVE
+api.openllmworks.com                       LIVE
+Submission Worker                          LIVE
+Private R2 incoming storage                LIVE
+Runner direct submission transport         PASS
+Bench-001 production direct submission     PASS
+Direct Submission MVP                      E2E PASS
+Server-side canonical validation           NEXT
+External contributor validation            UPCOMING
 ```
 
 Historical database provenance and frozen Protocol v1.0 identity remain intact
@@ -1313,34 +1187,90 @@ or backward compatibility.
 
 ## Next
 
-### First External Contributor Validation
+### Direct Submission Hardening
 
-The next highest-value milestone is not another large internal feature sprint.
+The next highest-value engineering work is to strengthen the production intake
+boundary established during Weekend 17.
 
-It is the first external contributor.
+The MVP currently proves:
 
-A contributor who did not build the Runner should attempt the public workflow
-using the same resources available to any other visitor.
+```text
+Canonical ZIP
+    |
+    v
+Explicit Consent
+    |
+    v
+HTTPS Upload
+    |
+    v
+Private Incoming Storage
+    |
+    v
+Submission ID
+```
 
-Preferred test path:
+The next stage should build toward:
+
+```text
+Incoming Submission
+    |
+    v
+Authoritative Server Validation
+    |
+    +--> Invalid --> Reject / Quarantine / Record Reason
+    |
+    +--> Valid
+           |
+           v
+       Maintainer Intake
+           |
+           v
+       Controlled Import
+           |
+           v
+       Canonical Database
+           |
+           v
+       Publisher
+           |
+           v
+       Website
+```
+
+Near-term engineering priorities:
+
+1. authoritative server-side validation of received packages
+2. malformed ZIP and canonical-format rejection
+3. duplicate and idempotency handling
+4. submission size and resource limits
+5. security, abuse, and rate-limit controls
+6. clearer submission status semantics
+7. maintainer intake tooling
+8. controlled publication integration
+9. contributor and maintainer documentation updates
+10. end-to-end regression after hardening
+
+The existing Python canonical validator should remain the source of truth for
+benchmark validity.
+
+The ingestion Worker should not independently reinvent Protocol v1.0 validation
+rules in JavaScript merely for convenience.
+
+### External Contributor Validation
+
+External contributor testing remains an important Public Beta milestone.
+
+A contributor who did not build the Runner should eventually attempt the public
+workflow using only resources available to a normal visitor.
+
+Preferred future path:
 
 ```text
 OpenLLMWorks.com
     |
     v
-Understand the Project
-    |
-    v
-Run Your First Benchmark
-    |
-    v
-Public GitHub Release
-    |
-    v
 Download OpenLLMWorks-Runner.exe
-    |
-    v
-Navigate Windows Trust / SmartScreen
     |
     v
 Launch Runner
@@ -1352,81 +1282,47 @@ Provision Protocol Assets
 Complete Three Benchmark Runs
     |
     v
-Locate Upload-Ready ZIP
+Review Submission Disclosure
     |
     v
-Follow GitHub Submission Workflow
+Select Y
     |
     v
-Submit Result
-    |
-    v
-Maintainer Validation
-    |
-    v
-Canonical Import
-    |
-    v
-Publisher
-    |
-    v
-OpenLLMWorks.com
+Receive Submission ID
 ```
 
-The test should avoid unnecessary maintainer coaching.
-
-Confusion is useful evidence.
-
-Important observations include:
-
-- Was the project purpose understandable?
-- Was the Runner easy to find?
-- Was the correct download obvious?
-- Did Windows SmartScreen create confusion?
-- Did first-run provisioning make sense?
-- Was progress visible enough?
-- Did the three benchmark runs complete?
-- Was the resulting ZIP easy to find?
-- Was the GitHub submission process understandable?
-- Did the submission pass canonical validation?
-- Could the maintainer import it without repair?
-
-A successful external contribution would establish a new project milestone:
+A successful external direct contribution would establish another project
+milestone:
 
 ```text
-OpenLLMWorks is no longer only a benchmark we can operate.
+OpenLLMWorks is not only a benchmark we can operate.
 
-It is a benchmark someone else can use.
+It is a benchmark someone else can run and submit to directly.
 ```
-
-After the first external contributor, expand carefully to a small external beta
-rather than immediately pursuing broad promotion.
-
-A small group of real contributors should provide enough evidence to determine
-the next Runner, documentation, submission, and website priorities.
 
 ---
 
 ## Near-Term Priorities
 
-After the first external contributor test, prioritize findings by observed
-friction rather than by speculative feature ideas.
+Current priority order:
 
-Likely near-term work includes:
-
-1. fix any release-blocking contributor defect
-2. improve onboarding where the external test reveals confusion
-3. refine SmartScreen / Windows trust guidance if necessary
-4. improve first-run provisioning communication if necessary
-5. improve result ZIP discoverability if necessary
-6. improve GitHub submission guidance if necessary
-7. validate the maintainer import of the first external result
-8. publish the external result to the canonical database and website
+1. preserve the Weekend 17 clean production checkpoint
+2. implement authoritative server-side submission validation
+3. harden malformed-input, duplicate, resource, and abuse handling
+4. improve maintainer intake from private incoming storage
+5. update contributor documentation for direct submission
+6. prepare and validate the next public Runner beta containing direct submission
+7. run an external contributor test
+8. fix observed contributor friction
 9. expand to a small external beta
-10. continue internal GPU coverage where useful
+10. continue internal NVIDIA dataset growth where useful
 
-Do not change OLBD Protocol v1.0 merely to solve presentation or onboarding
-problems.
+AMD and Intel remain valuable platform-expansion tracks, but they should not
+interrupt completion of the direct-submission trust and intake boundary unless
+new evidence changes the priority.
+
+Do not change OLBD Protocol v1.0 merely to solve presentation, onboarding, or
+transport problems.
 
 Protocol changes require a benchmark-methodology reason.
 
@@ -1434,10 +1330,8 @@ Protocol changes require a benchmark-methodology reason.
 
 ## Longer-Term Direction
 
-Once the public Windows NVIDIA path is externally validated, OpenLLMWorks can
-begin expanding along several independent dimensions.
-
-Potential future tracks include:
+Once the public Windows NVIDIA path and direct-submission intake are externally
+validated, OpenLLMWorks can expand along several independent dimensions.
 
 ```text
 Dataset Growth
@@ -1452,6 +1346,14 @@ Platform Expansion
     +-- AMD
     +-- Intel
     +-- Additional operating systems
+
+Submission Infrastructure
+    |
+    +-- Automated server validation
+    +-- Submission status
+    +-- Duplicate detection
+    +-- Safer automated intake
+    +-- Contributor recognition
 
 Benchmark Evolution
     |
@@ -1477,14 +1379,14 @@ Research / Editorial
     +-- Historical performance research
 ```
 
-These tracks should build on the current reproducibility and provenance
-foundation rather than replacing it.
+These tracks should build on the current reproducibility, provenance, and
+submission-trust foundation rather than replacing it.
 
 ---
 
 ## Current Checkpoint
 
-As of the end of the current Weekend 16 launch work:
+As of the end of the current Weekend 17 Direct Submission MVP work:
 
 ```text
 OpenLLMWorks brand                         ESTABLISHED
@@ -1499,8 +1401,8 @@ Asset corruption recovery                  PROVEN
 Offline failure / recovery                 PROVEN
 Contributor UX hardening                   COMPLETE
 Legacy asset compatibility                 PROVEN
-Canonical validation                       PROVEN
-Upload-ready ZIP                           PROVEN
+Canonical local validation                 PROVEN
+Canonical submission ZIP                   PROVEN
 Maintainer import                          PROVEN
 Publisher                                  PROVEN
 Website                                    LIVE
@@ -1508,16 +1410,37 @@ Hardware pages                             LIVE
 GPU Compare                                LIVE
 Public visitor smoke test                  PASS
 GA4 baseline collection                    LIVE
-First external contributor                 NEXT
+
+Direct submission architecture             ESTABLISHED
+Contributor disclosure                     PROVEN
+Explicit Y/N consent                       PROVEN
+api.openllmworks.com                       LIVE
+Submission Worker                          LIVE
+Private R2 incoming storage                LIVE
+Unique submission ID                       PROVEN
+Runner HTTPS transport                     PROVEN
+Upload failure fallback                    PROVEN
+Local ZIP preservation                     PROVEN
+Bench-001 production direct submission     PASS
+Direct Submission MVP                      E2E PASS
+
+Authoritative server validation             NEXT
+Maintainer intake hardening                 NEXT
+External direct contributor                 UPCOMING
+AMD support                                 FUTURE
+Intel accelerator support                   FUTURE
 ```
 
 The benchmark execution, managed assets, asset recovery, contributor UX,
-evidence, validation, submission, maintainer import, publishing, canonical
-database, public identity, public Runner, public repository, production
-website, domain, and baseline analytics foundations are now in place.
+evidence, canonical validation, submission packaging, maintainer import,
+publishing, canonical database, public identity, public Runner, public
+repository, production website, domain, analytics baseline, production
+submission API, private intake storage, and direct Runner transport foundations
+are now in place.
 
-Weekend 16 has crossed the Public Beta launch boundary.
+Weekend 16 made the Works public.
 
-The Works are public.
+Weekend 17 made the Works directly reachable from the Runner.
 
-Now the community test begins.
+The next phase is about making that intake boundary as trustworthy and
+maintainable as the benchmark itself.
