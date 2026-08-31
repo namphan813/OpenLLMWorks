@@ -11,6 +11,12 @@ jobs:
     name: Validate submission
     runs-on: ubuntu-latest
 
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -29,3 +35,14 @@ jobs:
       - name: Verify canonical validator module
         run: |
           python -c "import parser.validate; print('Canonical submission validator module found.')"
+
+      - name: Verify AWS CLI
+        run: |
+          aws --version
+
+      - name: Verify read-only R2 connectivity
+        run: |
+          echo "Checking OpenLLMWorks incoming submission storage..."
+          aws s3 ls s3://openllmworks-submissions/incoming/ \
+            --endpoint-url "$R2_ENDPOINT"
+          echo "R2 incoming storage is reachable."
