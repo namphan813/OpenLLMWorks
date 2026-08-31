@@ -75,6 +75,10 @@ from runner.provisioning import (
     provision_runtime_from_sources,
 )
 
+from runner.submission_client import (
+    offer_direct_submission,
+)
+
 
 # ------------------------------------------------------------
 # Runner configuration
@@ -1855,6 +1859,12 @@ def run_main_workflow() -> int:
         "OpenLLMWorks Runner completed successfully."
     )
     print()
+
+    offer_direct_submission(
+        zip_path=zip_path,
+        submission_name=submission_name,
+        gpu_name=gpu["gpu_model"],
+    )
 
     return 0
 

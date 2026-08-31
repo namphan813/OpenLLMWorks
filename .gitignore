@@ -11,3 +11,6 @@ database/backups/
 database/backups/
 # Local benchmark ingestion workspace
 incoming/
+
+# Cloudflare Wrangler local state
+.wrangler/
