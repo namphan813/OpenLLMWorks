@@ -26,7 +26,6 @@ jobs:
           python --version
           pwd
 
-      - name: Verify validator source
+      - name: Verify canonical validator module
         run: |
-          test -f scripts/submission.py
-          echo "Canonical submission validator source found."
+          python -c "import parser.validate; print('Canonical submission validator module found.')"
