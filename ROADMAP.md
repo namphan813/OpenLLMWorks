@@ -148,8 +148,9 @@ discover, run, submit to, and understand OpenLLMWorks.
 The public-facing read/explore experience and the Windows NVIDIA
 contribution path are now operational.
 
-The major dependency has shifted from building the contribution system
-to validating it with real external contributors.
+The major dependency has shifted from building basic contribution transport
+to hardening the production intake boundary and then validating the complete
+experience with real external contributors.
 
 ### Delivered Foundations
 
@@ -183,7 +184,11 @@ to validating it with real external contributors.
 - Automated three-run benchmark execution
 - Canonical submission validation
 - Upload-ready submission ZIP
-- GitHub benchmark-submission workflow
+- GitHub benchmark-submission fallback workflow
+- Direct HTTPS submission from the Runner
+- Dedicated production submission API
+- Private incoming R2 storage
+- Traceable submission IDs
 - Maintainer-controlled ingestion
 - Public GitHub repository
 - Public Runner beta release
@@ -192,13 +197,15 @@ to validating it with real external contributors.
 
 ### Current Goal
 
-Move from internally proven contributor readiness to externally proven
-contributor usability.
+Move from an internally proven direct-submission MVP to a hardened,
+maintainable intake path and then externally proven contributor usability.
 
-The next major milestone is not another large feature.
+The next engineering milestone is authoritative server-side submission
+validation and maintainer intake hardening.
 
-It is the first successful benchmark submission from someone who did not
-build or operate the OpenLLMWorks development environment.
+The next beta milestone remains the first successful direct benchmark
+submission from someone who did not build or operate the OpenLLMWorks
+development environment.
 
 ### Outcome Target
 
@@ -210,10 +217,12 @@ A newcomer should be able to:
 4. Find and download the public Runner.
 5. Run the benchmark protocol.
 6. Understand first-run provisioning.
-7. Locate the generated submission ZIP.
-8. Submit the result through the public workflow.
-9. Receive clear validation feedback.
-10. Contribute without risking the integrity of the historical dataset.
+7. Review the submission disclosure.
+8. Choose whether to upload directly to OpenLLMWorks.
+9. Receive a traceable submission ID when direct upload succeeds.
+10. Retain the local canonical ZIP as a fallback.
+11. Receive clear validation feedback as the intake system matures.
+12. Contribute without risking the integrity of the historical dataset.
 
 ------------------------------------------------------------------------
 
@@ -343,11 +352,17 @@ Download OpenLLMWorks Runner
     ↓
 Run Protocol v1.0
     ↓
+Canonical Local Validation
+    ↓
 Receive Submission ZIP
     ↓
-Submit Result
+Review Disclosure / Choose Y or N
     ↓
-Validated Result
+Direct HTTPS Submission
+    ↓
+Private Incoming Storage
+    ↓
+Maintainer / Server Validation
     ↓
 Canonical Database
     ↓
@@ -605,7 +620,9 @@ Examples:
 - Can someone understand the evidence behind an average?
 - Can someone find the Runner?
 - Can someone understand first-run provisioning?
-- Can someone locate the submission ZIP?
+- Can someone understand the direct-submission disclosure?
+- Can someone choose direct upload or preserve the local ZIP?
+- Can someone receive and retain a submission ID?
 - Can someone submit a result without maintainer coaching?
 
 ## External Validation
@@ -1192,7 +1209,7 @@ without destructive migration, duplicate model storage, or forced redownloads.
 
 # Current Proven Contributor Path
 
-The maintainer-tested public contribution path is:
+The internally proven production contribution path is now:
 
 ```text
 OpenLLMWorks.com
@@ -1205,11 +1222,20 @@ Capture Hardware Evidence
     ↓
 Run Three Benchmarks
     ↓
-Canonical Validation
+Canonical Local Validation
     ↓
-Upload-Ready Submission ZIP
+Canonical Submission ZIP
     ↓
-GitHub Submission
+Contributor Disclosure
+    ↓
+Upload to OpenLLMWorks? [Y/N]
+    ├── N → Preserve ZIP / Manual GitHub Fallback
+    ↓ Y
+HTTPS Submission API
+    ↓
+Private Incoming R2 Storage
+    ↓
+Submission ID
     ↓
 Maintainer Validation
     ↓
@@ -1223,9 +1249,12 @@ OpenLLMWorks.com
 Contributors do not need to understand Python, repository internals, or manual
 benchmark setup.
 
-The path is technically proven internally.
+The direct-submission path is technically proven internally through production
+private ingestion.
 
-External contributor usability is the next validation target.
+Authoritative server-side validation is the next engineering boundary.
+
+External contributor usability remains an upcoming beta gate.
 
 ------------------------------------------------------------------------
 
@@ -1266,19 +1295,155 @@ or community capability is complete.
 
 ------------------------------------------------------------------------
 
-# Weekend 17 - External Beta & Stabilization
+# ✅ Weekend 17 - Direct Submission MVP
 
-**Status:** Next
-
-Weekend 17 should be driven primarily by evidence from external contributors
-rather than speculative internal feature work.
-
-## Sprint 1 - First External Contributor
+**Status:** Direct Submission MVP Complete / Production E2E PASS
 
 ### Objective
 
-Prove that someone outside the OpenLLMWorks development environment can
-complete the public contributor journey.
+Remove the GitHub account and GitHub Issue workflow as a requirement for the
+primary contributor experience while preserving the canonical submission
+format and maintainer trust boundary.
+
+### Delivered
+
+- Direct-submission architecture and documentation
+- Explicit contributor disclosure and `[Y/N]` consent
+- `runner/submission_client.py`
+- Raw canonical ZIP upload over HTTPS
+- Production endpoint at `api.openllmworks.com/v1/submissions`
+- Dedicated `openllmworks-submissions` Cloudflare Worker
+- Private `openllmworks-submissions` R2 bucket
+- `incoming/sub_<uuid>.zip` intake convention
+- `received` status semantics
+- Traceable submission IDs
+- Upload timeout and network-error handling
+- Local ZIP preservation
+- Manual GitHub submission retained as a fallback
+- Production API method and media-type validation
+- Production transport testing
+- Fresh standalone Runner build
+- Bench-001 full production acceptance run
+- Matching production R2 object verification
+
+### Proven Production Path
+
+```text
+OpenLLMWorks Runner
+    ↓
+Three Benchmark Runs
+    ↓
+Canonical Local Validation
+    ↓
+Canonical Submission ZIP
+    ↓
+Contributor Disclosure
+    ↓
+Upload to OpenLLMWorks? [Y/N]
+    ↓ Y
+HTTPS Submission API
+    ↓
+openllmworks-submissions Worker
+    ↓
+Private R2 incoming/
+    ↓
+sub_<uuid>
+```
+
+The Bench-001 acceptance run completed this path successfully using the
+standalone Runner.
+
+The local ZIP was preserved after upload.
+
+### Important Boundary
+
+Weekend 17 proves production transport and private ingestion.
+
+It does **not** yet prove authoritative server-side canonical validation.
+
+Current Stage 1 behavior is:
+
+```text
+Runner canonical validation
+    ↓
+HTTPS transport
+    ↓
+Private incoming storage
+    ↓
+Status: received
+```
+
+A successfully received package has not automatically been accepted into the
+canonical Open LLM Benchmark Database.
+
+### Outcome
+
+The primary contributor path no longer needs to depend on GitHub Issues.
+
+The next engineering priority is to harden the intake boundary before treating
+direct submission as a mature automated ingestion system.
+
+------------------------------------------------------------------------
+
+# 🟡 Direct Submission Stage 2 - Hardening & Intake
+
+**Status:** Next
+
+### Objective
+
+Turn the proven Direct Submission MVP into a trustworthy and maintainable
+production intake system without weakening the existing canonical validation
+or maintainer-controlled import model.
+
+### Priority Work
+
+- Authoritative server-side validation
+- Malformed ZIP and canonical-format rejection
+- Duplicate and idempotency handling
+- Submission size and resource limits
+- Security and abuse controls
+- Rate-limit policy
+- Maintainer intake workflow
+- Submission lifecycle/status handling
+- Controlled publication integration
+- Contributor and maintainer documentation
+- End-to-end regression after hardening
+
+### Validation Principle
+
+The existing Python canonical validator should remain the source of truth for
+benchmark validity.
+
+The Cloudflare ingestion Worker should not independently reinvent OLBD Protocol
+v1.0 validation rules in JavaScript simply for convenience.
+
+The desired architecture is:
+
+```text
+Incoming Submission
+    ↓
+Authoritative Canonical Validation
+    ├── Invalid → Reject / Quarantine / Reason
+    ↓ Valid
+Maintainer Intake
+    ↓
+Controlled Import
+    ↓
+Canonical Database
+    ↓
+Publisher
+    ↓
+OpenLLMWorks.com
+```
+
+------------------------------------------------------------------------
+
+# ⚪ External Contributor Validation
+
+**Status:** Upcoming Beta Gate
+
+After the direct-submission intake boundary is sufficiently hardened, validate
+the contributor experience with someone outside the development environment.
 
 Preferred test:
 
@@ -1287,9 +1452,7 @@ Discover OpenLLMWorks.com
     ↓
 Understand Project
     ↓
-Find Runner
-    ↓
-Download Public Release
+Find / Download Runner
     ↓
 Navigate Windows Trust / SmartScreen
     ↓
@@ -1299,96 +1462,28 @@ Provision Assets
     ↓
 Complete Three Runs
     ↓
-Locate Submission ZIP
+Review Submission Disclosure
     ↓
-Follow GitHub Submission Workflow
+Select Y
     ↓
-Submit Result
+Receive Submission ID
     ↓
-Maintainer Validation / Import
+Maintainer / Server Validation
     ↓
 Result Appears on Website
 ```
 
-### Observe
-
-- Project-purpose clarity
-- Runner discoverability
-- Download clarity
-- SmartScreen friction
-- Provisioning clarity
-- Benchmark progress clarity
-- ZIP discoverability
-- Submission clarity
-- Validation outcome
-- Maintainer repair requirements
+Observe project-purpose clarity, Runner discoverability, SmartScreen friction,
+provisioning clarity, benchmark progress, consent clarity, upload trust,
+submission-ID usefulness, validation outcome, and any maintainer repair
+requirements.
 
 Avoid unnecessary coaching.
 
 Confusion is useful beta evidence.
 
-## Sprint 2 - Small External Beta
-
-After the first external contribution succeeds or major blockers are fixed,
-expand carefully to a small group of contributors.
-
-Initial target:
-
-```text
-Approximately 3-5 external systems
-```
-
-The goal is not traffic volume.
-
-The goal is diversity of real contributor behavior.
-
-### Candidate Coverage
-
-- Different NVIDIA generations
-- Different Windows configurations
-- Different driver versions
-- Different levels of technical experience
-- Clean first-run environments
-
-## Sprint 3 - Feedback / Runner Stabilization
-
-Prioritize fixes according to observed external friction.
-
-Potential areas:
-
-- Windows trust guidance
-- First-run provisioning messaging
-- Benchmark progress
-- Error recovery
-- Result discoverability
-- Submission guidance
-- Release documentation
-- Hardware-detection edge cases
-
-Do not change OLBD Protocol v1.0 to solve presentation or onboarding issues.
-
-Protocol changes require benchmark-methodology justification.
-
-## Sprint 4 - External Result Publication
-
-Validate the full community loop:
-
-```text
-External Contributor
-    ↓
-Submission
-    ↓
-Maintainer Validation
-    ↓
-Canonical Import
-    ↓
-Publisher
-    ↓
-OpenLLMWorks.com
-```
-
-The first externally generated result appearing in the canonical database and
-public website will represent an important project milestone.
+After the first successful external contribution or resolution of major
+blockers, expand carefully to approximately 3-5 external systems.
 
 ------------------------------------------------------------------------
 
@@ -1494,8 +1589,8 @@ Neither replaces the other.
 
 Windows + NVIDIA remains the first supported public path.
 
-The next major accelerator family should be evaluated only after the NVIDIA
-contributor path is externally validated.
+The next major accelerator family remains planned after the direct-submission
+trust boundary and initial external contributor path are sufficiently stable.
 
 Potential expansion:
 
@@ -1669,6 +1764,7 @@ Future beta releases should be justified by meaningful changes such as:
 - Important UX improvements
 - Hardware compatibility fixes
 - Distribution improvements
+- Direct-submission improvements
 - Security or integrity fixes
 
 Avoid unnecessary version churn during early external testing.
@@ -1691,8 +1787,9 @@ OpenLLMWorks should demonstrate:
 
 - External contributors can find the Runner
 - External contributors can run it successfully
-- External submissions pass validation
-- Maintainer ingestion works without manual reconstruction
+- External contributors can understand and use direct submission
+- External submissions pass authoritative validation
+- Maintainer intake works without manual reconstruction
 - External results can be published
 - Contributor friction is observable and fixable
 - Dataset breadth begins increasing
@@ -1704,30 +1801,20 @@ OpenLLMWorks should demonstrate:
 
 # Current Critical Path
 
-The old critical path was:
-
-```text
-Release / Distribution
-    ↓
-Contributor Documentation
-    ↓
-Beta Candidate
-    ↓
-Website Integration
-    ↓
-Launch Readiness
-    ↓
-Public Beta
-```
-
-That path is complete.
+The launch critical path is complete.
 
 The current critical path is:
 
 ```text
 PUBLIC BETA
     ↓
-First External Contributor
+Direct Submission MVP                     E2E PASS
+    ↓
+Authoritative Server Validation            NEXT
+    ↓
+Maintainer Intake Hardening
+    ↓
+External Contributor Validation
     ↓
 First External Result Published
     ↓
@@ -1746,16 +1833,19 @@ Accelerator Expansion
 
 The largest near-term risks are now:
 
+- server-side validation correctness
+- malformed or abusive submission handling
+- duplicate/idempotency behavior
+- maintainer intake friction
 - external contributor friction
 - Windows trust expectations
 - documentation clarity
 - unknown external-machine edge cases
 - early dataset breadth
-- submission friction
 
-Distribution, website launch, public naming, managed provisioning, submission
-trust, maintainer ingestion, hardware discovery, and comparison are no longer
-primary launch blockers.
+Distribution, website launch, public naming, managed provisioning, basic direct
+submission transport, hardware discovery, and comparison are no longer primary
+launch blockers.
 
 ------------------------------------------------------------------------
 
@@ -1815,7 +1905,12 @@ Runner v0.3.0-beta.1                    LIVE
 OpenLLMWorks.com                        LIVE
 Public Beta                             LIVE
 Analytics Baseline                      LIVE
-First External Contributor              NEXT
+Direct Submission MVP                   E2E PASS
+api.openllmworks.com                    LIVE
+Private Submission Intake               PROVEN
+Server-Side Canonical Validation         NEXT
+Maintainer Intake Hardening              NEXT
+External Contributor Validation          UPCOMING
 Small External Beta                     UPCOMING
 Dataset Growth                          ACTIVE / EARLY
 AMD Expansion                           PLANNED
@@ -1824,8 +1919,8 @@ Platform                                FUTURE
 Research Platform                       VISION
 ```
 
-The project has crossed the launch boundary.
+The project has crossed both the public-launch boundary and the first
+direct-submission transport boundary.
 
-The next phase is not about proving that OpenLLMWorks can be built.
-
-It is about proving that OpenLLMWorks can be used.
+The next phase is about making the production intake path trustworthy,
+maintainable, and externally usable.
