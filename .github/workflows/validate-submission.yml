@@ -7,6 +7,11 @@ on:
         description: "Submission ID to validate (example: sub_6153889a-d98d-43a3-888d-d9a31b4094ce)"
         required: true
         type: string
+      test_rejection:
+        description: "Test rejection path by removing cpu.txt from the temporary extracted copy"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -176,6 +181,7 @@ jobs:
           PY
 
       - name: Run canonical submission validation
+        if: ${{ !inputs.test_rejection }}
         env:
           SUBMISSION_DIR: ${{ steps.extract.outputs.submission_dir }}
         run: |
@@ -186,6 +192,7 @@ jobs:
           python -m parser.validate "$SUBMISSION_DIR"
 
       - name: Validation passed
+        if: ${{ !inputs.test_rejection }}
         env:
           SUBMISSION_ID: ${{ inputs.submission_id }}
         run: |
@@ -194,3 +201,60 @@ jobs:
           echo "Submission: $SUBMISSION_ID"
           echo
           echo "No R2 objects were modified or moved."
+
+      - name: Prepare rejection-path test
+        if: ${{ inputs.test_rejection }}
+        env:
+          SUBMISSION_DIR: ${{ steps.extract.outputs.submission_dir }}
+        run: |
+          echo "Preparing rejection-path test."
+          echo "R2 object remains untouched."
+          echo
+
+          test -f "$SUBMISSION_DIR/cpu.txt"
+          rm "$SUBMISSION_DIR/cpu.txt"
+
+          if [[ -f "$SUBMISSION_DIR/cpu.txt" ]]; then
+            echo "Failed to remove cpu.txt from temporary test copy."
+            exit 1
+          fi
+
+          echo "Removed cpu.txt from temporary extracted copy."
+
+      - name: Verify canonical validator rejects invalid submission
+        if: ${{ inputs.test_rejection }}
+        env:
+          SUBMISSION_DIR: ${{ steps.extract.outputs.submission_dir }}
+        run: |
+          echo "Running canonical validator against intentionally invalid temporary copy..."
+          echo
+
+          set +e
+          python -m parser.validate "$SUBMISSION_DIR"
+          VALIDATION_EXIT_CODE=$?
+          set -e
+
+          echo
+          echo "Validator exit code: $VALIDATION_EXIT_CODE"
+
+          if [[ "$VALIDATION_EXIT_CODE" -eq 0 ]]; then
+            echo "ERROR: Canonical validator unexpectedly accepted the invalid submission."
+            exit 1
+          fi
+
+          echo
+          echo "Canonical validator correctly REJECTED the invalid submission."
+
+      - name: Rejection-path test passed
+        if: ${{ inputs.test_rejection }}
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          echo
+          echo "OpenLLMWorks rejection-path test PASSED."
+          echo "Submission: $SUBMISSION_ID"
+          echo "Temporary mutation: cpu.txt removed"
+          echo "Expected result: REJECT"
+          echo "Observed result: REJECT"
+          echo
+          echo "The production R2 object was not modified or moved."
