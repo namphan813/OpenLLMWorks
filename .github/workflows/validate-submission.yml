@@ -1,7 +1,13 @@
-﻿name: Validate Incoming Submission
+﻿@'
+name: Validate Incoming Submission
 
 on:
   workflow_dispatch:
+    inputs:
+      submission_id:
+        description: "Submission ID to validate (example: sub_6153889a-d98d-43a3-888d-d9a31b4094ce)"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -16,6 +22,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: auto
       R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+      R2_BUCKET: openllmworks-submissions
 
     steps:
       - name: Check out repository
@@ -40,9 +47,152 @@ jobs:
         run: |
           aws --version
 
-      - name: Verify read-only R2 connectivity
+      - name: Validate submission ID
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
         run: |
-          echo "Checking OpenLLMWorks incoming submission storage..."
-          aws s3 ls s3://openllmworks-submissions/incoming/ \
+          if [[ ! "$SUBMISSION_ID" =~ ^sub_[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ]]; then
+            echo "Invalid submission ID: $SUBMISSION_ID"
+            exit 1
+          fi
+
+          echo "Submission ID accepted: $SUBMISSION_ID"
+
+      - name: Download submission from R2
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          mkdir -p validation_work
+
+          aws s3 cp \
+            "s3://$R2_BUCKET/incoming/$SUBMISSION_ID.zip" \
+            "validation_work/submission.zip" \
             --endpoint-url "$R2_ENDPOINT"
-          echo "R2 incoming storage is reachable."
+
+          test -s validation_work/submission.zip
+          echo "Submission ZIP downloaded successfully."
+
+      - name: Safely inspect and extract submission
+        id: extract
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+
+          import os
+          import stat
+          import zipfile
+          from pathlib import Path, PurePosixPath
+
+          archive_path = Path("validation_work/submission.zip")
+          extract_root = Path("validation_work/extracted").resolve()
+
+          MAX_ARCHIVE_BYTES = 10 * 1024 * 1024
+          MAX_UNCOMPRESSED_BYTES = 25 * 1024 * 1024
+          MAX_FILE_COUNT = 100
+
+          archive_size = archive_path.stat().st_size
+
+          if archive_size <= 0:
+              raise SystemExit("Submission ZIP is empty.")
+
+          if archive_size > MAX_ARCHIVE_BYTES:
+              raise SystemExit(
+                  f"Submission ZIP exceeds {MAX_ARCHIVE_BYTES} byte archive limit."
+              )
+
+          extract_root.mkdir(parents=True, exist_ok=True)
+
+          with zipfile.ZipFile(archive_path, "r") as archive:
+              members = archive.infolist()
+
+              if not members:
+                  raise SystemExit("Submission ZIP contains no files.")
+
+              if len(members) > MAX_FILE_COUNT:
+                  raise SystemExit(
+                      f"Submission ZIP contains too many entries: {len(members)}."
+                  )
+
+              total_uncompressed = sum(member.file_size for member in members)
+
+              if total_uncompressed > MAX_UNCOMPRESSED_BYTES:
+                  raise SystemExit(
+                      "Submission ZIP exceeds the allowed uncompressed size."
+                  )
+
+              for member in members:
+                  normalized_name = member.filename.replace("\\", "/")
+                  member_path = PurePosixPath(normalized_name)
+
+                  if member_path.is_absolute():
+                      raise SystemExit(
+                          f"Unsafe absolute archive path: {member.filename}"
+                      )
+
+                  if ".." in member_path.parts:
+                      raise SystemExit(
+                          f"Unsafe parent traversal path: {member.filename}"
+                      )
+
+                  if member_path.parts and ":" in member_path.parts[0]:
+                      raise SystemExit(
+                          f"Unsafe drive-qualified path: {member.filename}"
+                      )
+
+                  unix_mode = member.external_attr >> 16
+                  if stat.S_ISLNK(unix_mode):
+                      raise SystemExit(
+                          f"Symbolic links are not allowed: {member.filename}"
+                      )
+
+                  destination = (extract_root / Path(*member_path.parts)).resolve()
+
+                  try:
+                      destination.relative_to(extract_root)
+                  except ValueError:
+                      raise SystemExit(
+                          f"Archive path escapes extraction root: {member.filename}"
+                      )
+
+              archive.extractall(extract_root)
+
+          manifests = list(extract_root.rglob("submission.json"))
+
+          if len(manifests) != 1:
+              raise SystemExit(
+                  "Expected exactly one submission.json after extraction; "
+                  f"found {len(manifests)}."
+              )
+
+          submission_dir = manifests[0].parent.resolve()
+
+          print(f"Archive size: {archive_size} bytes")
+          print(f"Uncompressed size: {total_uncompressed} bytes")
+          print(f"Archive entries: {len(members)}")
+          print(f"Submission directory: {submission_dir}")
+
+          github_output = os.environ["GITHUB_OUTPUT"]
+          with open(github_output, "a", encoding="utf-8") as output:
+              print(f"submission_dir={submission_dir}", file=output)
+          PY
+
+      - name: Run canonical submission validation
+        env:
+          SUBMISSION_DIR: ${{ steps.extract.outputs.submission_dir }}
+        run: |
+          echo "Running canonical validation against:"
+          echo "$SUBMISSION_DIR"
+          echo
+
+          python -m parser.validate "$SUBMISSION_DIR"
+
+      - name: Validation passed
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          echo
+          echo "OpenLLMWorks canonical validation PASSED."
+          echo "Submission: $SUBMISSION_ID"
+          echo
+          echo "No R2 objects were modified or moved."
+'@ | Set-Content -Encoding UTF8 ".github\workflows\validate-submission.yml"
