@@ -1,7 +1,7 @@
 function Hero() {
     function openRunnerRelease() {
         window.location.href =
-            "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.3.0-beta.1";
+            "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.4.0-beta.1";
     }
 
     return (

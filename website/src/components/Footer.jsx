@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const GITHUB_URL = "https://github.com/namphan813/OpenLLMWorks";
 const RUNNER_URL =
-    "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.3.0-beta.1";
+    "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.4.0-beta.1";
 const ISSUES_URL =
     "https://github.com/namphan813/OpenLLMWorks/issues";
 const SUBMIT_URL =
