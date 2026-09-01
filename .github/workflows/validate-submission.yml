@@ -1,5 +1,4 @@
-﻿@'
-name: Validate Incoming Submission
+﻿name: Validate Incoming Submission
 
 on:
   workflow_dispatch:
@@ -195,4 +194,3 @@ jobs:
           echo "Submission: $SUBMISSION_ID"
           echo
           echo "No R2 objects were modified or moved."
-'@ | Set-Content -Encoding UTF8 ".github\workflows\validate-submission.yml"
