@@ -3,7 +3,7 @@
         "name": "OpenLLMWorks Publisher",
         "version": "0.2"
     },
-    "generatedAt": "2026-08-28T02:21:53.976207+00:00",
+    "generatedAt": "2026-09-01T06:06:01.406898+00:00",
     "source": {
         "database": "benchmark_database.json",
         "statisticsVersion": "0.7.0-dev1"
