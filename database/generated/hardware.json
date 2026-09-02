@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-08-28T02:21:53.979543+00:00",
+    "generatedAt": "2026-09-01T06:06:01.418166+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
-        "gpuVariants": 9,
-        "benchmarkResults": 10
+        "gpuVariants": 10,
+        "benchmarkResults": 11
     },
     "hardware": [
         {
@@ -189,6 +189,48 @@
                     "driverVersion": "610.88",
                     "cudaUmdVersion": "13.3",
                     "nvidiaSmiVersion": "610.88"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-gtx-970-4gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 970",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 970",
+                "vramGib": 4.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 331.15,
+                "averageTg128": 28.76,
+                "bestPp512": 331.15,
+                "worstPp512": 331.15
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Bench-001-NVIDIA-GeForce-GTX-970-20260831-234706",
+                    "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+                    "pp512": 331.15,
+                    "tg128": 28.76,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 4.0,
+                    "driverVersion": "582.66",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "582.66"
                 }
             ]
         },

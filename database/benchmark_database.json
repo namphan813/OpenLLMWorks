@@ -3,8 +3,8 @@
   "schema_version": "0.7",
   "parser_version": "0.6.0-dev5",
   "created_at": "2026-08-02T14:17:33+00:00",
-  "generated_at": "2026-08-23T20:41:54+00:00",
-  "result_count": 10,
+  "generated_at": "2026-09-01T06:06:01+00:00",
+  "result_count": 11,
   "results": [
     {
       "result_id": "result_0200fb0ee70bb08a",
@@ -464,6 +464,122 @@
         "imported_at": "2026-08-09T15:23:48+00:00",
         "last_updated": "2026-08-09T15:59:42+00:00",
         "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_8e055302f50da311",
+      "submission": {
+        "submission_name": "Bench-001-NVIDIA-GeForce-GTX-970-20260831-234706",
+        "source_path": "C:\\Users\\namph\\OneDrive\\Documents\\OpenLLMBench\\incoming\\Bench-001-NVIDIA-GeForce-GTX-970-20260831-234706",
+        "source_type": "direct_submission",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-09-01T05:48:09+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "Gigabyte Technology Co., Ltd.",
+          "model": "Z390 UD",
+          "generic_firmware_identity": false
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+          "physical_cores": 6,
+          "logical_processors": 6
+        },
+        "memory": {
+          "reported_bytes": 17017065472,
+          "calculated_gib": 15.85,
+          "installed_capacity_gb": 16
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 970",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": "582.66",
+            "driver_version": "582.66",
+            "cuda_umd_version": "13.0"
+          }
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-09-01T05:47:11+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 332.05,
+            "tg128": 28.75
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 330.67,
+            "tg128": 28.75
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 330.72,
+            "tg128": 28.78
+          }
+        ],
+        "average": {
+          "pp512": 331.15,
+          "tg128": 28.76
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev5",
+        "database_module_version": "0.8.0-dev5",
+        "schema_version": "0.7",
+        "processed_at": "2026-09-01T06:06:01+00:00",
+        "imported_at": "2026-09-01T06:06:01+00:00",
+        "last_updated": "2026-09-01T06:06:01+00:00"
       }
     },
     {
@@ -1614,6 +1730,13 @@
       "imported_at": "2026-08-23T20:41:54+00:00",
       "result_id": "result_aa7c3907e6d0e94a",
       "submission_name": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-09-01T06:06:01+00:00",
+      "imported_at": "2026-09-01T06:06:01+00:00",
+      "result_id": "result_8e055302f50da311",
+      "submission_name": "Bench-001-NVIDIA-GeForce-GTX-970-20260831-234706",
       "status": "added"
     }
   ],
