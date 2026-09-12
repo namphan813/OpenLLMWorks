@@ -1,5 +1,10 @@
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
+const GITHUB_OWNER = "namphan813";
+const GITHUB_REPOSITORY = "OpenLLMWorks";
+const GITHUB_WORKFLOW = "validate-submission.yml";
+const GITHUB_REF = "main";
+
 function jsonResponse(body, status = 200, extraHeaders = {}) {
 	return new Response(JSON.stringify(body, null, 2), {
 		status,
@@ -14,8 +19,78 @@ function createSubmissionId() {
 	return `sub_${crypto.randomUUID()}`;
 }
 
+async function triggerValidation(submissionId, env) {
+	if (!env.GITHUB_ACTIONS_TOKEN) {
+		console.warn(
+			"Automatic validation was not triggered because " +
+				"GITHUB_ACTIONS_TOKEN is not configured.",
+			{
+				submissionId,
+			},
+		);
+
+		return;
+	}
+
+	const workflowUrl =
+		`https://api.github.com/repos/${GITHUB_OWNER}/` +
+		`${GITHUB_REPOSITORY}/actions/workflows/` +
+		`${GITHUB_WORKFLOW}/dispatches`;
+
+	try {
+		const response = await fetch(workflowUrl, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${env.GITHUB_ACTIONS_TOKEN}`,
+				Accept: "application/vnd.github+json",
+				"Content-Type": "application/json",
+				"User-Agent": "OpenLLMWorks-Submission-Worker",
+				"X-GitHub-Api-Version": "2022-11-28",
+			},
+			body: JSON.stringify({
+				ref: GITHUB_REF,
+				inputs: {
+					submission_id: submissionId,
+					test_rejection: "false",
+				},
+			}),
+		});
+
+		if (!response.ok) {
+			const responseText = await response.text();
+
+			console.error(
+				"Automatic validation trigger failed.",
+				{
+					submissionId,
+					status: response.status,
+					statusText: response.statusText,
+					responseBody: responseText,
+				},
+			);
+
+			return;
+		}
+
+		console.log(
+			"Automatic validation requested.",
+			{
+				submissionId,
+			},
+		);
+	} catch (error) {
+		console.error(
+			"Automatic validation trigger encountered an error.",
+			{
+				submissionId,
+				error,
+			},
+		);
+	}
+}
+
 export default {
-	async fetch(request, env) {
+	async fetch(request, env, ctx) {
 		const url = new URL(request.url);
 
 		if (url.pathname !== "/v1/submissions") {
@@ -132,6 +207,13 @@ export default {
 				500,
 			);
 		}
+
+		ctx.waitUntil(
+			triggerValidation(
+				submissionId,
+				env,
+			),
+		);
 
 		return jsonResponse(
 			{
