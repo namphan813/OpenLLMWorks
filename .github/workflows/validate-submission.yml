@@ -63,6 +63,22 @@ jobs:
 
           echo "Submission ID accepted: $SUBMISSION_ID"
 
+      - name: Record validation started
+        if: ${{ !inputs.test_rejection }}
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+          VALIDATION_CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
+        run: |
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $VALIDATION_CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{"status":"validating"}' \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/validation"
+
       - name: Download submission from R2
         env:
           SUBMISSION_ID: ${{ inputs.submission_id }}
@@ -144,6 +160,38 @@ jobs:
           echo "Submission: $SUBMISSION_ID"
           echo
           echo "No R2 objects were modified or moved."
+
+      - name: Record validation passed
+        if: ${{ success() && !inputs.test_rejection }}
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+          VALIDATION_CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
+        run: |
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $VALIDATION_CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{"status":"validated","validation_status":"passed"}' \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/validation"
+
+      - name: Record validation failed
+        if: ${{ failure() && !inputs.test_rejection }}
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+          VALIDATION_CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
+        run: |
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $VALIDATION_CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{"status":"rejected","validation_error":"Validation workflow failed. Inspect the corresponding GitHub Actions run for details."}' \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/validation"
 
       - name: Prepare rejection-path test
         if: ${{ inputs.test_rejection }}
