@@ -18,6 +18,21 @@ function jsonResponse(body, status = 200, extraHeaders = {}) {
 	});
 }
 
+function adminCorsHeaders(request) {
+        const origin = request.headers.get("Origin");
+
+        if (origin === "http://localhost:5173") {
+                return {
+                        "Access-Control-Allow-Origin": origin,
+                        "Access-Control-Allow-Headers": "Authorization, Content-Type",
+                        "Access-Control-Allow-Methods": "GET, OPTIONS",
+                        "Vary": "Origin",
+                };
+        }
+
+        return {};
+}
+
 function createSubmissionId() {
 	return `sub_${crypto.randomUUID()}`;
 }
@@ -742,12 +757,41 @@ export default {
 			);
 		}
 
-		if (url.pathname === "/v1/admin/submissions") {
-			return handleAdminSubmissions(
-				request,
-				env,
-			);
-		}
+                if (url.pathname === "/v1/admin/submissions") {
+                        const corsHeaders = adminCorsHeaders(request);
+
+                        if (request.method === "OPTIONS") {
+                                return new Response(null, {
+                                        status: 204,
+                                        headers: corsHeaders,
+                                });
+                        }
+
+                        const response =
+                                await handleAdminSubmissions(
+                                        request,
+                                        env,
+                                );
+
+                        const headers =
+                                new Headers(response.headers);
+
+                        for (
+                                const [name, value] of
+                                        Object.entries(corsHeaders)
+                        ) {
+                                headers.set(name, value);
+                        }
+
+                        return new Response(
+                                response.body,
+                                {
+                                        status: response.status,
+                                        statusText: response.statusText,
+                                        headers,
+                                },
+                        );
+                }
 
         const pathParts = url.pathname.split("/");
 
