@@ -1,4 +1,4 @@
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+﻿const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 const GITHUB_OWNER = "namphan813";
 const GITHUB_REPOSITORY = "OpenLLMWorks";
@@ -17,6 +17,97 @@ function jsonResponse(body, status = 200, extraHeaders = {}) {
 
 function createSubmissionId() {
 	return `sub_${crypto.randomUUID()}`;
+}
+
+async function recordSubmissionReceived(
+	submissionId,
+	objectKey,
+	env,
+) {
+	if (!env.OPERATIONS_DB) {
+		console.warn(
+			"Submission operations state was not recorded because " +
+				"OPERATIONS_DB is not configured.",
+			{
+				submissionId,
+				objectKey,
+			},
+		);
+
+		return false;
+	}
+
+	const receivedAt =
+		new Date().toISOString();
+
+	const eventDetails =
+		JSON.stringify({
+			object_key: objectKey,
+			source: "direct_submission",
+		});
+
+	try {
+		await env.OPERATIONS_DB.batch([
+			env.OPERATIONS_DB
+				.prepare(
+					`
+					INSERT INTO submissions (
+						submission_id,
+						status,
+						object_key,
+						received_at,
+						updated_at
+					)
+					VALUES (?, 'received', ?, ?, ?)
+					`,
+				)
+				.bind(
+					submissionId,
+					objectKey,
+					receivedAt,
+					receivedAt,
+				),
+
+			env.OPERATIONS_DB
+				.prepare(
+					`
+					INSERT INTO submission_events (
+						submission_id,
+						event_type,
+						actor,
+						details
+					)
+					VALUES (?, 'received', 'submission_worker', ?)
+					`,
+				)
+				.bind(
+					submissionId,
+					eventDetails,
+				),
+		]);
+
+		console.log(
+			"Submission operations state recorded.",
+			{
+				submissionId,
+				status: "received",
+				objectKey,
+			},
+		);
+
+		return true;
+	} catch (error) {
+		console.error(
+			"Submission operations state recording failed.",
+			{
+				submissionId,
+				objectKey,
+				error,
+			},
+		);
+
+		return false;
+	}
 }
 
 async function triggerValidation(submissionId, env) {
@@ -57,15 +148,18 @@ async function triggerValidation(submissionId, env) {
 		});
 
 		if (!response.ok) {
-			const responseText = await response.text();
+			const responseText =
+				await response.text();
 
 			console.error(
 				"Automatic validation trigger failed.",
 				{
 					submissionId,
 					status: response.status,
-					statusText: response.statusText,
-					responseBody: responseText,
+					statusText:
+						response.statusText,
+					responseBody:
+						responseText,
 				},
 			);
 
@@ -91,13 +185,15 @@ async function triggerValidation(submissionId, env) {
 
 export default {
 	async fetch(request, env, ctx) {
-		const url = new URL(request.url);
+		const url =
+			new URL(request.url);
 
 		if (url.pathname !== "/v1/submissions") {
 			return jsonResponse(
 				{
 					error: "not_found",
-					message: "The requested endpoint does not exist.",
+					message:
+						"The requested endpoint does not exist.",
 				},
 				404,
 			);
@@ -107,7 +203,8 @@ export default {
 			return jsonResponse(
 				{
 					error: "method_not_allowed",
-					message: "This endpoint accepts POST requests only.",
+					message:
+						"This endpoint accepts POST requests only.",
 				},
 				405,
 				{
@@ -116,32 +213,40 @@ export default {
 			);
 		}
 
-		const contentType = request.headers.get("Content-Type");
+		const contentType =
+			request.headers.get("Content-Type");
 
 		if (contentType !== "application/zip") {
 			return jsonResponse(
 				{
-					error: "unsupported_media_type",
-					message: "Submission uploads must use application/zip.",
+					error:
+						"unsupported_media_type",
+					message:
+						"Submission uploads must use application/zip.",
 				},
 				415,
 			);
 		}
 
 		const contentLengthHeader =
-			request.headers.get("Content-Length");
+			request.headers.get(
+				"Content-Length",
+			);
 
 		if (contentLengthHeader !== null) {
 			const contentLength =
 				Number(contentLengthHeader);
 
 			if (
-				!Number.isFinite(contentLength) ||
+				!Number.isFinite(
+					contentLength,
+				) ||
 				contentLength <= 0
 			) {
 				return jsonResponse(
 					{
-						error: "invalid_request",
+						error:
+							"invalid_request",
 						message:
 							"The submission upload has an invalid Content-Length.",
 					},
@@ -149,10 +254,14 @@ export default {
 				);
 			}
 
-			if (contentLength > MAX_UPLOAD_BYTES) {
+			if (
+				contentLength >
+				MAX_UPLOAD_BYTES
+			) {
 				return jsonResponse(
 					{
-						error: "payload_too_large",
+						error:
+							"payload_too_large",
 						message:
 							"The submission ZIP exceeds the maximum allowed size.",
 					},
@@ -165,7 +274,8 @@ export default {
 			return jsonResponse(
 				{
 					error: "invalid_request",
-					message: "The submission upload is empty.",
+					message:
+						"The submission upload is empty.",
 				},
 				400,
 			);
@@ -207,6 +317,12 @@ export default {
 				500,
 			);
 		}
+
+		await recordSubmissionReceived(
+			submissionId,
+			objectKey,
+			env,
+		);
 
 		ctx.waitUntil(
 			triggerValidation(
