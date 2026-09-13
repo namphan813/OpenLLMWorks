@@ -3,17 +3,21 @@
 	"name": "openllmworks-submissions",
 	"main": "src/index.js",
 	"compatibility_date": "2026-08-25",
-
 	"observability": {
 		"enabled": true
 	},
-
 	"upload_source_maps": true,
-
 	"r2_buckets": [
 		{
 			"binding": "SUBMISSIONS_BUCKET",
 			"bucket_name": "openllmworks-submissions"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "OPERATIONS_DB",
+			"database_name": "openllmworks-operations",
+			"database_id": "2feaba71-25ec-46a0-ae74-e961adc64569"
 		}
 	]
 }
