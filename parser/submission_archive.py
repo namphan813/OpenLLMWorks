@@ -40,14 +40,22 @@ class SubmissionArchiveResult:
     entry_count: int
 
 
+def _normalized_member_path(
+    member: zipfile.ZipInfo,
+) -> PurePosixPath:
+    """Return a platform-neutral ZIP member path."""
+
+    normalized_name = member.filename.replace("\\", "/")
+    return PurePosixPath(normalized_name)
+
+
 def _validate_member_path(
     member: zipfile.ZipInfo,
     extract_root: Path,
 ) -> None:
     """Validate one ZIP member before extraction."""
 
-    normalized_name = member.filename.replace("\\", "/")
-    member_path = PurePosixPath(normalized_name)
+    member_path = _normalized_member_path(member)
 
     if member_path.is_absolute():
         raise SubmissionArchiveError(
@@ -82,6 +90,46 @@ def _validate_member_path(
         raise SubmissionArchiveError(
             f"Archive path escapes extraction root: {member.filename}"
         ) from error
+
+
+def _extract_member(
+    archive: zipfile.ZipFile,
+    member: zipfile.ZipInfo,
+    extract_root: Path,
+) -> None:
+    """
+    Extract one ZIP member using its normalized platform-neutral path.
+
+    ZIP archives created on Windows may contain backslashes in member
+    names. Those separators must be normalized explicitly so extraction
+    produces the same directory structure on Windows and Linux.
+    """
+
+    member_path = _normalized_member_path(member)
+
+    destination = (
+        extract_root
+        / Path(*member_path.parts)
+    )
+
+    if member.is_dir() or member.filename.endswith(("/", "\\")):
+        destination.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+        return
+
+    destination.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    with archive.open(member, "r") as source:
+        with destination.open("wb") as target:
+            shutil.copyfileobj(
+                source,
+                target,
+            )
 
 
 def extract_submission_archive(
@@ -166,7 +214,12 @@ def extract_submission_archive(
                 exist_ok=False,
             )
 
-            archive.extractall(extract_root)
+            for member in members:
+                _extract_member(
+                    archive,
+                    member,
+                    extract_root,
+                )
 
     except zipfile.BadZipFile as error:
         if extract_root.exists():
