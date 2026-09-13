@@ -464,6 +464,139 @@ async function handleValidationCallback(
 	);
 }
 
+async function handleAdminSubmissions(
+        request,
+        env,
+) {
+        if (request.method !== "GET") {
+                return jsonResponse(
+                        {
+                                error: "method_not_allowed",
+                                message: "This endpoint accepts GET requests only.",
+                        },
+                        405,
+                        {
+                                Allow: "GET",
+                        },
+                );
+        }
+
+        if (!env.ADMIN_API_TOKEN) {
+                console.error(
+                        "ADMIN_API_TOKEN is not configured.",
+                );
+
+                return jsonResponse(
+                        {
+                                error: "server_configuration_error",
+                                message:
+                                        "Control Room authentication is unavailable.",
+                        },
+                        500,
+                );
+        }
+
+        const authorization =
+                request.headers.get("Authorization");
+
+        const expectedAuthorization =
+                `Bearer ${env.ADMIN_API_TOKEN}`;
+
+        if (authorization !== expectedAuthorization) {
+                return jsonResponse(
+                        {
+                                error: "unauthorized",
+                                message: "Invalid Control Room credential.",
+                        },
+                        401,
+                );
+        }
+
+        try {
+                const submissionsResult =
+                        await env.OPERATIONS_DB
+                                .prepare(
+                                        `
+                                        SELECT
+                                                submission_id,
+                                                status,
+                                                object_key,
+                                                received_at,
+                                                validation_started_at,
+                                                validated_at,
+                                                validation_status,
+                                                validation_error,
+                                                updated_at
+                                        FROM submissions
+                                        ORDER BY received_at DESC
+                                        LIMIT 100
+                                        `,
+                                )
+                                .all();
+
+                const countsResult =
+                        await env.OPERATIONS_DB
+                                .prepare(
+                                        `
+                                        SELECT
+                                                status,
+                                                COUNT(*) AS count
+                                        FROM submissions
+                                        GROUP BY status
+                                        `,
+                                )
+                                .all();
+
+                const counts = {
+                        total: 0,
+                        received: 0,
+                        validating: 0,
+                        validated: 0,
+                        rejected: 0,
+                };
+
+                for (const row of countsResult.results || []) {
+                        const count = Number(row.count) || 0;
+
+                        counts.total += count;
+
+                        if (
+                                Object.prototype.hasOwnProperty.call(
+                                        counts,
+                                        row.status,
+                                )
+                        ) {
+                                counts[row.status] = count;
+                        }
+                }
+
+                return jsonResponse(
+                        {
+                                counts,
+                                submissions:
+                                        submissionsResult.results || [],
+                        },
+                        200,
+                );
+        } catch (error) {
+                console.error(
+                        "Control Room submissions query failed.",
+                        {
+                                error,
+                        },
+                );
+
+                return jsonResponse(
+                        {
+                                error: "operations_database_error",
+                                message:
+                                        "Control Room submissions could not be loaded.",
+                        },
+                        500,
+                );
+        }
+}
+
 async function handleSubmissionUpload(
 	request,
 	env,
@@ -606,6 +739,13 @@ export default {
 				request,
 				env,
 				ctx,
+			);
+		}
+
+		if (url.pathname === "/v1/admin/submissions") {
+			return handleAdminSubmissions(
+				request,
+				env,
 			);
 		}
 
