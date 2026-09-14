@@ -1,4 +1,8 @@
-import { useEffect, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useState,
+} from "react";
 
 import "./Admin.css";
 
@@ -14,25 +18,20 @@ function formatDate(value) {
 }
 
 function Admin() {
-    const [token, setToken] = useState("");
     const [submissions, setSubmissions] = useState([]);
     const [counts, setCounts] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    async function loadSubmissions() {
-        if (!token.trim()) {
-            setError("Enter the Control Room API token.");
-            return;
-        }
-
+    const loadSubmissions = useCallback(async () => {
         setLoading(true);
         setError("");
 
         try {
             const response = await fetch(API_URL, {
+                credentials: "include",
                 headers: {
-                    Authorization: `Bearer ${token.trim()}`,
+                    Accept: "application/json",
                 },
             });
 
@@ -53,15 +52,17 @@ function Admin() {
         } finally {
             setLoading(false);
         }
-    }
+    }, []);
 
     useEffect(() => {
         document.title = "Control Room | OpenLLMWorks";
 
+        loadSubmissions();
+
         return () => {
             document.title = "OpenLLMWorks";
         };
-    }, []);
+    }, [loadSubmissions]);
 
     return (
         <div className="control-room">
@@ -81,41 +82,31 @@ function Admin() {
 
             {!counts && (
                 <section className="control-room-login">
-                    <h2>Connect to Operations</h2>
+                    <h2>
+                        {loading
+                            ? "Loading Operations"
+                            : "Unable to Load Operations"}
+                    </h2>
 
                     <p>
-                        Enter the temporary Control Room API token
-                        for this local development session.
+                        {loading
+                            ? "Connecting through Cloudflare Access..."
+                            : "The Control Room could not reach the operations API."}
                     </p>
-
-                    <div className="control-room-login-row">
-                        <input
-                            type="password"
-                            value={token}
-                            placeholder="Control Room API token"
-                            onChange={(event) =>
-                                setToken(event.target.value)
-                            }
-                            onKeyDown={(event) => {
-                                if (event.key === "Enter") {
-                                    loadSubmissions();
-                                }
-                            }}
-                        />
-
-                        <button
-                            type="button"
-                            onClick={loadSubmissions}
-                            disabled={loading}
-                        >
-                            {loading ? "Loading..." : "Connect"}
-                        </button>
-                    </div>
 
                     {error && (
                         <p className="control-room-error">
                             {error}
                         </p>
+                    )}
+
+                    {!loading && (
+                        <button
+                            type="button"
+                            onClick={loadSubmissions}
+                        >
+                            Retry
+                        </button>
                     )}
                 </section>
             )}
@@ -163,7 +154,9 @@ function Admin() {
                                 onClick={loadSubmissions}
                                 disabled={loading}
                             >
-                                {loading ? "Refreshing..." : "Refresh"}
+                                {loading
+                                    ? "Refreshing..."
+                                    : "Refresh"}
                             </button>
                         </div>
 
@@ -187,10 +180,16 @@ function Admin() {
 
                                 <tbody>
                                     {submissions.map((submission) => (
-                                        <tr key={submission.submission_id}>
+                                        <tr
+                                            key={
+                                                submission.submission_id
+                                            }
+                                        >
                                             <td>
                                                 <code>
-                                                    {submission.submission_id}
+                                                    {
+                                                        submission.submission_id
+                                                    }
                                                 </code>
                                             </td>
 
@@ -199,8 +198,10 @@ function Admin() {
                                             </td>
 
                                             <td>
-                                                {submission.validation_status ||
-                                                    "—"}
+                                                {
+                                                    submission.validation_status ||
+                                                    "—"
+                                                }
                                             </td>
 
                                             <td>

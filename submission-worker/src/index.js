@@ -21,9 +21,15 @@ function jsonResponse(body, status = 200, extraHeaders = {}) {
 function adminCorsHeaders(request) {
         const origin = request.headers.get("Origin");
 
-        if (origin === "http://localhost:5173") {
+        const allowedOrigins = new Set([
+                "http://localhost:5173",
+                "https://openllmworks.com",
+        ]);
+
+        if (allowedOrigins.has(origin)) {
                 return {
                         "Access-Control-Allow-Origin": origin,
+                        "Access-Control-Allow-Credentials": "true",
                         "Access-Control-Allow-Headers": "Authorization, Content-Type",
                         "Access-Control-Allow-Methods": "GET, OPTIONS",
                         "Vary": "Origin",
