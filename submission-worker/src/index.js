@@ -482,6 +482,7 @@ async function handleValidationCallback(
 async function handleAdminSubmissions(
         request,
         env,
+        ctx,
 ) {
         if (request.method !== "GET") {
                 return jsonResponse(
@@ -496,37 +497,47 @@ async function handleAdminSubmissions(
                 );
         }
 
-        if (!env.ADMIN_API_TOKEN) {
-                console.error(
-                        "ADMIN_API_TOKEN is not configured.",
-                );
+	if (!ctx?.access) {
+		return jsonResponse(
+			{
+				error: "unauthorized",
+				message:
+					"Cloudflare Access authentication is required.",
+			},
+			401,
+		);
+	}
 
-                return jsonResponse(
-                        {
-                                error: "server_configuration_error",
-                                message:
-                                        "Control Room authentication is unavailable.",
-                        },
-                        500,
-                );
-        }
+	try {
+		const identity = await ctx.access.getIdentity();
 
-        const authorization =
-                request.headers.get("Authorization");
+		if (!identity) {
+			return jsonResponse(
+				{
+					error: "unauthorized",
+					message:
+						"Cloudflare Access identity is unavailable.",
+				},
+				401,
+			);
+		}
+	} catch (error) {
+		console.error(
+			"Control Room Access identity check failed.",
+			{
+				error,
+			},
+		);
 
-        const expectedAuthorization =
-                `Bearer ${env.ADMIN_API_TOKEN}`;
-
-        if (authorization !== expectedAuthorization) {
-                return jsonResponse(
-                        {
-                                error: "unauthorized",
-                                message: "Invalid Control Room credential.",
-                        },
-                        401,
-                );
-        }
-
+		return jsonResponse(
+			{
+				error: "unauthorized",
+				message:
+					"Cloudflare Access authentication could not be verified.",
+			},
+			401,
+		);
+	}
         try {
                 const submissionsResult =
                         await env.OPERATIONS_DB
@@ -771,6 +782,7 @@ export default {
                                 await handleAdminSubmissions(
                                         request,
                                         env,
+                                        ctx,
                                 );
 
                         const headers =
