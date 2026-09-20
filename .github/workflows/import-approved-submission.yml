@@ -9,7 +9,8 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   prepare-approved-submission:
@@ -157,6 +158,30 @@ jobs:
           print("Generated repository changes are within the approved allowlist.")
           PY
 
+      - name: Create canonical import pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          BRANCH="import/$SUBMISSION_ID"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git switch -c "$BRANCH"
+
+          git add database/benchmark_database.json database/generated/hardware.json database/generated/homepage.json database/generated/leaderboards.json database/generated/manifest.json
+
+          if git diff --cached --quiet; then
+            echo "ERROR: Canonical importer produced no staged database changes."
+            exit 1
+          fi
+
+          git commit -m "Import approved submission $SUBMISSION_ID"
+          git push --set-upstream origin "$BRANCH"
+
+          gh pr create --base main --head "$BRANCH" --title "Import approved submission $SUBMISSION_ID" --body "Automated canonical import for approved OpenLLMWorks submission $SUBMISSION_ID. The artifact was downloaded from R2, safely extracted, canonically validated, imported, and checked against the approved repository-change allowlist. This workflow does not merge the pull request or update D1 import/publish state."
+
       - name: Inspect generated repository changes
         run: |
           echo
@@ -176,5 +201,5 @@ jobs:
           echo "============================================================"
           echo "SAFETY BOUNDARY"
           echo "============================================================"
-          echo "No Git commit or push was performed."
-          echo "No D1 import/publish state was modified by this workflow."
+          echo "Canonical changes were committed and pushed to an isolated import branch."
+          echo "A pull request was created; no merge or D1 import/publish state update was performed."
