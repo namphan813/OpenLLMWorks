@@ -485,48 +485,42 @@ async function handleValidationCallback(
 	);
 }
 
-async function handleAdminSubmissions(
-        request,
-        env,
-        ctx,
-) {
-        if (request.method !== "GET") {
-                return jsonResponse(
-                        {
-                                error: "method_not_allowed",
-                                message: "This endpoint accepts GET requests only.",
-                        },
-                        405,
-                        {
-                                Allow: "GET",
-                        },
-                );
-        }
-
+async function requireControlRoomAccess(ctx) {
 	if (!ctx?.access) {
-		return jsonResponse(
-			{
-				error: "unauthorized",
-				message:
-					"Cloudflare Access authentication is required.",
-			},
-			401,
-		);
+		return {
+			authorized: false,
+			response: jsonResponse(
+				{
+					error: "unauthorized",
+					message:
+						"Cloudflare Access authentication is required.",
+				},
+				401,
+			),
+		};
 	}
 
 	try {
 		const identity = await ctx.access.getIdentity();
 
 		if (!identity) {
-			return jsonResponse(
-				{
-					error: "unauthorized",
-					message:
-						"Cloudflare Access identity is unavailable.",
-				},
-				401,
-			);
+			return {
+				authorized: false,
+				response: jsonResponse(
+					{
+						error: "unauthorized",
+						message:
+							"Cloudflare Access identity is unavailable.",
+					},
+					401,
+				),
+			};
 		}
+
+		return {
+			authorized: true,
+			identity,
+		};
 	} catch (error) {
 		console.error(
 			"Control Room Access identity check failed.",
@@ -535,98 +529,250 @@ async function handleAdminSubmissions(
 			},
 		);
 
+		return {
+			authorized: false,
+			response: jsonResponse(
+				{
+					error: "unauthorized",
+					message:
+						"Cloudflare Access authentication could not be verified.",
+				},
+				401,
+			),
+		};
+	}
+}
+
+async function handleAdminSubmissions(
+	request,
+	env,
+	ctx,
+) {
+	if (request.method !== "GET") {
 		return jsonResponse(
 			{
-				error: "unauthorized",
-				message:
-					"Cloudflare Access authentication could not be verified.",
+				error: "method_not_allowed",
+				message: "This endpoint accepts GET requests only.",
 			},
-			401,
+			405,
+			{
+				Allow: "GET",
+			},
 		);
 	}
-        try {
-                const submissionsResult =
-                        await env.OPERATIONS_DB
-                                .prepare(
-                                        `
-                                        SELECT
-                                                submission_id,
-                                                status,
-                                                object_key,
-                                                received_at,
-                                                validation_started_at,
-                                                validated_at,
-                                                validation_status,
-                                                validation_error,
-                                                updated_at
-                                        FROM submissions
-                                        ORDER BY received_at DESC
-                                        LIMIT 100
-                                        `,
-                                )
-                                .all();
 
-                const countsResult =
-                        await env.OPERATIONS_DB
-                                .prepare(
-                                        `
-                                        SELECT
-                                                status,
-                                                COUNT(*) AS count
-                                        FROM submissions
-                                        GROUP BY status
-                                        `,
-                                )
-                                .all();
+	const access =
+		await requireControlRoomAccess(ctx);
 
-                const counts = {
-                        total: 0,
-                        received: 0,
-                        validating: 0,
-                        validated: 0,
-                        rejected: 0,
-                };
+	if (!access.authorized) {
+		return access.response;
+	}
 
-                for (const row of countsResult.results || []) {
-                        const count = Number(row.count) || 0;
+	try {
+		const submissionsResult =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						submission_id,
+						status,
+						object_key,
+						received_at,
+						validation_started_at,
+						validated_at,
+						validation_status,
+						validation_error,
+						updated_at
+					FROM submissions
+					ORDER BY received_at DESC
+					LIMIT 100
+					`,
+				)
+				.all();
 
-                        counts.total += count;
+		const countsResult =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						status,
+						COUNT(*) AS count
+					FROM submissions
+					GROUP BY status
+					`,
+				)
+				.all();
 
-                        if (
-                                Object.prototype.hasOwnProperty.call(
-                                        counts,
-                                        row.status,
-                                )
-                        ) {
-                                counts[row.status] = count;
-                        }
-                }
+		const counts = {
+			total: 0,
+			received: 0,
+			validating: 0,
+			validated: 0,
+			rejected: 0,
+		};
 
-                return jsonResponse(
-                        {
-                                counts,
-                                submissions:
-                                        submissionsResult.results || [],
-                        },
-                        200,
-                );
-        } catch (error) {
-                console.error(
-                        "Control Room submissions query failed.",
-                        {
-                                error,
-                        },
-                );
+		for (const row of countsResult.results || []) {
+			const count = Number(row.count) || 0;
 
-                return jsonResponse(
-                        {
-                                error: "operations_database_error",
-                                message:
-                                        "Control Room submissions could not be loaded.",
-                        },
-                        500,
-                );
-        }
+			counts.total += count;
+
+			if (
+				Object.prototype.hasOwnProperty.call(
+					counts,
+					row.status,
+				)
+			) {
+				counts[row.status] = count;
+			}
+		}
+
+		return jsonResponse(
+			{
+				counts,
+				submissions:
+					submissionsResult.results || [],
+			},
+			200,
+		);
+	} catch (error) {
+		console.error(
+			"Control Room submissions query failed.",
+			{
+				error,
+			},
+		);
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"Control Room submissions could not be loaded.",
+			},
+			500,
+		);
+	}
+}
+
+async function handleAdminSubmissionDetail(
+	request,
+	submissionId,
+	env,
+	ctx,
+) {
+	if (request.method !== "GET") {
+		return jsonResponse(
+			{
+				error: "method_not_allowed",
+				message: "This endpoint accepts GET requests only.",
+			},
+			405,
+			{
+				Allow: "GET",
+			},
+		);
+	}
+
+	const access =
+		await requireControlRoomAccess(ctx);
+
+	if (!access.authorized) {
+		return access.response;
+	}
+
+	if (!isValidSubmissionId(submissionId)) {
+		return jsonResponse(
+			{
+				error: "invalid_submission_id",
+				message: "The submission ID is invalid.",
+			},
+			400,
+		);
+	}
+
+	try {
+		const submission =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						submission_id,
+						status,
+						object_key,
+						received_at,
+						updated_at,
+						validation_started_at,
+						validated_at,
+						validation_status,
+						validation_error,
+						reviewed_at,
+						review_decision,
+						imported_at,
+						published_at,
+						result_id,
+						created_at
+					FROM submissions
+					WHERE submission_id = ?
+					LIMIT 1
+					`,
+				)
+				.bind(submissionId)
+				.first();
+
+		if (!submission) {
+			return jsonResponse(
+				{
+					error: "submission_not_found",
+					message:
+						"The submission does not exist in the operations database.",
+				},
+				404,
+			);
+		}
+
+		const eventsResult =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						event_id,
+						event_type,
+						actor,
+						details,
+						created_at
+					FROM submission_events
+					WHERE submission_id = ?
+					ORDER BY created_at ASC, event_id ASC
+					`,
+				)
+				.bind(submissionId)
+				.all();
+
+		return jsonResponse(
+			{
+				submission,
+				events:
+					eventsResult.results || [],
+			},
+			200,
+		);
+	} catch (error) {
+		console.error(
+			"Control Room submission detail query failed.",
+			{
+				submissionId,
+				error,
+			},
+		);
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"Control Room submission details could not be loaded.",
+			},
+			500,
+		);
+	}
 }
 
 async function handleSubmissionUpload(
@@ -774,42 +920,66 @@ export default {
 			);
 		}
 
-                if (url.pathname === "/v1/admin/submissions") {
-                        const corsHeaders = adminCorsHeaders(request);
+		const adminPathParts =
+			url.pathname.split("/");
 
-                        if (request.method === "OPTIONS") {
-                                return new Response(null, {
-                                        status: 204,
-                                        headers: corsHeaders,
-                                });
-                        }
+		const isAdminSubmissionsRoute =
+			url.pathname === "/v1/admin/submissions";
 
-                        const response =
-                                await handleAdminSubmissions(
-                                        request,
-                                        env,
-                                        ctx,
-                                );
+		const isAdminSubmissionDetailRoute =
+			adminPathParts.length === 5 &&
+			adminPathParts[1] === "v1" &&
+			adminPathParts[2] === "admin" &&
+			adminPathParts[3] === "submissions" &&
+			adminPathParts[4] !== "";
 
-                        const headers =
-                                new Headers(response.headers);
+		if (
+			isAdminSubmissionsRoute ||
+			isAdminSubmissionDetailRoute
+		) {
+			const corsHeaders =
+				adminCorsHeaders(request);
 
-                        for (
-                                const [name, value] of
-                                        Object.entries(corsHeaders)
-                        ) {
-                                headers.set(name, value);
-                        }
+			if (request.method === "OPTIONS") {
+				return new Response(null, {
+					status: 204,
+					headers: corsHeaders,
+				});
+			}
 
-                        return new Response(
-                                response.body,
-                                {
-                                        status: response.status,
-                                        statusText: response.statusText,
-                                        headers,
-                                },
-                        );
-                }
+			const response =
+				isAdminSubmissionDetailRoute
+					? await handleAdminSubmissionDetail(
+							request,
+							adminPathParts[4],
+							env,
+							ctx,
+						)
+					: await handleAdminSubmissions(
+							request,
+							env,
+							ctx,
+						);
+
+			const headers =
+				new Headers(response.headers);
+
+			for (
+				const [name, value] of
+					Object.entries(corsHeaders)
+			) {
+				headers.set(name, value);
+			}
+
+			return new Response(
+				response.body,
+				{
+					status: response.status,
+					statusText: response.statusText,
+					headers,
+				},
+			);
+		}
 
         const pathParts = url.pathname.split("/");
 
