@@ -1,4 +1,4 @@
-﻿name: Import Approved Submission
+name: Import Approved Submission
 
 on:
   workflow_dispatch:
@@ -73,12 +73,12 @@ jobs:
           import os
           from pathlib import Path
 
-          from parser.submission_archive import safe_extract_submission_archive
+          from parser.submission_archive import extract_submission_archive
 
           archive_path = Path("import_work/submission.zip")
           extract_root = Path("import_work/extracted")
 
-          result = safe_extract_submission_archive(
+          result = extract_submission_archive(
               archive_path,
               extract_root,
           )
