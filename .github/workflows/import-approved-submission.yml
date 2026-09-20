@@ -155,7 +155,30 @@ jobs:
           ) as output:
               output.write(f"result_id={result_id}\n")
 
+          hardware_path = Path("database/generated/hardware.json")
+
+          with hardware_path.open(
+              "r",
+              encoding="utf-8",
+          ) as handle:
+              hardware = json.load(handle)
+
+          generated_at = hardware.get("generatedAt")
+
+          if not isinstance(generated_at, str) or not generated_at:
+              raise SystemExit(
+                  "ERROR: Generated hardware data has no generatedAt value."
+              )
+
+          with open(
+              os.environ["GITHUB_OUTPUT"],
+              "a",
+              encoding="utf-8",
+          ) as output:
+              output.write(f"generated_at={generated_at}\n")
+
           print(f"Canonical result ID: {result_id}")
+          print(f"Generated publication timestamp: {generated_at}")
           PY
 
       - name: Verify generated change allowlist
@@ -207,6 +230,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           SUBMISSION_ID: ${{ inputs.submission_id }}
           RESULT_ID: ${{ steps.result.outputs.result_id }}
+          GENERATED_AT: ${{ steps.result.outputs.generated_at }}
         run: |
           BRANCH="import/$SUBMISSION_ID"
 
@@ -229,6 +253,7 @@ jobs:
 
 Submission-ID: $SUBMISSION_ID
 Result-ID: $RESULT_ID
+Generated-At: $GENERATED_AT
 
 The artifact was downloaded from R2, safely extracted, canonically validated, imported, and checked against the approved repository-change allowlist. This workflow does not merge the pull request or update D1 import/publish state."
 
