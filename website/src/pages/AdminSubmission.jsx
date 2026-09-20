@@ -14,6 +14,37 @@ import "./Admin.css";
 const API_BASE =
   "https://api.openllmworks.com/v1/admin/submissions";
 
+const DECLINE_REASONS = [
+  {
+    value: "incomplete_evidence",
+    label: "Incomplete evidence",
+  },
+  {
+    value: "protocol_mismatch",
+    label: "Protocol mismatch",
+  },
+  {
+    value: "hardware_mismatch",
+    label: "Hardware mismatch",
+  },
+  {
+    value: "duplicate_submission",
+    label: "Duplicate submission",
+  },
+  {
+    value: "suspicious_result",
+    label: "Suspicious result",
+  },
+  {
+    value: "unsupported_configuration",
+    label: "Unsupported configuration",
+  },
+  {
+    value: "other",
+    label: "Other",
+  },
+];
+
 function formatDate(value) {
   if (!value) {
     return "—";
@@ -45,6 +76,12 @@ function AdminSubmission() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [reviewMode, setReviewMode] = useState(null);
+  const [reasonCode, setReasonCode] = useState("");
+  const [reasonDetail, setReasonDetail] = useState("");
+  const [reviewing, setReviewing] = useState(false);
+  const [reviewError, setReviewError] = useState("");
 
   const loadSubmission = useCallback(async () => {
     setLoading(true);
@@ -82,7 +119,7 @@ function AdminSubmission() {
 
   useEffect(() => {
     document.title =
-      `Submission | Control Room | OpenLLMWorks`;
+      "Submission | Control Room | OpenLLMWorks";
 
     loadSubmission();
 
@@ -90,6 +127,110 @@ function AdminSubmission() {
       document.title = "OpenLLMWorks";
     };
   }, [loadSubmission]);
+
+  const canReview =
+    submission?.status === "validated" &&
+    submission?.validation_status === "passed" &&
+    !submission?.review_decision;
+
+  const resetReviewForm = () => {
+    setReviewMode(null);
+    setReasonCode("");
+    setReasonDetail("");
+    setReviewError("");
+  };
+
+  const submitReview = async (decision) => {
+    if (reviewing) {
+      return;
+    }
+
+    if (
+      decision === "declined" &&
+      !reasonCode
+    ) {
+      setReviewError(
+        "Select a decline reason before continuing.",
+      );
+      return;
+    }
+
+    if (
+      decision === "declined" &&
+      reasonCode === "other" &&
+      !reasonDetail.trim()
+    ) {
+      setReviewError(
+        "Add details when using the Other decline reason.",
+      );
+      return;
+    }
+
+    if (
+      decision === "approved" &&
+      !window.confirm(
+        "Approve this submission? This review decision cannot currently be changed in the Control Room.",
+      )
+    ) {
+      return;
+    }
+
+    if (
+      decision === "declined" &&
+      !window.confirm(
+        "Decline this submission? This review decision cannot currently be changed in the Control Room.",
+      )
+    ) {
+      return;
+    }
+
+    setReviewing(true);
+    setReviewError("");
+
+    try {
+      const payload = {
+        decision,
+      };
+
+      if (decision === "declined") {
+        payload.reason_code = reasonCode;
+
+        if (reasonDetail.trim()) {
+          payload.reason_detail =
+            reasonDetail.trim();
+        }
+      }
+
+      const response = await fetch(
+        `${API_BASE}/${encodeURIComponent(submissionId)}/review`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            `Control Room API returned ${response.status}.`,
+        );
+      }
+
+      resetReviewForm();
+      await loadSubmission();
+    } catch (reviewRequestError) {
+      setReviewError(reviewRequestError.message);
+    } finally {
+      setReviewing(false);
+    }
+  };
 
   return (
     <div className="control-room">
@@ -264,6 +405,180 @@ function AdminSubmission() {
                   {submission.validation_error}
                 </pre>
               </div>
+            )}
+          </section>
+
+          <section className="control-room-panel control-room-review-panel">
+            <div className="control-room-panel-header">
+              <div>
+                <h2>Review Submission</h2>
+                <p>
+                  Record the maintainer review decision.
+                </p>
+              </div>
+            </div>
+
+            {canReview && !reviewMode && (
+              <div className="control-room-review-ready">
+                <div>
+                  <strong>
+                    Validation passed. Ready for review.
+                  </strong>
+                  <p>
+                    Approve the submission or decline it
+                    with a structured reason.
+                  </p>
+                </div>
+
+                <div className="control-room-review-actions">
+                  <button
+                    type="button"
+                    className="control-room-button-danger"
+                    onClick={() => {
+                      setReviewMode("decline");
+                      setReviewError("");
+                    }}
+                  >
+                    Decline
+                  </button>
+
+                  <button
+                    type="button"
+                    className="control-room-button-primary"
+                    onClick={() =>
+                      submitReview("approved")
+                    }
+                    disabled={reviewing}
+                  >
+                    {reviewing
+                      ? "Saving..."
+                      : "Approve"}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {canReview &&
+              reviewMode === "decline" && (
+                <div className="control-room-decline-form">
+                  <label htmlFor="decline-reason">
+                    Decline reason
+                  </label>
+
+                  <select
+                    id="decline-reason"
+                    value={reasonCode}
+                    onChange={(event) => {
+                      setReasonCode(
+                        event.target.value,
+                      );
+                      setReviewError("");
+                    }}
+                    disabled={reviewing}
+                  >
+                    <option value="">
+                      Select a reason...
+                    </option>
+
+                    {DECLINE_REASONS.map(
+                      (reason) => (
+                        <option
+                          key={reason.value}
+                          value={reason.value}
+                        >
+                          {reason.label}
+                        </option>
+                      ),
+                    )}
+                  </select>
+
+                  <label htmlFor="decline-detail">
+                    Additional details
+                    {reasonCode === "other"
+                      ? " *"
+                      : ""}
+                  </label>
+
+                  <textarea
+                    id="decline-detail"
+                    rows="5"
+                    maxLength="2000"
+                    value={reasonDetail}
+                    onChange={(event) =>
+                      setReasonDetail(
+                        event.target.value,
+                      )
+                    }
+                    placeholder={
+                      reasonCode === "other"
+                        ? "Describe why this submission should be declined."
+                        : "Optional context for this review decision."
+                    }
+                    disabled={reviewing}
+                  />
+
+                  <div className="control-room-review-actions">
+                    <button
+                      type="button"
+                      onClick={resetReviewForm}
+                      disabled={reviewing}
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      type="button"
+                      className="control-room-button-danger"
+                      onClick={() =>
+                        submitReview("declined")
+                      }
+                      disabled={reviewing}
+                    >
+                      {reviewing
+                        ? "Saving..."
+                        : "Decline Submission"}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+            {!canReview &&
+              submission.review_decision && (
+                <div className="control-room-review-complete">
+                  <span>Review decision</span>
+
+                  <strong>
+                    {submission.review_decision}
+                  </strong>
+
+                  <p>
+                    Reviewed{" "}
+                    {formatDate(
+                      submission.reviewed_at,
+                    )}
+                  </p>
+                </div>
+              )}
+
+            {!canReview &&
+              !submission.review_decision && (
+                <div className="control-room-review-unavailable">
+                  <strong>
+                    Not ready for maintainer review.
+                  </strong>
+
+                  <p>
+                    This submission must reach
+                    validated / passed before a review
+                    decision can be recorded.
+                  </p>
+                </div>
+              )}
+
+            {reviewError && (
+              <p className="control-room-error">
+                {reviewError}
+              </p>
             )}
           </section>
 

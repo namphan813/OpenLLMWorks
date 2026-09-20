@@ -387,3 +387,121 @@
     gap: 4px;
   }
 }
+
+.control-room-review-panel {
+  margin-bottom: 24px;
+}
+
+.control-room-review-ready {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  background: #0d1117;
+}
+
+.control-room-review-ready p,
+.control-room-review-complete p,
+.control-room-review-unavailable p {
+  margin: 6px 0 0;
+  color: #8b949e;
+}
+
+.control-room-review-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.control-room .control-room-button-primary {
+  border-color: #238636;
+  background: #238636;
+}
+
+.control-room .control-room-button-primary:hover {
+  background: #2ea043;
+}
+
+.control-room .control-room-button-danger {
+  border-color: #da3633;
+  color: #ff7b72;
+}
+
+.control-room .control-room-button-danger:hover {
+  border-color: #f85149;
+  background: #3d1f20;
+}
+
+.control-room-decline-form {
+  display: grid;
+  gap: 10px;
+  max-width: 760px;
+}
+
+.control-room-decline-form label {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.control-room-decline-form select,
+.control-room-decline-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  background: #0d1117;
+  color: #f0f3f6;
+  font: inherit;
+}
+
+.control-room-decline-form textarea {
+  resize: vertical;
+}
+
+.control-room-decline-form select:focus,
+.control-room-decline-form textarea:focus {
+  border-color: #58a6ff;
+  outline: none;
+}
+
+.control-room-decline-form .control-room-review-actions {
+  margin-top: 12px;
+}
+
+.control-room-review-complete,
+.control-room-review-unavailable {
+  padding: 20px;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  background: #0d1117;
+}
+
+.control-room-review-complete span {
+  display: block;
+  margin-bottom: 8px;
+  color: #8b949e;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.control-room-review-complete strong {
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+
+@media (max-width: 900px) {
+  .control-room-review-ready {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .control-room-review-actions {
+    flex-wrap: wrap;
+  }
+}
