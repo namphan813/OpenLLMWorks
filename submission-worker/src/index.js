@@ -485,6 +485,341 @@ async function handleValidationCallback(
 	);
 }
 
+async function handleLifecycleCallback(
+	request,
+	submissionId,
+	env,
+) {
+	if (request.method !== "POST") {
+		return jsonResponse(
+			{
+				error: "method_not_allowed",
+				message: "This endpoint accepts POST requests only.",
+			},
+			405,
+			{
+				Allow: "POST",
+			},
+		);
+	}
+
+	if (!isValidSubmissionId(submissionId)) {
+		return jsonResponse(
+			{
+				error: "invalid_submission_id",
+				message: "The submission ID is invalid.",
+			},
+			400,
+		);
+	}
+
+	if (!env.VALIDATION_CALLBACK_TOKEN) {
+		console.error(
+			"VALIDATION_CALLBACK_TOKEN is not configured.",
+		);
+
+		return jsonResponse(
+			{
+				error: "server_configuration_error",
+				message:
+				"Lifecycle callback authentication is unavailable.",
+			},
+			500,
+		);
+	}
+
+	const authorization =
+	request.headers.get("Authorization");
+
+	const expectedAuthorization =
+	`Bearer ${env.VALIDATION_CALLBACK_TOKEN}`;
+
+	if (authorization !== expectedAuthorization) {
+		return jsonResponse(
+			{
+				error: "unauthorized",
+				message: "Invalid lifecycle callback credential.",
+			},
+			401,
+		);
+	}
+
+	const contentType =
+	request.headers.get("Content-Type") || "";
+
+	if (
+		!contentType
+		.toLowerCase()
+		.startsWith("application/json")
+	) {
+		return jsonResponse(
+			{
+				error: "unsupported_media_type",
+				message:
+				"Lifecycle callbacks must use application/json.",
+			},
+			415,
+		);
+	}
+
+	let payload;
+
+	try {
+		payload = await request.json();
+	} catch {
+		return jsonResponse(
+			{
+				error: "invalid_json",
+				message: "The lifecycle body is not valid JSON.",
+			},
+			400,
+		);
+	}
+
+	const status = payload?.status;
+
+	const allowedStatuses = new Set([
+		"importing",
+		"imported",
+		"publishing",
+		"published",
+	]);
+
+	if (!allowedStatuses.has(status)) {
+		return jsonResponse(
+			{
+				error: "invalid_status",
+				message:
+				"Lifecycle status must be importing, imported, publishing, or published.",
+			},
+			400,
+		);
+	}
+
+	const resultId =
+	typeof payload?.result_id === "string"
+	? payload.result_id.trim()
+	: "";
+
+	if (
+		status !== "importing" &&
+		!resultId
+	) {
+		return jsonResponse(
+			{
+				error: "result_id_required",
+				message:
+				"A result_id is required after import begins.",
+			},
+			400,
+		);
+	}
+
+	let submission;
+
+	try {
+		submission =
+		await env.OPERATIONS_DB
+		.prepare(
+			`
+			SELECT
+			submission_id,
+			status,
+			review_decision,
+			result_id
+			FROM submissions
+			WHERE submission_id = ?
+			LIMIT 1
+			`,
+		)
+		.bind(submissionId)
+		.first();
+	} catch (error) {
+		console.error(
+			"Lifecycle submission lookup failed.",
+			{
+				submissionId,
+				error,
+			},
+		);
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+				"The submission lifecycle state could not be loaded.",
+			},
+			500,
+		);
+	}
+
+	if (!submission) {
+		return jsonResponse(
+			{
+				error: "submission_not_found",
+				message:
+				"The submission does not exist in the operations database.",
+			},
+			404,
+		);
+	}
+
+	if (submission.review_decision !== "approved") {
+		return jsonResponse(
+			{
+				error: "submission_not_approved",
+				message:
+				"Only approved submissions can enter the import lifecycle.",
+				status: submission.status,
+				review_decision:
+				submission.review_decision,
+			},
+			409,
+		);
+	}
+
+	const transitions = {
+		approved: new Set(["importing"]),
+		importing: new Set(["imported"]),
+		imported: new Set(["publishing"]),
+		publishing: new Set(["published"]),
+	};
+
+	if (
+		submission.status !== status &&
+		!transitions[submission.status]?.has(status)
+	) {
+		return jsonResponse(
+			{
+				error: "invalid_lifecycle_transition",
+				message:
+				`Cannot transition from ${submission.status} to ${status}.`,
+				status: submission.status,
+			},
+			409,
+		);
+	}
+
+	if (
+		submission.result_id &&
+		resultId &&
+		submission.result_id !== resultId
+	) {
+		return jsonResponse(
+			{
+				error: "result_id_conflict",
+				message:
+				"The supplied result_id does not match the existing result_id.",
+				result_id: submission.result_id,
+			},
+			409,
+		);
+	}
+
+	const effectiveResultId =
+	resultId || submission.result_id || null;
+
+	const now = new Date().toISOString();
+
+	const eventDetails = JSON.stringify({
+		source: "github_actions",
+		result_id: effectiveResultId,
+	});
+
+	let importedAt = null;
+	let publishedAt = null;
+
+	if (status === "imported") {
+		importedAt = now;
+	}
+
+	if (status === "published") {
+		publishedAt = now;
+	}
+
+	try {
+		await env.OPERATIONS_DB.batch([
+			env.OPERATIONS_DB
+			.prepare(
+				`
+				UPDATE submissions
+				SET
+				status = ?,
+				result_id = COALESCE(?, result_id),
+				imported_at =
+				COALESCE(?, imported_at),
+				published_at =
+				COALESCE(?, published_at),
+				updated_at = ?
+				WHERE submission_id = ?
+				`,
+			)
+			.bind(
+				status,
+				effectiveResultId,
+				importedAt,
+				publishedAt,
+				now,
+				submissionId,
+			),
+
+			env.OPERATIONS_DB
+			.prepare(
+				`
+				INSERT INTO submission_events (
+					submission_id,
+					event_type,
+					actor,
+					details
+				)
+				VALUES (?, ?, 'github_actions', ?)
+				`,
+			)
+			.bind(
+				submissionId,
+				status,
+				eventDetails,
+			),
+		]);
+	} catch (error) {
+		console.error(
+			"Lifecycle state update failed.",
+			{
+				submissionId,
+				status,
+				error,
+			},
+		);
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+				"The submission lifecycle state could not be recorded.",
+			},
+			500,
+		);
+	}
+
+	console.log(
+		"Lifecycle state recorded.",
+		{
+			submissionId,
+			status,
+			resultId: effectiveResultId,
+		},
+	);
+
+	return jsonResponse(
+		{
+			submission_id: submissionId,
+			status,
+			result_id: effectiveResultId,
+		},
+		200,
+	);
+}
+
 async function requireControlRoomAccess(ctx) {
 	if (!ctx?.access) {
 		return {
@@ -1313,6 +1648,20 @@ export default {
 
         if (isValidationRoute) {
             return handleValidationCallback(
+                request,
+                pathParts[3],
+                env,
+            );
+        }
+
+        const isLifecycleRoute =
+            pathParts.length === 5 &&
+            pathParts[1] === "v1" &&
+            pathParts[2] === "submissions" &&
+            pathParts[4] === "lifecycle";
+
+        if (isLifecycleRoute) {
+            return handleLifecycleCallback(
                 request,
                 pathParts[3],
                 env,
