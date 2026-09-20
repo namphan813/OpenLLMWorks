@@ -31,7 +31,7 @@ function adminCorsHeaders(request) {
                         "Access-Control-Allow-Origin": origin,
                         "Access-Control-Allow-Credentials": "true",
                         "Access-Control-Allow-Headers": "Authorization, Content-Type",
-                        "Access-Control-Allow-Methods": "GET, OPTIONS",
+                        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
                         "Vary": "Origin",
                 };
         }
@@ -775,6 +775,303 @@ async function handleAdminSubmissionDetail(
 	}
 }
 
+const REVIEW_DECLINE_REASON_CODES = new Set([
+	"incomplete_evidence",
+	"protocol_mismatch",
+	"hardware_mismatch",
+	"duplicate_submission",
+	"suspicious_result",
+	"unsupported_configuration",
+	"other",
+]);
+
+async function handleAdminSubmissionReview(
+	request,
+	submissionId,
+	env,
+	ctx,
+) {
+	if (request.method !== "POST") {
+		return jsonResponse(
+			{
+				error: "method_not_allowed",
+				message: "This endpoint accepts POST requests only.",
+			},
+			405,
+			{
+				Allow: "POST",
+			},
+		);
+	}
+
+	const access =
+		await requireControlRoomAccess(ctx);
+
+	if (!access.authorized) {
+		return access.response;
+	}
+
+	if (!isValidSubmissionId(submissionId)) {
+		return jsonResponse(
+			{
+				error: "invalid_submission_id",
+				message: "The submission ID is invalid.",
+			},
+			400,
+		);
+	}
+
+	const contentType =
+		request.headers.get("Content-Type") || "";
+
+	if (
+		!contentType
+			.toLowerCase()
+			.startsWith("application/json")
+	) {
+		return jsonResponse(
+			{
+				error: "unsupported_media_type",
+				message:
+					"Review requests must use application/json.",
+			},
+			415,
+		);
+	}
+
+	let payload;
+
+	try {
+		payload = await request.json();
+	} catch {
+		return jsonResponse(
+			{
+				error: "invalid_json",
+				message: "The review body is not valid JSON.",
+			},
+			400,
+		);
+	}
+
+	const decision = payload?.decision;
+
+	if (
+		decision !== "approved" &&
+		decision !== "declined"
+	) {
+		return jsonResponse(
+			{
+				error: "invalid_review_decision",
+				message:
+					"Review decision must be approved or declined.",
+			},
+			400,
+		);
+	}
+
+	let reasonCode = null;
+	let reasonDetail = null;
+
+	if (decision === "declined") {
+		reasonCode =
+			typeof payload.reason_code === "string"
+				? payload.reason_code.trim()
+				: "";
+
+		if (
+			!REVIEW_DECLINE_REASON_CODES.has(
+				reasonCode,
+			)
+		) {
+			return jsonResponse(
+				{
+					error: "invalid_decline_reason",
+					message:
+						"A valid decline reason code is required.",
+				},
+				400,
+			);
+		}
+
+		if (typeof payload.reason_detail === "string") {
+			reasonDetail =
+				payload.reason_detail
+					.trim()
+					.slice(0, 2000);
+
+			if (reasonDetail === "") {
+				reasonDetail = null;
+			}
+		}
+
+		if (
+			reasonCode === "other" &&
+			!reasonDetail
+		) {
+			return jsonResponse(
+				{
+					error: "decline_detail_required",
+					message:
+						"Additional details are required when the decline reason is other.",
+				},
+				400,
+			);
+		}
+	}
+
+	let submission;
+
+	try {
+		submission =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						submission_id,
+						status,
+						validation_status,
+						review_decision
+					FROM submissions
+					WHERE submission_id = ?
+					LIMIT 1
+					`,
+				)
+				.bind(submissionId)
+				.first();
+	} catch (error) {
+		console.error("Control Room review lookup failed.", {
+			submissionId,
+			error,
+		});
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"The submission review state could not be loaded.",
+			},
+			500,
+		);
+	}
+
+	if (!submission) {
+		return jsonResponse(
+			{
+				error: "submission_not_found",
+				message:
+					"The submission does not exist in the operations database.",
+			},
+			404,
+		);
+	}
+
+	if (submission.review_decision) {
+		return jsonResponse(
+			{
+				error: "submission_already_reviewed",
+				message:
+					"This submission already has a review decision.",
+				review_decision:
+					submission.review_decision,
+			},
+			409,
+		);
+	}
+
+	if (
+		submission.status !== "validated" ||
+		submission.validation_status !== "passed"
+	) {
+		return jsonResponse(
+			{
+				error: "submission_not_reviewable",
+				message:
+					"Only validated submissions with passed validation can be reviewed.",
+				status: submission.status,
+				validation_status:
+					submission.validation_status,
+			},
+			409,
+		);
+	}
+
+	const now = new Date().toISOString();
+
+	const eventDetails = JSON.stringify({
+		source: "control_room",
+		decision,
+		reason_code: reasonCode,
+		reason_detail: reasonDetail,
+	});
+
+	try {
+		await env.OPERATIONS_DB.batch([
+			env.OPERATIONS_DB
+				.prepare(
+					`
+					UPDATE submissions
+					SET
+						status = ?,
+						review_decision = ?,
+						reviewed_at = ?,
+						updated_at = ?
+					WHERE submission_id = ?
+					`,
+				)
+				.bind(
+					decision,
+					decision,
+					now,
+					now,
+					submissionId,
+				),
+
+			env.OPERATIONS_DB
+				.prepare(
+					`
+					INSERT INTO submission_events (
+						submission_id,
+						event_type,
+						actor,
+						details
+					)
+					VALUES (?, ?, 'maintainer', ?)
+					`,
+				)
+				.bind(
+					submissionId,
+					decision,
+					eventDetails,
+				),
+		]);
+	} catch (error) {
+		console.error("Control Room review update failed.", {
+			submissionId,
+			decision,
+			error,
+		});
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"The review decision could not be recorded.",
+			},
+			500,
+		);
+	}
+
+	return jsonResponse(
+		{
+			submission_id: submissionId,
+			status: decision,
+			review_decision: decision,
+			reviewed_at: now,
+		},
+		200,
+	);
+}
+
 async function handleSubmissionUpload(
 	request,
 	env,
@@ -926,6 +1223,14 @@ export default {
 		const isAdminSubmissionsRoute =
 			url.pathname === "/v1/admin/submissions";
 
+		const isAdminSubmissionReviewRoute =
+			adminPathParts.length === 6 &&
+			adminPathParts[1] === "v1" &&
+			adminPathParts[2] === "admin" &&
+			adminPathParts[3] === "submissions" &&
+			adminPathParts[4] !== "" &&
+			adminPathParts[5] === "review";
+
 		const isAdminSubmissionDetailRoute =
 			adminPathParts.length === 5 &&
 			adminPathParts[1] === "v1" &&
@@ -935,7 +1240,8 @@ export default {
 
 		if (
 			isAdminSubmissionsRoute ||
-			isAdminSubmissionDetailRoute
+			isAdminSubmissionDetailRoute ||
+			isAdminSubmissionReviewRoute
 		) {
 			const corsHeaders =
 				adminCorsHeaders(request);
@@ -947,19 +1253,35 @@ export default {
 				});
 			}
 
-			const response =
+			let response;
+
+			if (isAdminSubmissionReviewRoute) {
+				response =
+					await handleAdminSubmissionReview(
+						request,
+						adminPathParts[4],
+						env,
+						ctx,
+					);
+			} else if (
 				isAdminSubmissionDetailRoute
-					? await handleAdminSubmissionDetail(
-							request,
-							adminPathParts[4],
-							env,
-							ctx,
-						)
-					: await handleAdminSubmissions(
-							request,
-							env,
-							ctx,
-						);
+			) {
+				response =
+					await handleAdminSubmissionDetail(
+						request,
+						adminPathParts[4],
+						env,
+						ctx,
+					);
+			} else {
+				response =
+					await handleAdminSubmissions(
+						request,
+						env,
+						ctx,
+					);
+			}
+
 
 			const headers =
 				new Headers(response.headers);
