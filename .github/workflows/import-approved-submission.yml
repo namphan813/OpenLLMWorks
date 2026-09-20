@@ -113,6 +113,50 @@ jobs:
           echo
           echo "Canonical maintainer workflow completed."
 
+      - name: Verify generated change allowlist
+        run: |
+          python - <<'PY'
+          import subprocess
+          import sys
+
+          allowed = {
+              "database/benchmark_database.json",
+              "database/generated/hardware.json",
+              "database/generated/homepage.json",
+              "database/generated/leaderboards.json",
+              "database/generated/manifest.json",
+          }
+
+          result = subprocess.run(
+              ["git", "status", "--porcelain"],
+              check=True,
+              capture_output=True,
+              text=True,
+          )
+
+          unexpected = []
+
+          for line in result.stdout.splitlines():
+              path = line[3:].strip()
+
+              if " -> " in path:
+                  path = path.split(" -> ", 1)[1]
+
+              if path == "import_work/" or path.startswith("import_work/"):
+                  continue
+
+              if path not in allowed:
+                  unexpected.append(path)
+
+          if unexpected:
+              print("ERROR: Importer produced unexpected repository changes:")
+              for path in unexpected:
+                  print(f"  - {path}")
+              sys.exit(1)
+
+          print("Generated repository changes are within the approved allowlist.")
+          PY
+
       - name: Inspect generated repository changes
         run: |
           echo
