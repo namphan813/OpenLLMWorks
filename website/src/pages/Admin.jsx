@@ -4,6 +4,10 @@ import {
     useState,
 } from "react";
 
+import {
+    Link,
+} from "react-router-dom";
+
 import "./Admin.css";
 
 const API_URL =
@@ -186,11 +190,14 @@ function Admin() {
                                             }
                                         >
                                             <td>
-                                                <code>
-                                                    {
-                                                        submission.submission_id
-                                                    }
-                                                </code>
+                                                <Link
+                                                    className="control-room-submission-link"
+                                                    to={`/admin/submissions/${submission.submission_id}`}
+                                                >
+                                                    <code>
+                                                        {submission.submission_id}
+                                                    </code>
+                                                </Link>
                                             </td>
 
                                             <td>
