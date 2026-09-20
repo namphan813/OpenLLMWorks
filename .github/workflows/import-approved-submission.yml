@@ -1,0 +1,117 @@
+﻿name: Import Approved Submission
+
+on:
+  workflow_dispatch:
+    inputs:
+      submission_id:
+        description: "Approved OpenLLMWorks submission ID"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-approved-submission:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+      R2_BUCKET: openllmworks-submissions
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify canonical modules
+        run: |
+          python -c "import parser.validate; print('Canonical submission validator module found.')"
+          python -c "import parser.submission_archive; print('Submission archive module found.')"
+
+      - name: Verify AWS CLI
+        run: aws --version
+
+      - name: Validate submission ID
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          if [[ ! "$SUBMISSION_ID" =~ ^sub_[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ ]]; then
+            echo "Invalid submission ID: $SUBMISSION_ID"
+            exit 1
+          fi
+
+          echo "Submission ID format is valid."
+
+      - name: Download approved submission from R2
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          mkdir -p import_work
+
+          aws s3 cp \
+            "s3://$R2_BUCKET/incoming/$SUBMISSION_ID.zip" \
+            "import_work/submission.zip" \
+            --endpoint-url "$R2_ENDPOINT"
+
+          test -s import_work/submission.zip
+          echo "Submission ZIP downloaded successfully."
+
+      - name: Safely extract submission
+        id: extract
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          from parser.submission_archive import safe_extract_submission_archive
+
+          archive_path = Path("import_work/submission.zip")
+          extract_root = Path("import_work/extracted")
+
+          result = safe_extract_submission_archive(
+              archive_path,
+              extract_root,
+          )
+
+          submission_dir = result.submission_dir.resolve()
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"submission_dir={submission_dir}\n")
+
+          print(f"Safely extracted submission to: {submission_dir}")
+          PY
+
+      - name: Run canonical validation
+        env:
+          SUBMISSION_DIR: ${{ steps.extract.outputs.submission_dir }}
+        run: |
+          python -m parser.validate "$SUBMISSION_DIR"
+
+          echo
+          echo "OpenLLMWorks canonical validation PASSED."
+
+      - name: Stop before canonical import
+        env:
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+        run: |
+          echo
+          echo "============================================================"
+          echo "APPROVED IMPORT WORKFLOW — PRE-IMPORT CHECK PASSED"
+          echo "============================================================"
+          echo "Submission: $SUBMISSION_ID"
+          echo
+          echo "The exact R2 artifact was downloaded, safely extracted,"
+          echo "and passed canonical validation."
+          echo
+          echo "This workflow intentionally stops before database import,"
+          echo "publishing, Git commit, or D1 state modification."

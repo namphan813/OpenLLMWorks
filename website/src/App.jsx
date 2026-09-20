@@ -10,6 +10,8 @@ import Hardware from "./pages/Hardware";
 import HardwareProfile from "./pages/HardwareProfile";
 import HardwareCompare from "./pages/HardwareCompare";
 import HardwareCompareSelect from "./pages/HardwareCompareSelect";
+import Admin from "./pages/Admin";
+import AdminSubmission from "./pages/AdminSubmission";
 
 
 function App() {
@@ -38,6 +40,16 @@ function App() {
       <Route
         path="/compare/:leftVariantId/:rightVariantId"
         element={<HardwareCompare />}
+      />
+
+      <Route
+        path="/admin"
+        element={<Admin />}
+      />
+
+      <Route
+        path="/admin/submissions/:submissionId"
+        element={<AdminSubmission />}
       />
     </Routes>
   );

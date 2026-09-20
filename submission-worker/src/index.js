@@ -18,6 +18,27 @@ function jsonResponse(body, status = 200, extraHeaders = {}) {
 	});
 }
 
+function adminCorsHeaders(request) {
+        const origin = request.headers.get("Origin");
+
+        const allowedOrigins = new Set([
+                "http://localhost:5173",
+                "https://openllmworks.com",
+        ]);
+
+        if (allowedOrigins.has(origin)) {
+                return {
+                        "Access-Control-Allow-Origin": origin,
+                        "Access-Control-Allow-Credentials": "true",
+                        "Access-Control-Allow-Headers": "Authorization, Content-Type",
+                        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                        "Vary": "Origin",
+                };
+        }
+
+        return {};
+}
+
 function createSubmissionId() {
 	return `sub_${crypto.randomUUID()}`;
 }
@@ -464,6 +485,593 @@ async function handleValidationCallback(
 	);
 }
 
+async function requireControlRoomAccess(ctx) {
+	if (!ctx?.access) {
+		return {
+			authorized: false,
+			response: jsonResponse(
+				{
+					error: "unauthorized",
+					message:
+						"Cloudflare Access authentication is required.",
+				},
+				401,
+			),
+		};
+	}
+
+	try {
+		const identity = await ctx.access.getIdentity();
+
+		if (!identity) {
+			return {
+				authorized: false,
+				response: jsonResponse(
+					{
+						error: "unauthorized",
+						message:
+							"Cloudflare Access identity is unavailable.",
+					},
+					401,
+				),
+			};
+		}
+
+		return {
+			authorized: true,
+			identity,
+		};
+	} catch (error) {
+		console.error(
+			"Control Room Access identity check failed.",
+			{
+				error,
+			},
+		);
+
+		return {
+			authorized: false,
+			response: jsonResponse(
+				{
+					error: "unauthorized",
+					message:
+						"Cloudflare Access authentication could not be verified.",
+				},
+				401,
+			),
+		};
+	}
+}
+
+async function handleAdminSubmissions(
+	request,
+	env,
+	ctx,
+) {
+	if (request.method !== "GET") {
+		return jsonResponse(
+			{
+				error: "method_not_allowed",
+				message: "This endpoint accepts GET requests only.",
+			},
+			405,
+			{
+				Allow: "GET",
+			},
+		);
+	}
+
+	const access =
+		await requireControlRoomAccess(ctx);
+
+	if (!access.authorized) {
+		return access.response;
+	}
+
+	try {
+		const submissionsResult =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						submission_id,
+						status,
+						object_key,
+						received_at,
+						validation_started_at,
+						validated_at,
+						validation_status,
+						validation_error,
+						updated_at
+					FROM submissions
+					ORDER BY received_at DESC
+					LIMIT 100
+					`,
+				)
+				.all();
+
+		const countsResult =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						status,
+						COUNT(*) AS count
+					FROM submissions
+					GROUP BY status
+					`,
+				)
+				.all();
+
+		const counts = {
+			total: 0,
+			received: 0,
+			validating: 0,
+			validated: 0,
+			rejected: 0,
+		};
+
+		for (const row of countsResult.results || []) {
+			const count = Number(row.count) || 0;
+
+			counts.total += count;
+
+			if (
+				Object.prototype.hasOwnProperty.call(
+					counts,
+					row.status,
+				)
+			) {
+				counts[row.status] = count;
+			}
+		}
+
+		return jsonResponse(
+			{
+				counts,
+				submissions:
+					submissionsResult.results || [],
+			},
+			200,
+		);
+	} catch (error) {
+		console.error(
+			"Control Room submissions query failed.",
+			{
+				error,
+			},
+		);
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"Control Room submissions could not be loaded.",
+			},
+			500,
+		);
+	}
+}
+
+async function handleAdminSubmissionDetail(
+	request,
+	submissionId,
+	env,
+	ctx,
+) {
+	if (request.method !== "GET") {
+		return jsonResponse(
+			{
+				error: "method_not_allowed",
+				message: "This endpoint accepts GET requests only.",
+			},
+			405,
+			{
+				Allow: "GET",
+			},
+		);
+	}
+
+	const access =
+		await requireControlRoomAccess(ctx);
+
+	if (!access.authorized) {
+		return access.response;
+	}
+
+	if (!isValidSubmissionId(submissionId)) {
+		return jsonResponse(
+			{
+				error: "invalid_submission_id",
+				message: "The submission ID is invalid.",
+			},
+			400,
+		);
+	}
+
+	try {
+		const submission =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						submission_id,
+						status,
+						object_key,
+						received_at,
+						updated_at,
+						validation_started_at,
+						validated_at,
+						validation_status,
+						validation_error,
+						reviewed_at,
+						review_decision,
+						imported_at,
+						published_at,
+						result_id,
+						created_at
+					FROM submissions
+					WHERE submission_id = ?
+					LIMIT 1
+					`,
+				)
+				.bind(submissionId)
+				.first();
+
+		if (!submission) {
+			return jsonResponse(
+				{
+					error: "submission_not_found",
+					message:
+						"The submission does not exist in the operations database.",
+				},
+				404,
+			);
+		}
+
+		const eventsResult =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						event_id,
+						event_type,
+						actor,
+						details,
+						created_at
+					FROM submission_events
+					WHERE submission_id = ?
+					ORDER BY created_at ASC, event_id ASC
+					`,
+				)
+				.bind(submissionId)
+				.all();
+
+		return jsonResponse(
+			{
+				submission,
+				events:
+					eventsResult.results || [],
+			},
+			200,
+		);
+	} catch (error) {
+		console.error(
+			"Control Room submission detail query failed.",
+			{
+				submissionId,
+				error,
+			},
+		);
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"Control Room submission details could not be loaded.",
+			},
+			500,
+		);
+	}
+}
+
+const REVIEW_DECLINE_REASON_CODES = new Set([
+	"incomplete_evidence",
+	"protocol_mismatch",
+	"hardware_mismatch",
+	"duplicate_submission",
+	"suspicious_result",
+	"unsupported_configuration",
+	"other",
+]);
+
+async function handleAdminSubmissionReview(
+	request,
+	submissionId,
+	env,
+	ctx,
+) {
+	if (request.method !== "POST") {
+		return jsonResponse(
+			{
+				error: "method_not_allowed",
+				message: "This endpoint accepts POST requests only.",
+			},
+			405,
+			{
+				Allow: "POST",
+			},
+		);
+	}
+
+	const access =
+		await requireControlRoomAccess(ctx);
+
+	if (!access.authorized) {
+		return access.response;
+	}
+
+	if (!isValidSubmissionId(submissionId)) {
+		return jsonResponse(
+			{
+				error: "invalid_submission_id",
+				message: "The submission ID is invalid.",
+			},
+			400,
+		);
+	}
+
+	const contentType =
+		request.headers.get("Content-Type") || "";
+
+	if (
+		!contentType
+			.toLowerCase()
+			.startsWith("application/json")
+	) {
+		return jsonResponse(
+			{
+				error: "unsupported_media_type",
+				message:
+					"Review requests must use application/json.",
+			},
+			415,
+		);
+	}
+
+	let payload;
+
+	try {
+		payload = await request.json();
+	} catch {
+		return jsonResponse(
+			{
+				error: "invalid_json",
+				message: "The review body is not valid JSON.",
+			},
+			400,
+		);
+	}
+
+	const decision = payload?.decision;
+
+	if (
+		decision !== "approved" &&
+		decision !== "declined"
+	) {
+		return jsonResponse(
+			{
+				error: "invalid_review_decision",
+				message:
+					"Review decision must be approved or declined.",
+			},
+			400,
+		);
+	}
+
+	let reasonCode = null;
+	let reasonDetail = null;
+
+	if (decision === "declined") {
+		reasonCode =
+			typeof payload.reason_code === "string"
+				? payload.reason_code.trim()
+				: "";
+
+		if (
+			!REVIEW_DECLINE_REASON_CODES.has(
+				reasonCode,
+			)
+		) {
+			return jsonResponse(
+				{
+					error: "invalid_decline_reason",
+					message:
+						"A valid decline reason code is required.",
+				},
+				400,
+			);
+		}
+
+		if (typeof payload.reason_detail === "string") {
+			reasonDetail =
+				payload.reason_detail
+					.trim()
+					.slice(0, 2000);
+
+			if (reasonDetail === "") {
+				reasonDetail = null;
+			}
+		}
+
+		if (
+			reasonCode === "other" &&
+			!reasonDetail
+		) {
+			return jsonResponse(
+				{
+					error: "decline_detail_required",
+					message:
+						"Additional details are required when the decline reason is other.",
+				},
+				400,
+			);
+		}
+	}
+
+	let submission;
+
+	try {
+		submission =
+			await env.OPERATIONS_DB
+				.prepare(
+					`
+					SELECT
+						submission_id,
+						status,
+						validation_status,
+						review_decision
+					FROM submissions
+					WHERE submission_id = ?
+					LIMIT 1
+					`,
+				)
+				.bind(submissionId)
+				.first();
+	} catch (error) {
+		console.error("Control Room review lookup failed.", {
+			submissionId,
+			error,
+		});
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"The submission review state could not be loaded.",
+			},
+			500,
+		);
+	}
+
+	if (!submission) {
+		return jsonResponse(
+			{
+				error: "submission_not_found",
+				message:
+					"The submission does not exist in the operations database.",
+			},
+			404,
+		);
+	}
+
+	if (submission.review_decision) {
+		return jsonResponse(
+			{
+				error: "submission_already_reviewed",
+				message:
+					"This submission already has a review decision.",
+				review_decision:
+					submission.review_decision,
+			},
+			409,
+		);
+	}
+
+	if (
+		submission.status !== "validated" ||
+		submission.validation_status !== "passed"
+	) {
+		return jsonResponse(
+			{
+				error: "submission_not_reviewable",
+				message:
+					"Only validated submissions with passed validation can be reviewed.",
+				status: submission.status,
+				validation_status:
+					submission.validation_status,
+			},
+			409,
+		);
+	}
+
+	const now = new Date().toISOString();
+
+	const eventDetails = JSON.stringify({
+		source: "control_room",
+		decision,
+		reason_code: reasonCode,
+		reason_detail: reasonDetail,
+	});
+
+	try {
+		await env.OPERATIONS_DB.batch([
+			env.OPERATIONS_DB
+				.prepare(
+					`
+					UPDATE submissions
+					SET
+						status = ?,
+						review_decision = ?,
+						reviewed_at = ?,
+						updated_at = ?
+					WHERE submission_id = ?
+					`,
+				)
+				.bind(
+					decision,
+					decision,
+					now,
+					now,
+					submissionId,
+				),
+
+			env.OPERATIONS_DB
+				.prepare(
+					`
+					INSERT INTO submission_events (
+						submission_id,
+						event_type,
+						actor,
+						details
+					)
+					VALUES (?, ?, 'maintainer', ?)
+					`,
+				)
+				.bind(
+					submissionId,
+					decision,
+					eventDetails,
+				),
+		]);
+	} catch (error) {
+		console.error("Control Room review update failed.", {
+			submissionId,
+			decision,
+			error,
+		});
+
+		return jsonResponse(
+			{
+				error: "operations_database_error",
+				message:
+					"The review decision could not be recorded.",
+			},
+			500,
+		);
+	}
+
+	return jsonResponse(
+		{
+			submission_id: submissionId,
+			status: decision,
+			review_decision: decision,
+			reviewed_at: now,
+		},
+		200,
+	);
+}
+
 async function handleSubmissionUpload(
 	request,
 	env,
@@ -606,6 +1214,92 @@ export default {
 				request,
 				env,
 				ctx,
+			);
+		}
+
+		const adminPathParts =
+			url.pathname.split("/");
+
+		const isAdminSubmissionsRoute =
+			url.pathname === "/v1/admin/submissions";
+
+		const isAdminSubmissionReviewRoute =
+			adminPathParts.length === 6 &&
+			adminPathParts[1] === "v1" &&
+			adminPathParts[2] === "admin" &&
+			adminPathParts[3] === "submissions" &&
+			adminPathParts[4] !== "" &&
+			adminPathParts[5] === "review";
+
+		const isAdminSubmissionDetailRoute =
+			adminPathParts.length === 5 &&
+			adminPathParts[1] === "v1" &&
+			adminPathParts[2] === "admin" &&
+			adminPathParts[3] === "submissions" &&
+			adminPathParts[4] !== "";
+
+		if (
+			isAdminSubmissionsRoute ||
+			isAdminSubmissionDetailRoute ||
+			isAdminSubmissionReviewRoute
+		) {
+			const corsHeaders =
+				adminCorsHeaders(request);
+
+			if (request.method === "OPTIONS") {
+				return new Response(null, {
+					status: 204,
+					headers: corsHeaders,
+				});
+			}
+
+			let response;
+
+			if (isAdminSubmissionReviewRoute) {
+				response =
+					await handleAdminSubmissionReview(
+						request,
+						adminPathParts[4],
+						env,
+						ctx,
+					);
+			} else if (
+				isAdminSubmissionDetailRoute
+			) {
+				response =
+					await handleAdminSubmissionDetail(
+						request,
+						adminPathParts[4],
+						env,
+						ctx,
+					);
+			} else {
+				response =
+					await handleAdminSubmissions(
+						request,
+						env,
+						ctx,
+					);
+			}
+
+
+			const headers =
+				new Headers(response.headers);
+
+			for (
+				const [name, value] of
+					Object.entries(corsHeaders)
+			) {
+				headers.set(name, value);
+			}
+
+			return new Response(
+				response.body,
+				{
+					status: response.status,
+					statusText: response.statusText,
+					headers,
+				},
 			);
 		}
 
