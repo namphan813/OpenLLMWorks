@@ -114,6 +114,50 @@ jobs:
           echo
           echo "Canonical maintainer workflow completed."
 
+      - name: Resolve canonical result ID
+        id: result
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          database_path = Path("database/benchmark_database.json")
+
+          with database_path.open(
+              "r",
+              encoding="utf-8",
+          ) as handle:
+              database = json.load(handle)
+
+          history = database.get("import_history", [])
+
+          if not history:
+              raise SystemExit(
+                  "ERROR: Canonical import history is empty."
+              )
+
+          latest = history[-1]
+          result_id = latest.get("result_id")
+
+          if (
+              not isinstance(result_id, str)
+              or not result_id.startswith("result_")
+          ):
+              raise SystemExit(
+                  "ERROR: Latest import history entry has no valid result_id."
+              )
+
+          with open(
+              os.environ["GITHUB_OUTPUT"],
+              "a",
+              encoding="utf-8",
+          ) as output:
+              output.write(f"result_id={result_id}\n")
+
+          print(f"Canonical result ID: {result_id}")
+          PY
+
       - name: Verify generated change allowlist
         run: |
           python - <<'PY'
@@ -162,6 +206,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           SUBMISSION_ID: ${{ inputs.submission_id }}
+          RESULT_ID: ${{ steps.result.outputs.result_id }}
         run: |
           BRANCH="import/$SUBMISSION_ID"
 
@@ -180,7 +225,12 @@ jobs:
           git commit -m "Import approved submission $SUBMISSION_ID"
           git push --set-upstream origin "$BRANCH"
 
-          gh pr create --base main --head "$BRANCH" --title "Import approved submission $SUBMISSION_ID" --body "Automated canonical import for approved OpenLLMWorks submission $SUBMISSION_ID. The artifact was downloaded from R2, safely extracted, canonically validated, imported, and checked against the approved repository-change allowlist. This workflow does not merge the pull request or update D1 import/publish state."
+          gh pr create --base main --head "$BRANCH" --title "Import approved submission $SUBMISSION_ID" --body "Automated canonical import for approved OpenLLMWorks submission $SUBMISSION_ID.
+
+Submission-ID: $SUBMISSION_ID
+Result-ID: $RESULT_ID
+
+The artifact was downloaded from R2, safely extracted, canonically validated, imported, and checked against the approved repository-change allowlist. This workflow does not merge the pull request or update D1 import/publish state."
 
       - name: Inspect generated repository changes
         run: |

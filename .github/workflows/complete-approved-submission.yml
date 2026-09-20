@@ -1,0 +1,128 @@
+name: Complete Approved Submission Lifecycle
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  complete-lifecycle:
+    if: >-
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'import/sub_')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Resolve import metadata
+        id: metadata
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+
+          body = os.environ.get("PR_BODY", "")
+          branch = os.environ.get("PR_BRANCH", "")
+
+          submission_match = re.search(
+              r"(?m)^Submission-ID:\s*(sub_[0-9a-fA-F-]+)\s*$",
+              body,
+          )
+
+          result_match = re.search(
+              r"(?m)^Result-ID:\s*(result_[0-9a-fA-F]+)\s*$",
+              body,
+          )
+
+          if not submission_match:
+              raise SystemExit(
+                  "ERROR: PR body does not contain a valid Submission-ID."
+              )
+
+          if not result_match:
+              raise SystemExit(
+                  "ERROR: PR body does not contain a valid Result-ID."
+              )
+
+          submission_id = submission_match.group(1)
+          result_id = result_match.group(1)
+
+          expected_branch = f"import/{submission_id}"
+
+          if branch != expected_branch:
+              raise SystemExit(
+                  "ERROR: PR branch does not match Submission-ID."
+              )
+
+          output_path = os.environ["GITHUB_OUTPUT"]
+
+          with open(
+              output_path,
+              "a",
+              encoding="utf-8",
+          ) as output:
+              output.write(
+                  f"submission_id={submission_id}\n"
+              )
+              output.write(
+                  f"result_id={result_id}\n"
+              )
+
+          print(f"Submission ID: {submission_id}")
+          print(f"Result ID: {result_id}")
+          print("Import PR metadata verified.")
+          PY
+
+      - name: Record import started
+        env:
+          CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
+          SUBMISSION_ID: ${{ steps.metadata.outputs.submission_id }}
+        run: |
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{"status":"importing"}' \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/lifecycle"
+
+      - name: Record import completed
+        env:
+          CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
+          SUBMISSION_ID: ${{ steps.metadata.outputs.submission_id }}
+          RESULT_ID: ${{ steps.metadata.outputs.result_id }}
+        run: |
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data "{\"status\":\"imported\",\"result_id\":\"$RESULT_ID\"}" \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/lifecycle"
+
+      - name: Record publishing started
+        env:
+          CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
+          SUBMISSION_ID: ${{ steps.metadata.outputs.submission_id }}
+          RESULT_ID: ${{ steps.metadata.outputs.result_id }}
+        run: |
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data "{\"status\":\"publishing\",\"result_id\":\"$RESULT_ID\"}" \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/lifecycle"
