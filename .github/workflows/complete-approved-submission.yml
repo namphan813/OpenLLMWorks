@@ -14,6 +14,8 @@ jobs:
   complete-lifecycle:
     if: >-
       github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.login == 'github-actions[bot]' &&
       startsWith(github.event.pull_request.head.ref, 'import/sub_')
     runs-on: ubuntu-latest
 
@@ -41,6 +43,11 @@ jobs:
               body,
           )
 
+          generated_at_match = re.search(
+              r"(?m)^Generated-At:\s*(\S+)\s*$",
+              body,
+          )
+
           if not submission_match:
               raise SystemExit(
                   "ERROR: PR body does not contain a valid Submission-ID."
@@ -51,8 +58,14 @@ jobs:
                   "ERROR: PR body does not contain a valid Result-ID."
               )
 
+          if not generated_at_match:
+              raise SystemExit(
+                  "ERROR: PR body does not contain Generated-At."
+              )
+
           submission_id = submission_match.group(1)
           result_id = result_match.group(1)
+          generated_at = generated_at_match.group(1)
 
           expected_branch = f"import/{submission_id}"
 
@@ -74,9 +87,13 @@ jobs:
               output.write(
                   f"result_id={result_id}\n"
               )
+              output.write(
+                  f"generated_at={generated_at}\n"
+              )
 
           print(f"Submission ID: {submission_id}")
           print(f"Result ID: {result_id}")
+          print(f"Generated At: {generated_at}")
           print("Import PR metadata verified.")
           PY
 
@@ -125,4 +142,79 @@ jobs:
             --header "Authorization: Bearer $CALLBACK_TOKEN" \
             --header "Content-Type: application/json" \
             --data "{\"status\":\"publishing\",\"result_id\":\"$RESULT_ID\"}" \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/lifecycle"
+
+      - name: Verify production publication
+        env:
+          EXPECTED_GENERATED_AT: ${{ steps.metadata.outputs.generated_at }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import time
+          import urllib.request
+
+          url = "https://openllmworks.com/hardware.json"
+          expected = os.environ["EXPECTED_GENERATED_AT"]
+
+          attempts = 30
+          delay_seconds = 10
+
+          for attempt in range(1, attempts + 1):
+              request = urllib.request.Request(
+                  f"{url}?publication_check={int(time.time())}",
+                  headers={
+                      "Cache-Control": "no-cache",
+                      "User-Agent": "OpenLLMWorks-Publish-Check",
+                  },
+              )
+
+              try:
+                  with urllib.request.urlopen(
+                      request,
+                      timeout=20,
+                  ) as response:
+                      payload = json.load(response)
+
+                  actual = payload.get("generatedAt")
+
+                  print(
+                      f"Attempt {attempt}/{attempts}: "
+                      f"production generatedAt={actual}"
+                  )
+
+                  if actual == expected:
+                      print(
+                          "Production publication fingerprint verified."
+                      )
+                      break
+
+              except Exception as error:
+                  print(
+                      f"Attempt {attempt}/{attempts} failed: {error}"
+                  )
+
+              if attempt == attempts:
+                  raise SystemExit(
+                      "ERROR: Production did not expose the expected "
+                      "generatedAt fingerprint before timeout."
+                  )
+
+              time.sleep(delay_seconds)
+          PY
+
+      - name: Record published
+        env:
+          CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
+          SUBMISSION_ID: ${{ steps.metadata.outputs.submission_id }}
+          RESULT_ID: ${{ steps.metadata.outputs.result_id }}
+        run: |
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data "{\"status\":\"published\",\"result_id\":\"$RESULT_ID\"}" \
             "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/lifecycle"
