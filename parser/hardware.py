@@ -60,18 +60,35 @@ def parse_cpu(file_path: Path) -> dict:
 def parse_memory(file_path: Path) -> dict:
     """
     Parse total physical memory reported in bytes.
+
+    Supports both the legacy table evidence format and the
+    richer System Metadata v1 Format-List evidence.
     """
 
     text = read_text_file(file_path)
 
-    values = re.findall(r"^\s*(\d+)\s*$", text, re.MULTILINE)
+    total_match = re.search(
+        r"^TotalPhysicalMemory\s*:\s*(\d+)\s*$",
+        text,
+        flags=re.MULTILINE | re.IGNORECASE,
+    )
 
-    if not values:
-        raise ValueError(
-            f"Could not parse memory information from {file_path.name}"
+    if total_match:
+        total_bytes = int(total_match.group(1))
+    else:
+        values = re.findall(
+            r"^\s*(\d+)\s*$",
+            text,
+            flags=re.MULTILINE,
         )
 
-    total_bytes = int(values[-1])
+        if not values:
+            raise ValueError(
+                "Could not parse memory information from "
+                f"{file_path.name}"
+            )
+
+        total_bytes = int(values[-1])
 
     gibibytes = total_bytes / (1024 ** 3)
     rounded_capacity_gb = round(gibibytes)
@@ -86,46 +103,80 @@ def parse_memory(file_path: Path) -> dict:
 def parse_system(file_path: Path) -> dict:
     """
     Parse computer manufacturer and model.
+
+    Supports both the legacy table evidence format and the
+    richer System Metadata v1 Format-List evidence.
     """
 
     text = read_text_file(file_path)
 
-    lines = [
-        line.rstrip()
-        for line in text.splitlines()
-        if line.strip()
-    ]
+    system_section = text
 
-    separator_index = None
+    if "COMPUTER SYSTEM" in text:
+        system_section = text.split(
+            "COMPUTER SYSTEM",
+            1,
+        )[1]
 
-    for index, line in enumerate(lines):
-        if re.fullmatch(r"[-\s]+", line):
-            separator_index = index
-            break
+        if "BASEBOARD" in system_section:
+            system_section = system_section.split(
+                "BASEBOARD",
+                1,
+            )[0]
 
-    if separator_index is None:
-        raise ValueError(
-            f"Could not locate the system table in {file_path.name}"
-        )
+    manufacturer_match = re.search(
+        r"^Manufacturer\s*:\s*(.+?)\s*$",
+        system_section,
+        flags=re.MULTILINE | re.IGNORECASE,
+    )
+    model_match = re.search(
+        r"^Model\s*:\s*(.+?)\s*$",
+        system_section,
+        flags=re.MULTILINE | re.IGNORECASE,
+    )
 
-    if separator_index + 1 >= len(lines):
-        raise ValueError(
-            f"Could not locate system values in {file_path.name}"
-        )
+    if manufacturer_match and model_match:
+        manufacturer = manufacturer_match.group(1).strip()
+        model = model_match.group(1).strip()
+    else:
+        lines = [
+            line.rstrip()
+            for line in text.splitlines()
+            if line.strip()
+        ]
 
-    header = lines[separator_index - 1]
-    separator = lines[separator_index]
-    value_line = lines[separator_index + 1]
+        separator_index = None
 
-    model_column = header.find("Model")
+        for index, line in enumerate(lines):
+            if re.fullmatch(r"[-\s]+", line):
+                separator_index = index
+                break
 
-    if model_column == -1:
-        raise ValueError(
-            f"Could not locate the Model column in {file_path.name}"
-        )
+        if separator_index is None:
+            raise ValueError(
+                "Could not locate the system table in "
+                f"{file_path.name}"
+            )
 
-    manufacturer = value_line[:model_column].strip()
-    model = value_line[model_column:].strip()
+        if separator_index + 1 >= len(lines):
+            raise ValueError(
+                "Could not locate system values in "
+                f"{file_path.name}"
+            )
+
+        header = lines[separator_index - 1]
+        value_line = lines[separator_index + 1]
+
+        model_column = header.find("Model")
+
+        if model_column == -1:
+            raise ValueError(
+                "Could not locate the Model column in "
+                f"{file_path.name}"
+            )
+
+        manufacturer = value_line[:model_column].strip()
+        model = value_line[model_column:].strip()
 
     generic_values = {
         "system manufacturer",
