@@ -166,15 +166,20 @@ def parse_memory(file_path: Path) -> dict:
 
 def parse_system(file_path: Path) -> dict:
     """
-    Parse computer manufacturer and model.
+    Parse computer manufacturer, model, and optional baseboard
+    metadata.
 
     Supports both the legacy table evidence format and the
     richer System Metadata v1 Format-List evidence.
+
+    Baseboard metadata is descriptive only and is not required
+    for legacy submissions.
     """
 
     text = read_text_file(file_path)
 
     system_section = text
+    baseboard = None
 
     if "COMPUTER SYSTEM" in text:
         system_section = text.split(
@@ -183,10 +188,46 @@ def parse_system(file_path: Path) -> dict:
         )[1]
 
         if "BASEBOARD" in system_section:
-            system_section = system_section.split(
-                "BASEBOARD",
-                1,
-            )[0]
+            system_section, baseboard_section = (
+                system_section.split(
+                    "BASEBOARD",
+                    1,
+                )
+            )
+
+            baseboard_manufacturer_match = re.search(
+                r"^Manufacturer\s*:\s*(.+?)\s*$",
+                baseboard_section,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+            baseboard_product_match = re.search(
+                r"^Product\s*:\s*(.+?)\s*$",
+                baseboard_section,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+            baseboard_version_match = re.search(
+                r"^Version\s*:\s*(.+?)\s*$",
+                baseboard_section,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+
+            baseboard = {
+                "manufacturer": (
+                    baseboard_manufacturer_match.group(1).strip()
+                    if baseboard_manufacturer_match
+                    else None
+                ),
+                "product": (
+                    baseboard_product_match.group(1).strip()
+                    if baseboard_product_match
+                    else None
+                ),
+                "version": (
+                    baseboard_version_match.group(1).strip()
+                    if baseboard_version_match
+                    else None
+                ),
+            }
 
     manufacturer_match = re.search(
         r"^Manufacturer\s*:\s*(.+?)\s*$",
@@ -254,12 +295,16 @@ def parse_system(file_path: Path) -> dict:
         or model.lower() in generic_values
     )
 
-    return {
+    result = {
         "manufacturer": manufacturer or None,
         "model": model or None,
         "generic_firmware_identity": generic_identity,
     }
 
+    if baseboard is not None:
+        result["baseboard"] = baseboard
+
+    return result
 
 def parse_windows(file_path: Path) -> dict:
     """
