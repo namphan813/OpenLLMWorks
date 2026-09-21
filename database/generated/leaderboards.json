@@ -1,6 +1,6 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-09-21T01:57:27.043125+00:00",
+    "generatedAt": "2026-09-21T05:29:31.625255+00:00",
     "generator": {
         "name": "OpenLLMWorks Leaderboard Publisher",
         "version": "0.2.1"
@@ -125,8 +125,8 @@
                         "vramGiB": 6.0,
                         "formFactor": "Unknown"
                     },
-                    "submissionCount": 1,
-                    "value": 285.92
+                    "submissionCount": 2,
+                    "value": 287.51
                 },
                 {
                     "rank": 9,
@@ -230,8 +230,8 @@
                         "vramGiB": 6.0,
                         "formFactor": "Unknown"
                     },
-                    "submissionCount": 1,
-                    "value": 71.09
+                    "submissionCount": 2,
+                    "value": 73.735
                 },
                 {
                     "rank": 4,
