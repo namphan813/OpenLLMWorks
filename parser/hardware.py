@@ -93,10 +93,74 @@ def parse_memory(file_path: Path) -> dict:
     gibibytes = total_bytes / (1024 ** 3)
     rounded_capacity_gb = round(gibibytes)
 
+    modules = []
+
+    if "PHYSICAL MEMORY MODULES" in text:
+        modules_section = text.split(
+            "PHYSICAL MEMORY MODULES",
+            1,
+        )[1]
+
+        module_blocks = re.split(
+            r"(?=^BankLabel\s*:)",
+            modules_section,
+            flags=re.MULTILINE,
+        )
+
+        for block in module_blocks:
+            if not re.search(
+                r"^BankLabel\s*:",
+                block,
+                flags=re.MULTILINE | re.IGNORECASE,
+            ):
+                continue
+
+            def get_value(field_name: str):
+                match = re.search(
+                    rf"^{re.escape(field_name)}\s*:\s*(.*?)\s*$",
+                    block,
+                    flags=re.MULTILINE | re.IGNORECASE,
+                )
+                if not match:
+                    return None
+
+                value = match.group(1).strip()
+                return value or None
+
+            def get_int(field_name: str):
+                value = get_value(field_name)
+
+                if value is None:
+                    return None
+
+                try:
+                    return int(value)
+                except ValueError:
+                    return None
+
+            modules.append(
+                {
+                    "bank_label": get_value("BankLabel"),
+                    "device_locator": get_value("DeviceLocator"),
+                    "manufacturer": get_value("Manufacturer"),
+                    "part_number": get_value("PartNumber"),
+                    "capacity_bytes": get_int("Capacity"),
+                    "speed_mts": get_int("Speed"),
+                    "configured_speed_mts": get_int(
+                        "ConfiguredClockSpeed"
+                    ),
+                    "smbios_memory_type": get_int(
+                        "SMBIOSMemoryType"
+                    ),
+                    "form_factor": get_int("FormFactor"),
+                }
+            )
+
     return {
         "reported_bytes": total_bytes,
         "calculated_gib": round(gibibytes, 2),
         "installed_capacity_gb": rounded_capacity_gb,
+        "modules": modules,
     }
 
 
