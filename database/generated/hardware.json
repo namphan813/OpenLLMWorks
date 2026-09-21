@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-09-20T18:06:40.798334+00:00",
+    "generatedAt": "2026-09-21T01:17:29.884177+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
-        "gpuVariants": 10,
-        "benchmarkResults": 11
+        "gpuVariants": 11,
+        "benchmarkResults": 12
     },
     "hardware": [
         {
@@ -88,6 +88,48 @@
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 16,
                     "vramGib": 2.0,
+                    "driverVersion": "582.66",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "582.66"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1070 Ti",
+                "vramGib": 8.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 1162.1,
+                "averageTg128": 57.17,
+                "bestPp512": 1162.1,
+                "worstPp512": 1162.1
+            },
+            "system": {
+                "averageMemoryGb": 16.0,
+                "memoryConfigurationsGb": [
+                    16
+                ],
+                "averageVramGib": 8.0,
+                "operatingSystems": [
+                    "Windows 11 Pro 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "Bench-001-NVIDIA-GeForce-GTX-1070-Ti-20260920-185257",
+                    "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+                    "pp512": 1162.1,
+                    "tg128": 57.17,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 8.0,
                     "driverVersion": "582.66",
                     "cudaUmdVersion": "13.0",
                     "nvidiaSmiVersion": "582.66"
