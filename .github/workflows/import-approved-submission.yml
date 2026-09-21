@@ -115,6 +115,8 @@ jobs:
           echo "Canonical maintainer workflow completed."
 
       - name: Resolve canonical result ID
+        env:
+          SUBMISSION_DIR: ${{ steps.extract.outputs.submission_dir }}
         id: result
         run: |
           python - <<'PY'
