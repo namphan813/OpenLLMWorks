@@ -15,6 +15,7 @@ from hashlib import sha256
 from pathlib import Path
 import json
 import shutil
+import ssl
 import tempfile
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -178,6 +179,48 @@ def verify_file_identity(
     )
 
 
+def create_windows_https_context() -> ssl.SSLContext:
+    """
+    Create a verified HTTPS context using certificates trusted by
+    Windows.
+
+    The standalone Runner uses Python/OpenSSL for HTTPS rather than
+    the Windows networking stack. Explicitly importing certificates
+    from the Windows ROOT and CA stores keeps certificate and hostname
+    verification enabled while honoring the host machine's trust
+    configuration.
+    """
+
+    context = ssl.create_default_context()
+
+    if os.name != "nt":
+        return context
+
+    for store_name in ("ROOT", "CA"):
+        try:
+            certificates = ssl.enum_certificates(
+                store_name
+            )
+        except OSError:
+            continue
+
+        for certificate, encoding_type, trust in certificates:
+            if encoding_type != "x509_asn":
+                continue
+
+            try:
+                pem_certificate = ssl.DER_cert_to_PEM_cert(
+                    certificate
+                )
+                context.load_verify_locations(
+                    cadata=pem_certificate
+                )
+            except (ssl.SSLError, ValueError):
+                continue
+
+    return context
+
+
 def download_verified_file(
     *,
     url: str,
@@ -258,9 +301,12 @@ def download_verified_file(
     )
 
     try:
+        ssl_context = create_windows_https_context()
+
         with urlopen(
             request,
             timeout=60,
+            context=ssl_context,
         ) as response:
             with partial_path.open(
                 "wb"
@@ -326,6 +372,26 @@ def download_verified_file(
     ) as error:
         if partial_path.exists():
             partial_path.unlink()
+
+        error_text = str(error)
+
+        if "CERTIFICATE_VERIFY_FAILED" in error_text:
+            ssl_details = (
+                f"OpenSSL {ssl.OPENSSL_VERSION}; "
+                f"Windows certificate API: "
+                f"{hasattr(ssl, 'enum_certificates')}"
+            )
+
+            return (
+                False,
+                (
+                    f"{label} secure download failed: "
+                    "HTTPS certificate verification failed. "
+                    "No unverified file was installed. "
+                    f"[TLS: {ssl_details}] "
+                    f"Technical details: {error}"
+                ),
+            )
 
         return (
             False,
