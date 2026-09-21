@@ -351,6 +351,147 @@ def parse_windows(file_path: Path) -> dict:
     }
 
 
+
+def parse_video_controllers(file_path: Path) -> list[dict]:
+    """
+    Parse optional Windows video-controller metadata from the
+    System Metadata v1 VIDEO CONTROLLERS evidence section.
+
+    Legacy system evidence returns an empty list.
+    """
+
+    text = read_text_file(file_path)
+
+    if "VIDEO CONTROLLERS" not in text:
+        return []
+
+    section = text.split(
+        "VIDEO CONTROLLERS",
+        1,
+    )[1]
+
+    blocks = re.split(
+        r"(?=^Name\s*:)",
+        section,
+        flags=re.MULTILINE,
+    )
+
+    controllers = []
+
+    for block in blocks:
+        if not re.search(
+            r"^Name\s*:",
+            block,
+            flags=re.MULTILINE | re.IGNORECASE,
+        ):
+            continue
+
+        def get_value(field: str) -> str | None:
+            match = re.search(
+                rf"^{re.escape(field)}\s*:\s*(.*?)\s*$",
+                block,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+
+            if not match:
+                return None
+
+            value = match.group(1).strip()
+
+            return value or None
+
+        name = get_value("Name")
+        pnp_device_id = get_value("PNPDeviceID")
+
+        pci = None
+
+        if pnp_device_id:
+            pci_match = re.search(
+                r"VEN_([0-9A-F]{4})"
+                r"&DEV_([0-9A-F]{4})"
+                r"&SUBSYS_([0-9A-F]{8})"
+                r"(?:&REV_([0-9A-F]{2}))?",
+                pnp_device_id,
+                flags=re.IGNORECASE,
+            )
+
+            if pci_match:
+                pci = {
+                    "vendor_id": (
+                        pci_match.group(1).upper()
+                    ),
+                    "device_id": (
+                        pci_match.group(2).upper()
+                    ),
+                    "subsystem_id": (
+                        pci_match.group(3).upper()
+                    ),
+                    "revision_id": (
+                        pci_match.group(4).upper()
+                        if pci_match.group(4)
+                        else None
+                    ),
+                    "pnp_device_id": pnp_device_id,
+                }
+
+        controllers.append(
+            {
+                "name": name,
+                "pci": pci,
+            }
+        )
+
+    return controllers
+
+
+def enrich_gpu_with_video_controller(
+    gpu: dict,
+    controllers: list[dict],
+) -> dict:
+    """
+    Attach PCI metadata from the Windows video controller that
+    matches the GPU already identified by NVIDIA-SMI.
+
+    NVIDIA-SMI remains authoritative for benchmark GPU identity.
+    """
+
+    gpu_model = normalize_whitespace(
+        gpu.get("model") or ""
+    ).lower()
+
+    def comparable_name(value: str | None) -> str:
+        normalized = normalize_whitespace(
+            value or ""
+        ).lower()
+
+        if normalized.startswith("nvidia "):
+            normalized = normalized[len("nvidia "):]
+
+        return normalized
+
+    target = comparable_name(gpu_model)
+
+    matches = [
+        controller
+        for controller in controllers
+        if comparable_name(
+            controller.get("name")
+        ) == target
+    ]
+
+    if len(matches) != 1:
+        return gpu
+
+    pci = matches[0].get("pci")
+
+    if pci is None:
+        return gpu
+
+    enriched_gpu = dict(gpu)
+    enriched_gpu["pci"] = pci
+
+    return enriched_gpu
+
 def parse_nvidia_smi(file_path: Path) -> dict:
     """
     Parse NVIDIA GPU, VRAM, driver, CUDA version, and driver model.
@@ -468,6 +609,19 @@ def load_hardware_profile(submission_folder: Path) -> dict:
             + ", ".join(missing_files)
         )
 
+    gpu = parse_nvidia_smi(
+        required_files["nvidia_smi"]
+    )
+
+    video_controllers = parse_video_controllers(
+        required_files["system"]
+    )
+
+    gpu = enrich_gpu_with_video_controller(
+        gpu,
+        video_controllers,
+    )
+
     return {
         "system": parse_system(required_files["system"]),
         "cpu": parse_cpu(required_files["cpu"]),
@@ -475,7 +629,5 @@ def load_hardware_profile(submission_folder: Path) -> dict:
         "operating_system": parse_windows(
             required_files["windows"]
         ),
-        "gpu": parse_nvidia_smi(
-            required_files["nvidia_smi"]
-        ),
+        "gpu": gpu,
     }
