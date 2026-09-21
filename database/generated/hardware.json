@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-09-21T01:17:29.884177+00:00",
+    "generatedAt": "2026-09-21T01:57:27.041981+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
-        "gpuVariants": 11,
-        "benchmarkResults": 12
+        "gpuVariants": 12,
+        "benchmarkResults": 13
     },
     "hardware": [
         {
@@ -273,6 +273,48 @@
                     "driverVersion": "582.66",
                     "cudaUmdVersion": "13.0",
                     "nvidiaSmiVersion": "582.66"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-rtx-2050-4gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce RTX 2050",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce RTX 2050",
+                "vramGib": 4.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 1634.2,
+                "averageTg128": 37.42,
+                "bestPp512": 1634.2,
+                "worstPp512": 1634.2
+            },
+            "system": {
+                "averageMemoryGb": 15.0,
+                "memoryConfigurationsGb": [
+                    15
+                ],
+                "averageVramGib": 4.0,
+                "operatingSystems": [
+                    "Windows 11 Home 25H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "submissionName": "ICARUS-NVIDIA-GeForce-RTX-2050-20260920-213410",
+                    "cpuModel": "AMD Ryzen 5 7535HS with Radeon Graphics",
+                    "pp512": 1634.2,
+                    "tg128": 37.42,
+                    "operatingSystem": "Windows 11 Home 25H2",
+                    "memoryGb": 15,
+                    "vramGib": 4.0,
+                    "driverVersion": "581.83",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "581.83"
                 }
             ]
         },
