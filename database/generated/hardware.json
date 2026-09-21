@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-09-21T01:57:27.041981+00:00",
+    "generatedAt": "2026-09-21T05:29:31.623911+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
         "gpuVariants": 12,
-        "benchmarkResults": 13
+        "benchmarkResults": 14
     },
     "hardware": [
         {
@@ -202,21 +202,23 @@
                 "vramGib": 6.0,
                 "formFactor": "Unknown"
             },
-            "submissionCount": 1,
+            "submissionCount": 2,
             "performance": {
-                "averagePp512": 285.92,
-                "averageTg128": 71.09,
-                "bestPp512": 285.92,
+                "averagePp512": 287.51,
+                "averageTg128": 73.735,
+                "bestPp512": 289.1,
                 "worstPp512": 285.92
             },
             "system": {
-                "averageMemoryGb": 32.0,
+                "averageMemoryGb": 24.0,
                 "memoryConfigurationsGb": [
+                    16,
                     32
                 ],
                 "averageVramGib": 6.0,
                 "operatingSystems": [
-                    "Windows 11 Home 25H2"
+                    "Windows 11 Home 25H2",
+                    "Windows 11 Pro 25H2"
                 ]
             },
             "benchmarkResults": [
@@ -231,6 +233,18 @@
                     "driverVersion": "610.88",
                     "cudaUmdVersion": "13.3",
                     "nvidiaSmiVersion": "610.88"
+                },
+                {
+                    "submissionName": "Bench-001-NVIDIA-GeForce-GTX-1660-Ti-20260920-232712",
+                    "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
+                    "pp512": 289.1,
+                    "tg128": 76.38,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 16,
+                    "vramGib": 6.0,
+                    "driverVersion": "616.92",
+                    "cudaUmdVersion": "13.4",
+                    "nvidiaSmiVersion": "616.92"
                 }
             ]
         },
