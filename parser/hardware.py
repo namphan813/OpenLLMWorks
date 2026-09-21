@@ -352,6 +352,59 @@ def parse_windows(file_path: Path) -> dict:
 
 
 
+
+def parse_model_storage(file_path: Path) -> dict | None:
+    """
+    Parse optional storage metadata for the physical device that
+    contains the benchmark model.
+
+    Legacy system evidence without a MODEL STORAGE section
+    returns None.
+    """
+
+    text = read_text_file(file_path)
+
+    if "MODEL STORAGE" not in text:
+        return None
+
+    section = text.split(
+        "MODEL STORAGE",
+        1,
+    )[1]
+
+    def get_value(field: str) -> str | None:
+        match = re.search(
+            rf"^{re.escape(field)}\s*:\s*(.*?)\s*$",
+            section,
+            flags=re.MULTILINE | re.IGNORECASE,
+        )
+
+        if not match:
+            return None
+
+        value = match.group(1).strip()
+
+        return value or None
+
+    capacity_value = get_value("CapacityBytes")
+
+    try:
+        capacity_bytes = (
+            int(capacity_value)
+            if capacity_value is not None
+            else None
+        )
+    except ValueError:
+        capacity_bytes = None
+
+    return {
+        "model": get_value("Model"),
+        "media_type": get_value("MediaType"),
+        "bus_type": get_value("BusType"),
+        "capacity_bytes": capacity_bytes,
+    }
+
+
 def parse_video_controllers(file_path: Path) -> list[dict]:
     """
     Parse optional Windows video-controller metadata from the
@@ -622,7 +675,7 @@ def load_hardware_profile(submission_folder: Path) -> dict:
         video_controllers,
     )
 
-    return {
+    hardware = {
         "system": parse_system(required_files["system"]),
         "cpu": parse_cpu(required_files["cpu"]),
         "memory": parse_memory(required_files["memory"]),
@@ -631,3 +684,12 @@ def load_hardware_profile(submission_folder: Path) -> dict:
         ),
         "gpu": gpu,
     }
+
+    model_storage = parse_model_storage(
+        required_files["system"]
+    )
+
+    if model_storage is not None:
+        hardware["model_storage"] = model_storage
+
+    return hardware

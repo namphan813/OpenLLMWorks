@@ -1108,6 +1108,8 @@ def capture_hardware_evidence(
     ui_print("=" * 60)
     ui_print()
 
+    model_drive = MODEL_FILE.drive.rstrip(":").upper()
+
     evidence_commands = {
         "cpu.txt": (
             "Get-CimInstance Win32_Processor | "
@@ -1155,6 +1157,22 @@ def capture_hardware_evidence(
             "Out-String -Width 240; "
             "'VIDEO CONTROLLERS'; "
             "$videoControllers | Format-List | "
+            "Out-String -Width 240; "
+            f"$modelPartition = Get-Partition "
+            f"-DriveLetter '{model_drive}'; "
+            "$modelDisk = $modelPartition | Get-Disk; "
+            "$modelPhysicalDisk = Get-PhysicalDisk | "
+            "Where-Object { "
+            "$_.DeviceId -eq [string]$modelDisk.Number "
+            "} | Select-Object -First 1; "
+            "$modelStorage = [PSCustomObject]@{ "
+            "Model = $modelDisk.Model; "
+            "MediaType = $modelPhysicalDisk.MediaType; "
+            "BusType = $modelDisk.BusType; "
+            "CapacityBytes = $modelDisk.Size "
+            "}; "
+            "'MODEL STORAGE'; "
+            "$modelStorage | Format-List | "
             "Out-String -Width 240"
         ),
         "windows.txt": (
