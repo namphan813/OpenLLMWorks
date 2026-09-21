@@ -14,3 +14,6 @@ incoming/
 
 # Cloudflare Wrangler local state
 .wrangler/
+
+# Local developer inspection and scratch files
+.local/
