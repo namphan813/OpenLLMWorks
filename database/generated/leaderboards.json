@@ -1,6 +1,6 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-09-21T19:14:24.697211+00:00",
+    "generatedAt": "2026-09-21T20:48:04.863454+00:00",
     "generator": {
         "name": "OpenLLMWorks Leaderboard Publisher",
         "version": "0.2.1"
@@ -167,8 +167,8 @@
                         "vramGiB": 4.0,
                         "formFactor": "Unknown"
                     },
-                    "submissionCount": 1,
-                    "value": 133.22
+                    "submissionCount": 2,
+                    "value": 132.78
                 },
                 {
                     "rank": 12,
@@ -291,6 +291,20 @@
                 },
                 {
                     "rank": 8,
+                    "variantId": "quadro-t1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro T1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro T1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 29.205000000000002
+                },
+                {
+                    "rank": 9,
                     "variantId": "nvidia-geforce-gtx-970-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 970",
@@ -302,20 +316,6 @@
                     },
                     "submissionCount": 1,
                     "value": 28.76
-                },
-                {
-                    "rank": 9,
-                    "variantId": "quadro-t1000-4gb",
-                    "gpuVendor": "NVIDIA",
-                    "gpuModel": "Quadro T1000",
-                    "gpuIdentity": {
-                        "vendor": "NVIDIA",
-                        "model": "Quadro T1000",
-                        "vramGiB": 4.0,
-                        "formFactor": "Unknown"
-                    },
-                    "submissionCount": 1,
-                    "value": 22.17
                 },
                 {
                     "rank": 10,

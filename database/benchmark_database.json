@@ -3,8 +3,8 @@
   "schema_version": "0.7",
   "parser_version": "0.6.0-dev5",
   "created_at": "2026-08-02T14:17:33+00:00",
-  "generated_at": "2026-09-21T19:14:24+00:00",
-  "result_count": 14,
+  "generated_at": "2026-09-21T20:48:04+00:00",
+  "result_count": 15,
   "results": [
     {
       "result_id": "result_0200fb0ee70bb08a",
@@ -347,6 +347,164 @@
         "imported_at": "2026-08-09T15:23:48+00:00",
         "last_updated": "2026-08-09T15:59:42+00:00",
         "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_77913dd17782a6ce",
+      "submission": {
+        "submission_name": "phanclanMBMiniZ-Quadro-T1000-20260921-131012",
+        "source_path": "/home/runner/work/OpenLLMWorks/OpenLLMWorks/incoming/phanclanMBMiniZ-Quadro-T1000-20260921-131012",
+        "source_type": "direct_submission",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-09-21T19:11:02+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "HP",
+          "model": "HP Z2 Mini G5 Workstation",
+          "generic_firmware_identity": false,
+          "baseboard": {
+            "manufacturer": "HP",
+            "product": "8754",
+            "version": "KBC Version 09.08.26"
+          }
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz",
+          "physical_cores": 10,
+          "logical_processors": 20
+        },
+        "memory": {
+          "reported_bytes": 34124038144,
+          "calculated_gib": 31.78,
+          "installed_capacity_gb": 32,
+          "modules": [
+            {
+              "bank_label": "ChannelA",
+              "device_locator": "DIMM1",
+              "manufacturer": "Unknown - [0x9E02]",
+              "part_number": "CMSX16GX4M1A3200C22",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 3200,
+              "configured_speed_mts": 2933,
+              "smbios_memory_type": 26,
+              "form_factor": 12
+            },
+            {
+              "bank_label": "ChannelB",
+              "device_locator": "DIMM2",
+              "manufacturer": "Unknown - [0x9E02]",
+              "part_number": "CMSX16GX4M1A3200C22",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 3200,
+              "configured_speed_mts": 2933,
+              "smbios_memory_type": 26,
+              "form_factor": 12
+            }
+          ]
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 26200
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Pro",
+            "name": "Windows 11 Pro",
+            "release": "25H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "Quadro T1000",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 4096,
+            "capacity_gib": 4.0
+          },
+          "software": {
+            "nvidia_smi_version": "596.72",
+            "driver_version": "596.72",
+            "cuda_umd_version": "13.2"
+          },
+          "pci": {
+            "vendor_id": "10DE",
+            "device_id": "1FB9",
+            "subsystem_id": "8754103C",
+            "revision_id": "A1",
+            "pnp_device_id": "PCI\\VEN_10DE&DEV_1FB9&SUBSYS_8754103C&REV_A1\\4&24674EF9&0&0008"
+          }
+        },
+        "model_storage": {
+          "model": "CT1000T500SSD8",
+          "media_type": "SSD",
+          "bus_type": "NVMe",
+          "capacity_bytes": 1000204886016
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-09-21T19:10:20+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 131.91,
+            "tg128": 39.74
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 132.75,
+            "tg128": 37.48
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 132.36,
+            "tg128": 31.51
+          }
+        ],
+        "average": {
+          "pp512": 132.34,
+          "tg128": 36.24
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev5",
+        "database_module_version": "0.8.0-dev5",
+        "schema_version": "0.7",
+        "processed_at": "2026-09-21T20:48:04+00:00",
+        "imported_at": "2026-09-21T20:48:04+00:00",
+        "last_updated": "2026-09-21T20:48:04+00:00"
       }
     },
     {
@@ -2114,6 +2272,13 @@
       "imported_at": "2026-09-21T05:29:31+00:00",
       "result_id": "result_b84a1e21fdb0ccfa",
       "submission_name": "Bench-001-NVIDIA-GeForce-GTX-1660-Ti-20260920-232712",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-09-21T20:48:04+00:00",
+      "imported_at": "2026-09-21T20:48:04+00:00",
+      "result_id": "result_77913dd17782a6ce",
+      "submission_name": "phanclanMBMiniZ-Quadro-T1000-20260921-131012",
       "status": "added"
     }
   ],

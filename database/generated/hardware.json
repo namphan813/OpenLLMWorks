@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.6",
-    "generatedAt": "2026-09-21T19:14:24.695880+00:00",
+    "generatedAt": "2026-09-21T20:48:04.862037+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.2"
     },
     "summary": {
         "gpuVariants": 12,
-        "benchmarkResults": 14
+        "benchmarkResults": 15
     },
     "hardware": [
         {
@@ -510,12 +510,12 @@
                 "vramGib": 4.0,
                 "formFactor": "Unknown"
             },
-            "submissionCount": 1,
+            "submissionCount": 2,
             "performance": {
-                "averagePp512": 133.22,
-                "averageTg128": 22.17,
+                "averagePp512": 132.78,
+                "averageTg128": 29.205000000000002,
                 "bestPp512": 133.22,
-                "worstPp512": 133.22
+                "worstPp512": 132.34
             },
             "system": {
                 "averageMemoryGb": 32.0,
@@ -539,6 +539,18 @@
                     "driverVersion": "",
                     "cudaUmdVersion": "",
                     "nvidiaSmiVersion": ""
+                },
+                {
+                    "submissionName": "phanclanMBMiniZ-Quadro-T1000-20260921-131012",
+                    "cpuModel": "Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz",
+                    "pp512": 132.34,
+                    "tg128": 36.24,
+                    "operatingSystem": "Windows 11 Pro 25H2",
+                    "memoryGb": 32,
+                    "vramGib": 4.0,
+                    "driverVersion": "596.72",
+                    "cudaUmdVersion": "13.2",
+                    "nvidiaSmiVersion": "596.72"
                 }
             ]
         }
