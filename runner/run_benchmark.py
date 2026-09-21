@@ -1213,7 +1213,7 @@ def print_results_summary(
 
     print()
     print("=" * 60)
-    print("Benchmark Results")
+    print("BENCHMARK RESULTS")
     print("=" * 60)
     print()
 
@@ -1529,7 +1529,7 @@ def run_main_workflow() -> int:
         print()
 
     print("=" * 60)
-    print("Environment Verification Summary")
+    print("[1/4] CHECKING YOUR SYSTEM")
     print("=" * 60)
 
     print(
@@ -1639,7 +1639,7 @@ def run_main_workflow() -> int:
         )
 
         print("=" * 60)
-        print("Benchmark Readiness")
+        print("[2/4] PREPARING BENCHMARK")
         print("=" * 60)
         print()
         print("For best consistency:")
@@ -1664,7 +1664,7 @@ def run_main_workflow() -> int:
         print()
 
         print("=" * 60)
-        print("Benchmark Execution")
+        print("[3/4] RUNNING BENCHMARK")
         print("=" * 60)
         print()
 
@@ -1723,7 +1723,7 @@ def run_main_workflow() -> int:
 
     print()
     print("=" * 60)
-    print("Submission Manifest")
+    print("[4/4] PREPARING RESULTS")
     print("=" * 60)
     print()
 
@@ -1766,7 +1766,7 @@ def run_main_workflow() -> int:
     if not validation_ok:
         print()
         print("=" * 60)
-        print("Runner Phase 3C Failed")
+        print("RESULT PREPARATION FAILED")
         print("=" * 60)
         print()
         print(
@@ -1789,7 +1789,7 @@ def run_main_workflow() -> int:
 
     print()
     print("=" * 60)
-    print("Submission Packaging")
+    print("PACKAGING RESULTS")
     print("=" * 60)
     print()
 
@@ -1821,7 +1821,7 @@ def run_main_workflow() -> int:
 
     print()
     print("=" * 60)
-    print("Runner Phase 3C Complete")
+    print("BENCHMARK COMPLETE")
     print("=" * 60)
     print()
 
@@ -1856,7 +1856,7 @@ def run_main_workflow() -> int:
     print()
 
     print(
-        "OpenLLMWorks Runner completed successfully."
+        "[SUCCESS] OpenLLMWorks Runner completed successfully!"
     )
     print()
 
@@ -1885,7 +1885,7 @@ def main() -> int:
         print()
         print()
         print("=" * 60)
-        print("OpenLLMWorks Runner Interrupted")
+        print("[INTERRUPTED] OpenLLMWorks Runner")
         print("=" * 60)
         print()
         print(
@@ -1917,5 +1917,3 @@ if __name__ == "__main__":
     exit_code = main()
     pause_before_exit()
     sys.exit(exit_code)
-
-
