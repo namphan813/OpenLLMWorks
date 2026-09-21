@@ -241,17 +241,147 @@ SUBMISSION_MANIFEST_FILE = "submission.json"
 # General helpers
 # ------------------------------------------------------------
 
+ANSI_RESET = "\033[0m"
+ANSI_BOLD = "\033[1m"
+ANSI_CYAN = "\033[96m"
+ANSI_GREEN = "\033[92m"
+ANSI_YELLOW = "\033[93m"
+ANSI_RED = "\033[91m"
+
+
+def console_supports_color() -> bool:
+    """
+    Return True when contributor-facing ANSI color is appropriate.
+
+    Color is cosmetic only. The Runner remains fully functional
+    when output is redirected or the terminal does not support it.
+    """
+
+    return (
+        sys.stdout.isatty()
+        and os.environ.get("TERM") != "dumb"
+        and os.environ.get("NO_COLOR") is None
+    )
+
+
+def color_text(
+    text: str,
+    color: str,
+    *,
+    bold: bool = False,
+) -> str:
+    """
+    Apply ANSI presentation styling when supported.
+    """
+
+    if not console_supports_color():
+        return text
+
+    prefix = color
+
+    if bold:
+        prefix = ANSI_BOLD + prefix
+
+    return (
+        prefix
+        + text
+        + ANSI_RESET
+    )
+
+
+def style_console_line(line: str) -> str:
+    """
+    Add contributor-facing color to known Runner status markers
+    and major workflow headings.
+
+    The underlying message text remains unchanged.
+    """
+
+    stripped = line.strip()
+
+    if stripped.startswith(
+        ("[PASS]", "[OK]", "[SUCCESS]")
+    ):
+        return color_text(
+            line,
+            ANSI_GREEN,
+            bold=stripped.startswith("[SUCCESS]"),
+        )
+
+    if stripped.startswith(
+        ("[WARN]", "[WARNING]", "[INFO]")
+    ):
+        return color_text(
+            line,
+            ANSI_YELLOW,
+        )
+
+    if stripped.startswith("[FAIL]"):
+        return color_text(
+            line,
+            ANSI_RED,
+            bold=True,
+        )
+
+    if stripped.startswith("[INTERRUPTED]"):
+        return color_text(
+            line,
+            ANSI_YELLOW,
+            bold=True,
+        )
+
+    if (
+        stripped.startswith("[1/4]")
+        or stripped.startswith("[2/4]")
+        or stripped.startswith("[3/4]")
+        or stripped.startswith("[4/4]")
+        or stripped in {
+            "BENCHMARK RESULTS",
+            "PACKAGING RESULTS",
+            "BENCHMARK COMPLETE",
+            "RESULT PREPARATION FAILED",
+        }
+    ):
+        return color_text(
+            line,
+            ANSI_CYAN,
+            bold=True,
+        )
+
+    return line
+
+
+def ui_print(
+    *values: object,
+    sep: str = " ",
+    end: str = "\n",
+) -> None:
+    """
+    Print one Runner UI line with optional presentation styling.
+    """
+
+    line = sep.join(
+        str(value)
+        for value in values
+    )
+
+    print(
+        style_console_line(line),
+        end=end,
+    )
+
+
 def print_header() -> None:
     """
     Print the runner startup banner.
     """
 
-    print()
-    print("=" * 60)
-    print("OpenLLMWorks Runner")
-    print(f"Version: {RUNNER_VERSION}")
-    print("=" * 60)
-    print()
+    ui_print()
+    ui_print("=" * 60)
+    ui_print("OpenLLMWorks Runner")
+    ui_print(f"Version: {RUNNER_VERSION}")
+    ui_print("=" * 60)
+    ui_print()
 
 
 def pause_before_exit() -> None:
@@ -265,7 +395,7 @@ def pause_before_exit() -> None:
     if not getattr(sys, "frozen", False):
         return
 
-    print()
+    ui_print()
     try:
         input("Press Enter to close OpenLLMWorks Runner...")
     except (EOFError, KeyboardInterrupt):
@@ -317,8 +447,8 @@ def ensure_model_ready() -> bool:
     v1.0 benchmark model.
     """
 
-    print("Benchmark Model")
-    print("-" * 60)
+    ui_print("Benchmark Model")
+    ui_print("-" * 60)
 
     try:
         manifest = load_asset_manifest(
@@ -326,10 +456,10 @@ def ensure_model_ready() -> bool:
         )
 
     except RuntimeError as error:
-        print(
+        ui_print(
             f"[FAIL] {error}"
         )
-        print()
+        ui_print()
         return False
 
     manifest_protocol = manifest.get(
@@ -337,17 +467,17 @@ def ensure_model_ready() -> bool:
     )
 
     if manifest_protocol != PROTOCOL_VERSION:
-        print(
+        ui_print(
             "[FAIL] Asset manifest protocol version "
             "does not match the Runner."
         )
-        print(
+        ui_print(
             f"Runner:   {PROTOCOL_VERSION}"
         )
-        print(
+        ui_print(
             f"Manifest: {manifest_protocol}"
         )
-        print()
+        ui_print()
         return False
 
     model_ok, model_message = (
@@ -358,18 +488,18 @@ def ensure_model_ready() -> bool:
     )
 
     if model_ok:
-        print(
+        ui_print(
             "[OK] "
             f"{model_message}"
         )
-        print()
+        ui_print()
         return True
 
-    print(
+    ui_print(
         "[INFO] "
         f"{model_message}"
     )
-    print(
+    ui_print(
         "Model provisioning is required."
     )
 
@@ -392,38 +522,38 @@ def ensure_model_ready() -> bool:
     )
 
     if not filename:
-        print(
+        ui_print(
             "[FAIL] Model manifest does not define "
             "filename."
         )
-        print()
+        ui_print()
         return False
 
     if size_bytes is None:
-        print(
+        ui_print(
             "[FAIL] Model manifest does not define "
             "size_bytes."
         )
-        print()
+        ui_print()
         return False
 
     if not expected_sha256:
-        print(
+        ui_print(
             "[FAIL] Model manifest does not define "
             "sha256."
         )
-        print()
+        ui_print()
         return False
 
     if not isinstance(
         source,
         dict,
     ):
-        print(
+        ui_print(
             "[FAIL] Model manifest does not define "
             "a source."
         )
-        print()
+        ui_print()
         return False
 
     url = source.get(
@@ -431,10 +561,10 @@ def ensure_model_ready() -> bool:
     )
 
     if not url:
-        print(
+        ui_print(
             "[FAIL] Model source does not define url."
         )
-        print()
+        ui_print()
         return False
 
     artifact_path = (
@@ -442,7 +572,7 @@ def ensure_model_ready() -> bool:
         / filename
     )
 
-    print(
+    ui_print(
         f"Artifact: {artifact_path}"
     )
 
@@ -459,14 +589,14 @@ def ensure_model_ready() -> bool:
     )
 
     if not acquired_ok:
-        print(
+        ui_print(
             "[FAIL] "
             f"{acquired_message}"
         )
-        print()
+        ui_print()
         return False
 
-    print(
+    ui_print(
         "[OK] "
         f"{acquired_message}"
     )
@@ -480,18 +610,18 @@ def ensure_model_ready() -> bool:
     )
 
     if not provisioned_ok:
-        print(
+        ui_print(
             "[FAIL] "
             f"{provisioned_message}"
         )
-        print()
+        ui_print()
         return False
 
-    print(
+    ui_print(
         "[OK] "
         f"{provisioned_message}"
     )
-    print()
+    ui_print()
 
     return True
 
@@ -506,8 +636,8 @@ def ensure_runtime_ready() -> bool:
     Protocol v1.0 llama.cpp Windows NVIDIA runtime.
     """
 
-    print("Benchmark Runtime")
-    print("-" * 60)
+    ui_print("Benchmark Runtime")
+    ui_print("-" * 60)
 
     try:
         manifest = load_asset_manifest(
@@ -515,10 +645,10 @@ def ensure_runtime_ready() -> bool:
         )
 
     except RuntimeError as error:
-        print(
+        ui_print(
             f"[FAIL] {error}"
         )
-        print()
+        ui_print()
         return False
 
     manifest_protocol = manifest.get(
@@ -526,17 +656,17 @@ def ensure_runtime_ready() -> bool:
     )
 
     if manifest_protocol != PROTOCOL_VERSION:
-        print(
+        ui_print(
             "[FAIL] Asset manifest protocol version "
             "does not match the Runner."
         )
-        print(
+        ui_print(
             f"Runner:   {PROTOCOL_VERSION}"
         )
-        print(
+        ui_print(
             f"Manifest: {manifest_protocol}"
         )
-        print()
+        ui_print()
         return False
 
     runtime_ok, runtime_message = (
@@ -547,18 +677,18 @@ def ensure_runtime_ready() -> bool:
     )
 
     if runtime_ok:
-        print(
+        ui_print(
             "[OK] "
             f"{runtime_message}"
         )
-        print()
+        ui_print()
         return True
 
-    print(
+    ui_print(
         "[INFO] "
         f"{runtime_message}"
     )
-    print(
+    ui_print(
         "Runtime provisioning is required."
     )
 
@@ -572,11 +702,11 @@ def ensure_runtime_ready() -> bool:
         sources,
         list,
     ) or not sources:
-        print(
+        ui_print(
             "[FAIL] Runtime manifest does not define "
             "sources."
         )
-        print()
+        ui_print()
         return False
 
     artifact_paths: dict[str, Path] = {}
@@ -603,42 +733,42 @@ def ensure_runtime_ready() -> bool:
         )
 
         if not source_id:
-            print(
+            ui_print(
                 "[FAIL] Runtime source does not define id."
             )
-            print()
+            ui_print()
             return False
 
         if not filename:
-            print(
+            ui_print(
                 "[FAIL] Runtime source does not define "
                 f"filename: {source_id}"
             )
-            print()
+            ui_print()
             return False
 
         if size_bytes is None:
-            print(
+            ui_print(
                 "[FAIL] Runtime source does not define "
                 f"size_bytes: {source_id}"
             )
-            print()
+            ui_print()
             return False
 
         if not expected_sha256:
-            print(
+            ui_print(
                 "[FAIL] Runtime source does not define "
                 f"sha256: {source_id}"
             )
-            print()
+            ui_print()
             return False
 
         if not url:
-            print(
+            ui_print(
                 "[FAIL] Runtime source does not define "
                 f"url: {source_id}"
             )
-            print()
+            ui_print()
             return False
 
         artifact_path = (
@@ -646,7 +776,7 @@ def ensure_runtime_ready() -> bool:
             / filename
         )
 
-        print(
+        ui_print(
             f"Artifact: {artifact_path}"
         )
 
@@ -666,14 +796,14 @@ def ensure_runtime_ready() -> bool:
         )
 
         if not acquired_ok:
-            print(
+            ui_print(
                 "[FAIL] "
                 f"{acquired_message}"
             )
-            print()
+            ui_print()
             return False
 
-        print(
+        ui_print(
             "[OK] "
             f"{acquired_message}"
         )
@@ -691,18 +821,18 @@ def ensure_runtime_ready() -> bool:
     )
 
     if not provisioned_ok:
-        print(
+        ui_print(
             "[FAIL] "
             f"{provisioned_message}"
         )
-        print()
+        ui_print()
         return False
 
-    print(
+    ui_print(
         "[OK] "
         f"{provisioned_message}"
     )
-    print()
+    ui_print()
 
     return True
 
@@ -829,36 +959,36 @@ def check_file(
     Verify one required benchmark file.
     """
 
-    print(label)
-    print(f"Path: {file_path}")
+    ui_print(label)
+    ui_print(f"Path: {file_path}")
 
     if not file_path.is_file():
-        print("[FAIL] File not found.")
-        print()
+        ui_print("[FAIL] File not found.")
+        ui_print()
         return False
 
-    print("[OK] File found.")
-    print("Calculating SHA-256...")
+    ui_print("[OK] File found.")
+    ui_print("Calculating SHA-256...")
 
     actual_sha256 = calculate_sha256(
         file_path
     )
 
-    print(
+    ui_print(
         f"Expected: {expected_sha256}"
     )
 
-    print(
+    ui_print(
         f"Actual:   {actual_sha256}"
     )
 
     if actual_sha256 != expected_sha256:
-        print("[FAIL] SHA-256 does not match.")
-        print()
+        ui_print("[FAIL] SHA-256 does not match.")
+        ui_print()
         return False
 
-    print("[OK] SHA-256 verified.")
-    print()
+    ui_print("[OK] SHA-256 verified.")
+    ui_print()
 
     return True
 
@@ -872,8 +1002,8 @@ def check_gpu() -> tuple[
     Verify NVIDIA GPU and driver availability.
     """
 
-    print("NVIDIA GPU")
-    print("-" * 60)
+    ui_print("NVIDIA GPU")
+    ui_print("-" * 60)
 
     try:
         raw_output = run_nvidia_smi()
@@ -883,45 +1013,45 @@ def check_gpu() -> tuple[
         )
 
     except RuntimeError as error:
-        print(f"[FAIL] {error}")
-        print()
+        ui_print(f"[FAIL] {error}")
+        ui_print()
 
         return False, None, None
 
-    print(
+    ui_print(
         f"GPU: {gpu['gpu_model']}"
     )
 
     if gpu["vram_mib"] is not None:
-        print(
+        ui_print(
             f"VRAM: {gpu['vram_mib']} MiB"
         )
 
-    print(
+    ui_print(
         "Driver model: "
         f"{gpu['driver_model']}"
     )
 
-    print(
+    ui_print(
         "NVIDIA-SMI: "
         f"{gpu['nvidia_smi_version'] or 'Unknown'}"
     )
 
-    print(
+    ui_print(
         "Driver: "
         f"{gpu['driver_version'] or 'Unknown'}"
     )
 
-    print(
+    ui_print(
         "CUDA reported: "
         f"{gpu['cuda_version'] or 'Unknown'}"
     )
 
-    print(
+    ui_print(
         "[OK] NVIDIA environment detected."
     )
 
-    print()
+    ui_print()
 
     return True, gpu, raw_output
 
@@ -973,10 +1103,10 @@ def capture_hardware_evidence(
     Capture required OpenLLMWorks hardware evidence files.
     """
 
-    print("=" * 60)
-    print("Hardware Evidence")
-    print("=" * 60)
-    print()
+    ui_print("=" * 60)
+    ui_print("Hardware Evidence")
+    ui_print("=" * 60)
+    ui_print()
 
     evidence_commands = {
         "cpu.txt": (
@@ -1023,7 +1153,7 @@ def capture_hardware_evidence(
             output_file=output_file,
         )
 
-        print(
+        ui_print(
             f"[OK] {file_name}"
         )
 
@@ -1037,8 +1167,8 @@ def capture_hardware_evidence(
         encoding="utf-8",
     )
 
-    print("[OK] nvidia-smi.txt")
-    print()
+    ui_print("[OK] nvidia-smi.txt")
+    ui_print()
 
 
 # ------------------------------------------------------------
@@ -1089,7 +1219,7 @@ def execute_benchmark_run(
 
     command = build_benchmark_command()
 
-    print(
+    ui_print(
         f"Running benchmark "
         f"{run_number}/{REQUIRED_RUNS}..."
     )
@@ -1131,7 +1261,7 @@ def execute_benchmark_run(
             f"{output_file}"
         )
 
-    print(
+    ui_print(
         f"[OK] Run {run_number} completed."
     )
 
@@ -1211,11 +1341,11 @@ def print_results_summary(
     Print benchmark results and verify all three runs parsed.
     """
 
-    print()
-    print("=" * 60)
-    print("BENCHMARK RESULTS")
-    print("=" * 60)
-    print()
+    ui_print()
+    ui_print("=" * 60)
+    ui_print("BENCHMARK RESULTS")
+    ui_print("=" * 60)
+    ui_print()
 
     parsed_results = []
 
@@ -1229,14 +1359,14 @@ def print_results_summary(
             )
 
         except RuntimeError as error:
-            print(f"[FAIL] {error}")
+            ui_print(f"[FAIL] {error}")
             return False
 
         parsed_results.append(
             result
         )
 
-        print(
+        ui_print(
             f"Run {index}: "
             f"pp512 {result['pp512']:.2f} t/s | "
             f"tg128 {result['tg128']:.2f} t/s"
@@ -1252,9 +1382,9 @@ def print_results_summary(
         for item in parsed_results
     ) / len(parsed_results)
 
-    print()
+    ui_print()
 
-    print(
+    ui_print(
         "Average: "
         f"pp512 {pp_average:.2f} t/s | "
         f"tg128 {tg_average:.2f} t/s"
@@ -1271,19 +1401,19 @@ def print_results_summary(
     }
 
     if len(commits) == 1:
-        print(
+        ui_print(
             f"llama.cpp commit: "
             f"{next(iter(commits))}"
         )
 
     if len(builds) == 1:
-        print(
+        ui_print(
             f"llama.cpp build: "
             f"{next(iter(builds))}"
         )
 
-    print()
-    print(
+    ui_print()
+    ui_print(
         "[PASS] Three benchmark runs parsed successfully."
     )
 
@@ -1351,10 +1481,10 @@ def validate_submission_workspace(
     OpenLLMWorks submission validation path.
     """
 
-    print()
-    print("=" * 60)
-    print("Submission Validation")
-    print("=" * 60)
+    ui_print()
+    ui_print("=" * 60)
+    ui_print("Submission Validation")
+    ui_print("=" * 60)
 
     try:
         submission = Submission.from_path(
@@ -1365,12 +1495,12 @@ def validate_submission_workspace(
         FileNotFoundError,
         NotADirectoryError,
     ) as error:
-        print()
-        print(
+        ui_print()
+        ui_print(
             f"[FAIL] Could not load submission: "
             f"{error}"
         )
-        print()
+        ui_print()
 
         return False
 
@@ -1380,12 +1510,12 @@ def validate_submission_workspace(
         )
 
     except Exception as error:
-        print()
-        print(
+        ui_print()
+        ui_print(
             "[FAIL] Submission validation "
             f"raised an unexpected error: {error}"
         )
-        print()
+        ui_print()
 
         return False
 
@@ -1503,15 +1633,15 @@ def run_main_workflow() -> int:
         )
     else:
         model_ok = False
-        print(
+        ui_print(
             "[FAIL] Benchmark model is not ready."
         )
-        print()
+        ui_print()
 
     runtime_ok = ensure_runtime_ready()
 
-    print("Benchmark Engine")
-    print("-" * 60)
+    ui_print("Benchmark Engine")
+    ui_print("-" * 60)
 
     if runtime_ok:
         engine_ok = check_file(
@@ -1523,40 +1653,40 @@ def run_main_workflow() -> int:
         )
     else:
         engine_ok = False
-        print(
+        ui_print(
             "[FAIL] Benchmark runtime is not ready."
         )
-        print()
+        ui_print()
 
-    print("=" * 60)
-    print("[1/4] CHECKING YOUR SYSTEM")
-    print("=" * 60)
+    ui_print("=" * 60)
+    ui_print("[1/4] CHECKING YOUR SYSTEM")
+    ui_print("=" * 60)
 
-    print(
+    ui_print(
         "[PASS] NVIDIA GPU"
         if gpu_ok
         else "[FAIL] NVIDIA GPU"
     )
 
-    print(
+    ui_print(
         "[PASS] Benchmark model"
         if model_ok
         else "[FAIL] Benchmark model"
     )
 
-    print(
+    ui_print(
         "[PASS] Benchmark runtime"
         if runtime_ok
         else "[FAIL] Benchmark runtime"
     )
 
-    print(
+    ui_print(
         "[PASS] Benchmark engine"
         if engine_ok
         else "[FAIL] Benchmark engine"
     )
 
-    print()
+    ui_print()
 
     if not (
         gpu_ok
@@ -1564,26 +1694,26 @@ def run_main_workflow() -> int:
         and runtime_ok
         and engine_ok
     ):
-        print(
+        ui_print(
             "Environment verification FAILED."
         )
-        print()
-        print(
+        ui_print()
+        ui_print(
             "Benchmarking did not start."
         )
-        print(
+        ui_print(
             "Correct the failed checks above, "
             "then run the Runner again."
         )
-        print()
+        ui_print()
 
         return 1
 
-    print(
+    ui_print(
         "Environment verification PASSED."
     )
 
-    print()
+    ui_print()
 
     assert gpu is not None
     assert nvidia_output is not None
@@ -1616,19 +1746,19 @@ def run_main_workflow() -> int:
 
     ACTIVE_RESULT_PATH = result_path
 
-    print("=" * 60)
-    print("Benchmark Workspace")
-    print("=" * 60)
+    ui_print("=" * 60)
+    ui_print("Benchmark Workspace")
+    ui_print("=" * 60)
 
-    print(
+    ui_print(
         f"Submission: {submission_name}"
     )
 
-    print(
+    ui_print(
         f"Path: {result_path}"
     )
 
-    print()
+    ui_print()
 
     try:
         capture_hardware_evidence(
@@ -1638,35 +1768,35 @@ def run_main_workflow() -> int:
             ),
         )
 
-        print("=" * 60)
-        print("[2/4] PREPARING BENCHMARK")
-        print("=" * 60)
-        print()
-        print("For best consistency:")
-        print(
+        ui_print("=" * 60)
+        ui_print("[2/4] PREPARING BENCHMARK")
+        ui_print("=" * 60)
+        ui_print()
+        ui_print("For best consistency:")
+        ui_print(
             "- Allow the system to reach a normal idle state."
         )
-        print(
+        ui_print(
             "- Close unnecessary heavy applications or workloads."
         )
-        print(
+        ui_print(
             "- Avoid changing GPU clocks or power settings "
             "during the run."
         )
-        print()
-        print(
+        ui_print()
+        ui_print(
             "Benchmark Protocol v1.0 does not require "
             "a fixed cooldown period."
         )
-        print(
+        ui_print(
             "Benchmarking will begin automatically."
         )
-        print()
+        ui_print()
 
-        print("=" * 60)
-        print("[3/4] RUNNING BENCHMARK")
-        print("=" * 60)
-        print()
+        ui_print("=" * 60)
+        ui_print("[3/4] RUNNING BENCHMARK")
+        ui_print("=" * 60)
+        ui_print()
 
         benchmark_timestamp = utc_timestamp()
 
@@ -1694,38 +1824,38 @@ def run_main_workflow() -> int:
         )
 
     except RuntimeError as error:
-        print()
-        print(f"[FAIL] {error}")
-        print()
-        print(
+        ui_print()
+        ui_print(f"[FAIL] {error}")
+        ui_print()
+        ui_print(
             "Runner stopped. Partial evidence "
             "has been preserved at:"
         )
 
-        print(result_path)
+        ui_print(result_path)
 
         return 1
 
     if not results_ok:
-        print()
-        print(
+        ui_print()
+        ui_print(
             "Runner stopped because benchmark results "
             "could not be parsed."
         )
-        print()
-        print(
+        ui_print()
+        ui_print(
             "Benchmark evidence has been preserved at:"
         )
-        print(result_path)
-        print()
+        ui_print(result_path)
+        ui_print()
 
         return 1
 
-    print()
-    print("=" * 60)
-    print("[4/4] PREPARING RESULTS")
-    print("=" * 60)
-    print()
+    ui_print()
+    ui_print("=" * 60)
+    ui_print("[4/4] PREPARING RESULTS")
+    ui_print("=" * 60)
+    ui_print()
 
     try:
         manifest_path = (
@@ -1741,7 +1871,7 @@ def run_main_workflow() -> int:
         )
 
     except OSError as error:
-        print(
+        ui_print(
             f"[FAIL] Could not create "
             f"{SUBMISSION_MANIFEST_FILE}: "
             f"{error}"
@@ -1749,11 +1879,11 @@ def run_main_workflow() -> int:
 
         return 1
 
-    print(
+    ui_print(
         f"[OK] {SUBMISSION_MANIFEST_FILE} created."
     )
-    print()
-    print(
+    ui_print()
+    ui_print(
         f"Path: {manifest_path}"
     )
 
@@ -1764,34 +1894,34 @@ def run_main_workflow() -> int:
     )
 
     if not validation_ok:
-        print()
-        print("=" * 60)
-        print("RESULT PREPARATION FAILED")
-        print("=" * 60)
-        print()
-        print(
+        ui_print()
+        ui_print("=" * 60)
+        ui_print("RESULT PREPARATION FAILED")
+        ui_print("=" * 60)
+        ui_print()
+        ui_print(
             "Benchmark evidence and manifest "
             "were created, but submission "
             "validation failed."
         )
-        print()
-        print(
+        ui_print()
+        ui_print(
             "No ZIP package was created."
         )
-        print()
-        print(
+        ui_print()
+        ui_print(
             "Workspace preserved at:"
         )
-        print(result_path)
-        print()
+        ui_print(result_path)
+        ui_print()
 
         return 1
 
-    print()
-    print("=" * 60)
-    print("PACKAGING RESULTS")
-    print("=" * 60)
-    print()
+    ui_print()
+    ui_print("=" * 60)
+    ui_print("PACKAGING RESULTS")
+    ui_print("=" * 60)
+    ui_print()
 
     try:
         zip_path = build_submission_zip(
@@ -1799,66 +1929,68 @@ def run_main_workflow() -> int:
         )
 
     except RuntimeError as error:
-        print(
+        ui_print(
             f"[FAIL] {error}"
         )
-        print()
-        print(
+        ui_print()
+        ui_print(
             "Validated workspace preserved at:"
         )
-        print(result_path)
-        print()
+        ui_print(result_path)
+        ui_print()
 
         return 1
 
-    print(
+    ui_print(
         "[OK] Submission ZIP created."
     )
-    print()
-    print(
+    ui_print()
+    ui_print(
         f"Path: {zip_path}"
     )
 
-    print()
-    print("=" * 60)
-    print("BENCHMARK COMPLETE")
-    print("=" * 60)
-    print()
+    ui_print()
+    ui_print("=" * 60)
+    ui_print("BENCHMARK COMPLETE")
+    ui_print("=" * 60)
+    ui_print()
 
-    print(
+    ui_print(
         "[PASS] Benchmark evidence created."
     )
 
-    print(
+    ui_print(
         "[PASS] Submission manifest created."
     )
 
-    print(
+    ui_print(
         "[PASS] Submission validation passed."
     )
 
-    print(
+    ui_print(
         "[PASS] Submission ZIP created."
     )
 
-    print()
+    ui_print()
 
-    print(
+    ui_print(
         "Validated submission workspace:"
     )
-    print(result_path)
-    print()
+    ui_print(result_path)
+    ui_print()
 
-    print(
+    ui_print(
         "Upload-ready submission package:"
     )
-    print(zip_path)
-    print()
+    ui_print(zip_path)
+    ui_print()
 
-    print(
+    success_message = (
         "[SUCCESS] OpenLLMWorks Runner completed successfully!"
     )
-    print()
+
+    ui_print(success_message)
+    ui_print()
 
     offer_direct_submission(
         zip_path=zip_path,
@@ -1882,33 +2014,33 @@ def main() -> int:
         return run_main_workflow()
 
     except KeyboardInterrupt:
-        print()
-        print()
-        print("=" * 60)
-        print("[INTERRUPTED] OpenLLMWorks Runner")
-        print("=" * 60)
-        print()
-        print(
+        ui_print()
+        ui_print()
+        ui_print("=" * 60)
+        ui_print("[INTERRUPTED] OpenLLMWorks Runner")
+        ui_print("=" * 60)
+        ui_print()
+        ui_print(
             "The Runner was interrupted by the user."
         )
-        print()
-        print(
+        ui_print()
+        ui_print(
             "No valid submission ZIP was created "
             "by this interrupted run."
         )
 
         if ACTIVE_RESULT_PATH is not None:
-            print()
-            print(
+            ui_print()
+            ui_print(
                 "Partial benchmark workspace preserved at:"
             )
-            print(ACTIVE_RESULT_PATH)
+            ui_print(ACTIVE_RESULT_PATH)
 
-        print()
-        print(
+        ui_print()
+        ui_print(
             "You can safely run OpenLLMWorks Runner again."
         )
-        print()
+        ui_print()
 
         return 130
 

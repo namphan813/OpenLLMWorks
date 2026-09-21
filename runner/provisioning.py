@@ -15,6 +15,7 @@ from hashlib import sha256
 from pathlib import Path
 import json
 import shutil
+import os
 import ssl
 import tempfile
 from typing import Any
