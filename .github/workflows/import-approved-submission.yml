@@ -137,15 +137,41 @@ jobs:
                   "ERROR: Canonical import history is empty."
               )
 
-          latest = history[-1]
-          result_id = latest.get("result_id")
+          submission_dir = os.environ.get("SUBMISSION_DIR")
+
+          if not submission_dir:
+              raise SystemExit(
+                  "ERROR: SUBMISSION_DIR is not available."
+              )
+
+          expected_submission_name = Path(
+              submission_dir
+          ).name
+
+          matching_entry = next(
+              (
+                  entry
+                  for entry in reversed(history)
+                  if entry.get("submission_name")
+                  == expected_submission_name
+              ),
+              None,
+          )
+
+          if matching_entry is None:
+              raise SystemExit(
+                  "ERROR: No canonical import history entry was created "
+                  f"for submission {expected_submission_name}."
+              )
+
+          result_id = matching_entry.get("result_id")
 
           if (
               not isinstance(result_id, str)
               or not result_id.startswith("result_")
           ):
               raise SystemExit(
-                  "ERROR: Latest import history entry has no valid result_id."
+                  "ERROR: Matching import history entry has no valid result_id."
               )
 
           with open(
