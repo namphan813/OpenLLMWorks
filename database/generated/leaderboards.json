@@ -1,18 +1,18 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-09-20T18:06:40.799129+00:00",
+    "generatedAt": "2026-09-21T01:17:29.885463+00:00",
     "generator": {
         "name": "OpenLLMWorks Leaderboard Publisher",
         "version": "0.2.1"
     },
     "summary": {
-        "gpuVariants": 10,
-        "pp512Ranked": 10,
-        "tg128Ranked": 10
+        "gpuVariants": 11,
+        "pp512Ranked": 11,
+        "tg128Ranked": 11
     },
     "leaderboards": {
         "pp512": {
-            "totalRanked": 10,
+            "totalRanked": 11,
             "bestValue": 7850.45,
             "worstValue": 125.14,
             "entries": [
@@ -60,6 +60,20 @@
                 },
                 {
                     "rank": 4,
+                    "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1070 Ti",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 1162.1
+                },
+                {
+                    "rank": 5,
                     "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
@@ -73,7 +87,7 @@
                     "value": 348.04
                 },
                 {
-                    "rank": 5,
+                    "rank": 6,
                     "variantId": "nvidia-geforce-gtx-970-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 970",
@@ -87,7 +101,7 @@
                     "value": 331.15
                 },
                 {
-                    "rank": 6,
+                    "rank": 7,
                     "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
@@ -101,7 +115,7 @@
                     "value": 285.92
                 },
                 {
-                    "rank": 7,
+                    "rank": 8,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",
@@ -115,7 +129,7 @@
                     "value": 211.03
                 },
                 {
-                    "rank": 8,
+                    "rank": 9,
                     "variantId": "nvidia-geforce-gtx-1650-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1650",
@@ -129,7 +143,7 @@
                     "value": 153.575
                 },
                 {
-                    "rank": 9,
+                    "rank": 10,
                     "variantId": "quadro-t1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro T1000",
@@ -143,7 +157,7 @@
                     "value": 133.22
                 },
                 {
-                    "rank": 10,
+                    "rank": 11,
                     "variantId": "nvidia-geforce-gtx-1050-2gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050",
@@ -159,7 +173,7 @@
             ]
         },
         "tg128": {
-            "totalRanked": 10,
+            "totalRanked": 11,
             "bestValue": 148.35,
             "worstValue": 3.99,
             "entries": [
@@ -221,6 +235,20 @@
                 },
                 {
                     "rank": 5,
+                    "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1070 Ti",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 57.17
+                },
+                {
+                    "rank": 6,
                     "variantId": "nvidia-geforce-gtx-1650-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1650",
@@ -234,7 +262,7 @@
                     "value": 35.285000000000004
                 },
                 {
-                    "rank": 6,
+                    "rank": 7,
                     "variantId": "nvidia-geforce-gtx-970-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 970",
@@ -248,7 +276,7 @@
                     "value": 28.76
                 },
                 {
-                    "rank": 7,
+                    "rank": 8,
                     "variantId": "quadro-t1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro T1000",
@@ -262,7 +290,7 @@
                     "value": 22.17
                 },
                 {
-                    "rank": 8,
+                    "rank": 9,
                     "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
@@ -276,7 +304,7 @@
                     "value": 22.11
                 },
                 {
-                    "rank": 9,
+                    "rank": 10,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",
@@ -290,7 +318,7 @@
                     "value": 13.99
                 },
                 {
-                    "rank": 10,
+                    "rank": 11,
                     "variantId": "nvidia-geforce-gtx-1050-2gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050",
