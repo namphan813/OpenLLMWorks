@@ -195,6 +195,12 @@ def parse_system(file_path: Path) -> dict:
                 )
             )
 
+            if "VIDEO CONTROLLERS" in baseboard_section:
+                baseboard_section = baseboard_section.split(
+                    "VIDEO CONTROLLERS",
+                    1,
+                )[0]
+
             baseboard_manufacturer_match = re.search(
                 r"^Manufacturer\s*:\s*(.+?)\s*$",
                 baseboard_section,
