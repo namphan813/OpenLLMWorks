@@ -249,13 +249,22 @@ jobs:
           git commit -m "Import approved submission $SUBMISSION_ID"
           git push --set-upstream origin "$BRANCH"
 
-          gh pr create --base main --head "$BRANCH" --title "Import approved submission $SUBMISSION_ID" --body "Automated canonical import for approved OpenLLMWorks submission $SUBMISSION_ID.
+          PR_BODY=$(cat <<EOF
+          Automated canonical import for approved OpenLLMWorks submission $SUBMISSION_ID.
 
-Submission-ID: $SUBMISSION_ID
-Result-ID: $RESULT_ID
-Generated-At: $GENERATED_AT
+          Submission-ID: $SUBMISSION_ID
+          Result-ID: $RESULT_ID
+          Generated-At: $GENERATED_AT
 
-The artifact was downloaded from R2, safely extracted, canonically validated, imported, and checked against the approved repository-change allowlist. This workflow does not merge the pull request or update D1 import/publish state."
+          The artifact was downloaded from R2, safely extracted, canonically validated, imported, and checked against the approved repository-change allowlist. This workflow does not merge the pull request or update D1 import/publish state.
+          EOF
+          )
+
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Import approved submission $SUBMISSION_ID" \
+            --body "$PR_BODY"
 
       - name: Inspect generated repository changes
         run: |
