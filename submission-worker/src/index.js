@@ -2,7 +2,8 @@ const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 const GITHUB_OWNER = "namphan813";
 const GITHUB_REPOSITORY = "OpenLLMWorks";
-const GITHUB_WORKFLOW = "validate-submission.yml";
+const GITHUB_VALIDATION_WORKFLOW = "validate-submission.yml";
+const GITHUB_IMPORT_WORKFLOW = "import-approved-submission.yml";
 const GITHUB_REF = "main";
 
 const SUBMISSION_ID_PATTERN =
@@ -152,7 +153,7 @@ async function triggerValidation(submissionId, env) {
 	const workflowUrl =
 		`https://api.github.com/repos/${GITHUB_OWNER}/` +
 		`${GITHUB_REPOSITORY}/actions/workflows/` +
-		`${GITHUB_WORKFLOW}/dispatches`;
+		`${GITHUB_VALIDATION_WORKFLOW}/dispatches`;
 
 	try {
 		const response = await fetch(workflowUrl, {
@@ -204,6 +205,76 @@ async function triggerValidation(submissionId, env) {
 			},
 		);
 	}
+}
+
+async function triggerImport(submissionId, env) {
+        if (!env.GITHUB_ACTIONS_TOKEN) {
+                console.warn(
+                        "Automatic import was not triggered because " +
+                                "GITHUB_ACTIONS_TOKEN is not configured.",
+                        {
+                                submissionId,
+                        },
+                );
+
+                return;
+        }
+
+        const workflowUrl =
+                `https://api.github.com/repos/${GITHUB_OWNER}/` +
+                `${GITHUB_REPOSITORY}/actions/workflows/` +
+                `${GITHUB_IMPORT_WORKFLOW}/dispatches`;
+
+        try {
+                const response = await fetch(workflowUrl, {
+                        method: "POST",
+                        headers: {
+                                Authorization: `Bearer ${env.GITHUB_ACTIONS_TOKEN}`,
+                                Accept: "application/vnd.github+json",
+                                "Content-Type": "application/json",
+                                "User-Agent": "OpenLLMWorks-Submission-Worker",
+                                "X-GitHub-Api-Version": "2022-11-28",
+                        },
+                        body: JSON.stringify({
+                                ref: GITHUB_REF,
+                                inputs: {
+                                        submission_id: submissionId,
+                                },
+                        }),
+                });
+
+                if (!response.ok) {
+                        const responseText = await response.text();
+
+                        console.error(
+                                "Automatic import trigger failed.",
+                                {
+                                        submissionId,
+                                        status: response.status,
+                                        statusText: response.statusText,
+                                        responseBody: responseText,
+                                },
+                        );
+
+                        return;
+                }
+
+                console.log(
+                        "Automatic import workflow dispatched.",
+                        {
+                                submissionId,
+                                workflow: GITHUB_IMPORT_WORKFLOW,
+                        },
+                );
+        } catch (error) {
+                console.error(
+                        "Automatic import trigger request failed.",
+                        {
+                                submissionId,
+                                error,
+                        },
+                );
+        }
 }
 
 async function handleValidationCallback(
@@ -1395,6 +1466,15 @@ async function handleAdminSubmissionReview(
 			500,
 		);
 	}
+
+        if (decision === "approved") {
+                ctx.waitUntil(
+                        triggerImport(
+                                submissionId,
+                                env,
+                        ),
+                );
+        }
 
 	return jsonResponse(
 		{
