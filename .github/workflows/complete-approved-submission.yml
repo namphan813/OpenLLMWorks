@@ -147,6 +147,7 @@ jobs:
       - name: Verify production publication
         env:
           EXPECTED_GENERATED_AT: ${{ steps.metadata.outputs.generated_at }}
+          EXPECTED_RESULT_ID: ${{ steps.metadata.outputs.result_id }}
         run: |
           python - <<'PY'
           import json
@@ -156,6 +157,7 @@ jobs:
 
           url = "https://openllmworks.com/hardware.json"
           expected = os.environ["EXPECTED_GENERATED_AT"]
+          expected_result_id = os.environ["EXPECTED_RESULT_ID"]
 
           attempts = 30
           delay_seconds = 10
@@ -183,9 +185,24 @@ jobs:
                       f"production generatedAt={actual}"
                   )
 
-                  if actual == expected:
+                  payload_text = json.dumps(
+                      payload,
+                      separators=(",", ":"),
+                  )
+                  result_present = (
+                      expected_result_id in payload_text
+                  )
+
+                  print(
+                      f"Result ID present: {result_present}"
+                  )
+
+                  if (
+                      actual == expected
+                      and result_present
+                  ):
                       print(
-                          "Production publication fingerprint verified."
+                          "Production publication fingerprint and result ID verified."
                       )
                       break
 
@@ -197,7 +214,7 @@ jobs:
               if attempt == attempts:
                   raise SystemExit(
                       "ERROR: Production did not expose the expected "
-                      "generatedAt fingerprint before timeout."
+                      "generatedAt fingerprint and result ID before timeout."
                   )
 
               time.sleep(delay_seconds)

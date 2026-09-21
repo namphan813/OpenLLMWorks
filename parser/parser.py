@@ -670,6 +670,18 @@ def main(
     print(DATABASE_FILE)
 
 
+    # A specifically requested submission must produce a canonical
+    # result. Fail closed so automated maintainer workflows cannot
+    # treat a skipped submission as a successful import.
+    if args.submission is not None and skipped_count > 0:
+        print()
+        print(
+            "ERROR: Requested submission did not produce "
+            "a canonical benchmark result."
+        )
+        raise SystemExit(1)
+
+
 if __name__ == "__main__":
     argument_parser = build_argument_parser()
     arguments = argument_parser.parse_args()

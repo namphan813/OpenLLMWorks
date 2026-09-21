@@ -60,72 +60,234 @@ def parse_cpu(file_path: Path) -> dict:
 def parse_memory(file_path: Path) -> dict:
     """
     Parse total physical memory reported in bytes.
+
+    Supports both the legacy table evidence format and the
+    richer System Metadata v1 Format-List evidence.
     """
 
     text = read_text_file(file_path)
 
-    values = re.findall(r"^\s*(\d+)\s*$", text, re.MULTILINE)
+    total_match = re.search(
+        r"^TotalPhysicalMemory\s*:\s*(\d+)\s*$",
+        text,
+        flags=re.MULTILINE | re.IGNORECASE,
+    )
 
-    if not values:
-        raise ValueError(
-            f"Could not parse memory information from {file_path.name}"
+    if total_match:
+        total_bytes = int(total_match.group(1))
+    else:
+        values = re.findall(
+            r"^\s*(\d+)\s*$",
+            text,
+            flags=re.MULTILINE,
         )
 
-    total_bytes = int(values[-1])
+        if not values:
+            raise ValueError(
+                "Could not parse memory information from "
+                f"{file_path.name}"
+            )
+
+        total_bytes = int(values[-1])
 
     gibibytes = total_bytes / (1024 ** 3)
     rounded_capacity_gb = round(gibibytes)
+
+    modules = []
+
+    if "PHYSICAL MEMORY MODULES" in text:
+        modules_section = text.split(
+            "PHYSICAL MEMORY MODULES",
+            1,
+        )[1]
+
+        module_blocks = re.split(
+            r"(?=^BankLabel\s*:)",
+            modules_section,
+            flags=re.MULTILINE,
+        )
+
+        for block in module_blocks:
+            if not re.search(
+                r"^BankLabel\s*:",
+                block,
+                flags=re.MULTILINE | re.IGNORECASE,
+            ):
+                continue
+
+            def get_value(field_name: str):
+                match = re.search(
+                    rf"^{re.escape(field_name)}\s*:\s*(.*?)\s*$",
+                    block,
+                    flags=re.MULTILINE | re.IGNORECASE,
+                )
+                if not match:
+                    return None
+
+                value = match.group(1).strip()
+                return value or None
+
+            def get_int(field_name: str):
+                value = get_value(field_name)
+
+                if value is None:
+                    return None
+
+                try:
+                    return int(value)
+                except ValueError:
+                    return None
+
+            modules.append(
+                {
+                    "bank_label": get_value("BankLabel"),
+                    "device_locator": get_value("DeviceLocator"),
+                    "manufacturer": get_value("Manufacturer"),
+                    "part_number": get_value("PartNumber"),
+                    "capacity_bytes": get_int("Capacity"),
+                    "speed_mts": get_int("Speed"),
+                    "configured_speed_mts": get_int(
+                        "ConfiguredClockSpeed"
+                    ),
+                    "smbios_memory_type": get_int(
+                        "SMBIOSMemoryType"
+                    ),
+                    "form_factor": get_int("FormFactor"),
+                }
+            )
 
     return {
         "reported_bytes": total_bytes,
         "calculated_gib": round(gibibytes, 2),
         "installed_capacity_gb": rounded_capacity_gb,
+        "modules": modules,
     }
 
 
 def parse_system(file_path: Path) -> dict:
     """
-    Parse computer manufacturer and model.
+    Parse computer manufacturer, model, and optional baseboard
+    metadata.
+
+    Supports both the legacy table evidence format and the
+    richer System Metadata v1 Format-List evidence.
+
+    Baseboard metadata is descriptive only and is not required
+    for legacy submissions.
     """
 
     text = read_text_file(file_path)
 
-    lines = [
-        line.rstrip()
-        for line in text.splitlines()
-        if line.strip()
-    ]
+    system_section = text
+    baseboard = None
 
-    separator_index = None
+    if "COMPUTER SYSTEM" in text:
+        system_section = text.split(
+            "COMPUTER SYSTEM",
+            1,
+        )[1]
 
-    for index, line in enumerate(lines):
-        if re.fullmatch(r"[-\s]+", line):
-            separator_index = index
-            break
+        if "BASEBOARD" in system_section:
+            system_section, baseboard_section = (
+                system_section.split(
+                    "BASEBOARD",
+                    1,
+                )
+            )
 
-    if separator_index is None:
-        raise ValueError(
-            f"Could not locate the system table in {file_path.name}"
-        )
+            if "VIDEO CONTROLLERS" in baseboard_section:
+                baseboard_section = baseboard_section.split(
+                    "VIDEO CONTROLLERS",
+                    1,
+                )[0]
 
-    if separator_index + 1 >= len(lines):
-        raise ValueError(
-            f"Could not locate system values in {file_path.name}"
-        )
+            baseboard_manufacturer_match = re.search(
+                r"^Manufacturer\s*:\s*(.+?)\s*$",
+                baseboard_section,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+            baseboard_product_match = re.search(
+                r"^Product\s*:\s*(.+?)\s*$",
+                baseboard_section,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+            baseboard_version_match = re.search(
+                r"^Version\s*:\s*(.+?)\s*$",
+                baseboard_section,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
 
-    header = lines[separator_index - 1]
-    separator = lines[separator_index]
-    value_line = lines[separator_index + 1]
+            baseboard = {
+                "manufacturer": (
+                    baseboard_manufacturer_match.group(1).strip()
+                    if baseboard_manufacturer_match
+                    else None
+                ),
+                "product": (
+                    baseboard_product_match.group(1).strip()
+                    if baseboard_product_match
+                    else None
+                ),
+                "version": (
+                    baseboard_version_match.group(1).strip()
+                    if baseboard_version_match
+                    else None
+                ),
+            }
 
-    model_column = header.find("Model")
+    manufacturer_match = re.search(
+        r"^Manufacturer\s*:\s*(.+?)\s*$",
+        system_section,
+        flags=re.MULTILINE | re.IGNORECASE,
+    )
+    model_match = re.search(
+        r"^Model\s*:\s*(.+?)\s*$",
+        system_section,
+        flags=re.MULTILINE | re.IGNORECASE,
+    )
 
-    if model_column == -1:
-        raise ValueError(
-            f"Could not locate the Model column in {file_path.name}"
-        )
+    if manufacturer_match and model_match:
+        manufacturer = manufacturer_match.group(1).strip()
+        model = model_match.group(1).strip()
+    else:
+        lines = [
+            line.rstrip()
+            for line in text.splitlines()
+            if line.strip()
+        ]
 
-    manufacturer = value_line[:model_column].strip()
-    model = value_line[model_column:].strip()
+        separator_index = None
+
+        for index, line in enumerate(lines):
+            if re.fullmatch(r"[-\s]+", line):
+                separator_index = index
+                break
+
+        if separator_index is None:
+            raise ValueError(
+                "Could not locate the system table in "
+                f"{file_path.name}"
+            )
+
+        if separator_index + 1 >= len(lines):
+            raise ValueError(
+                "Could not locate system values in "
+                f"{file_path.name}"
+            )
+
+        header = lines[separator_index - 1]
+        value_line = lines[separator_index + 1]
+
+        model_column = header.find("Model")
+
+        if model_column == -1:
+            raise ValueError(
+                "Could not locate the Model column in "
+                f"{file_path.name}"
+            )
+
+        manufacturer = value_line[:model_column].strip()
+        model = value_line[model_column:].strip()
 
     generic_values = {
         "system manufacturer",
@@ -139,12 +301,16 @@ def parse_system(file_path: Path) -> dict:
         or model.lower() in generic_values
     )
 
-    return {
+    result = {
         "manufacturer": manufacturer or None,
         "model": model or None,
         "generic_firmware_identity": generic_identity,
     }
 
+    if baseboard is not None:
+        result["baseboard"] = baseboard
+
+    return result
 
 def parse_windows(file_path: Path) -> dict:
     """
@@ -184,6 +350,200 @@ def parse_windows(file_path: Path) -> dict:
         "normalized": normalized,
     }
 
+
+
+
+def parse_model_storage(file_path: Path) -> dict | None:
+    """
+    Parse optional storage metadata for the physical device that
+    contains the benchmark model.
+
+    Legacy system evidence without a MODEL STORAGE section
+    returns None.
+    """
+
+    text = read_text_file(file_path)
+
+    if "MODEL STORAGE" not in text:
+        return None
+
+    section = text.split(
+        "MODEL STORAGE",
+        1,
+    )[1]
+
+    def get_value(field: str) -> str | None:
+        match = re.search(
+            rf"^{re.escape(field)}\s*:\s*(.*?)\s*$",
+            section,
+            flags=re.MULTILINE | re.IGNORECASE,
+        )
+
+        if not match:
+            return None
+
+        value = match.group(1).strip()
+
+        return value or None
+
+    capacity_value = get_value("CapacityBytes")
+
+    try:
+        capacity_bytes = (
+            int(capacity_value)
+            if capacity_value is not None
+            else None
+        )
+    except ValueError:
+        capacity_bytes = None
+
+    return {
+        "model": get_value("Model"),
+        "media_type": get_value("MediaType"),
+        "bus_type": get_value("BusType"),
+        "capacity_bytes": capacity_bytes,
+    }
+
+
+def parse_video_controllers(file_path: Path) -> list[dict]:
+    """
+    Parse optional Windows video-controller metadata from the
+    System Metadata v1 VIDEO CONTROLLERS evidence section.
+
+    Legacy system evidence returns an empty list.
+    """
+
+    text = read_text_file(file_path)
+
+    if "VIDEO CONTROLLERS" not in text:
+        return []
+
+    section = text.split(
+        "VIDEO CONTROLLERS",
+        1,
+    )[1]
+
+    blocks = re.split(
+        r"(?=^Name\s*:)",
+        section,
+        flags=re.MULTILINE,
+    )
+
+    controllers = []
+
+    for block in blocks:
+        if not re.search(
+            r"^Name\s*:",
+            block,
+            flags=re.MULTILINE | re.IGNORECASE,
+        ):
+            continue
+
+        def get_value(field: str) -> str | None:
+            match = re.search(
+                rf"^{re.escape(field)}\s*:\s*(.*?)\s*$",
+                block,
+                flags=re.MULTILINE | re.IGNORECASE,
+            )
+
+            if not match:
+                return None
+
+            value = match.group(1).strip()
+
+            return value or None
+
+        name = get_value("Name")
+        pnp_device_id = get_value("PNPDeviceID")
+
+        pci = None
+
+        if pnp_device_id:
+            pci_match = re.search(
+                r"VEN_([0-9A-F]{4})"
+                r"&DEV_([0-9A-F]{4})"
+                r"&SUBSYS_([0-9A-F]{8})"
+                r"(?:&REV_([0-9A-F]{2}))?",
+                pnp_device_id,
+                flags=re.IGNORECASE,
+            )
+
+            if pci_match:
+                pci = {
+                    "vendor_id": (
+                        pci_match.group(1).upper()
+                    ),
+                    "device_id": (
+                        pci_match.group(2).upper()
+                    ),
+                    "subsystem_id": (
+                        pci_match.group(3).upper()
+                    ),
+                    "revision_id": (
+                        pci_match.group(4).upper()
+                        if pci_match.group(4)
+                        else None
+                    ),
+                    "pnp_device_id": pnp_device_id,
+                }
+
+        controllers.append(
+            {
+                "name": name,
+                "pci": pci,
+            }
+        )
+
+    return controllers
+
+
+def enrich_gpu_with_video_controller(
+    gpu: dict,
+    controllers: list[dict],
+) -> dict:
+    """
+    Attach PCI metadata from the Windows video controller that
+    matches the GPU already identified by NVIDIA-SMI.
+
+    NVIDIA-SMI remains authoritative for benchmark GPU identity.
+    """
+
+    gpu_model = normalize_whitespace(
+        gpu.get("model") or ""
+    ).lower()
+
+    def comparable_name(value: str | None) -> str:
+        normalized = normalize_whitespace(
+            value or ""
+        ).lower()
+
+        if normalized.startswith("nvidia "):
+            normalized = normalized[len("nvidia "):]
+
+        return normalized
+
+    target = comparable_name(gpu_model)
+
+    matches = [
+        controller
+        for controller in controllers
+        if comparable_name(
+            controller.get("name")
+        ) == target
+    ]
+
+    if len(matches) != 1:
+        return gpu
+
+    pci = matches[0].get("pci")
+
+    if pci is None:
+        return gpu
+
+    enriched_gpu = dict(gpu)
+    enriched_gpu["pci"] = pci
+
+    return enriched_gpu
 
 def parse_nvidia_smi(file_path: Path) -> dict:
     """
@@ -302,14 +662,34 @@ def load_hardware_profile(submission_folder: Path) -> dict:
             + ", ".join(missing_files)
         )
 
-    return {
+    gpu = parse_nvidia_smi(
+        required_files["nvidia_smi"]
+    )
+
+    video_controllers = parse_video_controllers(
+        required_files["system"]
+    )
+
+    gpu = enrich_gpu_with_video_controller(
+        gpu,
+        video_controllers,
+    )
+
+    hardware = {
         "system": parse_system(required_files["system"]),
         "cpu": parse_cpu(required_files["cpu"]),
         "memory": parse_memory(required_files["memory"]),
         "operating_system": parse_windows(
             required_files["windows"]
         ),
-        "gpu": parse_nvidia_smi(
-            required_files["nvidia_smi"]
-        ),
+        "gpu": gpu,
     }
+
+    model_storage = parse_model_storage(
+        required_files["system"]
+    )
+
+    if model_storage is not None:
+        hardware["model_storage"] = model_storage
+
+    return hardware
