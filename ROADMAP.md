@@ -1387,7 +1387,7 @@ direct submission as a mature automated ingestion system.
 
 # 🟡 Direct Submission Stage 2 - Hardening & Intake
 
-**Status:** Next
+**Status:** Complete - Production Lifecycle Proven
 
 ### Objective
 
@@ -1440,10 +1440,10 @@ OpenLLMWorks.com
 
 # ⚪ External Contributor Validation
 
-**Status:** Upcoming Beta Gate
+**Status:** Initial External Validation Complete
 
-After the direct-submission intake boundary is sufficiently hardened, validate
-the contributor experience with someone outside the development environment.
+The hardened direct-submission lifecycle has now been validated with fresh
+contributors outside the development environment.
 
 Preferred test:
 
@@ -1755,8 +1755,12 @@ fictional point where every planned feature is complete.
 Current public release:
 
 ```text
-OpenLLMWorks Runner v0.3.0-beta.1
+OpenLLMWorks Runner v0.4.0-beta.1
 ```
+
+The current beta includes Direct Submission support. The public artifact was
+refreshed after external testing with improved Windows HTTPS certificate trust
+handling and clearer color-coded Runner console output.
 
 Future beta releases should be justified by meaningful changes such as:
 
@@ -1901,17 +1905,21 @@ Managed Assets                          COMPLETE
 Recovery Validation                     COMPLETE
 OpenLLMWorks Rebrand                    COMPLETE
 Public GitHub                           LIVE
-Runner v0.3.0-beta.1                    LIVE
+Runner v0.4.0-beta.1                    LIVE
 OpenLLMWorks.com                        LIVE
 Public Beta                             LIVE
 Analytics Baseline                      LIVE
-Direct Submission MVP                   E2E PASS
+Direct Submission                       PRODUCTION PASS
 api.openllmworks.com                    LIVE
 Private Submission Intake               PROVEN
-Server-Side Canonical Validation         NEXT
-Maintainer Intake Hardening              NEXT
-External Contributor Validation          UPCOMING
-Small External Beta                     UPCOMING
+Server-Side Canonical Validation         PRODUCTION PASS
+D1 Operational State                    LIVE
+Authenticated Control Room              LIVE
+Maintainer Approval                     PROVEN
+Automatic Controlled Import             PROVEN
+Production Publication Verification     PROVEN
+External Contributor Validation         PROVEN
+External Result Publication             PROVEN
 Dataset Growth                          ACTIVE / EARLY
 AMD Expansion                           PLANNED
 Recommendations                         PLANNED
@@ -1919,8 +1927,9 @@ Platform                                FUTURE
 Research Platform                       VISION
 ```
 
-The project has crossed both the public-launch boundary and the first
-direct-submission transport boundary.
+The project has crossed the public-launch, direct-submission,
+production-operations, and initial external-validation boundaries.
 
-The next phase is about making the production intake path trustworthy,
-maintainable, and externally usable.
+The next phase is about operating the proven lifecycle cleanly, growing the
+dataset and contributor base, improving notifications and maintainer quality of
+life, and preparing for broader accelerator support.
