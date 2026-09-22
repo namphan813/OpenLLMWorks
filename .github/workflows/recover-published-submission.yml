@@ -1,0 +1,161 @@
+name: Recover Published Submission
+
+on:
+  workflow_dispatch:
+    inputs:
+      submission_id:
+        description: "Submission ID to recover"
+        required: true
+        type: string
+      result_id:
+        description: "Canonical result ID expected in production"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    name: Verify production and record published
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify production publication
+        env:
+          EXPECTED_RESULT_ID: ${{ inputs.result_id }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import time
+          import urllib.request
+
+          url = "https://openllmworks.com/hardware.json"
+          expected_result_id = os.environ["EXPECTED_RESULT_ID"]
+
+          attempts = 12
+          delay_seconds = 10
+
+          for attempt in range(1, attempts + 1):
+              request_url = f"{url}?recovery_check={int(time.time())}"
+
+              print(
+                  f"Verification attempt {attempt}/{attempts}: "
+                  f"{request_url}"
+              )
+
+              try:
+                  request = urllib.request.Request(
+                      request_url,
+                      headers={
+                          "User-Agent": "OpenLLMWorks-Publication-Recovery/1.0"
+                      },
+                  )
+
+                  with urllib.request.urlopen(
+                      request,
+                      timeout=30,
+                  ) as response:
+                      payload = json.load(response)
+
+                  generated_at = payload.get("generatedAt")
+
+                  result_ids = {
+                      result.get("resultId")
+                      for hardware in payload.get("hardware", [])
+                      for result in hardware.get("benchmarkResults", [])
+                      if isinstance(result, dict)
+                  }
+
+                  result_present = expected_result_id in result_ids
+
+                  print(
+                      "Production generatedAt: "
+                      f"{generated_at!r}"
+                  )
+                  print(
+                      "Expected result ID: "
+                      f"{expected_result_id!r}"
+                  )
+                  print(
+                      "Expected result present: "
+                      f"{result_present}"
+                  )
+
+                  if result_present:
+                      print(
+                          "Production publication verified."
+                      )
+                      break
+
+              except Exception as error:
+                  print(
+                      "Production verification request failed: "
+                      f"{error}"
+                  )
+
+              if attempt == attempts:
+                  raise SystemExit(
+                      "ERROR: Production does not expose the "
+                      "expected canonical result ID."
+                  )
+
+              time.sleep(delay_seconds)
+          PY
+
+      - name: Record published
+        env:
+          CALLBACK_URL: ${{ secrets.SUBMISSION_LIFECYCLE_CALLBACK_URL }}
+          CALLBACK_TOKEN: ${{ secrets.SUBMISSION_LIFECYCLE_CALLBACK_TOKEN }}
+          SUBMISSION_ID: ${{ inputs.submission_id }}
+          RESULT_ID: ${{ inputs.result_id }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          url = (
+              os.environ["CALLBACK_URL"].rstrip("/")
+              + "/"
+              + os.environ["SUBMISSION_ID"]
+          )
+
+          payload = {
+              "status": "published",
+              "result_id": os.environ["RESULT_ID"],
+          }
+
+          request = urllib.request.Request(
+              url,
+              data=json.dumps(payload).encode("utf-8"),
+              headers={
+                  "Authorization": (
+                      "Bearer "
+                      + os.environ["CALLBACK_TOKEN"]
+                  ),
+                  "Content-Type": "application/json",
+                  "User-Agent": "OpenLLMWorks-Publication-Recovery/1.0",
+              },
+              method="POST",
+          )
+
+          with urllib.request.urlopen(
+              request,
+              timeout=30,
+          ) as response:
+              body = response.read().decode("utf-8")
+              print(
+                  "Lifecycle callback status:",
+                  response.status,
+              )
+
+              if body:
+                  print(body)
+
+          print(
+              "Published lifecycle state recorded for "
+              + os.environ["SUBMISSION_ID"]
+          )
+          PY
