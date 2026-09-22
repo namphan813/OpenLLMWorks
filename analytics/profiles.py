@@ -114,6 +114,10 @@ def build_gpu_profiles(database):
         for row in gpu_rows:
             benchmark_results.append(
                 {
+                    "result_id": row.get(
+                        "result_id",
+                        "",
+                    ),
                     "submission_name": row.get(
                         "submission_name",
                         "Unknown",

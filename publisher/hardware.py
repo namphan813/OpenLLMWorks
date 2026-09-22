@@ -10,7 +10,7 @@ It packages reusable GPU profile data produced by analytics/profiles.py
 into a stable public JSON structure.
 
 Version:
-0.6.2
+0.6.3
 """
 
 from datetime import datetime, timezone
@@ -21,8 +21,8 @@ import re
 from analytics.profiles import build_gpu_profiles
 
 
-HARDWARE_PUBLISHER_VERSION = "0.6.2"
-HARDWARE_CONTRACT_VERSION = "1.6"
+HARDWARE_PUBLISHER_VERSION = "0.6.3"
+HARDWARE_CONTRACT_VERSION = "1.7"
 
 
 def utc_timestamp() -> str:
@@ -294,6 +294,9 @@ def build_hardware_payload(
 
                 "benchmarkResults": [
                     {
+                        "resultId": result.get(
+                            "result_id"
+                        ),
                         "submissionName": result.get(
                             "submission_name",
                             "Unknown",
