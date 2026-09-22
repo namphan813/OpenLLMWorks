@@ -1629,7 +1629,7 @@ body {
 }
 
 /* =========================================================
-   Hardware Compare — Navigation & State Polish
+   Hardware Compare â€” Navigation & State Polish
    ========================================================= */
 
 .hardware-compare-navigation {
@@ -1782,7 +1782,7 @@ body {
 
 
 /* =========================================================
-   Hardware Performance Rankings — Mobile
+   Hardware Performance Rankings â€” Mobile
    ========================================================= */
 
 @media (max-width: 560px) {
@@ -1852,7 +1852,7 @@ body {
 }
 
 /* =========================================================
-   Hardware Comparison — Evidence Context
+   Hardware Comparison â€” Evidence Context
    ========================================================= */
 
 .hardware-compare-evidence {
@@ -1919,7 +1919,7 @@ body {
 
 
 /* =========================================================
-   Hardware Comparison — Evidence Context Mobile
+   Hardware Comparison â€” Evidence Context Mobile
    ========================================================= */
 
 @media (max-width: 700px) {
@@ -1944,7 +1944,7 @@ body {
 }
 
 /* =========================================================
-   Hardware Compare Selection — Final Polish
+   Hardware Compare Selection â€” Final Polish
    ========================================================= */
 
 .hardware-card-selected {
@@ -2017,7 +2017,7 @@ body {
 
 
 /* =========================================================
-   Hardware Compare Selection — Mobile Polish
+   Hardware Compare Selection â€” Mobile Polish
    ========================================================= */
 
 @media (max-width: 700px) {
@@ -2028,4 +2028,149 @@ body {
   .hardware-compare-selection button {
     width: 100%;
   }
+}
+/* =========================================================
+   OpenLLMWorks Brand Refresh — Phase 1
+   ========================================================= */
+
+.brand-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+}
+
+.brand-wordmark-accent {
+    color: #5ca9ff;
+}
+
+.logo a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.hero {
+    min-height: 72vh;
+    padding-top: 8rem;
+}
+
+.hero-beta {
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 0.75rem;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.hero h1 {
+    max-width: 900px;
+    margin: 0;
+
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+}
+
+.hero-description {
+    max-width: 720px;
+    margin: 1.75rem 0 0;
+
+    color: var(--text-secondary);
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.9rem;
+
+    margin-top: 2rem;
+}
+
+.hero-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+    padding: 0.8rem 1.25rem;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.hero-action:hover {
+    transform: translateY(-1px);
+}
+
+.hero-action-primary {
+    border-color: #5ca9ff;
+
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+.hero-action-primary:hover {
+    background: #2563eb;
+}
+
+.hero-action-secondary {
+    background: var(--surface);
+    color: var(--text);
+}
+
+.hero-action-secondary:hover {
+    border-color: #5ca9ff;
+    background: var(--surface-hover);
+}
+
+.hero-mission {
+    margin: 1.5rem 0 0;
+
+    color: var(--text-subtle);
+    font-size: 0.9rem;
+}
+
+.footer-logo .brand-wordmark {
+    font-size: 1.35rem;
+}
+
+@media (max-width: 560px) {
+    .hero {
+        min-height: 68vh;
+        padding:
+            7rem 1.25rem
+            8rem;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.7rem, 13vw, 4rem);
+    }
+
+    .hero-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .hero-action {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }

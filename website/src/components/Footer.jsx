@@ -22,16 +22,19 @@ function Footer() {
             <div className="footer-content">
                 <div className="footer-brand">
                     <p className="footer-logo">
-                        OpenLLMWorks
+                        <span className="brand-wordmark">
+                            <span>Open</span>
+                            <span className="brand-wordmark-accent">LLM</span>
+                            <span>Works</span>
+                        </span>
                     </p>
 
                     <p className="footer-description">
-                        Building the historical record of local AI hardware
-                        performance.
+                        Open benchmarks for local AI hardware.
                     </p>
 
                     <p className="footer-mission">
-                        Measure. Understand. Preserve.
+                        Building the historical record of local AI performance.
                     </p>
                 </div>
 
@@ -40,6 +43,7 @@ function Footer() {
 
                     <Link to="/hardware">Hardware</Link>
                     <Link to="/compare">Compare GPUs</Link>
+
                     <a
                         href={PROTOCOL_URL}
                         target="_blank"
@@ -114,17 +118,8 @@ function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    <p>
-                        © 2026 OpenLLMWorks
-                    </p>
-
-                    <p>
-                        Public Beta
-                    </p>
-
-                    <p>
-                        Data Snapshot: 2026-08-02 14:17 UTC
-                    </p>
+                    <p>Â© 2026 OpenLLMWorks</p>
+                    <p>Public Beta</p>
                 </div>
             </div>
         </footer>
