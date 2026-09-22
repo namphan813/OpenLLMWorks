@@ -1,9 +1,9 @@
 {
-    "contractVersion": "1.6",
-    "generatedAt": "2026-09-21T20:48:04.862037+00:00",
+    "contractVersion": "1.7",
+    "generatedAt": "2026-09-22T00:14:07.165308+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
-        "version": "0.6.2"
+        "version": "0.6.3"
     },
     "summary": {
         "gpuVariants": 12,
@@ -39,6 +39,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_dc6fdd4e1cbb5176",
                     "submissionName": "Bench-001-GTX1050Ti",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
                     "pp512": 348.04,
@@ -81,6 +82,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_a64036c1c64f3997",
                     "submissionName": "Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
                     "pp512": 125.14,
@@ -123,6 +125,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_b86c443089518944",
                     "submissionName": "Bench-001-NVIDIA-GeForce-GTX-1070-Ti-20260920-185257",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
                     "pp512": 1162.1,
@@ -167,6 +170,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_05147b71a0ae576b",
                     "submissionName": "Xbox-One-PC-GTX1650",
                     "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
                     "pp512": 163.37,
@@ -179,6 +183,7 @@
                     "nvidiaSmiVersion": ""
                 },
                 {
+                    "resultId": "result_b70f39e84c7e9411",
                     "submissionName": "Game_Server_GTX1650",
                     "cpuModel": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
                     "pp512": 143.78,
@@ -223,6 +228,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_7cd0f649f5e9467c",
                     "submissionName": "Viet-Mobile-GTX1650",
                     "cpuModel": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx",
                     "pp512": 285.92,
@@ -235,6 +241,7 @@
                     "nvidiaSmiVersion": "610.88"
                 },
                 {
+                    "resultId": "result_b84a1e21fdb0ccfa",
                     "submissionName": "Bench-001-NVIDIA-GeForce-GTX-1660-Ti-20260920-232712",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
                     "pp512": 289.1,
@@ -277,6 +284,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_8e055302f50da311",
                     "submissionName": "Bench-001-NVIDIA-GeForce-GTX-970-20260831-234706",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
                     "pp512": 331.15,
@@ -319,6 +327,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_9dc8fe61d363dd7b",
                     "submissionName": "ICARUS-NVIDIA-GeForce-RTX-2050-20260920-213410",
                     "cpuModel": "AMD Ryzen 5 7535HS with Radeon Graphics",
                     "pp512": 1634.2,
@@ -361,6 +370,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_aa7c3907e6d0e94a",
                     "submissionName": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
                     "cpuModel": "13th Gen Intel(R) Core(TM) i5-13600K",
                     "pp512": 3545.62,
@@ -403,6 +413,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_08eba4cfd37d6856",
                     "submissionName": "Viet-RTX4070",
                     "cpuModel": "AMD Ryzen 7 7800X3D 8-Core Processor",
                     "pp512": 7850.45,
@@ -445,6 +456,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_fab5e657b3d9df8d",
                     "submissionName": "Studio-15-G8",
                     "cpuModel": "11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz",
                     "pp512": 2413.64,
@@ -487,6 +499,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_a66ff7ef3577be89",
                     "submissionName": "Vivi-P1000",
                     "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
                     "pp512": 211.03,
@@ -529,6 +542,7 @@
             },
             "benchmarkResults": [
                 {
+                    "resultId": "result_0200fb0ee70bb08a",
                     "submissionName": "Z2-MINI-G5-T1000",
                     "cpuModel": "Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz",
                     "pp512": 133.22,
@@ -541,6 +555,7 @@
                     "nvidiaSmiVersion": ""
                 },
                 {
+                    "resultId": "result_77913dd17782a6ce",
                     "submissionName": "phanclanMBMiniZ-Quadro-T1000-20260921-131012",
                     "cpuModel": "Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz",
                     "pp512": 132.34,
