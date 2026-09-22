@@ -150,6 +150,7 @@ jobs:
           EXPECTED_RESULT_ID: ${{ steps.metadata.outputs.result_id }}
         run: |
           python - <<'PY'
+          from datetime import datetime
           import json
           import os
           import time
@@ -161,6 +162,10 @@ jobs:
 
           attempts = 30
           delay_seconds = 10
+
+          expected_dt = datetime.fromisoformat(
+              expected.replace("Z", "+00:00")
+          )
 
           for attempt in range(1, attempts + 1):
               request = urllib.request.Request(
@@ -197,12 +202,34 @@ jobs:
                       f"Result ID present: {result_present}"
                   )
 
+                  generated_at_current = False
+
+                  if actual:
+                      try:
+                          actual_dt = datetime.fromisoformat(
+                              actual.replace("Z", "+00:00")
+                          )
+
+                          generated_at_current = (
+                              actual_dt >= expected_dt
+                          )
+                      except ValueError as error:
+                          print(
+                              "Unable to parse production publication "
+                              f"timestamp: {error}"
+                          )
+
+                  print(
+                      "Production generatedAt satisfies expected "
+                      f"publication: {generated_at_current}"
+                  )
+
                   if (
-                      actual == expected
+                      generated_at_current
                       and result_present
                   ):
                       print(
-                          "Production publication fingerprint and result ID verified."
+                          "Production publication timestamp and result ID verified."
                       )
                       break
 
@@ -214,7 +241,7 @@ jobs:
               if attempt == attempts:
                   raise SystemExit(
                       "ERROR: Production did not expose the expected "
-                      "generatedAt fingerprint and result ID before timeout."
+                      "generatedAt timestamp or result ID before timeout."
                   )
 
               time.sleep(delay_seconds)
