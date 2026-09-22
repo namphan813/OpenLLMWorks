@@ -106,56 +106,16 @@ jobs:
 
       - name: Record published
         env:
-          CALLBACK_URL: ${{ secrets.SUBMISSION_LIFECYCLE_CALLBACK_URL }}
-          CALLBACK_TOKEN: ${{ secrets.SUBMISSION_LIFECYCLE_CALLBACK_TOKEN }}
+          CALLBACK_TOKEN: ${{ secrets.VALIDATION_CALLBACK_TOKEN }}
           SUBMISSION_ID: ${{ inputs.submission_id }}
           RESULT_ID: ${{ inputs.result_id }}
         run: |
-          python - <<'PY'
-          import json
-          import os
-          import urllib.request
-
-          url = (
-              os.environ["CALLBACK_URL"].rstrip("/")
-              + "/"
-              + os.environ["SUBMISSION_ID"]
-          )
-
-          payload = {
-              "status": "published",
-              "result_id": os.environ["RESULT_ID"],
-          }
-
-          request = urllib.request.Request(
-              url,
-              data=json.dumps(payload).encode("utf-8"),
-              headers={
-                  "Authorization": (
-                      "Bearer "
-                      + os.environ["CALLBACK_TOKEN"]
-                  ),
-                  "Content-Type": "application/json",
-                  "User-Agent": "OpenLLMWorks-Publication-Recovery/1.0",
-              },
-              method="POST",
-          )
-
-          with urllib.request.urlopen(
-              request,
-              timeout=30,
-          ) as response:
-              body = response.read().decode("utf-8")
-              print(
-                  "Lifecycle callback status:",
-                  response.status,
-              )
-
-              if body:
-                  print(body)
-
-          print(
-              "Published lifecycle state recorded for "
-              + os.environ["SUBMISSION_ID"]
-          )
-          PY
+          curl \
+            --fail-with-body \
+            --retry 3 \
+            --retry-delay 2 \
+            --request POST \
+            --header "Authorization: Bearer $CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data "{\"status\":\"published\",\"result_id\":\"$RESULT_ID\"}" \
+            "https://api.openllmworks.com/v1/submissions/$SUBMISSION_ID/lifecycle"
