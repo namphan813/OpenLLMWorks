@@ -5,6 +5,16 @@ const GITHUB_URL = "https://github.com/namphan813/OpenLLMWorks";
 const RUNNER_URL =
     "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.4.0-beta.1";
 
+function BrandWordmark() {
+    return (
+        <span className="brand-wordmark">
+            <span>Open</span>
+            <span className="brand-wordmark-accent">LLM</span>
+            <span>Works</span>
+        </span>
+    );
+}
+
 function Navigation() {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -15,8 +25,12 @@ function Navigation() {
     return (
         <nav className="navigation">
             <div className="logo">
-                <Link to="/" onClick={closeMenu}>
-                    OpenLLMWorks
+                <Link
+                    to="/"
+                    onClick={closeMenu}
+                    aria-label="OpenLLMWorks home"
+                >
+                    <BrandWordmark />
                 </Link>
             </div>
 
