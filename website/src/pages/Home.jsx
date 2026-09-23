@@ -138,12 +138,13 @@ function Home() {
             <Hero />
 
             <section className="metrics">
-                {metrics.map((metric) => (
+                {metrics.map((metric, index) => (
                     <MetricCard
                         key={metric.label}
                         label={metric.label}
                         value={metric.value}
                         detail={metric.detail}
+                        index={index}
                     />
                 ))}
             </section>
