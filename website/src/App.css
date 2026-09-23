@@ -2565,3 +2565,318 @@ body {
         gap: 1rem;
     }
 }
+
+/* =========================================================
+   Methodology Phase 1
+   ========================================================= */
+
+.methodology-page {
+    width: min(1200px, calc(100% - 4rem));
+    margin: 0 auto;
+    padding: 5rem 0 7rem;
+}
+
+.methodology-hero {
+    max-width: 900px;
+    padding: 2rem 0 5rem;
+}
+
+.methodology-eyebrow {
+    margin: 0 0 0.8rem;
+
+    color: #5ca9ff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.methodology-hero h1 {
+    max-width: 850px;
+    margin: 0;
+
+    font-size: clamp(2.6rem, 6vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+}
+
+.methodology-lead {
+    max-width: 720px;
+    margin: 1.5rem 0 0;
+
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.75;
+}
+
+.methodology-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    margin-top: 2rem;
+    padding: 0.55rem 0.8rem;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background: var(--surface);
+}
+
+.methodology-status span {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.methodology-status strong {
+    color: #5ca9ff;
+    font-size: 0.75rem;
+}
+
+.methodology-protocol {
+    padding: 3rem;
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(92, 169, 255, 0.08),
+            rgba(92, 169, 255, 0.015)
+        ),
+        var(--surface);
+}
+
+.methodology-section-heading {
+    max-width: 720px;
+}
+
+.methodology-section-heading h2,
+.methodology-block h2,
+.methodology-next h2 {
+    margin: 0;
+
+    color: var(--text);
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+
+.methodology-section-heading > p:last-child {
+    margin: 1rem 0 0;
+
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.methodology-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+
+    margin-top: 2.5rem;
+
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: var(--border);
+}
+
+.methodology-fact {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    padding: 1.4rem;
+
+    background: var(--surface);
+}
+
+.methodology-fact > span {
+    color: var(--text-subtle);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.methodology-fact strong {
+    margin-top: 0.5rem;
+
+    color: var(--text);
+    font-size: 1.2rem;
+}
+
+.methodology-fact small {
+    margin-top: 0.2rem;
+
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.methodology-protocol-note {
+    margin: 1.25rem 0 0;
+
+    color: var(--text-subtle);
+    font-size: 0.8rem;
+}
+
+.methodology-content {
+    max-width: 900px;
+    margin-top: 6rem;
+}
+
+.methodology-block {
+    padding: 0 0 5rem;
+}
+
+.methodology-block + .methodology-block {
+    padding-top: 5rem;
+    border-top: 1px solid var(--border);
+}
+
+.methodology-block > p:not(.methodology-eyebrow) {
+    max-width: 760px;
+    margin: 1.25rem 0 0;
+
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.methodology-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+
+    margin-top: 2rem;
+}
+
+.methodology-metrics > div {
+    padding: 1.5rem;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: var(--surface);
+}
+
+.methodology-metrics strong {
+    display: block;
+
+    color: #5ca9ff;
+    font-size: 1.5rem;
+}
+
+.methodology-metrics span {
+    display: block;
+    margin-top: 0.25rem;
+
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.methodology-metrics p {
+    margin: 0.8rem 0 0;
+
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+.methodology-next {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+
+    margin-top: 1rem;
+    padding: 2.5rem 0;
+
+    border-top: 1px solid var(--border);
+}
+
+.methodology-next > div {
+    max-width: 680px;
+}
+
+.methodology-next > div > p:last-child {
+    margin: 0.8rem 0 0;
+
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.methodology-cta {
+    flex: 0 0 auto;
+
+    padding: 0.85rem 1.15rem;
+
+    border: 1px solid #5ca9ff;
+    border-radius: 10px;
+
+    color: #5ca9ff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+.methodology-cta:hover {
+    background: rgba(92, 169, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+    .methodology-page {
+        width: min(100% - 2rem, 500px);
+        padding: 3rem 0 5rem;
+    }
+
+    .methodology-hero {
+        padding: 1rem 0 3.5rem;
+    }
+
+    .methodology-protocol {
+        padding: 1.5rem;
+    }
+
+    .methodology-facts {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .methodology-content {
+        margin-top: 4rem;
+    }
+
+    .methodology-block {
+        padding-bottom: 3.5rem;
+    }
+
+    .methodology-block + .methodology-block {
+        padding-top: 3.5rem;
+    }
+
+    .methodology-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .methodology-next {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .methodology-facts {
+        grid-template-columns: 1fr;
+    }
+}
