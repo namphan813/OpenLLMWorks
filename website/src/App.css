@@ -2174,3 +2174,192 @@ body {
         box-sizing: border-box;
     }
 }
+
+/* =========================================================
+   Homepage Phase 2 — Benchmark Highlights
+   ========================================================= */
+
+.benchmark-highlights {
+    width: min(1200px, calc(100% - 4rem));
+    margin: 0 auto 5rem;
+    padding: 2.25rem;
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(59, 130, 246, 0.1),
+            rgba(22, 25, 34, 0.92)
+        );
+}
+
+.benchmark-highlights-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+
+    margin-bottom: 2.25rem;
+}
+
+.benchmark-highlights-eyebrow {
+    margin: 0 0 0.75rem;
+
+    color: #5ca9ff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.benchmark-highlights h2 {
+    max-width: 720px;
+    margin: 0;
+
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+
+.benchmark-highlights-copy {
+    max-width: 680px;
+    margin: 0.85rem 0 0;
+
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.benchmark-highlights-link {
+    flex: 0 0 auto;
+
+    padding: 0.75rem 1rem;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    background: var(--surface);
+}
+
+.benchmark-highlights-link:hover {
+    border-color: #5ca9ff;
+    background: var(--surface-hover);
+}
+
+.benchmark-highlight-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.benchmark-highlight-row {
+    display: block;
+    padding: 1rem 1.1rem;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    color: inherit;
+    text-decoration: none;
+
+    background: rgba(15, 17, 23, 0.55);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.benchmark-highlight-row:hover {
+    border-color: rgba(92, 169, 255, 0.65);
+    background: rgba(29, 34, 48, 0.8);
+    transform: translateY(-1px);
+}
+
+.benchmark-highlight-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.benchmark-highlight-meta > div {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+}
+
+.benchmark-highlight-rank {
+    color: var(--text-subtle);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.benchmark-highlight-score {
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.benchmark-highlight-score small {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.benchmark-highlight-track {
+    height: 6px;
+    margin-top: 0.8rem;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+    background: rgba(143, 164, 196, 0.12);
+}
+
+.benchmark-highlight-bar {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            #5ca9ff
+        );
+}
+
+.benchmark-highlights-note {
+    margin: 1.25rem 0 0;
+
+    color: var(--text-subtle);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+    .benchmark-highlights {
+        width: min(100% - 2rem, 500px);
+        padding: 1.5rem;
+    }
+
+    .benchmark-highlights-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .benchmark-highlight-meta {
+        align-items: flex-start;
+    }
+
+    .benchmark-highlight-meta > div {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}

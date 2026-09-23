@@ -4,184 +4,154 @@ import Layout from "../layout/Layout";
 
 import Hero from "../components/Hero";
 import MetricCard from "../components/MetricCard";
-import CommunityStory from "../components/CommunityStory";
+import BenchmarkHighlights from "../components/BenchmarkHighlights";
 
 import {
-  metrics as fallbackMetrics,
-  communityStory as fallbackCommunityStory,
+    metrics as fallbackMetrics,
 } from "../data/homepage";
 
 
 function formatNumber(value, digits = 2) {
-  if (typeof value !== "number") {
-    return "N/A";
-  }
+    if (typeof value !== "number") {
+        return "N/A";
+    }
 
-  return value.toFixed(digits);
+    return value.toFixed(digits);
 }
 
 
 function buildPublishedMetrics(stats) {
-  return [
-    {
-      label: "Benchmark Results",
-      value: stats.benchmarkResults,
-      detail: "Unique results recorded",
-    },
-    {
-      label: "GPU Models",
-      value: stats.gpuModels,
-      detail: "Currently represented",
-    },
-    {
-      label: "Import Events",
-      value: stats.importEvents,
-      detail: "Import events recorded",
-    },
-    {
-      label: "Average tg128",
-      value: formatNumber(stats.averageTg128),
-      detail: "Tokens per second",
-    },
-  ];
-}
-
-
-function buildPublishedCommunityStory(
-  featuredStory,
-  stats,
-) {
-  return {
-    eyebrow: "COMMUNITY STORY",
-    badge:
-      featuredStory.badge ||
-      "Data Snapshot",
-    title:
-      featuredStory.title ||
-      "",
-    description:
-      featuredStory.description ||
-      "",
-    evidence: [
-      {
-        label: "Based on",
-        value:
-          `${stats.benchmarkResults} benchmark ` +
-          `${
-            stats.benchmarkResults === 1
-              ? "result"
-              : "results"
-          }`,
-      },
-      {
-        label: "Snapshot",
-        value:
-          featuredStory.snapshot ||
-          "",
-      },
-      {
-        label: "Average tg128",
-        value:
-          `${formatNumber(
-            stats.averageTg128,
-          )} tokens/sec`,
-      },
-    ],
-  };
+    return [
+        {
+            label: "Benchmark Results",
+            value: stats.benchmarkResults,
+            detail: "Unique results recorded",
+        },
+        {
+            label: "GPU Models",
+            value: stats.gpuModels,
+            detail: "Currently represented",
+        },
+        {
+            label: "Import Events",
+            value: stats.importEvents,
+            detail: "Import events recorded",
+        },
+        {
+            label: "Average tg128",
+            value: formatNumber(stats.averageTg128),
+            detail: "Tokens per second",
+        },
+    ];
 }
 
 
 function Home() {
-  const [metrics, setMetrics] = useState(
-    fallbackMetrics,
-  );
+    const [metrics, setMetrics] = useState(
+        fallbackMetrics,
+    );
 
-  const [
-    communityStory,
-    setCommunityStory,
-  ] = useState(
-    fallbackCommunityStory,
-  );
+    const [hardware, setHardware] = useState([]);
 
-  useEffect(() => {
-    const homepageDataUrl =
-      `${import.meta.env.BASE_URL}homepage.json`;
+    useEffect(() => {
+        const homepageDataUrl =
+            `${import.meta.env.BASE_URL}homepage.json`;
 
-    async function loadPublishedHomepage() {
-      try {
-        const response = await fetch(
-          homepageDataUrl,
-        );
+        const hardwareDataUrl =
+            `${import.meta.env.BASE_URL}hardware.json`;
 
-        if (!response.ok) {
-          throw new Error(
-            `Homepage data request failed: ` +
-            `${response.status}`,
-          );
+        async function loadPublishedHomepage() {
+            try {
+                const response = await fetch(
+                    homepageDataUrl,
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Homepage data request failed: ` +
+                        `${response.status}`,
+                    );
+                }
+
+                const homepageData =
+                    await response.json();
+
+                if (!homepageData.stats) {
+                    throw new Error(
+                        "Published homepage data does not " +
+                        "contain stats.",
+                    );
+                }
+
+                setMetrics(
+                    buildPublishedMetrics(
+                        homepageData.stats,
+                    ),
+                );
+            } catch (error) {
+                console.error(
+                    "Unable to load published homepage data. " +
+                    "Using fallback homepage data.",
+                    error,
+                );
+            }
         }
 
-        const homepageData =
-          await response.json();
+        async function loadPublishedHardware() {
+            try {
+                const response = await fetch(
+                    hardwareDataUrl,
+                );
 
-        if (!homepageData.stats) {
-          throw new Error(
-            "Published homepage data does not " +
-            "contain stats.",
-          );
+                if (!response.ok) {
+                    throw new Error(
+                        `Hardware data request failed: ` +
+                        `${response.status}`,
+                    );
+                }
+
+                const hardwareData =
+                    await response.json();
+
+                if (!Array.isArray(hardwareData.hardware)) {
+                    throw new Error(
+                        "Published hardware data does not " +
+                        "contain a hardware list.",
+                    );
+                }
+
+                setHardware(hardwareData.hardware);
+            } catch (error) {
+                console.error(
+                    "Unable to load published hardware data.",
+                    error,
+                );
+            }
         }
 
-        setMetrics(
-          buildPublishedMetrics(
-            homepageData.stats,
-          ),
-        );
+        loadPublishedHomepage();
+        loadPublishedHardware();
+    }, []);
 
-        if (homepageData.featuredStory) {
-          setCommunityStory(
-            buildPublishedCommunityStory(
-              homepageData.featuredStory,
-              homepageData.stats,
-            ),
-          );
-        }
-      } catch (error) {
-        console.error(
-          "Unable to load published homepage data. " +
-          "Using fallback homepage data.",
-          error,
-        );
-      }
-    }
+    return (
+        <Layout>
+            <Hero />
 
-    loadPublishedHomepage();
-  }, []);
+            <section className="metrics">
+                {metrics.map((metric, index) => (
+                    <MetricCard
+                        key={metric.label}
+                        label={metric.label}
+                        value={metric.value}
+                        detail={metric.detail}
+                        index={index}
+                    />
+                ))}
+            </section>
 
-  return (
-    <Layout>
-      <Hero />
-
-      <section className="metrics">
-        {metrics.map((metric) => (
-          <MetricCard
-            key={metric.label}
-            label={metric.label}
-            value={metric.value}
-            detail={metric.detail}
-          />
-        ))}
-      </section>
-
-      <CommunityStory
-        eyebrow={communityStory.eyebrow}
-        badge={communityStory.badge}
-        title={communityStory.title}
-        description={
-          communityStory.description
-        }
-        evidence={communityStory.evidence}
-      />
-    </Layout>
-  );
+            <BenchmarkHighlights hardware={hardware} />
+        </Layout>
+    );
 }
 
 

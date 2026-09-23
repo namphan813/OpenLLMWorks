@@ -1,6 +1,34 @@
-function MetricCard({ label, value, detail }) {
+import { motion } from "motion/react";
+
+function MetricCard({
+    label,
+    value,
+    detail,
+    index = 0,
+}) {
     return (
-        <article className="metric-card">
+        <motion.article
+            className="metric-card"
+            initial={{
+                opacity: 0,
+                y: 28,
+            }}
+            animate={{
+                opacity: 1,
+                y: 0,
+            }}
+            transition={{
+                duration: 0.55,
+                delay: 0.35 + index * 0.1,
+                ease: [0.22, 1, 0.36, 1],
+            }}
+            whileHover={{
+                y: -4,
+                transition: {
+                    duration: 0.18,
+                },
+            }}
+        >
             <p className="metric-label">
                 {label}
             </p>
@@ -12,7 +40,7 @@ function MetricCard({ label, value, detail }) {
             <p className="metric-detail">
                 {detail}
             </p>
-        </article>
+        </motion.article>
     );
 }
 
