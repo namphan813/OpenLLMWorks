@@ -55,6 +55,10 @@ function Navigation() {
                     Hardware
                 </Link>
 
+                <Link to="/methodology" onClick={closeMenu}>
+                    Methodology
+                </Link>
+
                 <a
                     href={GITHUB_URL}
                     target="_blank"

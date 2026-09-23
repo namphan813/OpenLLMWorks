@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 
 const stages = [
     {
@@ -103,12 +104,12 @@ function HowItWorks() {
                     </span>
                 </div>
 
-                <span
+                <Link
                     className="how-it-works-methodology-link"
-                    aria-disabled="true"
+                    to="/methodology"
                 >
-                    Methodology coming soon
-                </span>
+                    Read the Methodology →
+                </Link>
             </div>
         </motion.section>
     );
