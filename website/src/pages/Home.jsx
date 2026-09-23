@@ -5,6 +5,7 @@ import Layout from "../layout/Layout";
 import Hero from "../components/Hero";
 import MetricCard from "../components/MetricCard";
 import BenchmarkHighlights from "../components/BenchmarkHighlights";
+import HowItWorks from "../components/HowItWorks";
 
 import {
     metrics as fallbackMetrics,
@@ -150,6 +151,8 @@ function Home() {
             </section>
 
             <BenchmarkHighlights hardware={hardware} />
+
+            <HowItWorks />
         </Layout>
     );
 }
