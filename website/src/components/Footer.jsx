@@ -43,6 +43,8 @@ function Footer() {
 
                     <Link to="/hardware">Hardware</Link>
                     <Link to="/compare">Compare GPUs</Link>
+                    <Link to="/methodology">Methodology</Link>
+                    <Link to="/works">The Works</Link>
 
                     <a
                         href={PROTOCOL_URL}
@@ -118,7 +120,7 @@ function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    <p>Â© 2026 OpenLLMWorks</p>
+                    <p>&copy; 2026 OpenLLMWorks</p>
                     <p>Public Beta</p>
                 </div>
             </div>

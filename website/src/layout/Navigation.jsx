@@ -58,6 +58,9 @@ function Navigation() {
                 <Link to="/methodology" onClick={closeMenu}>
                     Methodology
                 </Link>
+                <Link to="/works" onClick={closeMenu}>
+                    The Works
+                </Link>
 
                 <a
                     href={GITHUB_URL}
