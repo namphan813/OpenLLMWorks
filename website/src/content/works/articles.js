@@ -3,6 +3,8 @@ const worksArticles = {
         slug: "how-far-back-can-modern-local-ai-go",
         type: "Experiment",
         status: "In Progress",
+        visibility: "private",
+        featured: true,
         title: "How far back can modern local AI go?",
         description:
             "An OpenLLMWorks experiment exploring how older " +
@@ -57,6 +59,22 @@ export function getWorksArticle(slug) {
 
 export function getWorksArticles() {
     return Object.values(worksArticles);
+}
+
+
+export function getPublicWorksArticles() {
+    return getWorksArticles().filter(
+        (article) => article.visibility === "public",
+    );
+}
+
+
+export function getFeaturedWorksArticle() {
+    return (
+        getWorksArticles().find(
+            (article) => article.featured,
+        ) ?? null
+    );
 }
 
 

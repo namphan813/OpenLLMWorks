@@ -2,6 +2,9 @@ import { motion } from "motion/react";
 
 import Layout from "../layout/Layout";
 import PageMeta from "../components/PageMeta";
+import {
+    getFeaturedWorksArticle,
+} from "../content/works/articles";
 
 
 const workTypes = [
@@ -33,6 +36,8 @@ const workTypes = [
 
 
 function Works() {
+    const featuredArticle = getFeaturedWorksArticle();
+
     return (
         <Layout>
             <PageMeta
@@ -66,56 +71,54 @@ function Works() {
                     </p>
                 </motion.section>
 
-                <motion.section
-                    className="works-feature"
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{
-                        once: true,
-                        amount: 0.25,
-                    }}
-                    transition={{
-                        duration: 0.55,
-                        ease: [0.22, 1, 0.36, 1],
-                    }}
-                >
-                    <div className="works-feature-meta">
-                        <span>FIRST EXPERIMENT</span>
-                        <strong>Coming Soon</strong>
-                    </div>
-
-                    <div className="works-feature-content">
-                        <div>
-                            <p className="works-eyebrow">
-                                EXPERIMENT
-                            </p>
-
-                            <h2>
-                                How far back can modern local AI go?
-                            </h2>
-
-                            <p>
-                                OpenLLMWorks is building a historical
-                                record that reaches beyond current
-                                generation GPUs. Our first experiments
-                                will explore what happens when modern
-                                local LLM workloads meet older
-                                consumer hardware.
-                            </p>
+                {featuredArticle && (
+                    <motion.section
+                        className="works-feature"
+                        initial={{ opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{
+                            once: true,
+                            amount: 0.25,
+                        }}
+                        transition={{
+                            duration: 0.55,
+                            ease: [0.22, 1, 0.36, 1],
+                        }}
+                    >
+                        <div className="works-feature-meta">
+                            <span>FIRST EXPERIMENT</span>
+                            <strong>
+                                {featuredArticle.visibility === "public"
+                                    ? featuredArticle.status
+                                    : "Coming Soon"}
+                            </strong>
                         </div>
 
-                        <div className="works-feature-question">
-                            <span>THE QUESTION</span>
+                        <div className="works-feature-content">
+                            <div>
+                                <p className="works-eyebrow">
+                                    {featuredArticle.type.toUpperCase()}
+                                </p>
 
-                            <p>
-                                How useful is older hardware for
-                                running a modern local AI workload,
-                                and where does performance begin to
-                                break down?
-                            </p>
+                                <h2>
+                                    {featuredArticle.title}
+                                </h2>
+
+                                <p>
+                                    {featuredArticle.description}
+                                </p>
+                            </div>
+
+                            <div className="works-feature-question">
+                                <span>THE QUESTION</span>
+
+                                <p>
+                                    {featuredArticle.question}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </motion.section>
+                    </motion.section>
+                )}
 
                 <section className="works-library">
                     <div className="works-section-heading">
