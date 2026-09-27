@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
 import Layout from "../layout/Layout";
 import PageMeta from "../components/PageMeta";
 import {
     getFeaturedWorksArticle,
+    getPublicWorksArticles,
 } from "../content/works/articles";
 
 
@@ -37,6 +39,7 @@ const workTypes = [
 
 function Works() {
     const featuredArticle = getFeaturedWorksArticle();
+    const publicArticles = getPublicWorksArticles();
 
     return (
         <Layout>
@@ -118,6 +121,53 @@ function Works() {
                             </div>
                         </div>
                     </motion.section>
+                )}
+
+                {publicArticles.length > 0 && (
+                    <section className="works-published">
+                        <div className="works-section-heading">
+                            <p className="works-eyebrow">
+                                PUBLISHED RESEARCH
+                            </p>
+
+                            <h2>
+                                From benchmark data to understanding.
+                            </h2>
+
+                            <p>
+                                Notes, findings, and experiments
+                                published from the OpenLLMWorks lab.
+                            </p>
+                        </div>
+
+                        <div className="works-published-grid">
+                            {publicArticles.map((article) => (
+                                <Link
+                                    className="works-published-card"
+                                    key={article.slug}
+                                    to={`/works/${article.slug}`}
+                                >
+                                    <div className="works-published-meta">
+                                        <span>
+                                            {article.type.toUpperCase()}
+                                        </span>
+
+                                        <strong>
+                                            {article.status}
+                                        </strong>
+                                    </div>
+
+                                    <h3>{article.title}</h3>
+
+                                    <p>{article.description}</p>
+
+                                    <span className="works-published-link">
+                                        Read the research →
+                                    </span>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
                 )}
 
                 <section className="works-library">

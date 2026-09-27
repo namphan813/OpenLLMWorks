@@ -63,6 +63,33 @@ function WorksArticle() {
                     <p>{article.question}</p>
                 </section>
 
+                {article.summary && (
+                    <section className="works-article-summary">
+                        <p className="works-eyebrow">
+                            {article.summary.heading.toUpperCase()}
+                        </p>
+
+                        <p className="works-article-summary-intro">
+                            {article.summary.intro}
+                        </p>
+
+                        <div className="works-article-summary-grid">
+                            {article.summary.items.map((item) => (
+                                <div
+                                    className="works-article-summary-item"
+                                    key={item.label}
+                                >
+                                    <span>{item.label}</span>
+
+                                    <h2>{item.title}</h2>
+
+                                    <p>{item.body}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
                 <div className="works-article-body">
                     {article.sections.map((section) => (
                         <section key={section.heading}>
