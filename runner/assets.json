@@ -78,6 +78,60 @@
           "llama-server-impl.dll",
           "mtmd.dll"
         ]
+      },
+      "vulkan": {
+        "backend": "vulkan",
+        "accelerator_vendors": [
+          "amd",
+          "intel"
+        ],
+        "install_path": "runtime-vulkan",
+        "llama_cpp_release": "b10069",
+        "llama_cpp_commit": "178a6c449",
+        "critical_file": "llama-bench.exe",
+        "critical_file_sha256": "060112797BC888544883C793300FA9EB45F7583E7128A1BE81C8BB24A6799C64",
+        "sources": [
+          {
+            "id": "llama_cpp_vulkan",
+            "filename": "llama-b10069-bin-win-vulkan-x64.zip",
+            "size_bytes": 33271882,
+            "sha256": "7705680162610E9586616C8E23F0A757957557FDE033A28D2C489140B93B545A",
+            "url": "https://github.com/ggml-org/llama.cpp/releases/download/b10069/llama-b10069-bin-win-vulkan-x64.zip"
+          }
+        ],
+        "required_files": [
+          "ggml.dll",
+          "ggml-base.dll",
+          "ggml-cpu-alderlake.dll",
+          "ggml-cpu-cannonlake.dll",
+          "ggml-cpu-cascadelake.dll",
+          "ggml-cpu-cooperlake.dll",
+          "ggml-cpu-haswell.dll",
+          "ggml-cpu-icelake.dll",
+          "ggml-cpu-ivybridge.dll",
+          "ggml-cpu-piledriver.dll",
+          "ggml-cpu-sandybridge.dll",
+          "ggml-cpu-sapphirerapids.dll",
+          "ggml-cpu-skylakex.dll",
+          "ggml-cpu-sse42.dll",
+          "ggml-cpu-x64.dll",
+          "ggml-cpu-zen4.dll",
+          "ggml-rpc.dll",
+          "ggml-vulkan.dll",
+          "libomp140.x86_64.dll",
+          "llama.dll",
+          "llama-batched-bench-impl.dll",
+          "llama-bench.exe",
+          "llama-bench-impl.dll",
+          "llama-cli-impl.dll",
+          "llama-common.dll",
+          "llama-completion-impl.dll",
+          "llama-fit-params-impl.dll",
+          "llama-perplexity-impl.dll",
+          "llama-quantize-impl.dll",
+          "llama-server-impl.dll",
+          "mtmd.dll"
+        ]
       }
     }
   }
