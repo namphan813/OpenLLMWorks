@@ -630,10 +630,48 @@ def ensure_model_ready() -> bool:
 # Managed runtime provisioning
 # ------------------------------------------------------------
 
-def ensure_runtime_ready() -> bool:
+def get_runtime_profile(
+    manifest: dict,
+    backend: str,
+) -> dict:
+    """
+    Return one backend-specific runtime profile from the asset manifest.
+    """
+
+    runtimes = manifest["assets"].get(
+        "runtimes"
+    )
+
+    if not isinstance(
+        runtimes,
+        dict,
+    ):
+        raise RuntimeError(
+            "Asset manifest does not define runtime profiles."
+        )
+
+    runtime = runtimes.get(
+        backend
+    )
+
+    if not isinstance(
+        runtime,
+        dict,
+    ):
+        raise RuntimeError(
+            "Asset manifest does not define "
+            f"the '{backend}' runtime profile."
+        )
+
+    return runtime
+
+
+def ensure_runtime_ready(
+    backend: str = "cuda",
+) -> bool:
     """
     Verify or automatically acquire and provision the frozen
-    Protocol v1.0 llama.cpp Windows NVIDIA runtime.
+    Protocol v1.0 llama.cpp Windows runtime for one backend.
     """
 
     ui_print("Benchmark Runtime")
@@ -669,10 +707,24 @@ def ensure_runtime_ready() -> bool:
         ui_print()
         return False
 
+    try:
+        runtime = get_runtime_profile(
+            manifest,
+            backend,
+        )
+
+    except RuntimeError as error:
+        ui_print(
+            f"[FAIL] {error}"
+        )
+        ui_print()
+        return False
+
     runtime_ok, runtime_message = (
         inspect_runtime(
             protocol_root=PROTOCOL_ROOT,
             manifest=manifest,
+            runtime_definition=runtime,
         )
     )
 
@@ -691,8 +743,6 @@ def ensure_runtime_ready() -> bool:
     ui_print(
         "Runtime provisioning is required."
     )
-
-    runtime = manifest["assets"]["runtime"]
 
     sources = runtime.get(
         "sources"
@@ -817,6 +867,7 @@ def ensure_runtime_ready() -> bool:
             protocol_root=PROTOCOL_ROOT,
             artifact_paths=artifact_paths,
             manifest=manifest,
+            runtime_definition=runtime,
         )
     )
 
