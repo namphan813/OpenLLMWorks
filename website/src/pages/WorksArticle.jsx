@@ -2,27 +2,14 @@ import { Link, useParams } from "react-router-dom";
 
 import Layout from "../layout/Layout";
 import PageMeta from "../components/PageMeta";
-
-
-const articles = {
-    "how-far-back-can-modern-local-ai-go": {
-        type: "Experiment",
-        status: "In Progress",
-        title: "How far back can modern local AI go?",
-        description:
-            "An OpenLLMWorks experiment exploring how older " +
-            "consumer GPUs handle a modern local AI workload.",
-        question:
-            "How useful is older hardware for running a modern " +
-            "local AI workload, and where does performance begin " +
-            "to break down?",
-    },
-};
+import {
+    getWorksArticle,
+} from "../content/works/articles";
 
 
 function WorksArticle() {
     const { slug } = useParams();
-    const article = articles[slug];
+    const article = getWorksArticle(slug);
 
     if (!article) {
         return (
@@ -51,7 +38,7 @@ function WorksArticle() {
             <PageMeta
                 title={`${article.title} | The Works | OpenLLMWorks`}
                 description={article.description}
-                canonical={`/works/${slug}`}
+                canonical={`/works/${article.slug}`}
             />
 
             <article className="works-article-page">
@@ -84,49 +71,29 @@ function WorksArticle() {
                 </section>
 
                 <div className="works-article-body">
-                    <section>
-                        <h2>Why we're testing this</h2>
+                    {article.sections.map((section) => (
+                        <section key={section.heading}>
+                            <h2>{section.heading}</h2>
 
-                        <p>
-                            Local AI hardware discussions tend to
-                            focus on current GPUs. OpenLLMWorks is
-                            also interested in the hardware people
-                            already own, including older consumer
-                            cards that predate today's local AI
-                            ecosystem.
-                        </p>
+                            {section.paragraphs.map(
+                                (paragraph, index) => (
+                                    <p key={index}>
+                                        {paragraph}
+                                    </p>
+                                ),
+                            )}
+                        </section>
+                    ))}
 
-                        <p>
-                            This experiment will use the standard
-                            OpenLLMWorks benchmark protocol to
-                            examine how far back modern local AI
-                            workloads remain practical.
-                        </p>
-                    </section>
+                    {article.note && (
+                        <aside className="works-article-note">
+                            <strong>
+                                {article.note.heading}
+                            </strong>
 
-                    <section>
-                        <h2>What we're measuring</h2>
-
-                        <p>
-                            Results will be grounded in validated
-                            OpenLLMWorks benchmark data, including
-                            prompt processing and token generation
-                            performance under the frozen benchmark
-                            methodology.
-                        </p>
-                    </section>
-
-                    <aside className="works-article-note">
-                        <strong>Experiment in progress</strong>
-
-                        <p>
-                            This article framework is live while the
-                            underlying experiment is still being
-                            developed. Findings will be added only
-                            after supporting benchmark results have
-                            been validated and published.
-                        </p>
-                    </aside>
+                            <p>{article.note.body}</p>
+                        </aside>
+                    )}
                 </div>
             </article>
         </Layout>
