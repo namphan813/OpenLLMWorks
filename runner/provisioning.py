@@ -747,6 +747,7 @@ def inspect_runtime(
     *,
     protocol_root: Path,
     manifest: dict[str, Any],
+    runtime_definition: dict[str, Any] | None = None,
 ) -> tuple[bool, str]:
     """
     Inspect the installed managed runtime.
@@ -755,7 +756,11 @@ def inspect_runtime(
     critical benchmark executable must match its frozen hash.
     """
 
-    runtime = manifest["assets"]["runtime"]
+    runtime = (
+        runtime_definition
+        if runtime_definition is not None
+        else manifest["assets"]["runtime"]
+    )
 
     install_path = runtime.get(
         "install_path"
@@ -1009,6 +1014,7 @@ def provision_runtime_from_sources(
     protocol_root: Path,
     artifact_paths: dict[str, Path],
     manifest: dict[str, Any],
+    runtime_definition: dict[str, Any] | None = None,
 ) -> tuple[bool, str]:
     """
     Assemble the managed runtime from frozen upstream archives.
@@ -1018,7 +1024,11 @@ def provision_runtime_from_sources(
     protocol runtime directory.
     """
 
-    runtime = manifest["assets"]["runtime"]
+    runtime = (
+        runtime_definition
+        if runtime_definition is not None
+        else manifest["assets"]["runtime"]
+    )
 
     install_path = runtime.get(
         "install_path"
@@ -1196,6 +1206,7 @@ def provision_runtime_from_sources(
             inspect_runtime(
                 protocol_root=staging_root,
                 manifest=manifest,
+                runtime_definition=runtime,
             )
         )
 
@@ -1239,6 +1250,7 @@ def provision_runtime_from_sources(
             inspect_runtime(
                 protocol_root=protocol_root,
                 manifest=manifest,
+                runtime_definition=runtime,
             )
         )
 
