@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 
 import Layout from "../layout/Layout";
+import PageMeta from "../components/PageMeta";
 
 
 const workTypes = [
@@ -34,6 +35,12 @@ const workTypes = [
 function Works() {
     return (
         <Layout>
+            <PageMeta
+                title="The Works | Local AI Hardware Research | OpenLLMWorks"
+                description="Explore experiments, findings, and research notes from OpenLLMWorks using real-world local AI hardware benchmark data."
+                canonical="/works"
+            />
+
             <div className="works-page">
                 <motion.section
                     className="works-hero"
@@ -127,25 +134,25 @@ function Works() {
                         </p>
                     </div>
 
-<div className="works-type-grid">
-    {workTypes.map((type, index) => (
-        <article
-            className="works-type-card"
-            key={type.label}
-        >
-            <span>
-                {String(index + 1).padStart(
-                    2,
-                    "0",
-                )}
-            </span>
+                    <div className="works-type-grid">
+                        {workTypes.map((type, index) => (
+                            <article
+                                className="works-type-card"
+                                key={type.label}
+                            >
+                                <span>
+                                    {String(index + 1).padStart(
+                                        2,
+                                        "0",
+                                    )}
+                                </span>
 
-            <h3>{type.label}</h3>
+                                <h3>{type.label}</h3>
 
-            <p>{type.description}</p>
-        </article>
-    ))}
-</div>
+                                <p>{type.description}</p>
+                            </article>
+                        ))}
+                    </div>
                 </section>
 
                 <section className="works-principle">

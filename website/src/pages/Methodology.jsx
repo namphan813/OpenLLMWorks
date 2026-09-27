@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 
 import Layout from "../layout/Layout";
 import BenchmarkHighlights from "../components/BenchmarkHighlights";
+import PageMeta from "../components/PageMeta";
 
 
 const protocolFacts = [
@@ -83,6 +84,12 @@ function Methodology() {
 
     return (
         <Layout>
+            <PageMeta
+                title="Local AI Benchmark Methodology | OpenLLMWorks"
+                description="Learn how OpenLLMWorks measures local AI hardware using a frozen, reproducible benchmark protocol with Qwen3-4B and llama.cpp."
+                canonical="/methodology"
+            />
+
             <div className="methodology-page">
                 <motion.section
                     className="methodology-hero"
@@ -331,5 +338,6 @@ function Methodology() {
         </Layout>
     );
 }
+
 
 export default Methodology;
