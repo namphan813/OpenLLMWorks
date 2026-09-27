@@ -3132,3 +3132,135 @@ body {
         padding-top: 4rem;
     }
 }
+
+/* =========================================================
+   The Works - Article
+   ========================================================= */
+
+.works-article-page {
+    width: min(900px, calc(100% - 4rem));
+    margin: 0 auto;
+    padding: 5rem 0 8rem;
+}
+
+.works-article-header {
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.works-article-back {
+    display: inline-block;
+    margin-bottom: 3rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.works-article-back:hover {
+    color: #5ca9ff;
+}
+
+.works-article-meta {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.works-article-meta span {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: #5ca9ff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.works-article-header h1 {
+    max-width: 850px;
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    line-height: 1.03;
+    letter-spacing: -0.045em;
+}
+
+.works-article-dek {
+    max-width: 720px;
+    margin: 1.5rem 0 0;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.75;
+}
+
+.works-article-question {
+    margin: 4rem 0;
+    padding: 2rem;
+    border-left: 2px solid #5ca9ff;
+    background: var(--surface);
+}
+
+.works-article-question > p:last-child {
+    max-width: 760px;
+    margin: 0;
+    color: var(--text);
+    font-size: 1.35rem;
+    line-height: 1.6;
+}
+
+.works-article-body {
+    max-width: 760px;
+}
+
+.works-article-body section + section {
+    margin-top: 4rem;
+}
+
+.works-article-body h2 {
+    margin: 0 0 1.25rem;
+    color: var(--text);
+    font-size: 1.65rem;
+    letter-spacing: -0.02em;
+}
+
+.works-article-body p {
+    color: var(--text-secondary);
+    line-height: 1.85;
+}
+
+.works-article-note {
+    margin-top: 4rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+}
+
+.works-article-note strong {
+    color: var(--text);
+}
+
+.works-article-note p {
+    margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+    .works-article-page {
+        width: min(100% - 2rem, 600px);
+        padding: 3rem 0 5rem;
+    }
+
+    .works-article-header {
+        padding-bottom: 3rem;
+    }
+
+    .works-article-back {
+        margin-bottom: 2rem;
+    }
+
+    .works-article-question {
+        margin: 3rem 0;
+        padding: 1.5rem;
+    }
+}

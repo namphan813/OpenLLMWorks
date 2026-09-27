@@ -12,6 +12,7 @@ import HardwareCompare from "./pages/HardwareCompare";
 import HardwareCompareSelect from "./pages/HardwareCompareSelect";
 import Methodology from "./pages/Methodology";
 import Works from "./pages/Works";
+import WorksArticle from "./pages/WorksArticle";
 import Admin from "./pages/Admin";
 import AdminSubmission from "./pages/AdminSubmission";
 
@@ -52,6 +53,11 @@ function App() {
       <Route
         path="/works"
         element={<Works />}
+      />
+
+      <Route
+        path="/works/:slug"
+        element={<WorksArticle />}
       />
 
       <Route
