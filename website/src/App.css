@@ -3264,3 +3264,135 @@ body {
         padding: 1.5rem;
     }
 }
+
+/* =========================================================
+   The Works - Not Found
+   ========================================================= */
+
+.works-not-found {
+    width: min(900px, calc(100% - 4rem));
+    margin: 0 auto;
+    padding: 5rem 0 8rem;
+}
+
+.works-not-found-visual {
+    position: relative;
+    height: 260px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--surface);
+}
+
+.works-not-found-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    background-image:
+        linear-gradient(
+            var(--border) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            var(--border) 1px,
+            transparent 1px
+        );
+    background-size: 48px 48px;
+}
+
+.works-not-found-node {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    border: 1px solid var(--text-muted);
+    border-radius: 50%;
+    background: var(--surface);
+}
+
+.works-not-found-node--lost {
+    left: 57%;
+    top: 74%;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    border-color: #5ca9ff;
+    background: #5ca9ff;
+    box-shadow: 0 0 0 6px rgba(92, 169, 255, 0.08);
+}
+
+.works-not-found-content {
+    max-width: 760px;
+    padding-top: 3rem;
+}
+
+.works-not-found-content h1 {
+    max-width: 760px;
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.works-not-found-content > p:not(.works-eyebrow) {
+    max-width: 620px;
+    margin: 1.25rem 0 0;
+    color: var(--text-secondary);
+    line-height: 1.75;
+}
+
+.works-not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.works-not-found-actions a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.works-not-found-primary {
+    background: #5ca9ff;
+    color: #07111d;
+}
+
+.works-not-found-secondary {
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.works-not-found-secondary:hover {
+    border-color: #5ca9ff;
+    color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .works-not-found-node {
+        transform: none !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .works-not-found {
+        width: min(100% - 2rem, 600px);
+        padding: 3rem 0 5rem;
+    }
+
+    .works-not-found-visual {
+        height: 210px;
+    }
+
+    .works-not-found-content {
+        padding-top: 2.5rem;
+    }
+}

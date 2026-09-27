@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 
 import Layout from "../layout/Layout";
 import PageMeta from "../components/PageMeta";
+import WorksNotFound from "../components/WorksNotFound";
 import {
     getWorksArticle,
 } from "../content/works/articles";
@@ -14,21 +15,13 @@ function WorksArticle() {
     if (!article) {
         return (
             <Layout>
-                <div className="works-article-page">
-                    <Link
-                        className="works-article-back"
-                        to="/works"
-                    >
-                        ← The Works
-                    </Link>
+                <PageMeta
+                    title="Research Not Found | The Works | OpenLLMWorks"
+                    description="The requested OpenLLMWorks research entry could not be found."
+                    canonical={`/works/${slug}`}
+                />
 
-                    <h1>Research note not found.</h1>
-
-                    <p>
-                        This Works entry does not exist or has not
-                        been published yet.
-                    </p>
-                </div>
+                <WorksNotFound />
             </Layout>
         );
     }
