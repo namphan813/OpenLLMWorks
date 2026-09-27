@@ -1,962 +1,335 @@
-# OpenLLMWorks Roadmap
+# OpenLLMWorks - Roadmap
 
-The roadmap describes the long-term evolution of OpenLLMWorks.
+## Mission
 
-Each phase builds upon the previous one while remaining aligned with the
-project's mission:
+OpenLLMWorks exists to build an open, reproducible, and durable historical
+record of local AI hardware performance.
 
-> **Measure. Understand. Preserve.**
-
-OpenLLMWorks is intentionally built in phases.
-
-Each phase establishes a stable foundation before introducing the next
-major capability.
-
-The goal is steady, sustainable progress rather than rapid feature
-accumulation.
-
-------------------------------------------------------------------------
-
-# Project Evolution
+The project is built around three ideas:
 
 ```text
-Foundation
-    ↓
-Intelligence
-    ↓
-Evolution
-    ↓
-Identity
-    ↓
-Community
-    ↓
-Recommendations
-    ↓
-Platform
-    ↓
-Research Platform
+Measure.
+Understand.
+Preserve.
 ```
 
-------------------------------------------------------------------------
+**Measure** local AI hardware using standardized, reproducible workloads.
 
-# ✅ Foundation
+**Understand** what benchmark results mean through comparisons, research, and
+evidence-based interpretation.
 
-**Status:** Complete
+**Preserve** results, methodology, provenance, and historical hardware data so
+performance can be understood over time.
 
-Established the technical foundation of OpenLLMWorks.
+---
 
-### Highlights
+## Product Direction
 
-- Benchmark parser
-- Persistent benchmark database
-- Deterministic result IDs
-- Duplicate detection
-- Core statistics engine
+OpenLLMWorks is evolving through five connected stages:
 
-### Outcome
+```text
+Measure
+    |
+    v
+Expand
+    |
+    v
+Explain
+    |
+    v
+Translate
+    |
+    v
+Apply
+```
 
-OpenLLMWorks became capable of reliably collecting and storing benchmark
+### Measure
+
+Build a trustworthy benchmark foundation.
+
+This includes:
+
+- frozen benchmark workloads
+- reproducible execution
+- verified assets
+- raw evidence
+- canonical validation
+- deterministic result identity
+- controlled publication
+- historical provenance
+
+This foundation is operational.
+
+### Expand
+
+Increase the breadth of evidence.
+
+This includes:
+
+- more GPU generations
+- more contributor systems
+- AMD
+- Intel
+- workstation accelerators
+- historical hardware
+- eventually additional operating systems
+
+This is the current major engineering phase.
+
+### Explain
+
+Help users understand what the measurements represent.
+
+This includes:
+
+- Methodology
+- metric explainers
+- The Works
+- experiments
+- findings
+- research notes
+- hardware-generation analysis
+
+This phase has begun.
+
+### Translate
+
+Turn benchmark measurements into useful context without hiding the underlying
 data.
 
-------------------------------------------------------------------------
+Potential examples include:
 
-# ✅ Intelligence
+- performance-per-dollar
+- prompt-processing value
+- token-generation value
+- power efficiency
+- generation comparisons
+- architecture comparisons
+- historical performance trends
 
-**Status:** Complete
+This phase depends on sufficient validated data.
 
-Transformed benchmark records into reusable insights.
+### Apply
 
-### Highlights
+Eventually help users use the evidence to make hardware decisions.
 
-- Statistics
-- Leaderboards
-- Hardware Profiles
-- Interesting Facts
-- Snapshot Viewer
-- Trend Engine
-- Historical Snapshots
+Potential examples include:
 
-### Outcome
+- workload-oriented hardware guidance
+- strengths and tradeoffs
+- accelerator selection
+- dedicated local AI hardware configurations
+- value-oriented comparisons
 
-The project evolved from storing data to explaining it.
+OpenLLMWorks should reach this stage through accumulated evidence rather than
+premature recommendation logic.
 
-------------------------------------------------------------------------
+---
 
-# ✅ Evolution
+# Current Position
 
-**Status:** Complete
+OpenLLMWorks has crossed the initial public-product and production-operations
+boundaries.
 
-Prepared OpenLLMWorks for long-term growth and safe maintenance.
-
-### Highlights
-
-- UTC timestamp normalization
-- Schema evolution
-- Migration framework
-- SHA-256 hashing
-- Verified backups
-- Utilities layer
-
-### Outcome
-
-The project gained the operational tools necessary to preserve data
-integrity over time.
-
-------------------------------------------------------------------------
-
-# ✅ Identity
-
-**Status:** Complete
-
-Defined the philosophy, documentation, engineering culture, and public
-identity of OpenLLMWorks.
-
-### Highlights
-
-- README
-- Roadmap
-- Manifesto
-- Founding Story
-- Architecture Guide
-- Design Principles
-- Contributing Guide
-- AI Collaboration
-- Parking Lot
-- OpenLLMWorks public identity
-- Open LLM Benchmark Database technical identity
-- OLBD Protocol v1.0 provenance
-- OpenLLMWorks.com
-- Public GitHub repository
-
-### Outcome
-
-The project now documents not only *how* it works and *why* it exists,
-but also presents a stable public identity under which the benchmark,
-dataset, Runner, website, future research, and community can grow.
-
-------------------------------------------------------------------------
-
-# 🟡 Community
-
-**Status:** Active - Public Beta
-
-Current objective:
-
-Prove that people outside the development environment can successfully
-discover, run, submit to, and understand OpenLLMWorks.
-
-The public-facing read/explore experience and the Windows NVIDIA
-contribution path are now operational.
-
-The major dependency has shifted from building basic contribution transport
-to hardening the production intake boundary and then validating the complete
-experience with real external contributors.
-
-### Delivered Foundations
-
-- React website foundation
-- Data-driven homepage
-- Public production website
-- OpenLLMWorks.com
-- Public Beta identity
-- Navigation
-- Hardware Explorer
-- GPU search
-- Vendor filtering
-- VRAM filtering
-- Performance sorting
-- GPU ranking context
-- Hardware profile pages
-- Multi-system GPU aggregation
-- Individual benchmark history
-- Tested configuration filtering
-- Driver and CUDA provenance
-- GPU comparison
-- Comparison evidence context
-- Connected discovery → profile → comparison user flows
-- Responsive desktop and mobile foundations
-- Leaderboards
-- Snapshot browsing
-- Documentation integration
-- Standalone OpenLLMWorks Runner
-- Managed and verified Protocol v1.0 assets
-- Automated hardware evidence capture
-- Automated three-run benchmark execution
-- Canonical submission validation
-- Upload-ready submission ZIP
-- GitHub benchmark-submission fallback workflow
-- Direct HTTPS submission from the Runner
-- Dedicated production submission API
-- Private incoming R2 storage
-- Traceable submission IDs
-- Maintainer-controlled ingestion
-- Public GitHub repository
-- Public Runner beta release
-- Public release artifact verification
-- GA4 baseline collection
-
-### Current Goal
-
-Move from an internally proven direct-submission MVP to a hardened,
-maintainable intake path and then externally proven contributor usability.
-
-The next engineering milestone is authoritative server-side submission
-validation and maintainer intake hardening.
-
-The next beta milestone remains the first successful direct benchmark
-submission from someone who did not build or operate the OpenLLMWorks
-development environment.
-
-### Outcome Target
-
-A newcomer should be able to:
-
-1. Understand what OpenLLMWorks measures.
-2. Explore real benchmark data.
-3. Understand the evidence behind published results.
-4. Find and download the public Runner.
-5. Run the benchmark protocol.
-6. Understand first-run provisioning.
-7. Review the submission disclosure.
-8. Choose whether to upload directly to OpenLLMWorks.
-9. Receive a traceable submission ID when direct upload succeeds.
-10. Retain the local canonical ZIP as a fallback.
-11. Receive clear validation feedback as the intake system matures.
-12. Contribute without risking the integrity of the historical dataset.
-
-------------------------------------------------------------------------
-
-# ⚪ Recommendations
-
-**Status:** Planned
-
-Turn benchmark data into actionable guidance.
-
-### Planned Features
-
-- Recommendation Engine
-- Model Compatibility Explorer
-- Hardware Build Planner
-- Performance classifications
-- Community-backed hardware suggestions
-- Optional affiliate recommendations
-
-### Goal
-
-Help users answer the question:
-
-> *"What can my computer actually run?"*
-
-The recommendation layer should be built on sufficiently broad and
-well-contextualized benchmark evidence rather than isolated benchmark
-values.
-
-Commercial or affiliate relationships should remain separate from
-benchmark methodology, rankings, and editorial judgment.
-
-------------------------------------------------------------------------
-
-# ⚪ Platform
-
-**Status:** Future
-
-Expand OpenLLMWorks into a broader community platform.
-
-### Planned Features
-
-- Broader public benchmark participation
-- Community accounts, if needed
-- Public API
-- Interactive dashboards
-- Community contributions
-- Submission moderation
-- Dataset export
-- Integration opportunities
-- Additional accelerator vendors
-- Additional operating systems
-
-### Goal
-
-Allow the community to continuously grow and enrich the benchmark
-database while preserving trust, reproducibility, and historical
-accuracy.
-
-------------------------------------------------------------------------
-
-# ⚪ Research Platform
-
-**Status:** Vision
-
-Become a trusted historical archive of local AI performance.
-
-### Potential Features
-
-- Long-term trend analysis
-- Research datasets
-- Academic exports
-- Historical performance reports
-- Hardware adoption studies
-- Driver and software evolution studies
-- LLM ecosystem evolution
-- Cross-generation hardware analysis
-- Cross-vendor analysis
-- Cross-protocol analysis
-- Model-generation analysis
-- The Works research/editorial publishing
-
-### Goal
-
-Provide a lasting historical record of how local AI has evolved over
-time.
-
-------------------------------------------------------------------------
-
-# Website Product Evolution
-
-The website has progressed beyond its original role as a presentation
-layer.
-
-It is now the primary public interface for discovering and exploring the
-OpenLLMWorks dataset and an entry point into the contribution workflow.
-
-The current product journey is:
+The project currently has:
 
 ```text
-Discover OpenLLMWorks
-    ↓
-Explore Hardware
-    ↓
-Search / Filter / Sort
-    ↓
-Inspect GPU Profile
-    ↓
-Understand Benchmark Evidence
-    ↓
-Inspect Test Context
-    ↓
-Compare Hardware
-    ↓
-Return to Deeper Evidence
+Public benchmark project                   LIVE
+Public GitHub repository                   LIVE
+OpenLLMWorks.com                           LIVE
+Standalone Windows Runner                  LIVE / PUBLIC BETA
+
+OLBD Protocol v1.0                         FROZEN
+Windows + NVIDIA + CUDA path               PROVEN
+
+Direct submission                          PROVEN
+Authoritative server validation            PROVEN
+Operational submission state               PROVEN
+Authenticated Control Room                 PROVEN
+Maintainer approval                        PROVEN
+Controlled canonical import                PROVEN
+Production publication verification        PROVEN
+Publication recovery                       PROVEN
+
+External contributor validation            PROVEN
+External result publication                PROVEN
+
+Hardware Explorer                          LIVE
+GPU Compare                                LIVE
+Leaderboards                               LIVE
+Methodology                                LIVE
+The Works                                  LIVE
+Research Note publishing                   LIVE
+
+Dataset growth                             ACTIVE / EARLY
+AMD / Vulkan expansion                     CURRENT PHASE
+Intel accelerator expansion                FUTURE
 ```
 
-The contributor journey extends this model:
+The core challenge is no longer proving that the benchmark can operate from
+Runner execution through publication.
+
+That lifecycle exists.
+
+The next challenge is increasing the breadth and usefulness of the evidence
+without weakening reproducibility or provenance.
+
+---
+
+# Architectural Principles
+
+## 1. The Canonical Dataset Is the Historical Record
+
+The Open LLM Benchmark Database is the canonical benchmark record.
+
+Operational systems may support it, but they do not replace it.
 
 ```text
-Discover OpenLLMWorks
-    ↓
-Understand the Benchmark
-    ↓
-Run Your First Benchmark
-    ↓
-Download OpenLLMWorks Runner
-    ↓
-Run Protocol v1.0
-    ↓
-Canonical Local Validation
-    ↓
-Receive Submission ZIP
-    ↓
-Review Disclosure / Choose Y or N
-    ↓
-Direct HTTPS Submission
-    ↓
-Private Incoming Storage
-    ↓
-Maintainer / Server Validation
-    ↓
+Contributor Systems
+        |
+        v
+Submission Infrastructure
+        |
+        v
+Operational State
+        |
+        v
+Maintainer-Controlled Import
+        |
+        v
 Canonical Database
-    ↓
-Website
+        |
+        v
+Publisher
+        |
+        v
+Public Website
 ```
 
-Future website development should preserve these connected user-flow
-models.
+Contributor systems must not receive direct canonical database write access.
 
-Features should not merely exist.
+---
 
-Users should be able to discover how those features relate to one
-another.
+## 2. Operational State and Canonical Data Remain Separate
 
-------------------------------------------------------------------------
-
-# Hardware Discovery
-
-**Status:** v1 Foundation Complete
-
-### Delivered
-
-- GPU browsing
-- GPU search
-- Vendor filtering
-- VRAM filtering
-- Multiple sorting modes
-- Relative performance bars
-- Performance ranking
-- Benchmark-result counts
-- Stable GPU variant identity
-- Direct hardware-profile navigation
-- Comparison selection from Hardware Explorer
-
-### Future Evolution
-
-As the dataset grows:
-
-- Additional filter dimensions
-- More advanced sorting
-- Pagination or virtualization
-- Larger-catalog navigation
-- Saved or shareable filters
-- Better mobile discovery
-- Search refinements
-- Configuration-aware discovery
-- Vendor-aware discovery as AMD and Intel coverage expands
-
-The v1 discovery foundation is complete.
-
-The concept itself is not considered permanently finished.
-
-------------------------------------------------------------------------
-
-# Hardware Profiles
-
-**Status:** v1 Foundation Complete
-
-### Delivered
-
-- Aggregated GPU performance
-- pp512 ranking
-- tg128 ranking
-- Best and worst benchmark context
-- Benchmark history
-- Tested memory configurations
-- Operating systems
-- CPU context
-- VRAM context
-- Driver provenance
-- CUDA provenance
-- Configuration filtering
-- Direct comparison entry point
-
-### Future Evolution
-
-Potential additions include:
-
-- Additional software provenance
-- Benchmark protocol details
-- Model / quantization context
-- Driver-history views
-- Performance distribution
-- More detailed configuration filters
-- Historical change visualization
-- Shareable profile views
-- Cross-vendor software-stack context
-
-Hardware identity and benchmark environment should remain separate
-concepts.
-
-------------------------------------------------------------------------
-
-# GPU Comparison
-
-**Status:** v1 Foundation Complete
-
-### Delivered
-
-- Direct GPU-vs-GPU comparison
-- pp512 comparison
-- tg128 comparison
-- Percentage performance difference
-- VRAM comparison
-- Benchmark-result counts
-- Tested memory comparison
-- Operating-system comparison
-- Evidence/sample context
-- Links back to GPU profiles
-- Discovery → comparison flow
-- Profile → comparison flow
-- URL-preserved comparison selection
-
-### Interpretation Principle
-
-Published comparison values describe the currently available benchmark
-evidence.
-
-They should not automatically be interpreted as controlled laboratory
-head-to-head tests.
-
-### Future Evolution
-
-Potential additions include:
-
-- Shareable comparison URLs and richer metadata
-- Additional benchmark metrics
-- Configuration-matched comparisons
-- Driver-matched comparisons
-- Model-specific comparisons
-- Confidence or evidence scoring
-- Distribution-based comparison
-- Historical comparison
-- Multi-GPU comparison
-- Cross-vendor comparison
-
-Weekend 11 delivered the v1 comparison foundation earlier than
-originally planned.
-
-------------------------------------------------------------------------
-
-# Benchmark Evidence & Provenance
-
-**Status:** v1 Foundation Complete
-
-OpenLLMWorks should preserve not only benchmark performance, but also
-the environment that produced it.
-
-### Current Context
-
-Published benchmark results can preserve:
-
-- CPU
-- System memory
-- Operating system
-- GPU VRAM
-- GPU driver version
-- CUDA UMD version
-- NVIDIA SMI version
-
-Not every historical submission contains every field.
-
-Missing provenance remains unknown rather than being inferred.
-
-### Principle
-
-> **Unknown is better than invented.**
-
-### Future Evolution
-
-As the benchmark protocol evolves:
-
-- Capture additional backend information
-- Capture richer software-stack versions
-- Improve cross-platform provenance
-- Track benchmark protocol revisions
-- Preserve model and quantization context
-- Support software-version analysis
-- Explore performance changes across driver generations
-- Preserve vendor-specific runtime provenance
-- Support cross-vendor evidence without flattening meaningful differences
-
-------------------------------------------------------------------------
-
-# Comparison Evidence
-
-**Status:** v1 Foundation Complete
-
-Benchmark averages should communicate the amount and diversity of
-evidence behind them.
-
-### Delivered
-
-- Benchmark-result counts
-- Tested memory-configuration counts
-- Tested operating-system counts
-- Single-result labeling
-- Limited-sample labeling
-- Growing-sample labeling
-- Comparison methodology/context messaging
-
-### Future Evolution
-
-The current labels are intentionally simple.
-
-As the dataset grows, OpenLLMWorks may explore:
-
-- Evidence scores
-- Confidence indicators
-- Minimum sample thresholds
-- Configuration diversity
-- Statistical dispersion
-- Outlier visibility
-- Matched-system comparisons
-
-Evidence presentation should remain understandable to ordinary visitors
-and should not imply more statistical certainty than the dataset
-supports.
-
-------------------------------------------------------------------------
-
-# Development Validation Model
-
-OpenLLMWorks uses complementary forms of validation.
-
-## Engineering Validation
-
-Ask:
-
-> **Does the feature work correctly?**
-
-Examples:
-
-- Does the parser extract the correct value?
-- Does normalization preserve meaning?
-- Does duplicate detection behave correctly?
-- Does the publisher generate valid JSON?
-- Does the website consume the correct contract?
-- Does comparison math produce the correct result?
-- Does the Runner verify assets correctly?
-- Does a submission pass canonical validation?
-
-## User-Flow Validation
-
-Ask:
-
-> **Can someone understand how to use it?**
-
-Examples:
-
-- Can someone discover hardware?
-- Can someone interpret a benchmark score?
-- Can someone move from discovery to a GPU profile?
-- Can someone initiate a comparison naturally?
-- Can someone understand the evidence behind an average?
-- Can someone find the Runner?
-- Can someone understand first-run provisioning?
-- Can someone understand the direct-submission disclosure?
-- Can someone choose direct upload or preserve the local ZIP?
-- Can someone receive and retain a submission ID?
-- Can someone submit a result without maintainer coaching?
-
-## External Validation
-
-Ask:
-
-> **Can someone outside the project successfully use it?**
-
-Examples:
-
-- Can a first-time visitor understand OpenLLMWorks?
-- Can an external contributor download the correct artifact?
-- Can they navigate Windows trust warnings?
-- Can they complete the benchmark without development tools?
-- Can they understand failures and recovery guidance?
-- Can their submission enter the canonical workflow without repair?
-
-Public-beta development should include all three validation modes.
-
-------------------------------------------------------------------------
-
-# Weekend Sprint Roadmap
-
-The weekend roadmap is a working implementation plan.
-
-Sprint scope may move forward or backward as dependencies become
-clearer.
-
-Completing work earlier than planned does not require artificially
-repeating that work in a later weekend.
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 1-5 - Core Foundation
-
-**Status:** Complete
-
-Established:
-
-- Benchmark execution
-- Parser
-- Persistent database
-- Analytics
-- Validation
-- Documentation
-- Governance
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 6 - Website Foundation
-
-**Status:** Complete
-
-Established:
-
-- React / Vite application
-- Navigation
-- Homepage
-- Design system
-- Component structure
-- Public repository workflow
-- Website vision
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 7 - Publisher & Data Integration
-
-**Status:** Complete
-
-Established:
-
-- Website data contracts
-- Publisher architecture
-- Generated homepage data
-- Manifest generation
-- Python → React data flow
-- Data-driven homepage
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 8 - Analytics Integration
-
-**Status:** Complete
-
-Established:
-
-- Real benchmark analytics powering the website
-- Leaderboards
-- Snapshot integration
-- Additional publisher outputs
-- Website analytics foundation
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 9 - Hardware Explorer & Multi-System Validation
-
-**Status:** Complete
-
-Established:
-
-- Hardware Explorer
-- Hardware profiles
-- Multi-system GPU aggregation
-- Benchmark history
-- Tested configurations
-- Responsive hardware experience
-- Real-world validation across multiple systems
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 10 - Hardware Data Architecture
-
-**Status:** Complete
-
-Established:
-
-- Richer hardware identity
-- Canonical GPU variant handling
-- Public hardware contract improvements
-- Hardware identity reconciliation
-- Publisher validation
-- Production-build validation
-
-### Outcome
-
-The hardware layer became stable enough to support richer discovery,
-comparison, and future community data.
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 11 - Discovery & Comparison
-
-**Status:** Complete
-
-Weekend 11 expanded beyond its original scope.
-
-### Delivered
-
-- Hardware search improvements
-- Vendor filtering
-- VRAM filtering
-- Expanded sorting
-- Relative performance visualization
-- GPU ranking context
-- Richer hardware profiles
-- Benchmark-history filtering
-- Driver and CUDA provenance
-- GPU comparison
-- Percentage performance differences
-- Tested-configuration comparison
-- Evidence/sample context
-- Discovery → comparison flow
-- Profile → comparison flow
-- Comparison-selection UX polish
-
-### Outcome
-
-OpenLLMWorks gained a connected hardware exploration experience.
-
-Weekend 11 also delivered the v1 foundation of Browse / Filter / Compare
-UX earlier than originally scheduled.
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 12 - Submission Pipeline Hardening
-
-**Status:** Complete
-
-### Objective
-
-Make benchmark ingestion safer, clearer, and more contributor-ready
-before opening the submission path more broadly.
-
-### Delivered
-
-- Added lightweight structural submission preflight validation
-- Validate required hardware evidence before deeper parsing
-- Reject submissions containing no benchmark run files
-- Preserve legacy two-run submissions with explicit warnings
-- Added optional `submission.json` manifest support
-- Added manifest schema versioning
-- Validate contributor-provided submission identity
-- Validate ISO-8601 submission and benchmark timestamps
-- Reject malformed or structurally invalid manifests
-- Preserve compatibility with historical folder-based submissions
-- Propagate validated manifest metadata into normalized result records
-- Tolerate unknown manifest fields for forward compatibility
-- Added contributor-facing manifest documentation
-- Updated `example_submission/` with a working manifest example
-- Intentionally tested malformed and invalid submission cases
-
-### Validation Coverage
-
-Weekend 12 intentionally exercised:
-
-- Valid manifest
-- Unsupported schema version
-- Empty submission name
-- Incorrect submission-name type
-- Invalid submission timestamp
-- Invalid benchmark timestamp
-- Non-object JSON root
-- Malformed JSON
-- Unknown manifest fields
-- Missing required hardware evidence
-- Missing manifest / legacy submission
-- Historical two-run submission
-- Manifest metadata propagation
-
-### Compatibility
-
-`submission.json` remains optional.
-
-Historical submissions without a manifest continue through the existing
-folder-based workflow and receive a warning explaining that legacy
-metadata is being used.
-
-Raw benchmark and hardware evidence remain authoritative.
-Contributor-provided manifest metadata does not replace measured
-hardware or benchmark data.
-
-### Outcome
-
-OpenLLMWorks established a stronger trust boundary at the beginning of
-the submission pipeline.
-
-Structurally invalid submissions can fail before deeper parsing, valid
-contributors can provide explicit submission metadata, and historical
-benchmark packages remain compatible with the current pipeline.
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 13 - Leaderboards & Analytics Expansion
-
-**Status:** Complete
-
-### Objective
-
-Build richer insight layers on top of the increasingly trustworthy
-dataset.
-
-Weekend 13 focused on deeper interpretation of benchmark evidence while
-preserving clear boundaries between analytics, public data contracts,
-and website presentation.
-
-### Completed Sprints
-
-- Sprint 1 - Analytics & Schema Compatibility
-- Sprint 2 - Statistics Expansion
-- Sprint 3 - GPU-Profile Leaderboards & Publishing
-- Sprint 4 - Published Leaderboard Website Integration
-
-### Outcome
-
-Weekend 13 established a canonical analytics-to-presentation path.
+Current infrastructure deliberately separates:
 
 ```text
-Benchmark Database
-        ↓
-Canonical Analytics
-        ↓
-GPU Profiles
-        ↓
-GPU Rankings
-        ↓
-Leaderboard Publisher
-        ↓
-leaderboards.json
-        ↓
-        +----------------------+
-        |                      |
-        v                      v
-Hardware Explorer       Hardware Profile
+R2
+= submission artifacts and evidence
+
+D1
+= operational and control-plane state
+
+Open LLM Benchmark Database
+= canonical historical benchmark record
 ```
 
-Python analytics owns ranking.
+This separation should remain unless a future architecture provides a stronger
+trust model.
 
-The publisher owns the public leaderboard contract.
+---
 
-React consumes that contract and owns presentation.
+## 3. Protocol Changes Require Methodology Reasons
 
-The website no longer independently reconstructs authoritative GPU
-rankings.
+OLBD Protocol v1.0 is frozen.
 
-------------------------------------------------------------------------
+Do not change the benchmark protocol to solve:
 
-## ✅ Weekend 14 - Contributor Workflow & Runner Foundation
+- UI problems
+- contributor onboarding
+- transport problems
+- website presentation
+- submission automation
+- accelerator-detection convenience
+- backend implementation convenience
 
-**Status:** Complete
+A future protocol version should exist only when benchmark methodology itself
+needs to change.
 
-### Objective
+---
 
-Make it practical for someone outside the project to contribute benchmark
-results while preserving the canonical trust boundary.
+## 4. Platform Expansion Is Not Automatically Protocol Evolution
 
-### Delivered
+Adding another accelerator vendor or execution backend does not automatically
+require a new benchmark protocol.
 
-- Contributor journey and onboarding documentation
-- Contributor-facing canonical validator
-- Clear validation warnings and failure states
-- Initial OpenLLMWorks Runner
-- NVIDIA environment detection
-- Frozen model and `llama-bench.exe` SHA-256 verification
-- Automatic hardware-evidence collection
-- Automatic three-run Benchmark Protocol v1.0 execution
-- pp512 and tg128 result parsing
-- Automatic `submission.json` generation
-- Canonical submission validation
-- Upload-ready ZIP packaging
-- GitHub Issue benchmark-submission workflow
-- First fresh-GPU end-to-end Runner rehearsal using a GTX 1050 2 GB
-- Maintainer download and independent validation
-- Controlled canonical database import
-- Publisher regeneration
-- Website verification of the imported result
+However, backend differences must not be hidden if they materially affect:
 
-### Outcome
+- reproducibility
+- workload behavior
+- comparability
+- evidence requirements
+- result interpretation
 
-Weekend 14 proved the complete contribution lifecycle:
+Cross-vendor expansion must explicitly record enough provenance to understand
+how a result was produced.
+
+---
+
+## 5. Evidence Comes Before Conclusions
+
+The benchmark database records observations.
+
+Research may investigate those observations.
+
+OpenLLMWorks should not turn small datasets or unexplained performance
+differences into architectural conclusions.
+
+Preferred research flow:
+
+```text
+Validated Results
+        |
+        v
+Observation
+        |
+        v
+Research Question
+        |
+        v
+Controlled Investigation
+        |
+        v
+Finding
+        |
+        v
+The Works
+```
+
+Unexpected results are useful when they create better questions.
+
+---
+
+# Completed Foundation
+
+Detailed historical project state is preserved in:
+
+```text
+docs/STATUS_HISTORY.md
+docs/ROADMAP_HISTORY.md
+```
+
+The live roadmap intentionally summarizes completed work rather than reproducing
+the complete engineering history.
+
+---
+
+## Weekend 14 - Contributor Workflow and Runner Foundation
+
+Weekend 14 proved the first complete benchmark lifecycle:
 
 ```text
 Runner
     |
     v
-Validated Submission ZIP
+Submission ZIP
     |
     v
-GitHub Issue
+Maintainer Validation
     |
     v
-Maintainer Validation / Import
-    |
-    v
-Canonical Database
+Canonical Import
     |
     v
 Publisher
@@ -965,971 +338,1498 @@ Publisher
 Website
 ```
 
-The benchmark system and maintainer system can remain separate, and the
-Runner does not receive authority to modify the canonical database.
+This established that a benchmark produced outside the canonical database could
+be validated, imported, and published without allowing contributor systems to
+modify canonical data directly.
 
-------------------------------------------------------------------------
+---
 
-## ✅ Weekend 15 - Runner to Contributor Ready
+## Weekend 15 - Contributor Readiness
 
-**Status:** Complete
+Weekend 15 hardened the benchmark workflow for use outside the development
+environment.
 
-### Objective
+Major themes included:
 
-Harden the proven Runner workflow, formalize maintainer ingestion, align the
-contributor experience, and regression-test the complete handoff boundary.
+- Runner reliability
+- canonical submission packaging
+- contributor guidance
+- benchmark-readiness messaging
+- failure reporting
+- maintainer import workflow
+- regression testing
+- standalone packaging groundwork
 
-### Completed Sprints
+---
 
-- Sprint 1 - Runner Hardening
-- Sprint 2 - Maintainer Workflow
-- Sprint 3 - Contributor UX & Documentation
-- Sprint 4 - Regression Testing
-- Sprint 5 - Cleanup & Checkpoint
+## Weekend 16 - Standalone Runner and Public Beta
 
-### Delivered
+Weekend 16 moved OpenLLMWorks from an internal benchmark project to a public
+product.
 
-- Hardened canonical submission-name validation
-- Added benchmark-readiness guidance
-- Improved environment, execution, and parsing failure guidance
-- Added focused single-submission maintainer processing
-- Added maintainer-controlled provenance and verification inputs
-- Documented the maintainer submission workflow
-- Updated contributor documentation to a Runner-first model
-- Updated the GitHub benchmark-submission Issue template
-- Improved ZIP packaging so extraction recreates one validator-ready
-  top-level submission directory
-- Preserved manual and advanced validation workflows
-- Performed a fresh current-build Quadro T1000 regression run
-- Verified Runner version `0.3.0-dev3` end to end
-- Extracted the generated ZIP into a clean temporary location
-- Independently revalidated the extracted package successfully
+Major milestones included:
 
-### Outcome
+- managed Protocol v1.0 assets
+- verified asset provisioning
+- clean-state execution
+- corruption recovery
+- interruption recovery
+- offline failure handling
+- contributor UX improvements
+- standalone Windows executable
+- OpenLLMWorks rebrand
+- public GitHub repository
+- public Runner beta
+- OpenLLMWorks.com
+- public website validation
+- GA4 baseline analytics
+
+Weekend 16 established the public benchmark surface.
+
+---
+
+## Weekend 17 - Direct Submission
+
+Weekend 17 removed the manual GitHub handoff as a requirement for the primary
+contributor path.
+
+The architecture became:
 
 ```text
-Contributor Runner
+Runner
     |
     v
-Upload-Ready ZIP
+Canonical Validation
     |
     v
-GitHub Submission
+Canonical ZIP
     |
     v
-Independent Maintainer Validation
-    |
-    v
-Controlled Import
-```
-
-The contribution path became technically complete.
-
-Distribution and setup friction became the next contributor-facing
-barriers.
-
-------------------------------------------------------------------------
-
-## ✅ Weekend 16 - Standalone Runner to Public Beta
-
-**Status:** Complete
-
-### Objective
-
-Reduce the technical prerequisites between a new Windows contributor and a
-successful OpenLLMWorks benchmark submission, establish the long-term public
-identity, publish the project, and make the complete beta experience publicly
-accessible.
-
-Weekend 16 expanded substantially beyond the original standalone-packaging
-plan.
-
-The Runner became self-provisioning, recovery-tested, contributor-visible
-during long operations, backward compatible with legacy managed assets, publicly
-distributed, and connected to a live OpenLLMWorks website.
-
-### Sprint 4 - Managed Assets
-
-Delivered:
-
-- Standalone Windows Runner with PyInstaller
-- Embedded `runner/assets.json`
-- Managed protocol storage outside the repository
-- Verified frozen-model acquisition
-- Verified upstream llama.cpp runtime acquisition
-- Deterministic runtime assembly
-- Retirement of the custom project-hosted runtime archive
-- Exact size and SHA-256 verification
-- End-to-end standalone benchmark validation
-
-### Sprint 5 - Pristine / Recovery Validation
-
-Validated on Bench-001:
-
-- Clean-state first run
-- Existing verified-asset reuse
-- Corrupt managed-model recovery
-- Forced model reacquisition
-- Corrupt managed-runtime reconstruction
-- User-aborted benchmark behavior
-- Offline provisioning fail-closed behavior
-- Connectivity-restored recovery
-- Final healthy end-to-end regression
-
-### Sprint 6 - Contributor UX & Failure Recovery
-
-Delivered:
-
-- Packaged completion visibility
-- Handled-failure visibility
-- Upload-ready ZIP and workspace discoverability
-- Graceful `Ctrl+C` handling
-- Retained partial-workspace reporting
-- Safe-to-rerun guidance
-- Local artifact status visibility
-- Network-download visibility
-- 10 percent download-progress milestones
-- Preservation of existing verification and integrity guarantees
-
-### Product / Name Gate
-
-Decision:
-
-```text
-Public ecosystem:       OpenLLMWorks
-Contributor app:        OpenLLMWorks Runner
-Canonical dataset:      Open LLM Benchmark Database
-Frozen methodology:     OLBD Protocol v1.0
-```
-
-Delivered:
-
-- Competitive and naming review
-- Public rebrand from OpenLLMBench to OpenLLMWorks
-- GitHub repository rename
-- Git remote update and verification
-- `OpenLLMWorks.com` secured
-- Project-layer rebrand
-- Runner product rebrand
-- Standalone artifact renamed to `OpenLLMWorks-Runner.exe`
-- Backward-compatible legacy managed-asset reuse
-- New benchmark results under `%LOCALAPPDATA%\OpenLLMWorks\results`
-- Bench-001 legacy-upgrade regression
-
-### Rebrand Reconciliation
-
-Delivered:
-
-- Current-facing documentation reconciliation
-- Runner distribution documentation update
-- Publisher regeneration
-- Website regeneration
-- Historical-reference classification
-- Preservation of intentional legacy compatibility
-- Final residual old-name audit
-
-No unexplained current-facing OpenLLMBench branding remained.
-
-### Sprint 7 - Release / Distribution / Public Launch
-
-Delivered:
-
-- Public repository readiness review
-- GitHub repository made public
-- Public Runner version convention
-- OpenLLMWorks Runner `v0.3.0-beta.1`
-- GitHub Release distribution
-- Public release integrity information
-- Public artifact download verification
-- Contributor-facing beta release guidance
-- Public website launch preparation
-- Cloudflare production deployment
-- OpenLLMWorks.com production domain
-- HTTPS validation
-- `www.openllmworks.com` availability
-- Public navigation cleanup
-- Public Beta identity
-- Homepage → Runner release path
-- Hardware and Compare stranger-style smoke test
-- GA4 baseline collection
-- GA4 Realtime verification
-
-### Outcome
-
-Weekend 16 crossed the Public Beta boundary.
-
-```text
-Internal Benchmark System
-    ↓
-Standalone Runner
-    ↓
-Self-Provisioning Runner
-    ↓
-Recovery-Tested Runner
-    ↓
-OpenLLMWorks Rebrand
-    ↓
-Public GitHub
-    ↓
-Public Runner Release
-    ↓
-OpenLLMWorks.com
-    ↓
-PUBLIC BETA
-```
-
-The next gate is external usage, not another internal launch prerequisite.
-
-------------------------------------------------------------------------
-
-# Current Compatibility Boundary
-
-Existing verified assets may remain under:
-
-```text
-%LOCALAPPDATA%\OpenLLMBench\
-```
-
-New installations use:
-
-```text
-%LOCALAPPDATA%\OpenLLMWorks\
-```
-
-New benchmark output always belongs to:
-
-```text
-%LOCALAPPDATA%\OpenLLMWorks\results\
-```
-
-This allows existing contributors to reuse multi-gigabyte verified assets
-without destructive migration, duplicate model storage, or forced redownloads.
-
-------------------------------------------------------------------------
-
-# Current Proven Contributor Path
-
-The internally proven production contribution path is now:
-
-```text
-OpenLLMWorks.com
-    ↓
-OpenLLMWorks Runner
-    ↓
-Verify / Provision Frozen Assets
-    ↓
-Capture Hardware Evidence
-    ↓
-Run Three Benchmarks
-    ↓
-Canonical Local Validation
-    ↓
-Canonical Submission ZIP
-    ↓
 Contributor Disclosure
-    ↓
-Upload to OpenLLMWorks? [Y/N]
-    ├── N → Preserve ZIP / Manual GitHub Fallback
-    ↓ Y
-HTTPS Submission API
-    ↓
-Private Incoming R2 Storage
-    ↓
+    |
+    v
+Explicit Consent
+    |
+    v
+HTTPS Submission
+    |
+    v
+Private R2 Intake
+    |
+    v
 Submission ID
-    ↓
-Maintainer Validation
-    ↓
-Canonical Import
-    ↓
-Publisher
-    ↓
-OpenLLMWorks.com
 ```
 
-Contributors do not need to understand Python, repository internals, or manual
-benchmark setup.
+Important principles established during this phase include:
 
-The direct-submission path is technically proven internally through production
-private ingestion.
+- direct submission is opt-in
+- the canonical ZIP remains the submission artifact
+- upload failure does not invalidate a successful benchmark
+- the local ZIP remains preserved
+- receiving a package is not equivalent to accepting or publishing it
+- contributor transport remains separated from canonical ingestion
 
-Authoritative server-side validation is the next engineering boundary.
+Direct Submission reached an end-to-end production pass.
 
-External contributor usability remains an upcoming beta gate.
+---
 
-------------------------------------------------------------------------
+## Weekend 18 - Control Room and Publication Lifecycle
 
-# 🚩 Public Beta Launch
+Weekend 18 completed the operational side of direct submission.
 
-**Status:** Live
-
-OpenLLMWorks Public Beta launched during Weekend 16, ahead of the original
-late-September / early-October planning target.
-
-Current public state:
+The production lifecycle expanded to:
 
 ```text
-OpenLLMWorks.com                         LIVE
-www.openllmworks.com                     LIVE
-HTTPS                                    PASS
-GitHub repository                        PUBLIC
-OpenLLMWorks Runner v0.3.0-beta.1       PUBLIC
-Hardware Explorer                        LIVE
-Hardware Profiles                        LIVE
-GPU Compare                              LIVE
-Public visitor smoke test                PASS
-GA4 baseline collection                  LIVE
-```
-
-Public Beta is intentionally narrow.
-
-Current primary contributor target:
-
-```text
-Windows + NVIDIA
-```
-
-The launch establishes public availability.
-
-It does not imply that every planned accelerator, operating system, feature,
-or community capability is complete.
-
-------------------------------------------------------------------------
-
-# ✅ Weekend 17 - Direct Submission MVP
-
-**Status:** Direct Submission MVP Complete / Production E2E PASS
-
-### Objective
-
-Remove the GitHub account and GitHub Issue workflow as a requirement for the
-primary contributor experience while preserving the canonical submission
-format and maintainer trust boundary.
-
-### Delivered
-
-- Direct-submission architecture and documentation
-- Explicit contributor disclosure and `[Y/N]` consent
-- `runner/submission_client.py`
-- Raw canonical ZIP upload over HTTPS
-- Production endpoint at `api.openllmworks.com/v1/submissions`
-- Dedicated `openllmworks-submissions` Cloudflare Worker
-- Private `openllmworks-submissions` R2 bucket
-- `incoming/sub_<uuid>.zip` intake convention
-- `received` status semantics
-- Traceable submission IDs
-- Upload timeout and network-error handling
-- Local ZIP preservation
-- Manual GitHub submission retained as a fallback
-- Production API method and media-type validation
-- Production transport testing
-- Fresh standalone Runner build
-- Bench-001 full production acceptance run
-- Matching production R2 object verification
-
-### Proven Production Path
-
-```text
-OpenLLMWorks Runner
-    ↓
-Three Benchmark Runs
-    ↓
-Canonical Local Validation
-    ↓
-Canonical Submission ZIP
-    ↓
-Contributor Disclosure
-    ↓
-Upload to OpenLLMWorks? [Y/N]
-    ↓ Y
-HTTPS Submission API
-    ↓
-openllmworks-submissions Worker
-    ↓
-Private R2 incoming/
-    ↓
-sub_<uuid>
-```
-
-The Bench-001 acceptance run completed this path successfully using the
-standalone Runner.
-
-The local ZIP was preserved after upload.
-
-### Important Boundary
-
-Weekend 17 proves production transport and private ingestion.
-
-It does **not** yet prove authoritative server-side canonical validation.
-
-Current Stage 1 behavior is:
-
-```text
-Runner canonical validation
-    ↓
-HTTPS transport
-    ↓
-Private incoming storage
-    ↓
-Status: received
-```
-
-A successfully received package has not automatically been accepted into the
-canonical Open LLM Benchmark Database.
-
-### Outcome
-
-The primary contributor path no longer needs to depend on GitHub Issues.
-
-The next engineering priority is to harden the intake boundary before treating
-direct submission as a mature automated ingestion system.
-
-------------------------------------------------------------------------
-
-# 🟡 Direct Submission Stage 2 - Hardening & Intake
-
-**Status:** Complete - Production Lifecycle Proven
-
-### Objective
-
-Turn the proven Direct Submission MVP into a trustworthy and maintainable
-production intake system without weakening the existing canonical validation
-or maintainer-controlled import model.
-
-### Priority Work
-
-- Authoritative server-side validation
-- Malformed ZIP and canonical-format rejection
-- Duplicate and idempotency handling
-- Submission size and resource limits
-- Security and abuse controls
-- Rate-limit policy
-- Maintainer intake workflow
-- Submission lifecycle/status handling
-- Controlled publication integration
-- Contributor and maintainer documentation
-- End-to-end regression after hardening
-
-### Validation Principle
-
-The existing Python canonical validator should remain the source of truth for
-benchmark validity.
-
-The Cloudflare ingestion Worker should not independently reinvent OLBD Protocol
-v1.0 validation rules in JavaScript simply for convenience.
-
-The desired architecture is:
-
-```text
-Incoming Submission
-    ↓
-Authoritative Canonical Validation
-    ├── Invalid → Reject / Quarantine / Reason
-    ↓ Valid
-Maintainer Intake
-    ↓
+Contributor
+    |
+    v
+Runner
+    |
+    v
+Direct Submission
+    |
+    v
+Private Intake
+    |
+    v
+Authoritative Validation
+    |
+    v
+Operational State
+    |
+    v
+Authenticated Control Room
+    |
+    v
+Maintainer Approval
+    |
+    v
 Controlled Import
-    ↓
-Canonical Database
-    ↓
+    |
+    v
 Publisher
-    ↓
+    |
+    v
+Publication Verification
+    |
+    v
 OpenLLMWorks.com
 ```
 
-------------------------------------------------------------------------
+Major milestones included:
 
-# ⚪ External Contributor Validation
+- safe submission archive handling
+- authoritative server-side canonical validation
+- GitHub Actions validation
+- D1 operational state
+- submission lifecycle history
+- Control Room Admin API
+- Control Room UI
+- Cloudflare Access authentication
+- maintainer review
+- deliberate approval
+- controlled canonical import
+- publication verification
+- canonical Result ID guardrails
+- retry-safe verification
+- published-submission recovery
 
-**Status:** Initial External Validation Complete
+The contributor-to-publication lifecycle is now operational.
 
-The hardened direct-submission lifecycle has now been validated with fresh
-contributors outside the development environment.
+---
 
-Preferred test:
+# Public Product and Research Foundation
+
+Following the production lifecycle work, OpenLLMWorks established a stronger
+public explanation and research layer.
+
+This work should be treated as product foundation rather than a separate
+benchmark protocol phase.
+
+---
+
+## Homepage
+
+The homepage now presents OpenLLMWorks around the positioning:
 
 ```text
-Discover OpenLLMWorks.com
-    ↓
-Understand Project
-    ↓
-Find / Download Runner
-    ↓
-Navigate Windows Trust / SmartScreen
-    ↓
-Launch Runner
-    ↓
-Provision Assets
-    ↓
-Complete Three Runs
-    ↓
-Review Submission Disclosure
-    ↓
-Select Y
-    ↓
-Receive Submission ID
-    ↓
-Maintainer / Server Validation
-    ↓
-Result Appears on Website
+Open benchmarks for local AI hardware.
 ```
 
-Observe project-purpose clarity, Runner discoverability, SmartScreen friction,
-provisioning clarity, benchmark progress, consent clarity, upload trust,
-submission-ID usefulness, validation outcome, and any maintainer repair
+Supporting idea:
+
+```text
+Real-world local AI performance across consumer and workstation hardware,
+measured with a standardized and reproducible benchmark.
+```
+
+The homepage includes live Benchmark Highlights derived from published hardware
+data.
+
+---
+
+## Methodology
+
+The public Methodology surface explains:
+
+- Protocol v1.0
+- benchmark workload
+- Qwen3-4B Q4_K_M
+- llama.cpp runtime identity
+- pp512
+- tg128
+- three-run methodology
+- arithmetic averaging
+- evidence
+- provenance
+- limitations
+- future protocol philosophy
+
+Core framing:
+
+> OpenLLMWorks benchmarks hardware running local AI, not model intelligence.
+
+---
+
+## The Works
+
+The Works is the research and editorial layer of OpenLLMWorks.
+
+Positioning:
+
+> Experiments, findings, and notes from the OpenLLMWorks lab.
+
+Editorial principle:
+
+> The benchmark database tells us what happened. The Works explores what it
+> means.
+
+Current content types:
+
+- Experiment
+- Finding
+- Research Note
+- Work in Progress
+
+The publishing foundation includes:
+
+- reusable article shell
+- article registry
+- visibility controls
+- featured content
+- route-specific metadata
+- dynamic sitemap integration
+- research backlog
+- article-specific not-found experience
+
+The first published Research Note explains:
+
+```text
+What do PP512 and TG128 actually mean?
+```
+
+The first planned hardware experiment asks:
+
+```text
+How far back can modern local AI go?
+```
+
+The Works should continue to grow from validated benchmark evidence.
+
+---
+
+# Current Phase - Weekend 19
+
+## AMD / Vulkan Expansion
+
+The highest-value engineering objective is now the first trustworthy
+non-NVIDIA benchmark path.
+
+Initial target hardware is an available AMD Radeon RX 560.
+
+The objective is not comprehensive AMD support.
+
+The objective is:
+
+```text
+One AMD GPU
+    |
+    v
+One Proven Vulkan Backend
+    |
+    v
+One Valid Benchmark
+    |
+    v
+One Canonical Submission
+    |
+    v
+One Production Publication
+```
+
+Once that path is proven, the implementation can be generalized.
+
+---
+
+## Weekend 19 Critical Path
+
+```text
+Architecture Audit
+    |
+    v
+Identify NVIDIA / CUDA Assumptions
+    |
+    v
+Define Backend Provenance
+    |
+    v
+AMD Hardware Detection
+    |
+    v
+Vulkan Runtime Provisioning
+    |
+    v
+Runner Backend Selection
+    |
+    v
+AMD Evidence Capture
+    |
+    v
+Protocol v1.0 Benchmark
+    |
+    v
+Canonical Validation
+    |
+    v
+Direct Submission
+    |
+    v
+Control Room
+    |
+    v
+Canonical Import
+    |
+    v
+Publication
+```
+
+---
+
+## Stage 1 - Architecture Audit
+
+Before implementing AMD support, inspect the existing codebase for assumptions
+about:
+
+- NVIDIA hardware
+- `nvidia-smi`
+- CUDA
+- CUDA-specific llama.cpp runtime assets
+- GPU detection
+- VRAM detection
+- driver evidence
+- submission schema
+- canonical validation
+- hardware normalization
+- publisher output
+- public hardware contract
+
+The audit should identify which assumptions are:
+
+```text
+Runner-only
+Validator-only
+Publisher-only
+Contract-level
+Protocol-level
+```
+
+This distinction matters.
+
+Implementation-specific assumptions should not be mistaken for protocol
 requirements.
 
-Avoid unnecessary coaching.
+---
 
-Confusion is useful beta evidence.
+## Stage 2 - Backend Provenance
 
-After the first successful external contribution or resolution of major
-blockers, expand carefully to approximately 3-5 external systems.
+OpenLLMWorks needs to know how a benchmark was executed.
 
-------------------------------------------------------------------------
+At minimum, cross-vendor work should determine whether canonical evidence needs
+to represent:
 
-# Website Polish, UX & Discovery
+- accelerator vendor
+- accelerator model
+- execution backend
+- driver identity
+- runtime identity
+- backend-specific runtime version
+- detected VRAM
+- offload behavior
+- backend initialization evidence
 
-**Status:** Ongoing after Public Beta
+The exact schema should follow the architecture audit.
 
-The website is now live, so polish work should be informed by actual visitor
-behavior.
+Do not add fields merely because they might someday be useful.
 
-### Candidate Work
+Record what is required for reproducibility and interpretation.
 
-- Cross-page UX review
-- Navigation refinement
-- Empty states
-- Error states
-- Loading states
-- Accessibility review
-- Mobile polish
-- Page titles
-- Metadata
-- Open Graph / social sharing
-- Search-engine metadata
-- Shareable hardware/comparison pages
-- Performance review
-- Broken-link monitoring
-- Canonical `www` redirect
-- Contributor-funnel clarity
+---
 
-The website should not enter a redesign loop merely because Public Beta has
-launched.
+## Stage 3 - AMD Detection
 
-Observed visitor and contributor friction should drive priorities.
+The Runner needs a reliable AMD hardware detection path.
 
-------------------------------------------------------------------------
+Initial implementation should focus on the available test system rather than
+attempting to support every AMD configuration immediately.
 
-# Analytics Evolution
+Detection should produce sufficient evidence for:
 
-**Status:** Baseline Collection Active
+- GPU identity
+- VRAM
+- driver/runtime environment
+- selected backend
 
-GA4 baseline collection began with the Public Beta launch.
+Detection failures should remain contributor-visible and diagnosable.
 
-Current objective:
+---
 
-> **Collect the history now. Analyze it when it becomes useful.**
+## Stage 4 - Vulkan Runtime
 
-Initial production collection has been verified.
+The Runner currently provisions a frozen benchmark environment for the proven
+CUDA path.
 
-Future analytics may include:
+AMD expansion should determine how a verified Vulkan-capable llama.cpp runtime
+fits into the same managed-asset architecture.
 
-- Runner release clicks
-- GitHub visits
-- Submit Results clicks
-- Hardware-profile engagement
-- Compare usage
-- Contributor-funnel analysis
-- Returning visitors
-- Referral sources
-- Popular GPU generations
+Requirements should include:
 
-Custom tracking should answer real product questions rather than accumulate
-events without a decision-making purpose.
+- explicit runtime identity
+- verified acquisition
+- size/hash verification where appropriate
+- deterministic provisioning
+- corruption recovery
+- contributor-visible status
+- clear backend selection
 
-------------------------------------------------------------------------
+The project should avoid silently substituting arbitrary locally installed
+runtime binaries.
+
+---
+
+## Stage 5 - First AMD Benchmark
+
+The first AMD test should answer a narrow question:
+
+```text
+Can the existing Protocol v1.0 workload execute successfully through the
+OpenLLMWorks Runner using the Vulkan backend?
+```
+
+Success requires more than receiving benchmark numbers.
+
+The test should preserve:
+
+- three-run execution
+- raw output
+- hardware evidence
+- runtime evidence
+- pp512 parsing
+- tg128 parsing
+- canonical packaging
+- deterministic identity
+- validation
+
+Unexpected performance is not itself a failure.
+
+Missing provenance or non-reproducible execution is.
+
+---
+
+## Stage 6 - Canonical Validation
+
+The existing validator should remain the source of truth for benchmark validity.
+
+Weekend 19 should determine whether validation rules currently contain
+NVIDIA-specific assumptions.
+
+Any required changes should make validation backend-aware without creating a
+second AMD submission format.
+
+Preferred architecture:
+
+```text
+Canonical Submission Format
+        |
+        +-- NVIDIA / CUDA Evidence
+        |
+        +-- AMD / Vulkan Evidence
+        |
+        +-- Future Backend Evidence
+```
+
+rather than:
+
+```text
+NVIDIA Submission Format
+
+AMD Submission Format
+
+Intel Submission Format
+```
+
+One canonical model is preferable when the evidence supports it.
+
+---
+
+## Stage 7 - Production Lifecycle
+
+A successful local AMD benchmark is not the final milestone.
+
+The first AMD result should travel through the same production lifecycle as an
+NVIDIA result:
+
+```text
+Runner
+    |
+    v
+Canonical ZIP
+    |
+    v
+Direct Submission
+    |
+    v
+Server Validation
+    |
+    v
+Control Room
+    |
+    v
+Maintainer Approval
+    |
+    v
+Controlled Import
+    |
+    v
+Publisher
+    |
+    v
+Publication Verification
+    |
+    v
+OpenLLMWorks.com
+```
+
+This proves that accelerator expansion belongs to the existing OpenLLMWorks
+system rather than a parallel experimental pipeline.
+
+---
+
+# Cross-Vendor Comparability
+
+Cross-vendor support creates a new research question:
+
+```text
+What does it mean to compare results produced through different execution
+backends?
+```
+
+OpenLLMWorks should not assume that CUDA and Vulkan are interchangeable merely
+because they execute the same model and benchmark workload.
+
+Potential variables include:
+
+- backend implementation
+- kernel behavior
+- memory management
+- offload behavior
+- driver stack
+- runtime compilation options
+- architecture-specific optimizations
+
+The immediate requirement is transparency.
+
+Results should expose enough provenance that future research can investigate
+backend effects.
+
+If controlled testing demonstrates that additional normalization or protocol
+separation is necessary, that decision should be evidence-driven.
+
+---
 
 # Dataset Growth
 
-**Status:** Active / Early
+The benchmark becomes more useful as validated coverage increases.
 
-The value of OpenLLMWorks increases as the dataset becomes broader while
-remaining trustworthy.
+Dataset growth should proceed along several dimensions.
 
-Near-term growth should include both:
+---
+
+## NVIDIA Coverage
+
+Continue adding useful NVIDIA coverage when inexpensive or strategically
+valuable hardware becomes available.
+
+High-value gaps include examples such as:
+
+- additional Maxwell
+- additional Pascal
+- additional Turing
+- RTX 20-series
+- historical workstation GPUs
+- repeated models across different host systems
+
+Dataset growth should not become a requirement to fill every SKU.
+
+Coverage should serve useful comparisons and research questions.
+
+---
+
+## AMD Coverage
+
+After the first AMD/Vulkan result is proven, expand deliberately.
+
+Potential future AMD coverage includes:
+
+- older Polaris hardware
+- Radeon Pro hardware
+- RDNA generations
+- additional VRAM configurations
+- multiple host systems
+
+The first goal is backend proof.
+
+Breadth comes afterward.
+
+---
+
+## Intel Coverage
+
+Intel accelerator support remains a future platform-expansion track.
+
+Potential hardware includes Intel Arc discrete GPUs.
+
+Intel work should benefit from the backend abstraction and provenance lessons
+learned during AMD expansion.
+
+Do not build Intel support simultaneously with the first AMD implementation
+unless shared architecture work clearly requires it.
+
+---
+
+## Contributor Growth
+
+External contributors are essential to making OpenLLMWorks more than a private
+hardware lab.
+
+Contributor growth should focus on:
+
+- clear Runner onboarding
+- trustworthy binaries
+- understandable consent
+- recoverable failures
+- visible submission identity
+- predictable publication lifecycle
+- useful recognition
+- low-friction contribution
+
+Observed contributor behavior should drive UX improvements.
+
+Avoid speculative onboarding complexity.
+
+---
+
+# Research Roadmap
+
+Research should grow alongside the dataset rather than ahead of it.
+
+The internal research backlog is the bridge between benchmark observations and
+public conclusions.
 
 ```text
-Internal Controlled Runs
-        +
-External Community Runs
+Benchmark Results
+        |
+        v
+Research Backlog
+        |
+        v
+Experiment
+        |
+        v
+Validated Finding
+        |
+        v
+The Works
 ```
 
-Internal testing remains useful for:
+---
 
-- Historical GPU coverage
-- Regression validation
-- Edge-case hardware
-- Known controlled systems
+## Foundational Explainability
 
-External submissions add:
+Near-term educational content should help users understand the benchmark itself.
 
-- Hardware diversity
-- Software-stack diversity
-- Real contributor behavior
-- Independent evidence
-- Community participation
+Topics include:
 
-Neither replaces the other.
+- what pp512 measures
+- what tg128 measures
+- why both metrics matter
+- how the benchmark workload is constructed
+- why three runs are used
+- what benchmark limitations mean
+- what hardware evidence is collected
 
-------------------------------------------------------------------------
+This content improves interpretation without requiring speculative hardware
+recommendations.
 
-# Accelerator Expansion
+---
 
-**Status:** Planned
+## Hardware Research
 
-Windows + NVIDIA remains the first supported public path.
+As coverage grows, useful investigations may include:
 
-The next major accelerator family remains planned after the direct-submission
-trust boundary and initial external contributor path are sufficiently stable.
+- historical GPU viability
+- Pascal vs Turing behavior
+- prompt processing versus generation behavior
+- VRAM constraints
+- architecture transitions
+- workstation versus consumer hardware
+- host-system effects
+- backend effects
+- cross-vendor behavior
 
-Potential expansion:
+Research should distinguish:
 
 ```text
-NVIDIA
-    ↓
-AMD
-    ↓
-Intel
+Observation
+Hypothesis
+Controlled Evidence
+Finding
 ```
 
-This sequence is directional rather than permanently fixed.
+Do not collapse those stages.
 
-## AMD
+---
 
-Potential AMD work includes:
+## Content Engine
 
-- AMD GPU detection
-- Vulkan viability
-- ROCm viability where appropriate
-- Backend selection
-- AMD hardware evidence
-- Radeon consumer cards
-- Radeon Pro cards
-- Cross-vendor result normalization
-- Runner accelerator selection when multiple GPUs are installed
+A future Content Engine may assist with drafting research and data-driven
+articles.
 
-A unified contributor experience is desirable even if vendor-specific backend
-logic remains modular internally.
+Principle:
 
-## Intel
+```text
+OpenLLMWorks supplies validated facts.
+AI may assist with narrative.
+Human approval controls publication.
+```
 
-Future Intel investigation may include:
+The Content Engine should not become an autonomous source of benchmark claims.
+
+Potential future capabilities include:
+
+- structured article drafts
+- benchmark-data references
+- trend summaries
+- research backlog assistance
+- SEO metadata generation
+- publication preparation
+
+This is not a Weekend 19 priority.
+
+---
+
+# Translation Roadmap
+
+Once dataset breadth is sufficient, OpenLLMWorks can translate benchmark
+measurements into additional useful dimensions.
+
+These should generally be derived from canonical benchmark results rather than
+stored as competing benchmark truth.
+
+---
+
+## Performance per Dollar
+
+Potential future analytics include:
+
+```text
+pp512 per dollar
+tg128 per dollar
+```
+
+Prompt-processing value and token-generation value should remain separate.
+
+A single combined value score risks hiding meaningful workload differences.
+
+Initial pricing may be manually curated.
+
+Later pricing integrations may be considered if reliable sources become
+available.
+
+Price data must remain distinguishable from canonical benchmark measurements
+because prices change over time.
+
+---
+
+## Power and Efficiency
+
+Potential future analysis includes:
+
+```text
+pp512 per watt
+tg128 per watt
+```
+
+However, the evidence source matters.
+
+Manufacturer TDP or board-power specifications must not be presented as
+measured benchmark power consumption.
+
+OpenLLMWorks should distinguish clearly between:
+
+```text
+Specified Power
+Estimated Power
+Measured Power
+```
+
+True measured efficiency requires appropriate measurement methodology.
+
+---
+
+## Historical Trends
+
+The dataset may eventually support questions such as:
+
+- how local AI performance changed across GPU generations
+- how much generation speed improved over time
+- how prompt-processing behavior changed
+- how VRAM capacity evolved
+- when older hardware stopped being practical for particular workloads
+- how workstation hardware compares with consumer equivalents
+
+Historical analysis is a core long-term opportunity because OpenLLMWorks
+preserves benchmark provenance rather than only current rankings.
+
+---
+
+# Application Roadmap
+
+OpenLLMWorks may eventually help users apply benchmark evidence to hardware
+choices.
+
+This should remain downstream of measurement and interpretation.
+
+---
+
+## Strengths and Tradeoffs
+
+Future hardware pages may explain observed characteristics such as:
+
+- stronger prompt processing
+- stronger token generation
+- VRAM capacity
+- efficiency
+- value
+- historical significance
+
+These descriptions should be evidence-based.
+
+Avoid reducing hardware to generic:
+
+```text
+Good
+Bad
+Best
+Worst
+```
+
+Different benchmark dimensions may favor different hardware.
+
+---
+
+## Workload Guidance
+
+Future guidance may connect measured behavior to practical local AI use cases.
+
+This requires validation.
+
+Do not infer workload suitability solely from one benchmark metric without
+evidence that the interpretation is useful.
+
+Potential future research may investigate:
+
+- interactive chat
+- long-prompt processing
+- batch processing
+- coding workloads
+- summarization
+- agentic workloads
+- dedicated inference systems
+
+Guidance should follow research.
+
+---
+
+## Dedicated Accelerator Systems
+
+OpenLLMWorks may investigate systems where a discrete GPU is dedicated to local
+AI while display duties remain on integrated or secondary graphics.
+
+Potential research questions include:
+
+- dedicated accelerator behavior
+- host-resource requirements
+- power characteristics
+- compact inference systems
+- low-profile accelerators
+- workstation cards
+- external accelerator configurations
+
+These are useful experimental tracks, not requirements for the core benchmark.
+
+---
+
+# Public Product Roadmap
+
+The public site should continue improving, but website polish should not displace
+high-value benchmark expansion.
+
+---
+
+## Hardware Explorer and Comparison
+
+Potential improvements include:
+
+- richer filtering
+- backend visibility
+- vendor filtering
+- architecture filtering
+- clearer metric explanations
+- historical context
+- contributor recognition
+- research links
+
+Features should be driven by dataset breadth and actual user needs.
+
+---
+
+## Benchmark Highlights
+
+Benchmark Highlights should continue to derive from published canonical data.
+
+Future highlights may include:
+
+- generation comparisons
+- vendor comparisons
+- historical hardware
+- efficiency
+- value
+
+Avoid editorializing rankings before the underlying metric is clearly defined.
+
+---
+
+## The Works Integration
+
+Hardware and research should become increasingly connected.
+
+Potential relationships include:
+
+```text
+Hardware Result
+    |
+    +--> Related Experiment
+    |
+    +--> Related Finding
+    |
+    +--> Methodology Explanation
+```
+
+and:
+
+```text
+The Works Article
+    |
+    +--> Referenced Hardware
+    |
+    +--> Referenced Results
+    |
+    +--> Live Benchmark Data
+```
+
+The long-term goal is a research layer that remains connected to canonical data
+rather than copying benchmark values into static prose unnecessarily.
+
+---
+
+## Search and Discovery
+
+Current foundations include:
+
+- route-specific metadata
+- canonical URLs
+- Open Graph metadata
+- robots.txt
+- dynamic sitemap
+- Search Console
+- GA4
+
+Future SEO work should primarily follow useful public content and dataset growth.
+
+Do not create large quantities of low-value generated pages merely to increase
+indexed URL count.
+
+---
+
+# Commerce and Sustainability
+
+OpenLLMWorks may eventually support revenue-generating features.
+
+Measurement integrity must remain separate from commercial relationships.
+
+Potential models include:
+
+- advertising
+- affiliate hardware links
+- retailer integrations
+- sponsorships
+- partnerships
+- data/API products
+- research partnerships
+
+Commercial relationships must not alter benchmark results, validation rules, or
+editorial conclusions.
+
+A useful separation is:
+
+```text
+Measurement
+    |
+    v
+Canonical Evidence
+    |
+    v
+Interpretation
+    |
+    v
+Optional Commerce
+```
+
+not:
+
+```text
+Commerce
+    |
+    v
+Benchmark Conclusion
+```
+
+Trust in the benchmark is more valuable than short-term monetization.
+
+---
+
+# Future Protocol Evolution
+
+Protocol v1.0 should remain frozen while it continues serving its intended
+historical role.
+
+Future benchmark needs may eventually justify a new protocol.
+
+Possible reasons include:
+
+- materially different model workloads
+- new context-length requirements
+- new inference patterns
+- new benchmark metrics
+- major runtime changes
+- methodology improvements
+- hardware classes that cannot be represented responsibly under v1.0
+
+A future protocol should coexist with historical Protocol v1.0 results.
+
+Do not rewrite historical results into a new methodology.
+
+Preferred model:
+
+```text
+Protocol v1.0
+    |
+    +-- Historical Results
+    |
+    +-- Continued Compatible Results
+
+Protocol v2.0
+    |
+    +-- New Workload
+    |
+    +-- New Results
+```
+
+Cross-protocol comparisons should clearly identify methodological differences.
+
+---
+
+# Additional Platform Expansion
+
+AMD/Vulkan is the immediate expansion track, but it is not the endpoint.
+
+Future platform work may include:
 
 - Intel Arc
-- Integrated Intel graphics where technically meaningful
-- Backend support
-- Hardware evidence
-- Runtime distribution
+- additional accelerator APIs
+- Linux
+- additional Windows backends
+- Apple Silicon
+- integrated GPUs
+- NPUs or dedicated AI accelerators
 
-Cross-vendor expansion must preserve reproducibility and clearly record backend
-differences.
+Each platform should earn support through a reproducible implementation and
+clear evidence model.
 
-------------------------------------------------------------------------
+Avoid claiming universal accelerator support before each path is actually
+validated.
 
-# Model / Protocol Evolution
+---
 
-**Status:** Future
+# Maintainer and Operational Improvements
 
-Qwen3-4B-Q4_K_M remains the Protocol v1.0 benchmark model.
+The production lifecycle is proven, but operational improvements remain useful.
 
-Protocol v1.0 should remain frozen.
+Potential future work includes:
 
-Future benchmark evolution may introduce additional protocol versions or model
-tracks without rewriting historical v1.0 results.
+- richer submission detail
+- clearer validation failure reporting
+- contributor-facing submission status
+- duplicate handling improvements
+- operational metrics
+- audit visibility
+- safer batch operations
+- contributor recognition
+- administrative quality-of-life improvements
 
-Potential future questions include:
+These improvements should be incremental.
 
-- Additional model families
-- Different parameter sizes
-- Different quantizations
-- Prompt-processing workloads
-- Generation workloads
-- VRAM-constrained workloads
-- CPU-specific workloads
-- Cross-backend behavior
+The Control Room should remain an operational tool, not become a separate
+product that consumes engineering attention without improving benchmark
+operations.
 
-Historical comparability must remain explicit.
+---
 
-A future protocol should coexist with Protocol v1.0 rather than silently
-changing what a v1.0 score means.
+# Near-Term Priority Order
 
-------------------------------------------------------------------------
-
-# Recommendations Evolution
-
-**Status:** Planned after dataset growth
-
-Recommendation features become more useful as evidence broadens.
-
-Potential capabilities:
-
-- "What can my GPU run?"
-- Model compatibility
-- Expected performance ranges
-- VRAM-aware guidance
-- Budget hardware suggestions
-- Upgrade comparisons
-- Hardware build planning
-- Used-hardware value analysis
-
-Recommendations should distinguish:
+The current priority order is:
 
 ```text
-Measured Evidence
-        vs
-Derived Guidance
-        vs
-Commercial Recommendation
+1. Preserve Protocol v1.0 stability
+
+2. Audit NVIDIA / CUDA assumptions
+
+3. Define backend provenance requirements
+
+4. Prove AMD / Vulkan Runner execution
+
+5. Validate the first AMD canonical submission
+
+6. Publish the first AMD result through the production lifecycle
+
+7. Generalize the cross-vendor Runner architecture
+
+8. Expand AMD coverage
+
+9. Continue strategically useful NVIDIA dataset growth
+
+10. Grow external contributor participation
+
+11. Publish evidence-driven research through The Works
+
+12. Begin translation layers as dataset breadth supports them
 ```
 
-Benchmark rankings and methodology must remain independent from affiliate or
-commercial relationships.
+Intel and additional platforms follow the architectural lessons from AMD rather
+than competing with the first cross-vendor implementation.
 
-------------------------------------------------------------------------
+---
 
-# The Works - Research & Editorial
+# Weekend 19 Acceptance Gate
 
-**Status:** Future
+Weekend 19 should be considered successful when OpenLLMWorks can demonstrate a
+trustworthy AMD/Vulkan path without weakening Protocol v1.0 guarantees.
 
-The Works is reserved as a future research/editorial layer within
-OpenLLMWorks.
-
-Potential topics include:
-
-- Why OpenLLMWorks uses Qwen
-- How Protocol v1.0 was designed
-- What benchmark reproducibility means
-- Historical GPU performance
-- NVIDIA generation comparisons
-- AMD versus NVIDIA local LLM behavior
-- Driver-performance changes
-- VRAM and model-fit analysis
-- Used GPU value
-- Benchmark methodology
-- Dataset research
-
-Editorial work should explain the evidence rather than obscure methodology.
-
-The project should remain transparent about what is measured, how it is
-measured, and where conclusions exceed the available evidence.
-
-------------------------------------------------------------------------
-
-# Public API & Dataset Access
-
-**Status:** Future
-
-As community and research use grows, OpenLLMWorks may expose more structured
-access to its data.
-
-Potential capabilities:
-
-- Public API
-- Downloadable datasets
-- Versioned exports
-- Research snapshots
-- Citation guidance
-- Machine-readable hardware profiles
-- Historical leaderboard exports
-
-Public data access must preserve provenance and make protocol/version context
-clear.
-
-------------------------------------------------------------------------
-
-# Release Strategy
-
-OpenLLMWorks should use incremental beta releases rather than waiting for a
-fictional point where every planned feature is complete.
-
-Current public release:
+Ideal acceptance path:
 
 ```text
-OpenLLMWorks Runner v0.4.0-beta.1
+AMD Test System
+    |
+    v
+OpenLLMWorks Runner
+    |
+    v
+AMD Detection
+    |
+    v
+Verified Vulkan Runtime
+    |
+    v
+Protocol v1.0 Workload
+    |
+    v
+Three Benchmark Runs
+    |
+    v
+Raw Evidence
+    |
+    v
+Canonical Validation
+    |
+    v
+Canonical ZIP
+    |
+    v
+Direct Submission
+    |
+    v
+Server Validation
+    |
+    v
+Control Room Approval
+    |
+    v
+Canonical Import
+    |
+    v
+Publisher
+    |
+    v
+Publication Verification
+    |
+    v
+OpenLLMWorks.com
 ```
 
-The current beta includes Direct Submission support. The public artifact was
-refreshed after external testing with improved Windows HTTPS certificate trust
-handling and clearer color-coded Runner console output.
+The milestone is:
 
-Future beta releases should be justified by meaningful changes such as:
+```text
+FIRST VALIDATED AND PUBLISHED AMD / VULKAN RESULT
+```
 
-- Contributor-blocking bug fixes
-- Important UX improvements
-- Hardware compatibility fixes
-- Distribution improvements
-- Direct-submission improvements
-- Security or integrity fixes
+If Weekend 19 instead reveals that backend differences require additional
+methodology or contract work, documenting that evidence is also a valid outcome.
 
-Avoid unnecessary version churn during early external testing.
+Do not force publication merely to satisfy the sprint label.
 
-The public beta website and Runner may evolve independently where appropriate.
+---
 
-------------------------------------------------------------------------
+# Beyond Weekend 19
 
-# Public Beta Success Criteria
+After the first AMD path is proven:
 
-Public Beta success is no longer defined by simply launching the website.
+```text
+First AMD Result
+    |
+    v
+Cross-Vendor Architecture Hardening
+    |
+    v
+Additional AMD Results
+    |
+    v
+Cross-Backend Research
+    |
+    v
+Dataset Growth
+    |
+    v
+Intel Expansion
+```
 
-The website is live.
+In parallel:
 
-The Runner is public.
+```text
+Dataset Growth
+    |
+    v
+Research Backlog
+    |
+    v
+The Works
+    |
+    v
+Interpretation
+    |
+    v
+Value / Efficiency / Historical Analytics
+    |
+    v
+Evidence-Based Hardware Guidance
+```
 
-The next success criteria are evidence-based.
+These tracks reinforce one another.
 
-OpenLLMWorks should demonstrate:
+More validated hardware creates better research.
 
-- External contributors can find the Runner
-- External contributors can run it successfully
-- External contributors can understand and use direct submission
-- External submissions pass authoritative validation
-- Maintainer intake works without manual reconstruction
-- External results can be published
-- Contributor friction is observable and fixable
-- Dataset breadth begins increasing
-- Benchmark integrity remains intact
-- Public visitors can understand the results
-- The project can evolve without rewriting historical evidence
+Better research makes benchmark data more understandable.
 
-------------------------------------------------------------------------
+Better interpretation makes the dataset more useful.
+
+Greater usefulness attracts contributors and creates more data.
+
+---
+
+# Long-Term Product Shape
+
+The long-term OpenLLMWorks ecosystem may look like:
+
+```text
+                    OpenLLMWorks
+                         |
+        +----------------+----------------+
+        |                |                |
+        v                v                v
+      Measure          Explain          Apply
+        |                |                |
+        v                v                v
+      Runner          The Works        Guidance
+        |                |                |
+        v                v                v
+     Protocol        Research         Comparisons
+        |                |                |
+        v                v                v
+   Validation        Findings          Value
+        |                |                |
+        +--------+-------+-------+--------+
+                 |
+                 v
+        Canonical Benchmark Data
+                 |
+                 v
+        Historical Local AI Record
+```
+
+The canonical dataset remains the center.
+
+The Runner creates evidence.
+
+The publication lifecycle protects evidence.
+
+The website exposes evidence.
+
+The Works explains evidence.
+
+Future analytics translate evidence.
+
+Future guidance applies evidence.
+
+---
+
+# Project Guardrails
+
+As OpenLLMWorks grows:
+
+1. **Do not sacrifice reproducibility for feature velocity.**
+
+2. **Do not change frozen protocols for presentation problems.**
+
+3. **Do not allow contributor systems to write directly to canonical data.**
+
+4. **Do not confuse operational state with historical benchmark truth.**
+
+5. **Do not hide backend differences that matter to reproducibility.**
+
+6. **Do not claim comparability that has not been validated.**
+
+7. **Do not turn observations into causal claims without evidence.**
+
+8. **Do not publish AI-generated research without human review.**
+
+9. **Do not let commerce influence measurement or conclusions.**
+
+10. **Do not build abstractions substantially ahead of validated use cases.**
+
+11. **Prefer one proven path before broad generalization.**
+
+12. **Preserve historical results even as future protocols evolve.**
+
+---
 
 # Current Critical Path
 
-The launch critical path is complete.
-
-The current critical path is:
-
 ```text
-PUBLIC BETA
-    ↓
-Direct Submission MVP                     E2E PASS
-    ↓
-Authoritative Server Validation            NEXT
-    ↓
-Maintainer Intake Hardening
-    ↓
-External Contributor Validation
-    ↓
-First External Result Published
-    ↓
-Small External Beta
-    ↓
-Observed Feedback
-    ↓
-Runner / Documentation Stabilization
-    ↓
-Dataset Growth
-    ↓
-Broader Community Participation
-    ↓
-Accelerator Expansion
+PUBLIC BENCHMARK FOUNDATION
+        COMPLETE
+            |
+            v
+DIRECT SUBMISSION
+        COMPLETE
+            |
+            v
+CONTROL ROOM + PUBLICATION LIFECYCLE
+        COMPLETE
+            |
+            v
+PUBLIC RESEARCH FOUNDATION
+        ESTABLISHED
+            |
+            v
+AMD / VULKAN EXPANSION
+        CURRENT
+            |
+            v
+FIRST PUBLISHED AMD RESULT
+            |
+            v
+CROSS-VENDOR DATASET GROWTH
+            |
+            v
+EVIDENCE-DRIVEN RESEARCH
+            |
+            v
+TRANSLATION LAYERS
+            |
+            v
+HARDWARE GUIDANCE
 ```
 
-The largest near-term risks are now:
+---
 
-- server-side validation correctness
-- malformed or abusive submission handling
-- duplicate/idempotency behavior
-- maintainer intake friction
-- external contributor friction
-- Windows trust expectations
-- documentation clarity
-- unknown external-machine edge cases
-- early dataset breadth
-
-Distribution, website launch, public naming, managed provisioning, basic direct
-submission transport, hardware discovery, and comparison are no longer primary
-launch blockers.
-
-------------------------------------------------------------------------
-
-# Beyond Public Beta
-
-After the initial external beta, development can expand toward:
-
-- Larger community datasets
-- Richer statistical analysis
-- Configuration-matched comparisons
-- AMD benchmarking
-- Intel benchmarking
-- Model compatibility
-- Recommendation systems
-- Hardware build guidance
-- Public API
-- Dataset exports
-- Research tooling
-- Hardware adoption trends
-- Driver and software evolution analysis
-- Long-term local AI performance history
-- The Works editorial/research program
-
-The roadmap should remain flexible.
-
-OpenLLMWorks should grow in response to the quality and usefulness of
-its dataset rather than accumulating features for their own sake.
-
-------------------------------------------------------------------------
-
-# Guiding Principle
-
-Every new capability should strengthen at least one part of the mission:
-
-> **Measure. Understand. Preserve.**
-
-If a feature does not improve measurement, understanding, preservation,
-or the community's ability to contribute trustworthy evidence, it should
-not take priority over work that does.
-
-------------------------------------------------------------------------
-
-# Current Position
+# Current Roadmap Summary
 
 ```text
-Foundation                              COMPLETE
-Intelligence                            COMPLETE
-Evolution                               COMPLETE
-Identity                                COMPLETE
-Community                               ACTIVE
-Standalone Runner                       COMPLETE
-Managed Assets                          COMPLETE
-Recovery Validation                     COMPLETE
-OpenLLMWorks Rebrand                    COMPLETE
-Public GitHub                           LIVE
-Runner v0.4.0-beta.1                    LIVE
-OpenLLMWorks.com                        LIVE
-Public Beta                             LIVE
-Analytics Baseline                      LIVE
-Direct Submission                       PRODUCTION PASS
-api.openllmworks.com                    LIVE
-Private Submission Intake               PROVEN
-Server-Side Canonical Validation         PRODUCTION PASS
-D1 Operational State                    LIVE
-Authenticated Control Room              LIVE
-Maintainer Approval                     PROVEN
-Automatic Controlled Import             PROVEN
-Production Publication Verification     PROVEN
-External Contributor Validation         PROVEN
-External Result Publication             PROVEN
-Dataset Growth                          ACTIVE / EARLY
-AMD Expansion                           PLANNED
-Recommendations                         PLANNED
-Platform                                FUTURE
-Research Platform                       VISION
+Protocol v1.0                              FROZEN
+
+Windows NVIDIA CUDA                        PROVEN
+Standalone Runner                          PROVEN
+Managed Assets                             PROVEN
+Canonical Validation                       PROVEN
+
+Direct Submission                          PROVEN
+Server-Side Validation                     PROVEN
+D1 Operational State                       PROVEN
+Control Room                               PROVEN
+Maintainer Approval                        PROVEN
+Controlled Import                          PROVEN
+Publication Verification                   PROVEN
+Recovery                                   PROVEN
+
+External Contributor Validation            PROVEN
+External Result Publication                PROVEN
+
+OpenLLMWorks.com                           LIVE
+Hardware Explorer                          LIVE
+GPU Compare                                LIVE
+Leaderboards                               LIVE
+Methodology                                LIVE
+The Works                                  LIVE
+Research Publishing                        LIVE
+Search / Sitemap Foundation                LIVE
+
+Dataset Growth                             ACTIVE / EARLY
+
+AMD / Vulkan Architecture                  CURRENT
+First AMD Benchmark                        NEXT
+First Validated AMD Submission             UPCOMING
+First Published AMD Result                 UPCOMING
+Cross-Vendor Dataset Growth                UPCOMING
+
+Additional NVIDIA Coverage                 ACTIVE / OPPORTUNISTIC
+Contributor Growth                         ACTIVE
+The Works Research                         ACTIVE
+
+Value Analytics                            FUTURE
+Power / Efficiency                         FUTURE
+Hardware Guidance                          FUTURE
+Intel Accelerator Support                  FUTURE
+Additional Operating Systems               FUTURE
+Future Protocol Versions                   FUTURE
 ```
 
-The project has crossed the public-launch, direct-submission,
-production-operations, and initial external-validation boundaries.
+---
 
-The next phase is about operating the proven lifecycle cleanly, growing the
-dataset and contributor base, improving notifications and maintainer quality of
-life, and preparing for broader accelerator support.
+## Current Direction
+
+OpenLLMWorks has moved beyond proving that a local AI benchmark can be run,
+submitted, validated, reviewed, imported, and published.
+
+That system now exists.
+
+The next phase is about making the historical record broader and more useful:
+
+```text
+Measure
+    |
+    v
+Expand
+    |
+    v
+Explain
+    |
+    v
+Translate
+    |
+    v
+Apply
+```
+
+Weekend 19 begins with the first major step in **Expand**:
+
+**prove that OpenLLMWorks can support AMD/Vulkan with the same discipline that
+established the NVIDIA/CUDA path.**

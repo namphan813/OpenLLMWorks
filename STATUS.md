@@ -1,85 +1,77 @@
 # OpenLLMWorks - Project Status
 
-## Weekend 18 - Control Room
+## Weekend 19 - AMD / Vulkan Expansion
 
-**Focus:** Submission automation, operational state, maintainer review, and production administration
-**Status:** Control Room MVP / Production Authentication Boundary PASS / Clean Checkpoint
+**Focus:** Cross-vendor accelerator support, backend provenance, Runner architecture, and first AMD benchmark path
+**Status:** Starting / Architecture Review
 
 ---
 
 ## Current Objective
 
-OpenLLMWorks now has a proven contributor-to-intake pipeline:
+OpenLLMWorks has completed the core Windows/NVIDIA contributor and publication
+lifecycle.
+
+The proven production path is:
 
 ```text
 OpenLLMWorks Runner
-        |
-        v
+    |
+    v
 OLBD Protocol v1.0 Benchmark
-        |
-        v
+    |
+    v
 Canonical Local Validation
-        |
-        v
+    |
+    v
 Canonical Submission ZIP
-        |
-        v
-Contributor Consent
-        |
-        v
+    |
+    v
+Explicit Contributor Consent
+    |
+    v
 HTTPS Direct Submission
-        |
-        v
+    |
+    v
 Private R2 Intake
-        |
-        v
-Automatic GitHub Actions Validation
-        |
-        v
+    |
+    v
+Automatic Server-Side Validation
+    |
+    v
 D1 Operational State
-        |
-        v
-Maintainer Review
-        |
-        v
-Canonical Import
-        |
-        v
+    |
+    v
+Authenticated Control Room
+    |
+    v
+Maintainer Approval
+    |
+    v
+Controlled Canonical Import
+    |
+    v
 Publisher
-        |
-        v
+    |
+    v
+Production Publication Verification
+    |
+    v
 OpenLLMWorks.com
 ```
 
-Weekend 18 is focused on completing the maintainer side of this lifecycle.
+The next major engineering boundary is accelerator expansion.
 
-The current engineering boundary is:
+Weekend 19 asks:
 
-```text
-Automatic validation
-        |
-        v
-Authenticated Control Room
-        |
-        v
-Manual approval / rejection
-        |
-        v
-Automated controlled import
-        |
-        v
-Publication
-```
+> **Can OpenLLMWorks extend its proven Windows/NVIDIA benchmark path to
+> AMD/Vulkan while preserving Protocol v1.0's workload, validation, provenance,
+> and reproducibility guarantees, and clearly recording backend differences?**
 
-The guiding principle remains:
+The immediate target is not broad AMD support.
 
-```text
-Validation is automatic.
-
-Approval is deliberate.
-
-Canonical publication remains controlled.
-```
+The target is the smallest trustworthy path from an AMD GPU through the
+existing OpenLLMWorks lifecycle.
 
 ---
 
@@ -87,13 +79,25 @@ Canonical publication remains controlled.
 
 ```text
 OpenLLMWorks
-├── OpenLLMWorks Runner
-├── Open LLM Benchmark Database
-│   └── OLBD Protocol v1.0
-├── Hardware Results / Comparisons
-├── The Works
-│   └── Future research / editorial
-└── Community
+    |
+    +-- OpenLLMWorks Runner
+    |
+    +-- Open LLM Benchmark Database
+    |       |
+    |       +-- OLBD Protocol v1.0
+    |
+    +-- Hardware Results / Comparisons
+    |
+    +-- Methodology
+    |
+    +-- The Works
+    |       |
+    |       +-- Experiments
+    |       +-- Findings
+    |       +-- Research Notes
+    |       +-- Work in Progress
+    |
+    +-- Community
 ```
 
 Brand roles:
@@ -102,31 +106,49 @@ Brand roles:
 - **OpenLLMWorks Runner** - contributor benchmark application
 - **Open LLM Benchmark Database** - canonical technical benchmark dataset
 - **OLBD Protocol v1.0** - frozen benchmark methodology and provenance
-- **The Works** - reserved future research/editorial identity
+- **The Works** - research and editorial layer built on validated evidence
 
-Current positioning:
+Current public positioning:
 
 ```text
-Real hardware. Reproducible local AI benchmarks.
+Open benchmarks for local AI hardware.
 ```
 
-Production website: `https://openllmworks.com`
+Mission:
 
-GitHub repository: `https://github.com/namphan813/OpenLLMWorks`
+```text
+Building the historical record of local AI performance.
+```
 
-Submission API: `https://api.openllmworks.com/v1/submissions`
+Production website:
+
+```text
+https://openllmworks.com
+```
+
+GitHub repository:
+
+```text
+https://github.com/namphan813/OpenLLMWorks
+```
+
+Submission API:
+
+```text
+https://api.openllmworks.com/v1/submissions
+```
 
 ---
 
 ## Current Runner
 
 **Runner:** OpenLLMWorks Runner
-**Current public release:** `v0.4.0-beta.1`
-**Current platform:** Windows
-**Current accelerator:** NVIDIA
+**Current public platform:** Windows
+**Current public accelerator path:** NVIDIA
+**Current backend:** CUDA
 **Benchmark Protocol:** OLBD Protocol v1.0
 
-Current contributor workflow:
+Current proven contributor workflow:
 
 ```text
 Start Runner
@@ -166,56 +188,70 @@ Upload to OpenLLMWorks? [Y/N]
     +--> Y
              |
              v
-         HTTPS Upload
+          HTTPS Upload
              |
              v
-         Submission ID
+          Submission ID
 ```
 
 The Runner remains isolated from the canonical Open LLM Benchmark Database.
-Direct submission grants no contributor system write access to canonical data.
+
+Contributor systems do not receive canonical database write authority.
 
 ---
 
-## Direct Submission Pipeline
+## Protocol v1.0
 
-Production intake:
+OLBD Protocol v1.0 remains frozen.
+
+Current benchmark workload:
+
+- Qwen3-4B-Q4_K_M
+- llama.cpp build 10069
+- llama.cpp commit `178a6c449`
+- pp512 prompt-processing measurement
+- tg128 token-generation measurement
+- three required benchmark runs
+- arithmetic averaging
+- raw benchmark evidence
+- hardware evidence
+- canonical validation
+
+Protocol v1.0 currently has a proven Windows/NVIDIA/CUDA implementation.
+
+Weekend 19 must not silently redefine what Protocol v1.0 means merely to add
+another accelerator vendor.
+
+Backend expansion and protocol evolution are separate concerns unless technical
+evidence demonstrates that they cannot remain separate.
+
+---
+
+## Submission and Publication Lifecycle
+
+The production submission lifecycle is operational.
+
+Production infrastructure includes:
+
+- HTTPS direct submission
+- private Cloudflare R2 intake
+- safe archive inspection and extraction
+- authoritative Python canonical validation
+- GitHub Actions validation workflow
+- Cloudflare D1 operational state
+- submission event history
+- authenticated Control Room
+- deliberate maintainer approval
+- controlled canonical import
+- publisher regeneration
+- production publication verification
+
+The canonical benchmark database remains separate from operational D1 state.
 
 ```text
-Contributor
-    |
-    v
-OpenLLMWorks Runner
-    |
-    v
-POST /v1/submissions
-    |
-    v
-Cloudflare Submission Worker
-    |
-    +--> Private R2
-    |
-    +--> D1: received
-    |
-    +--> GitHub Actions validation
-              |
-              v
-          D1: validating
-              |
-              +--> PASS --> validated
-              |
-              +--> FAIL --> rejected
-```
+R2
+= submission artifacts and evidence
 
-Private R2 bucket: `openllmworks-submissions`
-
-Object convention: `incoming/sub_<uuid>.zip`
-
-Operations database: `openllmworks-operations`
-
-The canonical benchmark database and D1 have deliberately different roles:
-
-```text
 D1
 = operational/control-plane state
 
@@ -223,583 +259,467 @@ Open LLM Benchmark Database
 = canonical historical benchmark record
 ```
 
-R2 remains the artifact/evidence store.
+---
+
+## Control Room
+
+The maintainer Control Room is operational and protected by Cloudflare Access.
+
+Administrative surfaces include:
+
+```text
+openllmworks.com/admin*
+api.openllmworks.com/v1/admin/*
+```
+
+The Control Room supports the maintainer publication lifecycle rather than
+granting contributors direct canonical access.
+
+Proven capabilities include:
+
+- authenticated maintainer access
+- production D1 visibility
+- submission review
+- lifecycle state visibility
+- approval workflow
+- controlled canonical import
+- publication verification
+- recovery of published submissions
+- retry-safe publication verification
+
+Canonical Result ID is used as a publication identity guardrail.
+
+Publication verification does not rely solely on GPU name or other ambiguous
+hardware labels.
 
 ---
 
-## Authoritative Server-Side Validation
+## Website
 
-Authoritative validation is now automatic.
+OpenLLMWorks.com is the primary public interface for the benchmark dataset.
 
-GitHub Actions workflow: `.github/workflows/validate-submission.yml`
+Current major public surfaces include:
 
-The workflow:
+- Homepage
+- Hardware Explorer
+- Hardware Profiles
+- GPU Comparison
+- Leaderboards
+- Methodology
+- The Works
+- Runner / contributor entry points
 
-1. receives a submission ID
-2. downloads the exact incoming ZIP from private R2
-3. performs safe archive inspection and extraction
-4. discovers the canonical submission
-5. executes the existing Python canonical validator
-6. reports lifecycle state back to D1
+The homepage includes live benchmark highlights generated from published
+hardware data.
 
-Shared archive safety logic: `parser/submission_archive.py`
-
-Current archive controls include:
-
-- 10 MiB archive-size limit
-- 25 MiB uncompressed-size limit
-- 100-entry maximum
-- absolute-path rejection
-- parent-traversal rejection
-- drive-qualified-path rejection
-- symbolic-link rejection
-- exactly one `submission.json`
-- controlled extraction
-
-The existing Python validator remains the source of truth for OLBD benchmark validity. Protocol v1.0 validation rules are not reimplemented in JavaScript.
-
-Production automatic lifecycle has been proven:
-
-```text
-Direct Submission
-        |
-        v
-R2 Intake
-        |
-        v
-D1 received
-        |
-        v
-GitHub Actions Dispatch
-        |
-        v
-D1 validating
-        |
-        v
-Canonical Validation PASS
-        |
-        v
-D1 validated
-```
-
-**Status: PRODUCTION PASS**
+The public site consumes publisher-generated data rather than independently
+reconstructing canonical benchmark truth.
 
 ---
 
-## Submission Operations Database
+## Methodology
 
-Cloudflare D1 provides operational submission state.
+The Methodology page documents how OpenLLMWorks measures local AI hardware.
 
-Database: `openllmworks-operations`
+It explains:
 
-Primary tables:
+- Protocol v1.0
+- frozen benchmark workload
+- Qwen3-4B Q4_K_M
+- llama.cpp runtime identity
+- pp512
+- tg128
+- three-run methodology
+- arithmetic averaging
+- evidence and provenance
+- limitations
+- future protocol philosophy
 
-```text
-submissions
-submission_events
-```
+Editorial principle:
 
-Current lifecycle model:
-
-```text
-received
-    |
-    v
-validating
-    |
-    +--> validated
-    |
-    +--> rejected
-```
-
-Future lifecycle:
-
-```text
-validated
-    |
-    v
-awaiting review
-    |
-    +--> approved
-    |
-    +--> rejected
-            |
-            v
-        imported
-            |
-            v
-        published
-```
-
-`submission_events` provides an audit trail for lifecycle transitions.
-The operations database is not a replacement for the canonical benchmark database.
+> OpenLLMWorks benchmarks hardware running local AI. It does not benchmark
+> model intelligence.
 
 ---
 
-## Control Room MVP
+## The Works
 
-Weekend 18 introduced the first maintainer-facing Control Room.
+The Works is now an active OpenLLMWorks research and editorial surface.
 
-Route: `/admin`
+Positioning:
 
-Current UI includes:
+> **Experiments, findings, and notes from the OpenLLMWorks lab.**
 
-```text
-Control Room
-├── Total submissions
-├── Validated
-├── Validating
-├── Received
-├── Rejected
-└── Recent submissions
-```
+Editorial principle:
 
-The dashboard reads live production submission state from D1 through:
+> **The benchmark database tells us what happened. The Works explores what it
+> means.**
 
-`GET /v1/admin/submissions`
+Supported content types:
 
-Browser acceptance has proven:
+- Experiment
+- Finding
+- Research Note
+- Work in Progress
 
-```text
-Admin route rendering                  PASS
-Control Room UI                        PASS
-Production API fetch                   PASS
-Live D1 data                           PASS
-Submission counts                      PASS
-Recent submission table                PASS
-```
+The Works includes:
 
-Current Control Room implementation is on `weekend-18-control-room-ui`.
+- reusable article framework
+- article registry
+- public/private visibility
+- featured article support
+- route-specific SEO metadata
+- research backlog
+- dynamic sitemap integration
+- dedicated article not-found experience
 
-Current relevant commits:
+The first published Research Note is:
 
 ```text
-dbd1336  Add Control Room submissions API
-9c3a221  Add Control Room submissions dashboard
+What do PP512 and TG128 actually mean?
 ```
 
-The branch remains intentionally unmerged while production authentication is completed.
+It establishes the foundational explanation of the two Protocol v1.0
+performance measurements without introducing unsupported performance tiers or
+workload recommendations.
+
+The first planned hardware experiment remains:
+
+```text
+How far back can modern local AI go?
+```
+
+Research conclusions should follow validated evidence rather than precede it.
 
 ---
 
-## Control Room Production Authentication
+## Search and Discovery Foundation
 
-Cloudflare Access is now the production authentication boundary for the maintainer Control Room.
+Current public discovery infrastructure includes:
 
-Two Access applications protect the administrative surfaces.
+- route-specific page titles
+- meta descriptions
+- canonical URLs
+- Open Graph metadata
+- Twitter metadata
+- robots.txt
+- dynamically generated sitemap
+- Google Search Console domain verification
+- GA4 baseline analytics
 
-### Control Room UI
+The sitemap is generated from:
 
-Destination: `openllmworks.com/admin*`
+- core public routes
+- published hardware variants
+- public Works articles
 
-Application: `OpenLLMWorks Control Room`
-
-### Control Room API
-
-Destination: `api.openllmworks.com/v1/admin/*`
-
-Application: `OpenLLMWorks Control Room API`
-
-Both use `OpenLLMWorks Maintainer` as the Access policy.
-
-The policy is restricted to the explicitly allowlisted maintainer identity.
-
-Production private-browser testing confirmed that unauthenticated requests to both administrative surfaces are intercepted by Cloudflare Access before reaching the application.
-
-Validated security boundary:
-
-```text
-Internet
-    |
-    v
-Cloudflare Access
-    |
-    v
-Maintainer Authentication
-    |
-    v
-OpenLLMWorks Maintainer Policy
-    |
-    +--> /admin*
-    |
-    +--> api.openllmworks.com/v1/admin/*
-```
-
-Results:
-
-```text
-Control Room UI Access interception       PASS
-Maintainer authentication                 PASS
-Post-authentication redirect              PASS
-Control Room API Access interception      PASS
-Public OpenLLMWorks site                  UNAFFECTED
-```
-
-The temporary `ADMIN_API_TOKEN` mechanism remains intentionally active.
-
-It must not be removed until authenticated browser-to-API communication through Cloudflare Access is proven end to end.
+Private or unpublished Works entries are excluded.
 
 ---
 
-## Current Security Boundary
+## Current Dataset
 
-Current layered protection:
+The dataset currently spans multiple NVIDIA generations and both consumer and
+workstation hardware.
 
-```text
-Browser
-    |
-    v
-Cloudflare Access
-    |
-    v
-Allowlisted Maintainer Identity
-    |
-    v
-Control Room
-    |
-    v
-Cloudflare Access
-    |
-    v
-Admin API
-    |
-    v
-Temporary ADMIN_API_TOKEN
-    |
-    v
-D1 Operations Database
-```
+Current coverage includes examples from:
 
-The token is currently a transitional second layer rather than the intended long-term Control Room authentication mechanism.
+- Maxwell
+- Pascal
+- Turing
+- Ampere
+- Ada
 
-Do not remove it prematurely.
+The dataset includes both controlled internal systems and external contributor
+results.
 
----
+Dataset breadth remains early.
 
-## Current Architecture
+The project should continue adding evidence without sacrificing provenance or
+validation quality.
 
-```text
-Contributor Side
-
-OpenLLMWorks Runner
-        |
-        v
-Canonical ZIP
-        |
-        v
-Explicit Consent
-        |
-        v
-HTTPS
-        |
-        v
-
-Production Intake
-
-Submission Worker
-        |
-        +--> Private R2
-        |
-        +--> D1 received
-        |
-        +--> GitHub Actions
-                  |
-                  v
-             Canonical Validator
-                  |
-                  v
-             D1 validated/rejected
-                  |
-                  v
-
-Maintainer Side
-
-Cloudflare Access
-        |
-        v
-Control Room
-        |
-        v
-Admin API
-        |
-        v
-D1 Operations State
-        |
-        v
-Future Approve / Reject
-        |
-        v
-Controlled Canonical Import
-        |
-        v
-Open LLM Benchmark Database
-        |
-        v
-Publisher
-        |
-        v
-OpenLLMWorks.com
-```
+Cross-generation observations may motivate research questions, but architectural
+or causal conclusions require appropriate controlled evidence.
 
 ---
 
 ## Preserved Benchmark Guarantees
 
-Current infrastructure work does not change OLBD Protocol v1.0.
+Platform expansion must preserve the project's existing trust model.
 
-OpenLLMWorks continues to preserve:
+OpenLLMWorks currently guarantees:
 
-- frozen benchmark protocol
+- frozen Protocol v1.0 workload
 - frozen benchmark model
-- frozen benchmark runtime
+- identified benchmark runtime
+- verified benchmark assets
 - SHA-256 asset verification
 - three required benchmark runs
 - raw benchmark evidence
 - required hardware evidence
 - canonical submission validation
 - deterministic result identity
-- maintainer-controlled provenance
-- canonical database separation
-- historical benchmark identity
+- explicit contributor consent
+- authoritative server-side validation
+- maintainer-controlled approval
+- controlled canonical ingestion
+- publication verification
+- historical provenance
+- separation between contributor systems and canonical data
 
-Submission automation changes transport and operations. It does not change benchmark methodology.
+AMD/Vulkan support must extend these guarantees rather than bypass them.
 
 ---
 
-## Proven Major Milestones
+## Weekend Sprint History
 
-### Weekend 14
-
-First complete Runner -> Submission ZIP -> GitHub Issue -> Maintainer Validation -> Canonical Import -> Publisher -> Website lifecycle proven.
-
-### Weekend 15
-
-Contributor workflow and maintainer tooling hardened.
-
-### Weekend 16
+Detailed historical snapshots are preserved in:
 
 ```text
-Managed assets                         PASS
-Recovery testing                       PASS
-Contributor UX                         PASS
-OpenLLMWorks rebrand                   COMPLETE
-Public GitHub repository               LIVE
-Runner public beta                     LIVE
-OpenLLMWorks.com                       LIVE
-GA4 baseline                           LIVE
+docs/STATUS_HISTORY.md
 ```
 
-### Weekend 17
+### Weekend 14 - Contributor Workflow & Runner Foundation
 
-Direct Submission MVP:
+Proved the first complete:
+
+```text
+Runner
+-> Submission ZIP
+-> Maintainer Validation
+-> Canonical Import
+-> Publisher
+-> Website
+```
+
+### Weekend 15 - Runner to Contributor Ready
+
+Hardened Runner behavior, contributor guidance, maintainer ingestion, packaging,
+and regression testing.
+
+### Weekend 16 - Standalone Runner & Public Beta
+
+Delivered:
+
+- self-provisioning standalone Runner
+- managed Protocol v1.0 assets
+- recovery testing
+- contributor UX
+- OpenLLMWorks rebrand
+- public GitHub repository
+- public Runner release
+- OpenLLMWorks.com
+- GA4 baseline
+
+### Weekend 17 - Direct Submission
+
+Delivered:
 
 ```text
 Runner
 -> Canonical ZIP
 -> Explicit Consent
--> HTTPS
--> Submission Worker
--> Private R2
+-> HTTPS Submission
+-> Private R2 Intake
 -> Submission ID
-
-E2E PRODUCTION PASS
 ```
 
-Runner `v0.4.0-beta.1` released with Direct Submission support.
+Direct Submission reached production E2E PASS.
 
-A real GTX 970 Direct Submission was subsequently validated, imported into the canonical database, and published.
+### Weekend 18 - Control Room & Publication Lifecycle
 
-### Weekend 18
+Delivered the operational and maintainer side of direct submission:
 
-```text
-Safe archive extraction                COMPLETE
-Automatic GitHub validation            COMPLETE
-D1 operations database                 LIVE
-received state recording               PASS
-Validation callbacks                   PASS
-Automatic received->validated flow     PASS
-Control Room Admin API                 PASS
-Control Room UI                        PASS
-Live D1 dashboard                      PASS
-Cloudflare Access UI boundary          PASS
-Cloudflare Access API boundary         PASS
-```
+- safe server-side archive handling
+- automatic canonical validation
+- D1 operational state
+- Control Room
+- Cloudflare Access authentication
+- submission review
+- deliberate approval
+- controlled canonical import
+- publication verification
+- Result-ID guardrails
+- recovery workflow
+
+The contributor-to-publication lifecycle is now proven.
+
+### Inter-Sprint - Public Research & Discovery
+
+Following Weekend 18, public-product work established:
+
+- homepage refinement
+- Benchmark Highlights
+- Methodology
+- The Works
+- Works research backlog
+- Works article registry
+- dynamic sitemap
+- route-specific SEO metadata
+- first published Works Research Note
+
+This work established the public explanation and research layer needed to make
+the growing benchmark dataset more understandable.
 
 ---
 
-## Current Roadmap
+## Weekend 19 - AMD / Vulkan Expansion
+
+### Objective
+
+Establish the first trustworthy non-NVIDIA accelerator path in OpenLLMWorks.
+
+Initial target:
 
 ```text
-Managed Assets                              COMPLETE
+AMD GPU
     |
     v
-Recovery / Contributor UX                   COMPLETE
+Vulkan-capable llama.cpp Runtime
     |
     v
-OpenLLMWorks Public Beta                    LIVE
+OpenLLMWorks Runner
     |
     v
-Direct Submission MVP                      E2E PASS
+Protocol v1.0 Workload
     |
     v
-Safe Server-Side Validation                COMPLETE
+Canonical Validation
     |
     v
-Automatic Validation Pipeline              COMPLETE
+Canonical Submission ZIP
     |
     v
-D1 Operational State                       LIVE
+Direct Submission
     |
     v
-Control Room MVP                           LIVE-DATA PASS
+Control Room
     |
     v
-Cloudflare Access Boundary                 PASS
+Canonical Import
     |
     v
-Browser/API Access Integration             NEXT
-    |
-    v
-Production Control Room Deployment         NEXT
-    |
-    v
-Submission Detail View                     UPCOMING
-    |
-    v
-Manual Approve / Reject                    UPCOMING
-    |
-    v
-Automated Controlled Import                UPCOMING
-    |
-    v
-Automated Publication                      UPCOMING
-    |
-    v
-Operational QoL                            UPCOMING
-    |
-    v
-External Contributor Growth                UPCOMING
-    |
-    v
-AMD / Intel Platform Expansion             FUTURE
+Publication
 ```
+
+The first milestone is one valid AMD result, not comprehensive AMD support.
+
+### Architecture Questions
+
+Weekend 19 should determine:
+
+1. where NVIDIA/CUDA assumptions currently exist in the Runner
+2. how accelerator vendor and backend should be represented
+3. whether current hardware evidence is sufficiently backend-neutral
+4. what AMD/Vulkan evidence must be captured
+5. how llama.cpp Vulkan runtime assets should be provisioned and verified
+6. how runtime/backend selection should work
+7. whether canonical validation currently assumes NVIDIA-specific evidence
+8. whether the public hardware contract exposes sufficient backend provenance
+9. whether CUDA and Vulkan results can share the same Protocol v1.0 result
+   space without misleading users
+10. what changes are implementation expansion versus protocol evolution
+
+These questions should be answered from code and controlled testing rather than
+assumption.
+
+---
+
+## Weekend 19 Guardrails
+
+Do not change Protocol v1.0 merely to make AMD implementation easier.
+
+Do not assume CUDA and Vulkan scores are directly comparable before validating
+that interpretation.
+
+Do not hide backend differences behind a generic GPU abstraction if those
+differences matter to reproducibility.
+
+Do not create an AMD-specific submission format.
+
+Do not bypass the existing canonical validator or publication lifecycle.
+
+Do not build broad multi-vendor abstractions before proving the smallest AMD
+path.
+
+Prefer:
+
+```text
+One AMD GPU
+    |
+    v
+One Proven Vulkan Path
+    |
+    v
+One Valid Submission
+    |
+    v
+One Published Result
+```
+
+Then generalize from evidence.
 
 ---
 
 ## Current Constraints
 
-Current primary benchmark target: `Windows + NVIDIA`
+Current public Runner support remains:
 
-Current operational constraints:
+```text
+Windows + NVIDIA + CUDA
+```
 
-- Control Room UI branch is not yet merged to `main`
-- production `/admin` UI is not yet deployed
-- authenticated browser-to-Admin-API communication through Cloudflare Access still needs end-to-end validation
-- `ADMIN_API_TOKEN` remains a temporary compatibility/security layer
-- approval and rejection are not yet available in the Control Room
-- canonical import is not yet triggered from the Control Room
-- publication after approval remains a maintainer workflow
-- validation failure currently does not fully distinguish canonical rejection from workflow/infrastructure failure
-- submission detail/event-history UI is not yet implemented
-- external contributor testing remains incomplete
-- AMD support is not yet part of the public Runner
-- Intel accelerator support is not yet part of the public Runner
-- public dataset breadth remains early
+Known expansion constraints include:
+
+- AMD detection is not yet part of the public Runner
+- Vulkan runtime provisioning is not yet part of the public Runner
+- AMD hardware evidence requirements have not yet been defined
+- backend provenance may require contract/schema review
+- canonical validation may contain NVIDIA-specific assumptions
+- public presentation currently reflects a predominantly NVIDIA dataset
+- CUDA/Vulkan comparability has not yet been established
+- Intel accelerator support remains future work
+- dataset breadth remains early
+- external contributor growth remains useful
+
+These are now platform-expansion and evidence-quality concerns rather than
+submission-lifecycle blockers.
 
 ---
 
-## Repository State
+## Immediate Next Steps
 
-Current development branch: `weekend-18-control-room-ui`
-
-Current branch checkpoint:
+Weekend 19 should begin with architecture inspection rather than implementation.
 
 ```text
-9c3a221  Add Control Room submissions dashboard
-dbd1336  Add Control Room submissions API
-6e70fac  Merge Weekend 18 Control Room foundation
+Audit Runner
+    |
+    v
+Find NVIDIA / CUDA Assumptions
+    |
+    v
+Audit Validator / Submission Contract
+    |
+    v
+Define Backend Provenance Requirements
+    |
+    v
+Define Smallest AMD / Vulkan Path
+    |
+    v
+Implement
+    |
+    v
+Bench Test
+    |
+    v
+Canonical Validation
+    |
+    v
+Production Lifecycle Test
 ```
 
-At the current checkpoint, `git status --short` is clean before this documentation update.
-
-The branch is backed up at `origin/weekend-18-control-room-ui`.
-
-Do not merge to `main` until the production Access/browser/API integration is proven.
-
----
-
-## Next
-
-### Weekend 18 - Control Room Production Integration
-
-```text
-Cloudflare Access UI boundary          PASS
-Cloudflare Access API boundary         PASS
-        |
-        v
-Test authenticated browser -> API
-        |
-        v
-Resolve cross-origin Access behavior
-        |
-        v
-Remove temporary token-entry UI
-        |
-        v
-Build / Regression Test
-        |
-        v
-Merge Control Room branch
-        |
-        v
-Deploy production website
-        |
-        v
-Visit /admin
-        |
-        v
-Authenticate
-        |
-        v
-Live D1 Control Room
-```
-
-Do not remove `ADMIN_API_TOKEN` until this complete path is proven.
-
-After production Control Room authentication is complete:
-
-```text
-Submission Detail View
-        |
-        v
-Submission Event History
-        |
-        v
-Approve / Reject
-        |
-        v
-Controlled Automated Import
-        |
-        v
-Automatic Publication
-```
-
----
-
-## Near-Term Priorities
-
-1. prove authenticated browser-to-Admin-API communication
-2. remove the temporary Control Room token-entry UX
-3. deploy the authenticated production Control Room
-4. add submission detail and event-history views
-5. implement deliberate Approve / Reject actions
-6. automate canonical import only after explicit approval
-7. automate publication after successful controlled import
-8. add operational retry, stuck-submission, filter, and search tooling
-9. complete external contributor validation
-10. expand platform support after the submission lifecycle is maintainable
-
-The submission lifecycle should be completed before increasing submission volume through broader platform support.
+The first coding change should follow the architecture audit.
 
 ---
 
@@ -811,42 +731,53 @@ OpenLLMWorks.com                           LIVE
 GitHub repository                          PUBLIC
 
 OpenLLMWorks Runner                        PUBLIC BETA
-Runner v0.4.0-beta.1                       RELEASED
-Windows NVIDIA benchmark path              PROVEN
+Windows NVIDIA CUDA path                   PROVEN
 Managed Protocol v1.0 assets               PROVEN
 Canonical local validation                 PROVEN
 Canonical submission ZIP                   PROVEN
 
 Direct submission                          PRODUCTION PASS
-Submission Worker                          LIVE
 Private R2 intake                          LIVE
-Automatic GitHub Actions validation        LIVE
-Safe archive extraction                    PROVEN
-D1 operations database                     LIVE
-Automatic lifecycle state                  PROVEN
+Automatic server validation                LIVE
+D1 operational state                       LIVE
 
-Control Room Admin API                     PROVEN
-Control Room UI                            PROVEN
-Live production D1 dashboard               PROVEN
+Authenticated Control Room                 LIVE
+Maintainer approval                        PROVEN
+Controlled canonical import                PROVEN
+Production publication verification        PROVEN
+Published-submission recovery              PROVEN
 
-Cloudflare Access Control Room             PASS
-Cloudflare Access Admin API                PASS
-Maintainer allow policy                    ACTIVE
+External contributor validation            PROVEN
+External result publication                PROVEN
 
-Authenticated browser -> Admin API         NEXT
-Production Control Room deployment         NEXT
-Submission detail view                     UPCOMING
-Approve / Reject                           UPCOMING
-Automated controlled import                UPCOMING
-Automated publication                      UPCOMING
+Hardware Explorer                          LIVE
+GPU Compare                                LIVE
+Methodology                                LIVE
+The Works                                  LIVE
+First Works Research Note                  PUBLISHED
+Dynamic sitemap                            LIVE
+Search Console                             VERIFIED
+GA4 baseline                               LIVE
 
-External contributor validation            UPCOMING
-AMD support                                FUTURE
+Protocol v1.0                              FROZEN
+Dataset growth                             ACTIVE / EARLY
+
+AMD / Vulkan architecture                  NEXT
+First AMD Runner benchmark                 UPCOMING
+First validated AMD submission             UPCOMING
+First published AMD result                 UPCOMING
 Intel accelerator support                  FUTURE
 ```
 
-Weekend 16 made the Works public.
+Weekend 16 made OpenLLMWorks public.
 
-Weekend 17 connected the Runner directly to the Works.
+Weekend 17 connected the Runner directly to OpenLLMWorks.
 
-Weekend 18 is building the Control Room that lets the Works operate safely at scale.
+Weekend 18 completed the operational path from submission to controlled
+publication.
+
+The public research work established how OpenLLMWorks explains the evidence it
+collects.
+
+**Weekend 19 begins the move from a proven NVIDIA benchmark platform toward a
+cross-vendor local AI hardware benchmark.**
