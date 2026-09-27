@@ -887,6 +887,146 @@ def ensure_runtime_ready(
 
     return True
 
+# ------------------------------------------------------------
+# Windows accelerator discovery
+# ------------------------------------------------------------
+
+def classify_accelerator_vendor(
+    name: str,
+    pnp_device_id: str,
+) -> str | None:
+    """Classify one Windows video controller into a supported vendor."""
+
+    normalized_name = name.casefold()
+    normalized_pnp = pnp_device_id.casefold()
+
+    if "nvidia" in normalized_name or "ven_10de" in normalized_pnp:
+        return "nvidia"
+
+    if (
+        "amd" in normalized_name
+        or "radeon" in normalized_name
+        or "advanced micro devices" in normalized_name
+        or "ven_1002" in normalized_pnp
+    ):
+        return "amd"
+
+    if "intel" in normalized_name or "ven_8086" in normalized_pnp:
+        return "intel"
+
+    return None
+
+
+def backend_for_accelerator_vendor(
+    vendor: str,
+) -> str | None:
+    """Return the current OpenLLMWorks backend policy for one vendor."""
+
+    backend_by_vendor = {
+        "nvidia": "cuda",
+        "amd": "vulkan",
+        "intel": "vulkan",
+    }
+
+    return backend_by_vendor.get(vendor)
+
+
+def discover_windows_accelerators() -> list[dict]:
+    """
+    Discover supported physical GPU candidates through Windows CIM.
+
+    Windows discovery identifies physical display adapters only.
+    Runtime-specific device IDs are resolved later after the selected
+    backend has been provisioned.
+    """
+
+    command = (
+        "Get-CimInstance Win32_VideoController | "
+        "Select-Object Name,PNPDeviceID,DriverVersion,AdapterRAM | "
+        "ConvertTo-Json -Compress"
+    )
+
+    completed = subprocess.run(
+        [
+            "powershell",
+            "-NoProfile",
+            "-Command",
+            command,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Windows accelerator discovery failed.\n"
+            f"{completed.stderr.strip()}"
+        )
+
+    raw_output = completed.stdout.strip()
+
+    if not raw_output:
+        return []
+
+    try:
+        decoded = json.loads(raw_output)
+    except json.JSONDecodeError as error:
+        raise RuntimeError(
+            "Windows accelerator discovery returned invalid JSON."
+        ) from error
+
+    if isinstance(decoded, dict):
+        controllers = [decoded]
+    elif isinstance(decoded, list):
+        controllers = decoded
+    else:
+        raise RuntimeError(
+            "Windows accelerator discovery returned an unexpected result."
+        )
+
+    accelerators: list[dict] = []
+
+    for controller in controllers:
+        if not isinstance(controller, dict):
+            continue
+
+        name = str(controller.get("Name") or "").strip()
+        pnp_device_id = str(
+            controller.get("PNPDeviceID") or ""
+        ).strip()
+
+        if not name:
+            continue
+
+        vendor = classify_accelerator_vendor(
+            name,
+            pnp_device_id,
+        )
+
+        if vendor is None:
+            continue
+
+        backend = backend_for_accelerator_vendor(vendor)
+
+        if backend is None:
+            continue
+
+        accelerators.append(
+            {
+                "name": name,
+                "vendor": vendor,
+                "backend": backend,
+                "pnp_device_id": pnp_device_id,
+                "driver_version": (
+                    str(controller.get("DriverVersion") or "").strip()
+                    or None
+                ),
+                "adapter_ram_bytes": controller.get("AdapterRAM"),
+            }
+        )
+
+    return accelerators
 
 # ------------------------------------------------------------
 # NVIDIA environment
