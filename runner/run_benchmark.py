@@ -1028,6 +1028,131 @@ def discover_windows_accelerators() -> list[dict]:
 
     return accelerators
 
+
+def select_accelerator(
+    accelerators: list[dict],
+) -> dict:
+    """
+    Select exactly one accelerator for the current Runner session.
+
+    A single compatible accelerator is selected automatically.
+    Multiple compatible accelerators require an explicit user choice.
+    The returned accelerator is the session selection; runtime-specific
+    device matching is performed later.
+    """
+
+    if not accelerators:
+        raise RuntimeError(
+            "No supported accelerator was detected. "
+            "OpenLLMWorks currently supports NVIDIA through CUDA "
+            "and AMD or Intel through Vulkan."
+        )
+
+    if len(accelerators) == 1:
+        selected = accelerators[0]
+
+        ui_print("Accelerator Selection")
+        ui_print("-" * 60)
+        ui_print(
+            f"GPU: {selected['name']}"
+        )
+        ui_print(
+            f"Backend: {selected['backend'].upper()}"
+        )
+        ui_print(
+            "[OK] Only one compatible accelerator detected; "
+            "selected automatically."
+        )
+        ui_print()
+
+        return selected
+
+    ui_print("Accelerator Selection")
+    ui_print("-" * 60)
+    ui_print(
+        "Multiple compatible accelerators detected."
+    )
+    ui_print()
+
+    for index, accelerator in enumerate(
+        accelerators,
+        start=1,
+    ):
+        ui_print(
+            f"[{index}] {accelerator['name']}"
+        )
+        ui_print(
+            f"    Backend: "
+            f"{accelerator['backend'].upper()}"
+        )
+
+        driver_version = accelerator.get(
+            "driver_version"
+        )
+
+        if driver_version:
+            ui_print(
+                f"    Driver: {driver_version}"
+            )
+
+        ui_print()
+
+    while True:
+        try:
+            response = input(
+                "Select accelerator "
+                f"[1-{len(accelerators)}]: "
+            ).strip()
+
+        except EOFError as error:
+            raise RuntimeError(
+                "Accelerator selection requires interactive input "
+                "when multiple compatible accelerators are detected."
+            ) from error
+
+        if not response:
+            ui_print(
+                "[WARN] Enter the number of the accelerator "
+                "you want to benchmark."
+            )
+            continue
+
+        try:
+            selection_index = int(response)
+
+        except ValueError:
+            ui_print(
+                "[WARN] Accelerator selection must be a number."
+            )
+            continue
+
+        if not (
+            1
+            <= selection_index
+            <= len(accelerators)
+        ):
+            ui_print(
+                "[WARN] Accelerator selection is outside "
+                "the available range."
+            )
+            continue
+
+        selected = accelerators[
+            selection_index - 1
+        ]
+
+        ui_print()
+        ui_print(
+            f"[OK] Selected: {selected['name']}"
+        )
+        ui_print(
+            f"Backend: {selected['backend'].upper()}"
+        )
+        ui_print()
+
+        return selected
+
+
 # ------------------------------------------------------------
 # NVIDIA environment
 # ------------------------------------------------------------
