@@ -1203,6 +1203,217 @@ def select_accelerator(
 
 
 # ------------------------------------------------------------
+# Runtime accelerator discovery
+# ------------------------------------------------------------
+
+def normalize_accelerator_name(
+    name: str,
+) -> str:
+    """
+    Normalize a GPU name for conservative Windows/runtime matching.
+    """
+
+    normalized = name.casefold()
+
+    for removable in (
+        "(r)",
+        "(tm)",
+        "series",
+    ):
+        normalized = normalized.replace(
+            removable,
+            " ",
+        )
+
+    return " ".join(
+        re.findall(
+            r"[a-z0-9]+",
+            normalized,
+        )
+    )
+
+
+def discover_runtime_devices(
+    benchmark_file: Path,
+    backend: str,
+) -> list[dict]:
+    """
+    Ask the selected llama.cpp runtime which accelerator devices it sees.
+    """
+
+    completed = subprocess.run(
+        [
+            str(benchmark_file),
+            "--list-devices",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=str(benchmark_file.parent),
+    )
+
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Runtime device discovery failed for "
+            f"backend '{backend}'.\n"
+            f"{completed.stderr.strip()}"
+        )
+
+    combined_output = "\n".join(
+        part.strip()
+        for part in (
+            completed.stderr,
+            completed.stdout,
+        )
+        if part.strip()
+    )
+
+    devices: list[dict] = []
+
+    device_pattern = re.compile(
+        r"^\s*([A-Za-z]+[0-9]+):\s*"
+        r"(.+?)"
+        r"(?:\s+\((\d+)\s+MiB,"
+        r"\s*(\d+)\s+MiB free\))?"
+        r"\s*$"
+    )
+
+    for line in combined_output.splitlines():
+        match = device_pattern.match(line)
+
+        if match is None:
+            continue
+
+        device_id = match.group(1)
+
+        if not device_id.casefold().startswith(
+            backend.casefold()
+        ):
+            continue
+
+        devices.append(
+            {
+                "device_id": device_id,
+                "name": match.group(2).strip(),
+                "reported_memory_mib": (
+                    int(match.group(3))
+                    if match.group(3)
+                    else None
+                ),
+                "reported_free_memory_mib": (
+                    int(match.group(4))
+                    if match.group(4)
+                    else None
+                ),
+            }
+        )
+
+    if not devices:
+        raise RuntimeError(
+            "The selected runtime reported no "
+            f"'{backend}' accelerator devices."
+        )
+
+    return devices
+
+
+def match_selected_runtime_device(
+    selected_accelerator: dict,
+    runtime_devices: list[dict],
+) -> dict:
+    """
+    Match the selected Windows accelerator to exactly one runtime device.
+
+    Matching intentionally fails closed. Runtime-reported memory is kept
+    only as runtime metadata and is not treated as canonical dedicated VRAM.
+    """
+
+    selected_name = normalize_accelerator_name(
+        str(selected_accelerator["name"])
+    )
+
+    matches = []
+
+    for device in runtime_devices:
+        runtime_name = normalize_accelerator_name(
+            str(device["name"])
+        )
+
+        if (
+            selected_name == runtime_name
+            or selected_name in runtime_name
+            or runtime_name in selected_name
+        ):
+            matches.append(device)
+
+    if not matches:
+        available = ", ".join(
+            f"{device['device_id']}: {device['name']}"
+            for device in runtime_devices
+        )
+
+        raise RuntimeError(
+            "Could not match the selected Windows accelerator "
+            f"'{selected_accelerator['name']}' to a runtime device. "
+            f"Runtime devices: {available}"
+        )
+
+    if len(matches) != 1:
+        matched = ", ".join(
+            f"{device['device_id']}: {device['name']}"
+            for device in matches
+        )
+
+        raise RuntimeError(
+            "The selected Windows accelerator matched multiple "
+            f"runtime devices: {matched}"
+        )
+
+    return matches[0]
+
+
+def resolve_selected_runtime_device(
+    selected_accelerator: dict,
+    benchmark_file: Path,
+) -> dict:
+    """
+    Discover and lock the exact runtime device for the selected accelerator.
+    """
+
+    backend = str(
+        selected_accelerator["backend"]
+    )
+
+    runtime_devices = discover_runtime_devices(
+        benchmark_file,
+        backend,
+    )
+
+    ui_print("Runtime Devices")
+    ui_print("-" * 60)
+
+    for device in runtime_devices:
+        ui_print(
+            f"{device['device_id']}: {device['name']}"
+        )
+
+    ui_print()
+
+    matched = match_selected_runtime_device(
+        selected_accelerator,
+        runtime_devices,
+    )
+
+    ui_print(
+        "[OK] Runtime device matched: "
+        f"{matched['device_id']} -> {matched['name']}"
+    )
+    ui_print()
+
+    return matched
+
+
+# ------------------------------------------------------------
 # NVIDIA environment
 # ------------------------------------------------------------
 
