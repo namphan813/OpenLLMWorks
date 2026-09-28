@@ -2013,6 +2013,85 @@ def build_submission_zip(
 
 
 # ------------------------------------------------------------
+# Accelerator/runtime integration probe
+# ------------------------------------------------------------
+
+def prepare_selected_accelerator_environment() -> tuple[
+    dict,
+    Path,
+]:
+    """
+    Prepare the selected accelerator's managed benchmark environment.
+
+    This helper intentionally stops before hardware evidence capture and
+    benchmark execution. It provides a safe integration point for testing:
+
+        Windows discovery
+        -> accelerator selection
+        -> model provisioning
+        -> backend-specific runtime provisioning
+        -> backend-specific llama-bench.exe resolution
+
+    The production benchmark workflow is not changed by this helper yet.
+    """
+
+    accelerators = discover_windows_accelerators()
+
+    selected = select_accelerator(
+        accelerators
+    )
+
+    backend = selected["backend"]
+
+    ui_print("Selected Benchmark Environment")
+    ui_print("-" * 60)
+    ui_print(
+        f"Accelerator: {selected['name']}"
+    )
+    ui_print(
+        f"Backend: {backend.upper()}"
+    )
+    ui_print()
+
+    if not ensure_model_ready():
+        raise RuntimeError(
+            "Benchmark model is not ready."
+        )
+
+    if not ensure_runtime_ready(
+        backend
+    ):
+        raise RuntimeError(
+            "Benchmark runtime is not ready for "
+            f"backend '{backend}'."
+        )
+
+    benchmark_file = (
+        get_runtime_benchmark_file(
+            backend
+        )
+    )
+
+    if not benchmark_file.is_file():
+        raise RuntimeError(
+            "Benchmark engine was not found after "
+            f"runtime provisioning: {benchmark_file}"
+        )
+
+    ui_print("Benchmark Engine")
+    ui_print("-" * 60)
+    ui_print(
+        f"Path: {benchmark_file}"
+    )
+    ui_print(
+        "[OK] Selected accelerator environment is ready."
+    )
+    ui_print()
+
+    return selected, benchmark_file
+
+
+# ------------------------------------------------------------
 # Main runner
 # ------------------------------------------------------------
 
