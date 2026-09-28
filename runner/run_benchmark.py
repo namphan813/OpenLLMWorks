@@ -666,6 +666,55 @@ def get_runtime_profile(
     return runtime
 
 
+def get_runtime_benchmark_file(
+    backend: str,
+) -> Path:
+    """
+    Resolve llama-bench.exe for one backend from the asset manifest.
+
+    Runtime install locations are manifest-owned so backend-specific
+    paths do not need to be hard-coded throughout the Runner.
+    """
+
+    manifest = load_asset_manifest(
+        ASSET_MANIFEST_FILE
+    )
+
+    manifest_protocol = manifest.get(
+        "protocol_version"
+    )
+
+    if manifest_protocol != PROTOCOL_VERSION:
+        raise RuntimeError(
+            "Asset manifest protocol version "
+            "does not match the Runner."
+        )
+
+    runtime = get_runtime_profile(
+        manifest,
+        backend,
+    )
+
+    install_path = runtime.get(
+        "install_path"
+    )
+
+    if not isinstance(
+        install_path,
+        str,
+    ) or not install_path.strip():
+        raise RuntimeError(
+            "Runtime manifest does not define "
+            f"install_path for backend '{backend}'."
+        )
+
+    return (
+        PROTOCOL_ROOT
+        / install_path.strip()
+        / "llama-bench.exe"
+    )
+
+
 def ensure_runtime_ready(
     backend: str = "cuda",
 ) -> bool:
