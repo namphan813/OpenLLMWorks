@@ -57,6 +57,9 @@ def load_asset_manifest(
 ) -> dict[str, Any]:
     """
     Load and minimally validate the Runner asset manifest.
+
+    Schema 1.1 preserves the original single-runtime contract.
+    Schema 1.2 uses backend-specific runtime profiles.
     """
 
     if not manifest_path.is_file():
@@ -81,13 +84,25 @@ def load_asset_manifest(
             f"{error}"
         ) from error
 
-    required_top_level = (
+    schema_version = manifest.get(
+        "schema_version"
+    )
+
+    if schema_version not in {"1.1", "1.2"}:
+        raise RuntimeError(
+            "Asset manifest schema version is not supported: "
+            f"{schema_version!r}"
+        )
+
+    required_top_level = [
         "schema_version",
         "protocol_version",
         "platform",
-        "accelerator",
         "assets",
-    )
+    ]
+
+    if schema_version == "1.1":
+        required_top_level.append("accelerator")
 
     for field in required_top_level:
         if field not in manifest:
@@ -98,10 +113,7 @@ def load_asset_manifest(
 
     assets = manifest["assets"]
 
-    if not isinstance(
-        assets,
-        dict,
-    ):
+    if not isinstance(assets, dict):
         raise RuntimeError(
             "Asset manifest field 'assets' "
             "must be an object."
@@ -113,11 +125,42 @@ def load_asset_manifest(
             "the model definition."
         )
 
-    if "runtime" not in assets:
-        raise RuntimeError(
-            "Asset manifest is missing "
-            "the runtime definition."
-        )
+    if schema_version == "1.1":
+        if "runtime" not in assets:
+            raise RuntimeError(
+                "Asset manifest is missing "
+                "the runtime definition."
+            )
+
+    if schema_version == "1.2":
+        runtimes = assets.get("runtimes")
+
+        if not isinstance(runtimes, dict) or not runtimes:
+            raise RuntimeError(
+                "Asset manifest is missing runtime profiles."
+            )
+
+        for backend, runtime in runtimes.items():
+            if not isinstance(runtime, dict):
+                raise RuntimeError(
+                    "Asset manifest runtime profile "
+                    f"'{backend}' must be an object."
+                )
+
+            if runtime.get("backend") != backend:
+                raise RuntimeError(
+                    "Asset manifest runtime profile "
+                    f"'{backend}' has a mismatched backend."
+                )
+
+            vendors = runtime.get("accelerator_vendors")
+
+            if not isinstance(vendors, list) or not vendors:
+                raise RuntimeError(
+                    "Asset manifest runtime profile "
+                    f"'{backend}' does not define "
+                    "accelerator_vendors."
+                )
 
     return manifest
 
