@@ -1797,13 +1797,21 @@ def capture_hardware_evidence(
 # Benchmark execution
 # ------------------------------------------------------------
 
-def build_benchmark_command() -> list[str]:
+def build_benchmark_command(
+    *,
+    benchmark_file: Path = LLAMA_BENCH_FILE,
+    device_id: str | None = None,
+) -> list[str]:
     """
     Build the frozen Benchmark Protocol v1.0 command.
+
+    The workload remains backend-agnostic. A backend-specific runtime
+    executable may be supplied, and runtimes that require an explicit
+    accelerator selection may supply the already-locked device ID.
     """
 
-    return [
-        str(LLAMA_BENCH_FILE),
+    command = [
+        str(benchmark_file),
         "-m",
         str(MODEL_FILE),
         "-p",
@@ -1814,15 +1822,32 @@ def build_benchmark_command() -> list[str]:
         "1",
         "-ngl",
         str(GPU_LAYERS),
-        "-o",
-        "md",
     ]
+
+    if device_id is not None:
+        command.extend(
+            [
+                "--device",
+                device_id,
+            ]
+        )
+
+    command.extend(
+        [
+            "-o",
+            "md",
+        ]
+    )
+
+    return command
 
 
 def execute_benchmark_run(
     *,
     run_number: int,
     result_path: Path,
+    benchmark_file: Path = LLAMA_BENCH_FILE,
+    device_id: str | None = None,
 ) -> Path:
     """
     Execute one independent benchmark run.
@@ -1839,7 +1864,10 @@ def execute_benchmark_run(
         )
     )
 
-    command = build_benchmark_command()
+    command = build_benchmark_command(
+        benchmark_file=benchmark_file,
+        device_id=device_id,
+    )
 
     ui_print(
         f"Running benchmark "
@@ -1852,7 +1880,7 @@ def execute_benchmark_run(
         text=True,
         check=False,
         cwd=str(
-            LLAMA_BENCH_FILE.parent
+            benchmark_file.parent
         ),
     )
 
