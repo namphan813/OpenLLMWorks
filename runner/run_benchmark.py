@@ -1670,13 +1670,63 @@ def run_powershell_to_file(
     )
 
 
+def capture_runtime_device_evidence(
+    *,
+    benchmark_file: Path,
+    backend: str,
+) -> str:
+    """
+    Capture raw runtime device discovery output for evidence.
+
+    Runtime-reported memory is preserved as raw metadata only. It is not
+    interpreted here as canonical dedicated VRAM.
+    """
+
+    completed = subprocess.run(
+        [
+            str(benchmark_file),
+            "--list-devices",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=str(benchmark_file.parent),
+    )
+
+    combined_output = "\n".join(
+        part.strip()
+        for part in (
+            completed.stderr,
+            completed.stdout,
+        )
+        if part.strip()
+    )
+
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Runtime device evidence capture failed for "
+            f"backend '{backend}'.\n"
+            f"{combined_output}"
+        )
+
+    if not combined_output:
+        raise RuntimeError(
+            "Runtime device evidence capture returned no output for "
+            f"backend '{backend}'."
+        )
+
+    return combined_output + "\n"
+
+
 def capture_hardware_evidence(
     *,
     result_path: Path,
-    nvidia_smi_output: str,
+    backend: str = "cuda",
+    benchmark_file: Path = LLAMA_BENCH_FILE,
+    nvidia_smi_output: str | None = None,
 ) -> None:
     """
-    Capture required OpenLLMWorks hardware evidence files.
+    Capture common and backend-specific OpenLLMWorks hardware evidence.
     """
 
     ui_print("=" * 60)
@@ -1779,17 +1829,50 @@ def capture_hardware_evidence(
             f"[OK] {file_name}"
         )
 
-    nvidia_file = (
-        result_path
-        / "nvidia-smi.txt"
-    )
+    normalized_backend = backend.casefold()
 
-    nvidia_file.write_text(
-        nvidia_smi_output,
-        encoding="utf-8",
-    )
+    if normalized_backend == "cuda":
+        if nvidia_smi_output is None:
+            raise RuntimeError(
+                "CUDA hardware evidence requires nvidia-smi output."
+            )
 
-    ui_print("[OK] nvidia-smi.txt")
+        nvidia_file = (
+            result_path
+            / "nvidia-smi.txt"
+        )
+
+        nvidia_file.write_text(
+            nvidia_smi_output,
+            encoding="utf-8",
+        )
+
+        ui_print("[OK] nvidia-smi.txt")
+
+    elif normalized_backend == "vulkan":
+        vulkan_output = capture_runtime_device_evidence(
+            benchmark_file=benchmark_file,
+            backend=normalized_backend,
+        )
+
+        vulkan_file = (
+            result_path
+            / "vulkan-devices.txt"
+        )
+
+        vulkan_file.write_text(
+            vulkan_output,
+            encoding="utf-8",
+        )
+
+        ui_print("[OK] vulkan-devices.txt")
+
+    else:
+        raise RuntimeError(
+            "Hardware evidence capture does not support "
+            f"backend '{backend}'."
+        )
+
     ui_print()
 
 
