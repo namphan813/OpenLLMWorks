@@ -1,8 +1,11 @@
+
 import { useEffect, useState } from "react";
 
 import Layout from "../layout/Layout";
 
 import Hero from "../components/Hero";
+import RunnerAdvisory from "../components/RunnerAdvisory";
+import "../components/RunnerAdvisory.css";
 import MetricCard from "../components/MetricCard";
 import BenchmarkHighlights from "../components/BenchmarkHighlights";
 import HowItWorks from "../components/HowItWorks";
@@ -136,6 +139,8 @@ function Home() {
 
     return (
         <Layout>
+            <RunnerAdvisory />
+
             <Hero />
 
             <section className="metrics">

@@ -1,0 +1,64 @@
+
+.runner-advisory {
+    width: min(1200px, calc(100% - 4rem));
+    margin: 7rem auto -5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.runner-advisory-inner {
+    padding: 1.25rem 1.5rem;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 14px;
+    background: var(--surface);
+}
+
+.runner-advisory-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.runner-advisory-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f59e0b;
+    flex-shrink: 0;
+}
+
+.runner-advisory-heading strong {
+    font-size: 0.95rem;
+}
+
+.runner-advisory-status {
+    padding: 0.2rem 0.55rem;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 999px;
+    color: #fbbf24;
+    font-size: 0.72rem;
+}
+
+.runner-advisory p {
+    margin: 0.7rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.runner-advisory-date {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+    .runner-advisory {
+        width: calc(100% - 2rem);
+        margin: 6rem auto -5rem;
+    }
+
+    .runner-advisory-inner {
+        padding: 1rem;
+    }
+}
