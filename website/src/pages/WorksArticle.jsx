@@ -102,6 +102,28 @@ function WorksArticle() {
                                     </p>
                                 ),
                             )}
+
+                            {section.image && (
+                                <figure className="works-article-figure">
+                                    <a
+                                        href={section.image}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Open full-size article image"
+                                    >
+                                        <img
+                                            src={section.image}
+                                            alt={section.imageAlt || ""}
+                                            loading="lazy"
+                                        />
+                                    </a>
+                                    {section.caption && (
+                                        <figcaption>
+                                            {section.caption}
+                                        </figcaption>
+                                    )}
+                                </figure>
+                            )}
                         </section>
                     ))}
 

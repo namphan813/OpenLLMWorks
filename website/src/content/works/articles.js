@@ -1,4 +1,83 @@
 const worksArticles = {
+    "runner-v0-4-1-windows-compatibility": {
+        slug: "runner-v0-4-1-windows-compatibility",
+        type: "Development Update",
+        status: "Published",
+        visibility: "public",
+        featured: false,
+        title: "OpenLLMWorks Runner v0.4.1: Improving Windows Compatibility",
+        description:
+            "Runner v0.4.1-beta.1 improves Windows HTTPS compatibility, " +
+            "console usability, and hardware reporting.",
+        question:
+            "What's new in Runner v0.4.1-beta.1, and how was the " +
+            "release validated?",
+        sections: [
+            {
+                heading: "Improving Windows download reliability",
+                image: "/images/works/runner-https-certificate-error.png",
+                imageAlt:
+                    "OpenLLMWorks Runner showing an HTTPS certificate " +
+                    "verification failure while downloading CUDA dependencies.",
+                caption:
+                    "Earlier Runner build: HTTPS certificate verification " +
+                    "prevented CUDA runtime provisioning and stopped the benchmark.",
+                paragraphs: [
+                    "OpenLLMWorks Runner v0.4.1-beta.1 is a maintenance " +
+                        "release focused on improving the Windows " +
+                        "benchmarking experience.",
+                    "During testing, we identified an HTTPS certificate " +
+                        "verification issue that could prevent the " +
+                        "standalone Runner from downloading its CUDA " +
+                        "runtime dependencies. The Runner now uses " +
+                        "improved Windows certificate trust handling " +
+                        "to address the observed failure.",
+                ],
+            },
+            {
+                heading: "A clearer benchmarking experience",
+                paragraphs: [
+                    "This release also improves console readability, " +
+                        "progress reporting, and hardware metadata " +
+                        "collection. Additional system, memory, and " +
+                        "graphics hardware information provides more " +
+                        "context for interpreting benchmark results.",
+                    "Benchmark Protocol v1.0 remains unchanged, " +
+                        "preserving comparability with previously " +
+                        "published results.",
+                ],
+            },
+            {
+                heading: "Validated from download to leaderboard",
+                paragraphs: [
+                    "We tested the publicly released Windows " +
+                        "executable on an NVIDIA GeForce RTX 4060 " +
+                        "Laptop GPU. The downloaded executable's " +
+                        "SHA-256 checksum matched the locally " +
+                        "validated build.",
+                    "The Runner completed both benchmark workloads, " +
+                        "uploaded its submission, passed validation, " +
+                        "and progressed through maintainer approval " +
+                        "to publication on the public OpenLLMWorks " +
+                        "leaderboard.",
+                    "This end-to-end test verifies more than a " +
+                        "successful benchmark run: it demonstrates " +
+                        "the production submission and publication " +
+                        "workflow using the released Runner.",
+                ],
+            },
+            {
+                heading: "Get Runner v0.4.1-beta.1",
+                paragraphs: [
+                    "The latest beta release is available through " +
+                        "the Download Runner link in the OpenLLMWorks " +
+                        "website navigation. Development continues " +
+                        "as we expand hardware coverage and improve " +
+                        "the benchmarking platform.",
+                ],
+            },
+        ],
+    },
     "how-far-back-can-modern-local-ai-go": {
         slug: "how-far-back-can-modern-local-ai-go",
         type: "Experiment",
