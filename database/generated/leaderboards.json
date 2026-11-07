@@ -1,18 +1,18 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-09-22T00:14:07.167828+00:00",
+    "generatedAt": "2026-11-07T01:04:01.347040+00:00",
     "generator": {
         "name": "OpenLLMWorks Leaderboard Publisher",
         "version": "0.2.1"
     },
     "summary": {
-        "gpuVariants": 12,
-        "pp512Ranked": 12,
-        "tg128Ranked": 12
+        "gpuVariants": 13,
+        "pp512Ranked": 13,
+        "tg128Ranked": 13
     },
     "leaderboards": {
         "pp512": {
-            "totalRanked": 12,
+            "totalRanked": 13,
             "bestValue": 7850.45,
             "worstValue": 125.14,
             "entries": [
@@ -32,6 +32,20 @@
                 },
                 {
                     "rank": 2,
+                    "variantId": "nvidia-geforce-rtx-4060-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4060 ...",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4060 ...",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 4036.3
+                },
+                {
+                    "rank": 3,
                     "variantId": "nvidia-geforce-rtx-3060-12gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce RTX 3060",
@@ -45,7 +59,7 @@
                     "value": 3545.62
                 },
                 {
-                    "rank": 3,
+                    "rank": 4,
                     "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
@@ -59,7 +73,7 @@
                     "value": 2413.64
                 },
                 {
-                    "rank": 4,
+                    "rank": 5,
                     "variantId": "nvidia-geforce-rtx-2050-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce RTX 2050",
@@ -73,7 +87,7 @@
                     "value": 1634.2
                 },
                 {
-                    "rank": 5,
+                    "rank": 6,
                     "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
@@ -87,7 +101,7 @@
                     "value": 1162.1
                 },
                 {
-                    "rank": 6,
+                    "rank": 7,
                     "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
@@ -101,7 +115,7 @@
                     "value": 348.04
                 },
                 {
-                    "rank": 7,
+                    "rank": 8,
                     "variantId": "nvidia-geforce-gtx-970-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 970",
@@ -115,7 +129,7 @@
                     "value": 331.15
                 },
                 {
-                    "rank": 8,
+                    "rank": 9,
                     "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
@@ -129,7 +143,7 @@
                     "value": 287.51
                 },
                 {
-                    "rank": 9,
+                    "rank": 10,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",
@@ -143,7 +157,7 @@
                     "value": 211.03
                 },
                 {
-                    "rank": 10,
+                    "rank": 11,
                     "variantId": "nvidia-geforce-gtx-1650-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1650",
@@ -157,7 +171,7 @@
                     "value": 153.575
                 },
                 {
-                    "rank": 11,
+                    "rank": 12,
                     "variantId": "quadro-t1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro T1000",
@@ -171,7 +185,7 @@
                     "value": 132.78
                 },
                 {
-                    "rank": 12,
+                    "rank": 13,
                     "variantId": "nvidia-geforce-gtx-1050-2gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050",
@@ -187,7 +201,7 @@
             ]
         },
         "tg128": {
-            "totalRanked": 12,
+            "totalRanked": 13,
             "bestValue": 148.35,
             "worstValue": 3.99,
             "entries": [
@@ -221,6 +235,20 @@
                 },
                 {
                     "rank": 3,
+                    "variantId": "nvidia-geforce-rtx-4060-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4060 ...",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4060 ...",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 81.97
+                },
+                {
+                    "rank": 4,
                     "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
@@ -234,7 +262,7 @@
                     "value": 73.735
                 },
                 {
-                    "rank": 4,
+                    "rank": 5,
                     "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
@@ -248,7 +276,7 @@
                     "value": 67.05
                 },
                 {
-                    "rank": 5,
+                    "rank": 6,
                     "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
@@ -262,7 +290,7 @@
                     "value": 57.17
                 },
                 {
-                    "rank": 6,
+                    "rank": 7,
                     "variantId": "nvidia-geforce-rtx-2050-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce RTX 2050",
@@ -276,7 +304,7 @@
                     "value": 37.42
                 },
                 {
-                    "rank": 7,
+                    "rank": 8,
                     "variantId": "nvidia-geforce-gtx-1650-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1650",
@@ -290,7 +318,7 @@
                     "value": 35.285000000000004
                 },
                 {
-                    "rank": 8,
+                    "rank": 9,
                     "variantId": "quadro-t1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro T1000",
@@ -304,7 +332,7 @@
                     "value": 29.205000000000002
                 },
                 {
-                    "rank": 9,
+                    "rank": 10,
                     "variantId": "nvidia-geforce-gtx-970-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 970",
@@ -318,7 +346,7 @@
                     "value": 28.76
                 },
                 {
-                    "rank": 10,
+                    "rank": 11,
                     "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
@@ -332,7 +360,7 @@
                     "value": 22.11
                 },
                 {
-                    "rank": 11,
+                    "rank": 12,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",
@@ -346,7 +374,7 @@
                     "value": 13.99
                 },
                 {
-                    "rank": 12,
+                    "rank": 13,
                     "variantId": "nvidia-geforce-gtx-1050-2gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050",
