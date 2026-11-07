@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.7",
-    "generatedAt": "2026-09-22T00:14:07.165308+00:00",
+    "generatedAt": "2026-11-07T01:04:01.345993+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.3"
     },
     "summary": {
-        "gpuVariants": 12,
-        "benchmarkResults": 15
+        "gpuVariants": 13,
+        "benchmarkResults": 16
     },
     "hardware": [
         {
@@ -381,6 +381,49 @@
                     "driverVersion": "610.74",
                     "cudaUmdVersion": "13.3",
                     "nvidiaSmiVersion": "610.74"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-rtx-4060-8gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce RTX 4060 ...",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce RTX 4060 ...",
+                "vramGib": 8.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 4036.3,
+                "averageTg128": 81.97,
+                "bestPp512": 4036.3,
+                "worstPp512": 4036.3
+            },
+            "system": {
+                "averageMemoryGb": 64.0,
+                "memoryConfigurationsGb": [
+                    64
+                ],
+                "averageVramGib": 8.0,
+                "operatingSystems": [
+                    "Windows 11 Home"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "resultId": "result_8017f293894b24b4",
+                    "submissionName": "AsusG16V-NVIDIA-GeForce-RTX-4060-20261106-183428",
+                    "cpuModel": "13th Gen Intel(R) Core(TM) i7-13650HX",
+                    "pp512": 4036.3,
+                    "tg128": 81.97,
+                    "operatingSystem": "Windows 11 Home",
+                    "memoryGb": 64,
+                    "vramGib": 8.0,
+                    "driverVersion": "621.01",
+                    "cudaUmdVersion": "13.5",
+                    "nvidiaSmiVersion": "621.01"
                 }
             ]
         },

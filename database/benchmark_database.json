@@ -3,8 +3,8 @@
   "schema_version": "0.7",
   "parser_version": "0.6.0-dev5",
   "created_at": "2026-08-02T14:17:33+00:00",
-  "generated_at": "2026-09-21T20:48:04+00:00",
-  "result_count": 15,
+  "generated_at": "2026-11-07T01:04:01+00:00",
+  "result_count": 16,
   "results": [
     {
       "result_id": "result_0200fb0ee70bb08a",
@@ -622,6 +622,157 @@
         "imported_at": "2026-08-09T15:23:48+00:00",
         "last_updated": "2026-08-09T15:59:42+00:00",
         "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_8017f293894b24b4",
+      "submission": {
+        "submission_name": "AsusG16V-NVIDIA-GeForce-RTX-4060-20261106-183428",
+        "source_path": "/home/runner/work/OpenLLMWorks/OpenLLMWorks/incoming/AsusG16V-NVIDIA-GeForce-RTX-4060-20261106-183428",
+        "source_type": "direct_submission",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-11-07T00:34:47+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "ASUSTeK COMPUTER INC.",
+          "model": "ROG Strix G614JV_G614JV",
+          "generic_firmware_identity": false,
+          "baseboard": {
+            "manufacturer": "ASUSTeK COMPUTER INC.",
+            "product": "G614JV",
+            "version": "1.0"
+          }
+        },
+        "cpu": {
+          "model": "13th Gen Intel(R) Core(TM) i7-13650HX",
+          "physical_cores": 14,
+          "logical_processors": 20
+        },
+        "memory": {
+          "reported_bytes": 68320161792,
+          "calculated_gib": 63.63,
+          "installed_capacity_gb": 64,
+          "modules": [
+            {
+              "bank_label": "BANK 0",
+              "device_locator": "Controller0-ChannelA-DIMM0",
+              "manufacturer": "Crucial Technology",
+              "part_number": "CT32G48C40S5.M16A1",
+              "capacity_bytes": 34359738368,
+              "speed_mts": 4800,
+              "configured_speed_mts": 4800,
+              "smbios_memory_type": 34,
+              "form_factor": 12
+            },
+            {
+              "bank_label": "BANK 0",
+              "device_locator": "Controller1-ChannelA-DIMM0",
+              "manufacturer": "Crucial Technology",
+              "part_number": "CT32G48C40S5.M16A1",
+              "capacity_bytes": 34359738368,
+              "speed_mts": 4800,
+              "configured_speed_mts": 4800,
+              "smbios_memory_type": 34,
+              "form_factor": 12
+            }
+          ]
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Home",
+            "version": "2009",
+            "build": 26300
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Home",
+            "name": "Windows 11 Home",
+            "release": null,
+            "recognition_status": "inferred_family"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce RTX 4060 ...",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 8188,
+            "capacity_gib": 8.0
+          },
+          "software": {
+            "nvidia_smi_version": "621.01",
+            "driver_version": "621.01",
+            "cuda_umd_version": "13.5"
+          }
+        },
+        "model_storage": {
+          "model": "WD Green SN350 2TB",
+          "media_type": "SSD",
+          "bus_type": "NVMe",
+          "capacity_bytes": 2000398934016
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-11-07T00:34:37+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 3982.06,
+            "tg128": 81.96
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 4060.27,
+            "tg128": 81.91
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 4066.56,
+            "tg128": 82.03
+          }
+        ],
+        "average": {
+          "pp512": 4036.3,
+          "tg128": 81.97
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev5",
+        "database_module_version": "0.8.0-dev5",
+        "schema_version": "0.7",
+        "processed_at": "2026-11-07T01:04:01+00:00",
+        "imported_at": "2026-11-07T01:04:01+00:00",
+        "last_updated": "2026-11-07T01:04:01+00:00"
       }
     },
     {
@@ -2279,6 +2430,13 @@
       "imported_at": "2026-09-21T20:48:04+00:00",
       "result_id": "result_77913dd17782a6ce",
       "submission_name": "phanclanMBMiniZ-Quadro-T1000-20260921-131012",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-11-07T01:04:01+00:00",
+      "imported_at": "2026-11-07T01:04:01+00:00",
+      "result_id": "result_8017f293894b24b4",
+      "submission_name": "AsusG16V-NVIDIA-GeForce-RTX-4060-20261106-183428",
       "status": "added"
     }
   ],
