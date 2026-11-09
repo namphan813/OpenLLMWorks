@@ -2341,6 +2341,7 @@ def build_submission_zip(
 def prepare_selected_accelerator_environment() -> tuple[
     dict,
     Path,
+    dict,
 ]:
     """
     Prepare the selected accelerator's managed benchmark environment.
@@ -2410,7 +2411,12 @@ def prepare_selected_accelerator_environment() -> tuple[
     )
     ui_print()
 
-    return selected, benchmark_file
+    runtime_device = resolve_selected_runtime_device(
+        selected,
+        benchmark_file,
+    )
+
+    return selected, benchmark_file, runtime_device
 
 
 # ------------------------------------------------------------
