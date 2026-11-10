@@ -1,13 +1,13 @@
 {
     "contractVersion": "1.7",
-    "generatedAt": "2026-11-07T01:04:01.345993+00:00",
+    "generatedAt": "2026-11-10T22:20:55.572060+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.3"
     },
     "summary": {
-        "gpuVariants": 13,
-        "benchmarkResults": 16
+        "gpuVariants": 14,
+        "benchmarkResults": 17
     },
     "hardware": [
         {
@@ -133,6 +133,49 @@
                     "operatingSystem": "Windows 11 Pro 25H2",
                     "memoryGb": 16,
                     "vramGib": 8.0,
+                    "driverVersion": "582.66",
+                    "cudaUmdVersion": "13.0",
+                    "nvidiaSmiVersion": "582.66"
+                }
+            ]
+        },
+        {
+            "variantId": "nvidia-geforce-gtx-1080-ti-11gb",
+            "gpuVendor": "NVIDIA",
+            "gpuModel": "NVIDIA GeForce GTX 1080 Ti",
+            "gpuIdentity": {
+                "vendor": "NVIDIA",
+                "model": "NVIDIA GeForce GTX 1080 Ti",
+                "vramGib": 11.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performance": {
+                "averagePp512": 1396.23,
+                "averageTg128": 71.83,
+                "bestPp512": 1396.23,
+                "worstPp512": 1396.23
+            },
+            "system": {
+                "averageMemoryGb": 64.0,
+                "memoryConfigurationsGb": [
+                    64
+                ],
+                "averageVramGib": 11.0,
+                "operatingSystems": [
+                    "Windows 10 Pro 22H2"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "resultId": "result_4eb2764a0342463c",
+                    "submissionName": "DESKTOP-SJIJEJ8-NVIDIA-GeForce-GTX-1080-Ti-20261110-170458",
+                    "cpuModel": "Intel(R) Core(TM) i7-7800X CPU @ 3.50GHz",
+                    "pp512": 1396.23,
+                    "tg128": 71.83,
+                    "operatingSystem": "Windows 10 Pro 22H2",
+                    "memoryGb": 64,
+                    "vramGib": 11.0,
                     "driverVersion": "582.66",
                     "cudaUmdVersion": "13.0",
                     "nvidiaSmiVersion": "582.66"
