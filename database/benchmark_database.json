@@ -3,8 +3,8 @@
   "schema_version": "0.7",
   "parser_version": "0.6.0-dev5",
   "created_at": "2026-08-02T14:17:33+00:00",
-  "generated_at": "2026-11-07T01:04:01+00:00",
-  "result_count": 16,
+  "generated_at": "2026-11-10T22:20:55+00:00",
+  "result_count": 17,
   "results": [
     {
       "result_id": "result_0200fb0ee70bb08a",
@@ -347,6 +347,186 @@
         "imported_at": "2026-08-09T15:23:48+00:00",
         "last_updated": "2026-08-09T15:59:42+00:00",
         "canonical_result_id_version": "0.1"
+      }
+    },
+    {
+      "result_id": "result_4eb2764a0342463c",
+      "submission": {
+        "submission_name": "DESKTOP-SJIJEJ8-NVIDIA-GeForce-GTX-1080-Ti-20261110-170458",
+        "source_path": "/home/runner/work/OpenLLMWorks/OpenLLMWorks/incoming/DESKTOP-SJIJEJ8-NVIDIA-GeForce-GTX-1080-Ti-20261110-170458",
+        "source_type": "direct_submission",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-11-10T22:06:40+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "System manufacturer",
+          "model": "System Product Name",
+          "generic_firmware_identity": true,
+          "baseboard": {
+            "manufacturer": "ASUSTeK COMPUTER INC.",
+            "product": "ROG STRIX X299-E GAMING",
+            "version": "Rev 1.xx"
+          }
+        },
+        "cpu": {
+          "model": "Intel(R) Core(TM) i7-7800X CPU @ 3.50GHz",
+          "physical_cores": 6,
+          "logical_processors": 12
+        },
+        "memory": {
+          "reported_bytes": 68376555520,
+          "calculated_gib": 63.68,
+          "installed_capacity_gb": 64,
+          "modules": [
+            {
+              "bank_label": "NODE 1",
+              "device_locator": "DIMM_A1",
+              "manufacturer": "G-Skill",
+              "part_number": "F4-3000C16-16GVRB",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 2133,
+              "configured_speed_mts": 2133,
+              "smbios_memory_type": 26,
+              "form_factor": 8
+            },
+            {
+              "bank_label": "NODE 1",
+              "device_locator": "DIMM_B1",
+              "manufacturer": "G-Skill",
+              "part_number": "F4-3000C16-16GVRB",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 2133,
+              "configured_speed_mts": 2133,
+              "smbios_memory_type": 26,
+              "form_factor": 8
+            },
+            {
+              "bank_label": "NODE 1",
+              "device_locator": "DIMM_C1",
+              "manufacturer": "G-Skill",
+              "part_number": "F4-3000C16-16GVRB",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 2133,
+              "configured_speed_mts": 2133,
+              "smbios_memory_type": 26,
+              "form_factor": 8
+            },
+            {
+              "bank_label": "NODE 1",
+              "device_locator": "DIMM_D1",
+              "manufacturer": "G-Skill",
+              "part_number": "F4-3000C16-16GVRB",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 2133,
+              "configured_speed_mts": 2133,
+              "smbios_memory_type": 26,
+              "form_factor": 8
+            }
+          ]
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Pro",
+            "version": "2009",
+            "build": 19045
+          },
+          "normalized": {
+            "family": "Windows 10",
+            "edition": "Pro",
+            "name": "Windows 10 Pro",
+            "release": "22H2",
+            "recognition_status": "recognized_build"
+          }
+        },
+        "gpu": {
+          "vendor": "NVIDIA",
+          "model": "NVIDIA GeForce GTX 1080 Ti",
+          "type": "discrete",
+          "form_factor": "Unknown",
+          "driver_model": "WDDM",
+          "vram": {
+            "reported_mib": 11264,
+            "capacity_gib": 11.0
+          },
+          "software": {
+            "nvidia_smi_version": "582.66",
+            "driver_version": "582.66",
+            "cuda_umd_version": "13.0"
+          },
+          "pci": {
+            "vendor_id": "10DE",
+            "device_id": "1B06",
+            "subsystem_id": "377A1458",
+            "revision_id": "A1",
+            "pnp_device_id": "PCI\\VEN_10DE&DEV_1B06&SUBSYS_377A1458&REV_A1\\4&30C250C0&0&0000"
+          }
+        },
+        "model_storage": {
+          "model": "Samsung SSD 970 EVO 1TB",
+          "media_type": "SSD",
+          "bus_type": "NVMe",
+          "capacity_bytes": 1000204886016
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-11-10T22:05:12+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "CUDA"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 1238.7,
+            "tg128": 72.55
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 1489.74,
+            "tg128": 71.63
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 1460.26,
+            "tg128": 71.31
+          }
+        ],
+        "average": {
+          "pp512": 1396.23,
+          "tg128": 71.83
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev5",
+        "database_module_version": "0.8.0-dev5",
+        "schema_version": "0.7",
+        "processed_at": "2026-11-10T22:20:55+00:00",
+        "imported_at": "2026-11-10T22:20:55+00:00",
+        "last_updated": "2026-11-10T22:20:55+00:00"
       }
     },
     {
@@ -2437,6 +2617,13 @@
       "imported_at": "2026-11-07T01:04:01+00:00",
       "result_id": "result_8017f293894b24b4",
       "submission_name": "AsusG16V-NVIDIA-GeForce-RTX-4060-20261106-183428",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-11-10T22:20:55+00:00",
+      "imported_at": "2026-11-10T22:20:55+00:00",
+      "result_id": "result_4eb2764a0342463c",
+      "submission_name": "DESKTOP-SJIJEJ8-NVIDIA-GeForce-GTX-1080-Ti-20261110-170458",
       "status": "added"
     }
   ],
