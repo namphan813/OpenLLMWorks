@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const RUNNER_URL =
-    "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.4.1-beta.1";
+    "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.4.2-beta.1";
 
 function Hero() {
     return (
