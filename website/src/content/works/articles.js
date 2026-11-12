@@ -1,4 +1,110 @@
 const worksArticles = {
+    "runner-v0-4-2-amd-vulkan-support": {
+        slug: "runner-v0-4-2-amd-vulkan-support",
+        type: "Development Update",
+        status: "Published",
+        visibility: "public",
+        featured: false,
+        title: "OpenLLMWorks Runner v0.4.2: Expanding GPU Benchmarking Beyond NVIDIA",
+        description:
+            "Runner v0.4.2-beta.1 introduces experimental AMD/Vulkan support " +
+            "and expands OpenLLMWorks beyond NVIDIA/CUDA benchmarking.",
+        question:
+            "How does Runner v0.4.2-beta.1 expand GPU compatibility?",
+        sections: [
+            {
+                heading: "A new milestone for OpenLLMWorks",
+                paragraphs: [
+                    "Released November 12, 2026, OpenLLMWorks Runner " +
+                        "v0.4.2-beta.1 introduces experimental AMD GPU " +
+                        "support through Vulkan.",
+                    "Until now, OpenLLMWorks Runner primarily focused " +
+                        "on NVIDIA GPUs using CUDA. This release marks " +
+                        "our first step toward supporting a broader " +
+                        "range of graphics hardware.",
+                ],
+            },
+            {
+                heading: "Our first validated AMD GPU",
+                paragraphs: [
+                    "The AMD Radeon RX 6700 XT is the first AMD GPU " +
+                        "validated using the packaged Windows Runner.",
+                    "Testing covered Vulkan device detection and " +
+                        "selection, benchmark asset verification, " +
+                        "three benchmark runs, result validation, " +
+                        "and submission ZIP packaging.",
+                    "RX 6700 XT benchmark results have also been " +
+                        "published through the OpenLLMWorks " +
+                        "submission pipeline and are available " +
+                        "on the public leaderboards.",
+                ],
+            },
+            {
+                heading: "One protocol, multiple backends",
+                paragraphs: [
+                    "Runner v0.4.2-beta.1 introduces multi-backend " +
+                        "accelerator detection and selection, allowing " +
+                        "users to identify the GPU and backend intended " +
+                        "for benchmarking.",
+                    "Benchmark Protocol v1.0 remains unchanged. " +
+                        "The standardized Qwen3-4B-Q4_K_M workload, " +
+                        "PP512 and TG128 measurements, and three-run " +
+                        "averaging methodology continue to provide " +
+                        "a consistent basis for hardware comparisons.",
+                    "Using the same protocol across backends helps " +
+                        "preserve methodological consistency, although " +
+                        "backend implementations and drivers can also " +
+                        "influence observed performance.",
+                ],
+            },
+            {
+                heading: "NVIDIA compatibility remains intact",
+                paragraphs: [
+                    "The packaged v0.4.2-beta.1 Windows executable " +
+                        "also completed end-to-end validation on an " +
+                        "NVIDIA RTX A3000 Laptop GPU using CUDA.",
+                    "This confirms that the existing NVIDIA " +
+                        "benchmarking workflow continues to operate " +
+                        "alongside the new experimental Vulkan backend.",
+                ],
+            },
+            {
+                heading: "What's next for GPU compatibility?",
+                paragraphs: [
+                    "AMD/Vulkan support remains experimental. " +
+                        "Although the Radeon RX 6700 XT has passed " +
+                        "validation, broader AMD GPU coverage " +
+                        "requires additional testing.",
+                    "Intel/Vulkan compatibility is also under " +
+                        "investigation. Intel graphics devices may " +
+                        "appear during accelerator detection, but " +
+                        "successful benchmarking has not yet been " +
+                        "validated.",
+                    "Future development will focus on expanding " +
+                        "hardware coverage, refining GPU identification, " +
+                        "and improving benchmark evidence and telemetry.",
+                ],
+            },
+            {
+                heading: "Download Runner v0.4.2-beta.1",
+                paragraphs: [
+                    "The Windows Runner is available from the " +
+                        "OpenLLMWorks GitHub Releases page. Visit " +
+                        "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.4.2-beta.1 " +
+                        "to download the executable and review the " +
+                        "release notes.",
+                ],
+            },
+        ],
+        note: {
+            heading: "Experimental backend support",
+            body:
+                "NVIDIA/CUDA remains supported and validated. " +
+                "AMD/Vulkan is experimental and currently validated " +
+                "on the Radeon RX 6700 XT. Intel/Vulkan remains " +
+                "unvalidated.",
+        },
+    },
     "runner-v0-4-1-windows-compatibility": {
         slug: "runner-v0-4-1-windows-compatibility",
         type: "Development Update",

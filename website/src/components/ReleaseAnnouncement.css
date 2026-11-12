@@ -1,0 +1,110 @@
+﻿.release-announcement {
+    box-sizing: border-box;
+    width: min(1200px, calc(100% - 4rem));
+    margin: 7rem auto 0;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+}
+
+.release-announcement-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.release-announcement-badge {
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.release-announcement-meta time {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.release-announcement-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.release-announcement-copy strong {
+    color: var(--text);
+    font-size: 1.1rem;
+}
+
+.release-announcement-copy p {
+    margin: 0.4rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.release-announcement-links {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+}
+
+.release-announcement-links a {
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease;
+}
+
+.release-announcement-links a:hover {
+    color: var(--primary);
+}
+
+.release-announcement-links a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+    .release-announcement {
+        width: calc(100% - 2rem);
+        margin-top: 7rem;
+        padding: 1.25rem;
+    }
+
+    .release-announcement-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .release-announcement-links {
+        gap: 1.25rem;
+    }
+}
+
+/* Reduce hero spacing when the release announcement is present. */
+.release-announcement + .hero {
+    min-height: 65vh;
+    padding-top: 4rem;
+    padding-bottom: 7rem;
+}
+
+@media (max-width: 700px) {
+    .release-announcement + .hero {
+        min-height: 65vh;
+        padding-top: 4rem;
+        padding-bottom: 7rem;
+    }
+}

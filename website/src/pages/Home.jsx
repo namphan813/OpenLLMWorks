@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Layout from "../layout/Layout";
 
 import Hero from "../components/Hero";
+import ReleaseAnnouncement from "../components/ReleaseAnnouncement";
 import MetricCard from "../components/MetricCard";
 import BenchmarkHighlights from "../components/BenchmarkHighlights";
 import HowItWorks from "../components/HowItWorks";
@@ -136,6 +137,7 @@ function Home() {
 
     return (
         <Layout>
+            <ReleaseAnnouncement />
             <Hero />
 
             <section className="metrics">
