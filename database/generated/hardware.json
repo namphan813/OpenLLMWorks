@@ -1,15 +1,68 @@
 {
     "contractVersion": "1.7",
-    "generatedAt": "2026-11-10T22:20:55.572060+00:00",
+    "generatedAt": "2026-11-12T01:39:38.429669+00:00",
     "generator": {
         "name": "OpenLLMWorks Hardware Publisher",
         "version": "0.6.3"
     },
     "summary": {
-        "gpuVariants": 14,
-        "benchmarkResults": 17
+        "gpuVariants": 15,
+        "benchmarkResults": 18
     },
     "hardware": [
+        {
+            "variantId": "amd-radeon-rx-6700-xt-12gb",
+            "gpuVendor": "AMD",
+            "gpuModel": "AMD Radeon RX 6700 XT",
+            "gpuIdentity": {
+                "vendor": "AMD",
+                "model": "AMD Radeon RX 6700 XT",
+                "vramGib": 12.0,
+                "formFactor": "Unknown"
+            },
+            "submissionCount": 1,
+            "performanceByBackend": {
+                "Vulkan": {
+                    "submissionCount": 1,
+                    "averagePp512": 1117.87,
+                    "averageTg128": 113.34,
+                    "bestPp512": 1117.87,
+                    "worstPp512": 1117.87
+                }
+            },
+            "performance": {
+                "averagePp512": 1117.87,
+                "averageTg128": 113.34,
+                "bestPp512": 1117.87,
+                "worstPp512": 1117.87
+            },
+            "system": {
+                "averageMemoryGb": 32.0,
+                "memoryConfigurationsGb": [
+                    32
+                ],
+                "averageVramGib": 12.0,
+                "operatingSystems": [
+                    "Windows 11 Home"
+                ]
+            },
+            "benchmarkResults": [
+                {
+                    "backend": "Vulkan",
+                    "resultId": "result_8de84937b60f7f5e",
+                    "submissionName": "BeanPC-AMD-Radeon-RX-6700-XT-20261111-111204",
+                    "cpuModel": "AMD Ryzen 5 5600X 6-Core Processor",
+                    "pp512": 1117.87,
+                    "tg128": 113.34,
+                    "operatingSystem": "Windows 11 Home",
+                    "memoryGb": 32,
+                    "vramGib": 12.0,
+                    "driverVersion": "32.0.21045.16010",
+                    "cudaUmdVersion": "",
+                    "nvidiaSmiVersion": ""
+                }
+            ]
+        },
         {
             "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
             "gpuVendor": "NVIDIA",
@@ -21,6 +74,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 348.04,
+                    "averageTg128": 22.11,
+                    "bestPp512": 348.04,
+                    "worstPp512": 348.04
+                }
+            },
             "performance": {
                 "averagePp512": 348.04,
                 "averageTg128": 22.11,
@@ -39,6 +101,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_dc6fdd4e1cbb5176",
                     "submissionName": "Bench-001-GTX1050Ti",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
@@ -64,6 +127,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 125.14,
+                    "averageTg128": 3.99,
+                    "bestPp512": 125.14,
+                    "worstPp512": 125.14
+                }
+            },
             "performance": {
                 "averagePp512": 125.14,
                 "averageTg128": 3.99,
@@ -82,6 +154,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_a64036c1c64f3997",
                     "submissionName": "Runner-NVIDIA-GeForce-GTX-1050-20260823-023400",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
@@ -107,6 +180,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 1162.1,
+                    "averageTg128": 57.17,
+                    "bestPp512": 1162.1,
+                    "worstPp512": 1162.1
+                }
+            },
             "performance": {
                 "averagePp512": 1162.1,
                 "averageTg128": 57.17,
@@ -125,6 +207,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_b86c443089518944",
                     "submissionName": "Bench-001-NVIDIA-GeForce-GTX-1070-Ti-20260920-185257",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
@@ -150,6 +233,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 1396.23,
+                    "averageTg128": 71.83,
+                    "bestPp512": 1396.23,
+                    "worstPp512": 1396.23
+                }
+            },
             "performance": {
                 "averagePp512": 1396.23,
                 "averageTg128": 71.83,
@@ -168,6 +260,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_4eb2764a0342463c",
                     "submissionName": "DESKTOP-SJIJEJ8-NVIDIA-GeForce-GTX-1080-Ti-20261110-170458",
                     "cpuModel": "Intel(R) Core(TM) i7-7800X CPU @ 3.50GHz",
@@ -193,6 +286,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 2,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 2,
+                    "averagePp512": 153.575,
+                    "averageTg128": 35.285000000000004,
+                    "bestPp512": 163.37,
+                    "worstPp512": 143.78
+                }
+            },
             "performance": {
                 "averagePp512": 153.575,
                 "averageTg128": 35.285000000000004,
@@ -213,6 +315,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_05147b71a0ae576b",
                     "submissionName": "Xbox-One-PC-GTX1650",
                     "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
@@ -226,6 +329,7 @@
                     "nvidiaSmiVersion": ""
                 },
                 {
+                    "backend": "CUDA",
                     "resultId": "result_b70f39e84c7e9411",
                     "submissionName": "Game_Server_GTX1650",
                     "cpuModel": "Intel(R) Core(TM) i5-8500 CPU @ 3.00GHz",
@@ -251,6 +355,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 2,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 2,
+                    "averagePp512": 287.51,
+                    "averageTg128": 73.735,
+                    "bestPp512": 289.1,
+                    "worstPp512": 285.92
+                }
+            },
             "performance": {
                 "averagePp512": 287.51,
                 "averageTg128": 73.735,
@@ -271,6 +384,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_7cd0f649f5e9467c",
                     "submissionName": "Viet-Mobile-GTX1650",
                     "cpuModel": "AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx",
@@ -284,6 +398,7 @@
                     "nvidiaSmiVersion": "610.88"
                 },
                 {
+                    "backend": "CUDA",
                     "resultId": "result_b84a1e21fdb0ccfa",
                     "submissionName": "Bench-001-NVIDIA-GeForce-GTX-1660-Ti-20260920-232712",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
@@ -309,6 +424,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 331.15,
+                    "averageTg128": 28.76,
+                    "bestPp512": 331.15,
+                    "worstPp512": 331.15
+                }
+            },
             "performance": {
                 "averagePp512": 331.15,
                 "averageTg128": 28.76,
@@ -327,6 +451,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_8e055302f50da311",
                     "submissionName": "Bench-001-NVIDIA-GeForce-GTX-970-20260831-234706",
                     "cpuModel": "Intel(R) Core(TM) i5-8600K CPU @ 3.60GHz",
@@ -352,6 +477,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 1634.2,
+                    "averageTg128": 37.42,
+                    "bestPp512": 1634.2,
+                    "worstPp512": 1634.2
+                }
+            },
             "performance": {
                 "averagePp512": 1634.2,
                 "averageTg128": 37.42,
@@ -370,6 +504,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_9dc8fe61d363dd7b",
                     "submissionName": "ICARUS-NVIDIA-GeForce-RTX-2050-20260920-213410",
                     "cpuModel": "AMD Ryzen 5 7535HS with Radeon Graphics",
@@ -395,6 +530,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 3545.62,
+                    "averageTg128": 100.19,
+                    "bestPp512": 3545.62,
+                    "worstPp512": 3545.62
+                }
+            },
             "performance": {
                 "averagePp512": 3545.62,
                 "averageTg128": 100.19,
@@ -413,6 +557,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_aa7c3907e6d0e94a",
                     "submissionName": "Runner-NVIDIA-GeForce-RTX-3060-20260823-142852",
                     "cpuModel": "13th Gen Intel(R) Core(TM) i5-13600K",
@@ -438,6 +583,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 4036.3,
+                    "averageTg128": 81.97,
+                    "bestPp512": 4036.3,
+                    "worstPp512": 4036.3
+                }
+            },
             "performance": {
                 "averagePp512": 4036.3,
                 "averageTg128": 81.97,
@@ -456,6 +610,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_8017f293894b24b4",
                     "submissionName": "AsusG16V-NVIDIA-GeForce-RTX-4060-20261106-183428",
                     "cpuModel": "13th Gen Intel(R) Core(TM) i7-13650HX",
@@ -481,6 +636,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 7850.45,
+                    "averageTg128": 148.35,
+                    "bestPp512": 7850.45,
+                    "worstPp512": 7850.45
+                }
+            },
             "performance": {
                 "averagePp512": 7850.45,
                 "averageTg128": 148.35,
@@ -499,6 +663,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_08eba4cfd37d6856",
                     "submissionName": "Viet-RTX4070",
                     "cpuModel": "AMD Ryzen 7 7800X3D 8-Core Processor",
@@ -524,6 +689,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 2413.64,
+                    "averageTg128": 67.05,
+                    "bestPp512": 2413.64,
+                    "worstPp512": 2413.64
+                }
+            },
             "performance": {
                 "averagePp512": 2413.64,
                 "averageTg128": 67.05,
@@ -542,6 +716,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_fab5e657b3d9df8d",
                     "submissionName": "Studio-15-G8",
                     "cpuModel": "11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz",
@@ -567,6 +742,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 1,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 1,
+                    "averagePp512": 211.03,
+                    "averageTg128": 13.99,
+                    "bestPp512": 211.03,
+                    "worstPp512": 211.03
+                }
+            },
             "performance": {
                 "averagePp512": 211.03,
                 "averageTg128": 13.99,
@@ -585,6 +769,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_a66ff7ef3577be89",
                     "submissionName": "Vivi-P1000",
                     "cpuModel": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
@@ -610,6 +795,15 @@
                 "formFactor": "Unknown"
             },
             "submissionCount": 2,
+            "performanceByBackend": {
+                "CUDA": {
+                    "submissionCount": 2,
+                    "averagePp512": 132.78,
+                    "averageTg128": 29.205000000000002,
+                    "bestPp512": 133.22,
+                    "worstPp512": 132.34
+                }
+            },
             "performance": {
                 "averagePp512": 132.78,
                 "averageTg128": 29.205000000000002,
@@ -628,6 +822,7 @@
             },
             "benchmarkResults": [
                 {
+                    "backend": "CUDA",
                     "resultId": "result_0200fb0ee70bb08a",
                     "submissionName": "Z2-MINI-G5-T1000",
                     "cpuModel": "Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz",
@@ -641,6 +836,7 @@
                     "nvidiaSmiVersion": ""
                 },
                 {
+                    "backend": "CUDA",
                     "resultId": "result_77913dd17782a6ce",
                     "submissionName": "phanclanMBMiniZ-Quadro-T1000-20260921-131012",
                     "cpuModel": "Intel(R) Core(TM) i9-10900 CPU @ 2.80GHz",

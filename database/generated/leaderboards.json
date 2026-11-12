@@ -1,18 +1,18 @@
 {
     "contractVersion": "1.0",
-    "generatedAt": "2026-11-10T22:20:55.573655+00:00",
+    "generatedAt": "2026-11-12T01:39:38.431042+00:00",
     "generator": {
         "name": "OpenLLMWorks Leaderboard Publisher",
         "version": "0.2.1"
     },
     "summary": {
-        "gpuVariants": 14,
-        "pp512Ranked": 14,
-        "tg128Ranked": 14
+        "gpuVariants": 15,
+        "pp512Ranked": 15,
+        "tg128Ranked": 15
     },
     "leaderboards": {
         "pp512": {
-            "totalRanked": 14,
+            "totalRanked": 15,
             "bestValue": 7850.45,
             "worstValue": 125.14,
             "entries": [
@@ -116,6 +116,20 @@
                 },
                 {
                     "rank": 8,
+                    "variantId": "amd-radeon-rx-6700-xt-12gb",
+                    "gpuVendor": "AMD",
+                    "gpuModel": "AMD Radeon RX 6700 XT",
+                    "gpuIdentity": {
+                        "vendor": "AMD",
+                        "model": "AMD Radeon RX 6700 XT",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 1117.87
+                },
+                {
+                    "rank": 9,
                     "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
@@ -129,7 +143,7 @@
                     "value": 348.04
                 },
                 {
-                    "rank": 9,
+                    "rank": 10,
                     "variantId": "nvidia-geforce-gtx-970-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 970",
@@ -143,7 +157,7 @@
                     "value": 331.15
                 },
                 {
-                    "rank": 10,
+                    "rank": 11,
                     "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
@@ -157,7 +171,7 @@
                     "value": 287.51
                 },
                 {
-                    "rank": 11,
+                    "rank": 12,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",
@@ -171,7 +185,7 @@
                     "value": 211.03
                 },
                 {
-                    "rank": 12,
+                    "rank": 13,
                     "variantId": "nvidia-geforce-gtx-1650-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1650",
@@ -185,7 +199,7 @@
                     "value": 153.575
                 },
                 {
-                    "rank": 13,
+                    "rank": 14,
                     "variantId": "quadro-t1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro T1000",
@@ -199,7 +213,7 @@
                     "value": 132.78
                 },
                 {
-                    "rank": 14,
+                    "rank": 15,
                     "variantId": "nvidia-geforce-gtx-1050-2gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050",
@@ -215,7 +229,7 @@
             ]
         },
         "tg128": {
-            "totalRanked": 14,
+            "totalRanked": 15,
             "bestValue": 148.35,
             "worstValue": 3.99,
             "entries": [
@@ -235,6 +249,20 @@
                 },
                 {
                     "rank": 2,
+                    "variantId": "amd-radeon-rx-6700-xt-12gb",
+                    "gpuVendor": "AMD",
+                    "gpuModel": "AMD Radeon RX 6700 XT",
+                    "gpuIdentity": {
+                        "vendor": "AMD",
+                        "model": "AMD Radeon RX 6700 XT",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 113.34
+                },
+                {
+                    "rank": 3,
                     "variantId": "nvidia-geforce-rtx-3060-12gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce RTX 3060",
@@ -248,7 +276,7 @@
                     "value": 100.19
                 },
                 {
-                    "rank": 3,
+                    "rank": 4,
                     "variantId": "nvidia-geforce-rtx-4060-8gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce RTX 4060 ...",
@@ -262,7 +290,7 @@
                     "value": 81.97
                 },
                 {
-                    "rank": 4,
+                    "rank": 5,
                     "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
@@ -276,7 +304,7 @@
                     "value": 73.735
                 },
                 {
-                    "rank": 5,
+                    "rank": 6,
                     "variantId": "nvidia-geforce-gtx-1080-ti-11gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1080 Ti",
@@ -290,7 +318,7 @@
                     "value": 71.83
                 },
                 {
-                    "rank": 6,
+                    "rank": 7,
                     "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
@@ -304,7 +332,7 @@
                     "value": 67.05
                 },
                 {
-                    "rank": 7,
+                    "rank": 8,
                     "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
@@ -318,7 +346,7 @@
                     "value": 57.17
                 },
                 {
-                    "rank": 8,
+                    "rank": 9,
                     "variantId": "nvidia-geforce-rtx-2050-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce RTX 2050",
@@ -332,7 +360,7 @@
                     "value": 37.42
                 },
                 {
-                    "rank": 9,
+                    "rank": 10,
                     "variantId": "nvidia-geforce-gtx-1650-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1650",
@@ -346,7 +374,7 @@
                     "value": 35.285000000000004
                 },
                 {
-                    "rank": 10,
+                    "rank": 11,
                     "variantId": "quadro-t1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro T1000",
@@ -360,7 +388,7 @@
                     "value": 29.205000000000002
                 },
                 {
-                    "rank": 11,
+                    "rank": 12,
                     "variantId": "nvidia-geforce-gtx-970-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 970",
@@ -374,7 +402,7 @@
                     "value": 28.76
                 },
                 {
-                    "rank": 12,
+                    "rank": 13,
                     "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
@@ -388,7 +416,7 @@
                     "value": 22.11
                 },
                 {
-                    "rank": 13,
+                    "rank": 14,
                     "variantId": "quadro-p1000-4gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "Quadro P1000",
@@ -402,7 +430,7 @@
                     "value": 13.99
                 },
                 {
-                    "rank": 14,
+                    "rank": 15,
                     "variantId": "nvidia-geforce-gtx-1050-2gb",
                     "gpuVendor": "NVIDIA",
                     "gpuModel": "NVIDIA GeForce GTX 1050",
@@ -416,6 +444,956 @@
                     "value": 3.99
                 }
             ]
+        }
+    },
+    "leaderboardsOverall": {
+        "pp512": {
+            "totalRanked": 15,
+            "bestValue": 7850.45,
+            "worstValue": 125.14,
+            "entries": [
+                {
+                    "rank": 1,
+                    "variantId": "nvidia-geforce-rtx-4070-12gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4070",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4070",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 7850.45,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 2,
+                    "variantId": "nvidia-geforce-rtx-4060-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4060 ...",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4060 ...",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 4036.3,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 3,
+                    "variantId": "nvidia-geforce-rtx-3060-12gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 3060",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 3060",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 3545.62,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 4,
+                    "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA RTX A3000 Laptop GPU",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 2413.64,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 5,
+                    "variantId": "nvidia-geforce-rtx-2050-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 2050",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 2050",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 1634.2,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 6,
+                    "variantId": "nvidia-geforce-gtx-1080-ti-11gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1080 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1080 Ti",
+                        "vramGiB": 11.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 1396.23,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 7,
+                    "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1070 Ti",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 1162.1,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 8,
+                    "variantId": "amd-radeon-rx-6700-xt-12gb",
+                    "gpuVendor": "AMD",
+                    "gpuModel": "AMD Radeon RX 6700 XT",
+                    "gpuIdentity": {
+                        "vendor": "AMD",
+                        "model": "AMD Radeon RX 6700 XT",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 1117.87,
+                    "backend": "Vulkan"
+                },
+                {
+                    "rank": 9,
+                    "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050 Ti",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 348.04,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 10,
+                    "variantId": "nvidia-geforce-gtx-970-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 970",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 970",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 331.15,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 11,
+                    "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1660 Ti",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 287.51,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 12,
+                    "variantId": "quadro-p1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro P1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro P1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 211.03,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 13,
+                    "variantId": "nvidia-geforce-gtx-1650-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1650",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1650",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 153.575,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 14,
+                    "variantId": "quadro-t1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro T1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro T1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 132.78,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 15,
+                    "variantId": "nvidia-geforce-gtx-1050-2gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050",
+                        "vramGiB": 2.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 125.14,
+                    "backend": "CUDA"
+                }
+            ]
+        },
+        "tg128": {
+            "totalRanked": 15,
+            "bestValue": 148.35,
+            "worstValue": 3.99,
+            "entries": [
+                {
+                    "rank": 1,
+                    "variantId": "nvidia-geforce-rtx-4070-12gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4070",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4070",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 148.35,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 2,
+                    "variantId": "amd-radeon-rx-6700-xt-12gb",
+                    "gpuVendor": "AMD",
+                    "gpuModel": "AMD Radeon RX 6700 XT",
+                    "gpuIdentity": {
+                        "vendor": "AMD",
+                        "model": "AMD Radeon RX 6700 XT",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 113.34,
+                    "backend": "Vulkan"
+                },
+                {
+                    "rank": 3,
+                    "variantId": "nvidia-geforce-rtx-3060-12gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 3060",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 3060",
+                        "vramGiB": 12.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 100.19,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 4,
+                    "variantId": "nvidia-geforce-rtx-4060-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 4060 ...",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 4060 ...",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 81.97,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 5,
+                    "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1660 Ti",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 73.735,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 6,
+                    "variantId": "nvidia-geforce-gtx-1080-ti-11gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1080 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1080 Ti",
+                        "vramGiB": 11.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 71.83,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 7,
+                    "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA RTX A3000 Laptop GPU",
+                        "vramGiB": 6.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 67.05,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 8,
+                    "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1070 Ti",
+                        "vramGiB": 8.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 57.17,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 9,
+                    "variantId": "nvidia-geforce-rtx-2050-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce RTX 2050",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce RTX 2050",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 37.42,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 10,
+                    "variantId": "nvidia-geforce-gtx-1650-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1650",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1650",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 35.285000000000004,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 11,
+                    "variantId": "quadro-t1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro T1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro T1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 2,
+                    "value": 29.205000000000002,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 12,
+                    "variantId": "nvidia-geforce-gtx-970-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 970",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 970",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 28.76,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 13,
+                    "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050 Ti",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 22.11,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 14,
+                    "variantId": "quadro-p1000-4gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "Quadro P1000",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "Quadro P1000",
+                        "vramGiB": 4.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 13.99,
+                    "backend": "CUDA"
+                },
+                {
+                    "rank": 15,
+                    "variantId": "nvidia-geforce-gtx-1050-2gb",
+                    "gpuVendor": "NVIDIA",
+                    "gpuModel": "NVIDIA GeForce GTX 1050",
+                    "gpuIdentity": {
+                        "vendor": "NVIDIA",
+                        "model": "NVIDIA GeForce GTX 1050",
+                        "vramGiB": 2.0,
+                        "formFactor": "Unknown"
+                    },
+                    "submissionCount": 1,
+                    "value": 3.99,
+                    "backend": "CUDA"
+                }
+            ]
+        }
+    },
+    "leaderboardsByBackend": {
+        "CUDA": {
+            "pp512": {
+                "totalRanked": 14,
+                "bestValue": 7850.45,
+                "worstValue": 125.14,
+                "entries": [
+                    {
+                        "rank": 1,
+                        "variantId": "nvidia-geforce-rtx-4070-12gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 4070",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 4070",
+                            "vramGiB": 12.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 7850.45,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 2,
+                        "variantId": "nvidia-geforce-rtx-4060-8gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 4060 ...",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 4060 ...",
+                            "vramGiB": 8.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 4036.3,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 3,
+                        "variantId": "nvidia-geforce-rtx-3060-12gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 3060",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 3060",
+                            "vramGiB": 12.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 3545.62,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 4,
+                        "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA RTX A3000 Laptop GPU",
+                            "vramGiB": 6.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 2413.64,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 5,
+                        "variantId": "nvidia-geforce-rtx-2050-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 2050",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 2050",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 1634.2,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 6,
+                        "variantId": "nvidia-geforce-gtx-1080-ti-11gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1080 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1080 Ti",
+                            "vramGiB": 11.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 1396.23,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 7,
+                        "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1070 Ti",
+                            "vramGiB": 8.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 1162.1,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 8,
+                        "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1050 Ti",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 348.04,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 9,
+                        "variantId": "nvidia-geforce-gtx-970-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 970",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 970",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 331.15,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 10,
+                        "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1660 Ti",
+                            "vramGiB": 6.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 2,
+                        "value": 287.51,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 11,
+                        "variantId": "quadro-p1000-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "Quadro P1000",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "Quadro P1000",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 211.03,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 12,
+                        "variantId": "nvidia-geforce-gtx-1650-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1650",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1650",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 2,
+                        "value": 153.575,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 13,
+                        "variantId": "quadro-t1000-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "Quadro T1000",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "Quadro T1000",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 2,
+                        "value": 132.78,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 14,
+                        "variantId": "nvidia-geforce-gtx-1050-2gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1050",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1050",
+                            "vramGiB": 2.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 125.14,
+                        "backend": "CUDA"
+                    }
+                ]
+            },
+            "tg128": {
+                "totalRanked": 14,
+                "bestValue": 148.35,
+                "worstValue": 3.99,
+                "entries": [
+                    {
+                        "rank": 1,
+                        "variantId": "nvidia-geforce-rtx-4070-12gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 4070",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 4070",
+                            "vramGiB": 12.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 148.35,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 2,
+                        "variantId": "nvidia-geforce-rtx-3060-12gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 3060",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 3060",
+                            "vramGiB": 12.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 100.19,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 3,
+                        "variantId": "nvidia-geforce-rtx-4060-8gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 4060 ...",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 4060 ...",
+                            "vramGiB": 8.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 81.97,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 4,
+                        "variantId": "nvidia-geforce-gtx-1660-ti-6gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1660 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1660 Ti",
+                            "vramGiB": 6.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 2,
+                        "value": 73.735,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 5,
+                        "variantId": "nvidia-geforce-gtx-1080-ti-11gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1080 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1080 Ti",
+                            "vramGiB": 11.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 71.83,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 6,
+                        "variantId": "nvidia-rtx-a3000-laptop-gpu-6gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA RTX A3000 Laptop GPU",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA RTX A3000 Laptop GPU",
+                            "vramGiB": 6.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 67.05,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 7,
+                        "variantId": "nvidia-geforce-gtx-1070-ti-8gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1070 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1070 Ti",
+                            "vramGiB": 8.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 57.17,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 8,
+                        "variantId": "nvidia-geforce-rtx-2050-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce RTX 2050",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce RTX 2050",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 37.42,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 9,
+                        "variantId": "nvidia-geforce-gtx-1650-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1650",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1650",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 2,
+                        "value": 35.285000000000004,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 10,
+                        "variantId": "quadro-t1000-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "Quadro T1000",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "Quadro T1000",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 2,
+                        "value": 29.205000000000002,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 11,
+                        "variantId": "nvidia-geforce-gtx-970-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 970",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 970",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 28.76,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 12,
+                        "variantId": "nvidia-geforce-gtx-1050-ti-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1050 Ti",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1050 Ti",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 22.11,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 13,
+                        "variantId": "quadro-p1000-4gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "Quadro P1000",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "Quadro P1000",
+                            "vramGiB": 4.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 13.99,
+                        "backend": "CUDA"
+                    },
+                    {
+                        "rank": 14,
+                        "variantId": "nvidia-geforce-gtx-1050-2gb",
+                        "gpuVendor": "NVIDIA",
+                        "gpuModel": "NVIDIA GeForce GTX 1050",
+                        "gpuIdentity": {
+                            "vendor": "NVIDIA",
+                            "model": "NVIDIA GeForce GTX 1050",
+                            "vramGiB": 2.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 3.99,
+                        "backend": "CUDA"
+                    }
+                ]
+            }
+        },
+        "Vulkan": {
+            "pp512": {
+                "totalRanked": 1,
+                "bestValue": 1117.87,
+                "worstValue": 1117.87,
+                "entries": [
+                    {
+                        "rank": 1,
+                        "variantId": "amd-radeon-rx-6700-xt-12gb",
+                        "gpuVendor": "AMD",
+                        "gpuModel": "AMD Radeon RX 6700 XT",
+                        "gpuIdentity": {
+                            "vendor": "AMD",
+                            "model": "AMD Radeon RX 6700 XT",
+                            "vramGiB": 12.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 1117.87,
+                        "backend": "Vulkan"
+                    }
+                ]
+            },
+            "tg128": {
+                "totalRanked": 1,
+                "bestValue": 113.34,
+                "worstValue": 113.34,
+                "entries": [
+                    {
+                        "rank": 1,
+                        "variantId": "amd-radeon-rx-6700-xt-12gb",
+                        "gpuVendor": "AMD",
+                        "gpuModel": "AMD Radeon RX 6700 XT",
+                        "gpuIdentity": {
+                            "vendor": "AMD",
+                            "model": "AMD Radeon RX 6700 XT",
+                            "vramGiB": 12.0,
+                            "formFactor": "Unknown"
+                        },
+                        "submissionCount": 1,
+                        "value": 113.34,
+                        "backend": "Vulkan"
+                    }
+                ]
+            }
         }
     }
 }
