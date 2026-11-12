@@ -904,13 +904,23 @@ function HardwareProfile() {
                           </span>
 
                           <span>
-                            CUDA{" "}
-                            <strong>
-                              {formatSoftwareValue(
-                                result.cudaUmdVersion
+                              Backend{" "}
+                              <strong>
+                                {result.backend ?? "CUDA"}
+                              </strong>
+                            </span>
+
+                            {(result.backend ?? "CUDA") === "CUDA" &&
+                              result.cudaUmdVersion && (
+                                <span>
+                                  CUDA{" "}
+                                  <strong>
+                                    {formatSoftwareValue(
+                                      result.cudaUmdVersion
+                                    )}
+                                  </strong>
+                                </span>
                               )}
-                            </strong>
-                          </span>
                         </div>
                       </article>
                     )

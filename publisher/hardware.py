@@ -260,18 +260,49 @@ def build_hardware_payload(
                     0,
                 ),
 
+                "performanceByBackend": {
+                    backend: {
+                        "submissionCount": stats.get(
+                            "submission_count", 0
+                        ),
+                        "averagePp512": stats.get(
+                            "average_pp512"
+                        ),
+                        "averageTg128": stats.get(
+                            "average_tg128"
+                        ),
+                        "bestPp512": stats.get(
+                            "best_pp512"
+                        ),
+                        "worstPp512": stats.get(
+                            "worst_pp512"
+                        ),
+                    }
+                    for backend, stats in profile.get(
+                        "performance_by_backend", {}
+                    ).items()
+                },
+
                 "performance": {
-                    "averagePp512": profile.get(
-                        "average_pp512"
+                    "averagePp512": (
+                        profile.get("average_pp512")
+                        if len(profile.get("performance_by_backend", {})) <= 1
+                        else None
                     ),
-                    "averageTg128": profile.get(
-                        "average_tg128"
+                    "averageTg128": (
+                        profile.get("average_tg128")
+                        if len(profile.get("performance_by_backend", {})) <= 1
+                        else None
                     ),
-                    "bestPp512": profile.get(
-                        "best_pp512"
+                    "bestPp512": (
+                        profile.get("best_pp512")
+                        if len(profile.get("performance_by_backend", {})) <= 1
+                        else None
                     ),
-                    "worstPp512": profile.get(
-                        "worst_pp512"
+                    "worstPp512": (
+                        profile.get("worst_pp512")
+                        if len(profile.get("performance_by_backend", {})) <= 1
+                        else None
                     ),
                 },
 
@@ -294,6 +325,9 @@ def build_hardware_payload(
 
                 "benchmarkResults": [
                     {
+                        "backend": result.get(
+                            "backend", "CUDA"
+                        ),
                         "resultId": result.get(
                             "result_id"
                         ),

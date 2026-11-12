@@ -109,11 +109,62 @@ def build_gpu_profiles(database):
             }
         )
 
+        # Preserve physical GPU identity while calculating
+        # performance separately for each acceleration backend.
+        backend_groups = defaultdict(list)
+
+        for row in gpu_rows:
+            backend = row.get("backend") or "CUDA"
+            backend = str(backend).strip().casefold()
+
+            if backend == "cuda":
+                backend = "CUDA"
+            elif backend == "vulkan":
+                backend = "Vulkan"
+            else:
+                raise ValueError(
+                    f"Unsupported benchmark backend: {backend!r}"
+                )
+
+            backend_groups[backend].append(row)
+
+        performance_by_backend = {}
+
+        for backend, backend_rows in sorted(backend_groups.items()):
+            backend_pp512 = [
+                row["pp512"]
+                for row in backend_rows
+                if valid_number(row.get("pp512"))
+            ]
+
+            backend_tg128 = [
+                row["tg128"]
+                for row in backend_rows
+                if valid_number(row.get("tg128"))
+            ]
+
+            performance_by_backend[backend] = {
+                "submission_count": len(backend_rows),
+                "average_pp512": average(backend_pp512),
+                "average_tg128": average(backend_tg128),
+                "best_pp512": (
+                    max(backend_pp512)
+                    if backend_pp512
+                    else None
+                ),
+                "worst_pp512": (
+                    min(backend_pp512)
+                    if backend_pp512
+                    else None
+                ),
+            }
+
         benchmark_results = []
 
         for row in gpu_rows:
             benchmark_results.append(
                 {
+                    "backend": row.get("backend") or "CUDA",
                     "result_id": row.get(
                         "result_id",
                         "",
@@ -158,6 +209,7 @@ def build_gpu_profiles(database):
 
         profiles[profile_key] = {
             "submission_count": len(gpu_rows),
+            "performance_by_backend": performance_by_backend,
 
             "gpu_identity": {
                 "vendor": gpu_vendor,

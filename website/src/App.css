@@ -727,6 +727,8 @@ body {
 
 .hardware-controls {
     display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 1rem;
 
@@ -741,7 +743,8 @@ body {
 }
 
 .hardware-search {
-    flex: 1;
+    flex: 1 1 260px;
+    min-width: 0;
     max-width: 520px;
 }
 
@@ -792,33 +795,54 @@ body {
 @media (max-width: 700px) {
     .hardware-controls {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .hardware-search {
+        flex: 0 1 auto;
+        width: 100%;
         max-width: none;
+    }
+
+    .hardware-search input,
+    .hardware-sort select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .hardware-sort {
+        width: 100%;
     }
 }
 
 .hardware-filter-group {
     display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
     gap: 1rem;
 }
 
 .hardware-vendor-filter,
+.hardware-backend-filter,
 .hardware-vram-filter {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    flex: 1 1 125px;
+    min-width: 125px;
 }
 
 .hardware-vendor-filter span,
+.hardware-backend-filter span,
 .hardware-vram-filter span {
     color: var(--text-muted);
     font-size: 0.8rem;
 }
 
 .hardware-vendor-filter select,
+.hardware-backend-filter select,
 .hardware-vram-filter select {
+    width: 100%;
     padding: 0.8rem 0.9rem;
 
     border: 1px solid var(--border);
@@ -831,6 +855,7 @@ body {
 }
 
 .hardware-vendor-filter select:focus,
+.hardware-backend-filter select:focus,
 .hardware-vram-filter select:focus {
     outline: 2px solid #60a5fa;
     outline-offset: 2px;
@@ -838,6 +863,22 @@ body {
 @media (max-width: 700px) {
     .hardware-filter-group {
         flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .hardware-vendor-filter,
+    .hardware-backend-filter,
+    .hardware-vram-filter {
+        flex: 0 1 auto;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .hardware-vendor-filter select,
+    .hardware-backend-filter select,
+    .hardware-vram-filter select {
+        box-sizing: border-box;
     }
 }
 

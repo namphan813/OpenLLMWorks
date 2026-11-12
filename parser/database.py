@@ -197,6 +197,7 @@ def build_result_record(
     contributor_id: str = "founder_000001",
     contributor_type: str = "founder",
     verification_status: str = "internally_verified",
+    backend: str = "CUDA",
 ) -> dict:
     """
     Build one complete schema 0.7 benchmark result record.
@@ -235,6 +236,14 @@ def build_result_record(
         )
     )
 
+    if not isinstance(backend, str):
+        raise ValueError("Backend must be 'CUDA' or 'Vulkan'.")
+    normalized_backend = {"cuda": "CUDA", "vulkan": "Vulkan"}.get(
+        backend.strip().casefold()
+    )
+    if normalized_backend is None:
+        raise ValueError("Backend must be 'CUDA' or 'Vulkan'.")
+
     imported_at = utc_timestamp()
 
     benchmark = {
@@ -248,7 +257,7 @@ def build_result_record(
             "required_runs": required_runs,
             "prompt_tokens": 512,
             "generation_tokens": 128,
-            "backend": "CUDA",
+            "backend": normalized_backend,
         },
         "llama_cpp": {
             "commit": (

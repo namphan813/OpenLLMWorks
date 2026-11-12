@@ -172,8 +172,9 @@ function Methodology() {
 
                     <p className="methodology-protocol-note">
                         Protocol v1.0 uses llama.cpp commit
-                        178a6c449, build 10069, with the CUDA
-                        backend.
+                        178a6c449, build 10069. Published results
+                        identify their execution backend, including
+                        CUDA and Vulkan.
                     </p>
                 </section>
 
@@ -271,7 +272,7 @@ function Methodology() {
                             Submissions also capture relevant system
                             information including CPU, installed
                             memory, operating system, GPU, driver,
-                            and CUDA information. That evidence helps
+                            and compute backend information. That evidence helps
                             keep published results traceable to the
                             hardware and environment that produced
                             them.
@@ -292,9 +293,10 @@ function Methodology() {
                         <p>
                             Protocol v1.0 currently represents a
                             single Qwen3-4B Q4_K_M workload using a
-                            frozen llama.cpp build and the CUDA
-                            backend. The protocol is currently
-                            validated on Windows 11.
+                            frozen llama.cpp build. CUDA and Vulkan
+                            are supported execution backends, with
+                            results identified by backend. The protocol
+                            is currently validated on Windows 11.
                         </p>
 
                         <p>
@@ -303,6 +305,36 @@ function Methodology() {
                             represent every model, quantization,
                             operating system, inference backend, or
                             local AI workload.
+                        </p>
+                    </article>
+
+                    <article className="methodology-block">
+                        <p className="methodology-eyebrow">
+                            COMPARING COMPUTE BACKENDS
+                        </p>
+
+                        <h2>
+                            Same workload, different execution paths.
+                        </h2>
+
+                        <p>
+                            CUDA and Vulkan results use the same
+                            benchmark model and workload, but execute
+                            through different compute backends.
+                            Backend implementations, GPU drivers,
+                            and system configurations can influence
+                            observed performance.
+                        </p>
+
+                        <p>
+                            OpenLLMWorks identifies the backend used
+                            for each published result. Cross-backend
+                            comparisons describe measured performance
+                            under the recorded test conditions, not
+                            isolated differences in GPU hardware.
+                            Results from different backends should
+                            not be combined into a single performance
+                            average.
                         </p>
                     </article>
 
@@ -320,8 +352,8 @@ function Methodology() {
                             Future OpenLLMWorks protocols may expand
                             hardware and software coverage, explore
                             additional workload sizes, and support
-                            additional inference backends or
-                            operating systems.
+                            further inference backends or operating
+                            systems.
                         </p>
 
                         <p>

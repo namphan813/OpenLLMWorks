@@ -95,6 +95,11 @@ def build_public_entry(
         "value": ranked_profile.get(
             "value"
         ),
+        **(
+            {"backend": ranked_profile["overall_backend"]}
+            if ranked_profile.get("overall_backend")
+            else {}
+        ),
     }
 
 
@@ -150,6 +155,99 @@ def build_metric_leaderboard(
     }
 
 
+def build_backend_profiles(
+    gpu_profiles: dict,
+    backend: str,
+) -> dict:
+    """
+    Create a backend-specific ranking view while preserving
+    the physical GPU identity and variant ID.
+    """
+
+    backend_profiles = {}
+
+    for profile_key, profile in gpu_profiles.items():
+        stats = profile.get(
+            "performance_by_backend", {}
+        ).get(backend)
+
+        if not stats:
+            continue
+
+        backend_profile = {
+            **profile,
+            "submission_count": stats["submission_count"],
+            "average_pp512": stats["average_pp512"],
+            "average_tg128": stats["average_tg128"],
+            "best_pp512": stats["best_pp512"],
+            "worst_pp512": stats["worst_pp512"],
+        }
+
+        backend_profiles[profile_key] = backend_profile
+
+    return backend_profiles
+
+
+def build_overall_profiles(
+    gpu_profiles: dict,
+) -> dict:
+    """
+    Select one representative backend per physical GPU.
+
+    Prefer CUDA, then Vulkan. Never combine backend averages.
+    """
+
+    overall_profiles = {}
+
+    for profile_key, profile in gpu_profiles.items():
+        available = profile.get(
+            "performance_by_backend", {}
+        )
+
+        backend = next(
+            (
+                candidate
+                for candidate in ("CUDA", "Vulkan")
+                if candidate in available
+            ),
+            None,
+        )
+
+        if backend is None:
+            continue
+
+        stats = available[backend]
+
+        overall_profiles[profile_key] = {
+            **profile,
+            "submission_count": stats["submission_count"],
+            "average_pp512": stats["average_pp512"],
+            "average_tg128": stats["average_tg128"],
+            "best_pp512": stats["best_pp512"],
+            "worst_pp512": stats["worst_pp512"],
+            "overall_backend": backend,
+        }
+
+    return overall_profiles
+
+
+def build_legacy_profiles(
+    gpu_profiles: dict,
+) -> dict:
+    """
+    Exclude mixed-backend profiles from legacy rankings.
+
+    Single-backend profiles retain their original performance
+    statistics and existing leaderboard behavior.
+    """
+
+    return {
+        key: profile
+        for key, profile in gpu_profiles.items()
+        if len(profile.get("performance_by_backend", {})) <= 1
+    }
+
+
 def build_leaderboards_payload(
     database: dict,
 ) -> dict:
@@ -163,15 +261,91 @@ def build_leaderboards_payload(
         database
     )
 
+    legacy_profiles = build_legacy_profiles(
+        gpu_profiles
+    )
+
     pp512 = build_metric_leaderboard(
-        gpu_profiles,
+        legacy_profiles,
         "average_pp512",
     )
 
     tg128 = build_metric_leaderboard(
-        gpu_profiles,
+        legacy_profiles,
         "average_tg128",
     )
+
+    overall_profiles = build_overall_profiles(
+        gpu_profiles
+    )
+
+    overall_pp512 = build_metric_leaderboard(
+        overall_profiles,
+        "average_pp512",
+    )
+
+    overall_tg128 = build_metric_leaderboard(
+        overall_profiles,
+        "average_tg128",
+    )
+
+    # Attach the representative backend to each overall entry.
+    # Ranking analytics does not retain custom profile metadata.
+    backend_by_variant_id = {}
+
+    for profile in overall_profiles.values():
+        identity = profile["gpu_identity"]
+
+        variant_id = build_variant_id(
+            gpu_model=identity["model"],
+            vram_gib=identity["vram_gib"],
+            form_factor=identity["form_factor"],
+        )
+        backend_by_variant_id[variant_id] = profile[
+            "overall_backend"
+        ]
+
+    for leaderboard in (overall_pp512, overall_tg128):
+        for entry in leaderboard["entries"]:
+            entry["backend"] = backend_by_variant_id[
+                entry["variantId"]
+            ]
+
+    backends = sorted({
+        backend
+        for profile in gpu_profiles.values()
+        for backend in profile.get(
+            "performance_by_backend", {}
+        )
+    })
+
+    leaderboards_by_backend = {}
+
+    for backend in backends:
+        backend_profiles = build_backend_profiles(
+            gpu_profiles,
+            backend,
+        )
+
+        backend_pp512 = build_metric_leaderboard(
+            backend_profiles,
+            "average_pp512",
+        )
+
+        backend_tg128 = build_metric_leaderboard(
+            backend_profiles,
+            "average_tg128",
+        )
+
+        # Explicitly identify the backend for every ranked entry.
+        for leaderboard in (backend_pp512, backend_tg128):
+            for entry in leaderboard["entries"]:
+                entry["backend"] = backend
+
+        leaderboards_by_backend[backend] = {
+            "pp512": backend_pp512,
+            "tg128": backend_tg128,
+        }
 
     return {
         "contractVersion": (
@@ -201,6 +375,11 @@ def build_leaderboards_payload(
             "pp512": pp512,
             "tg128": tg128,
         },
+        "leaderboardsOverall": {
+            "pp512": overall_pp512,
+            "tg128": overall_tg128,
+        },
+        "leaderboardsByBackend": leaderboards_by_backend,
     }
 
 

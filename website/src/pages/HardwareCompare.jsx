@@ -493,6 +493,14 @@ function HardwareCompare() {
                     : "s"}
                 </p>
 
+                <p>
+                  Backend: {
+                    Object.keys(
+                      leftHardware.performanceByBackend ?? {}
+                    ).join(", ") || "Unknown"
+                  }
+                </p>
+
                 <EvidenceSummary
                   hardware={
                     leftHardware
@@ -531,6 +539,14 @@ function HardwareCompare() {
                     : "s"}
                 </p>
 
+                <p>
+                  Backend: {
+                    Object.keys(
+                      rightHardware.performanceByBackend ?? {}
+                    ).join(", ") || "Unknown"
+                  }
+                </p>
+
                 <EvidenceSummary
                   hardware={
                     rightHardware
@@ -549,7 +565,7 @@ function HardwareCompare() {
                 based on different CPUs,
                 memory configurations,
                 operating systems, drivers,
-                and CUDA environments.
+                and compute backends.
                 Results may change as more
                 community benchmarks are
                 added.

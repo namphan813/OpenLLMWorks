@@ -26,6 +26,7 @@ from parser.database import (
     write_database,
 )
 from parser.hardware import load_hardware_profile
+from parser.device_identity import verify_device_identity, DeviceIdentityError
 from parser.submission import (
     Submission,
     discover_submissions,
@@ -123,15 +124,15 @@ def print_hardware_profile(
         f"{gpu['vram']['capacity_gib']} GiB"
     )
 
-    print(
-        "NVIDIA driver: "
-        f"{gpu['software']['driver_version']}"
-    )
-
-    print(
-        "CUDA UMD: "
-        f"{gpu['software']['cuda_umd_version']}"
-    )
+    if gpu.get("software", {}).get("nvidia_smi_version") is not None:
+        print(
+            "NVIDIA driver: "
+            f"{gpu['software']['driver_version']}"
+        )
+        print(
+            "CUDA UMD: "
+            f"{gpu['software']['cuda_umd_version']}"
+        )
 
     reported = os_data["reported"]
     normalized = os_data["normalized"]
@@ -266,6 +267,19 @@ def process_submission(
             "hardware profile could not be parsed."
         )
         return None
+
+    # Legacy CUDA submissions have no accelerator-selection manifest.
+    # Explicit selections have already passed preflight and hardware
+    # verification; resolve the backend from the same verified evidence.
+    selection_path = submission.source_path / "selected-accelerator.json"
+    if selection_path.is_file():
+        try:
+            backend = verify_device_identity(submission.source_path)["backend"].upper()
+        except DeviceIdentityError as error:
+            print(f"ERROR: Accelerator identity validation failed: {error}")
+            return None
+    else:
+        backend = "CUDA"
 
     print_hardware_profile(hardware)
 
@@ -406,6 +420,7 @@ def process_submission(
         contributor_id=contributor_id,
         contributor_type=contributor_type,
         verification_status=verification_status,
+        backend=backend,
     )
 
 
