@@ -150,6 +150,43 @@ function compareDescendingWithNameTieBreak(
 }
 
 
+function getAvailableBackends(hardware) {
+  const backends = hardware.performanceByBackend;
+
+  if (backends && Object.keys(backends).length > 0) {
+    return Object.keys(backends);
+  }
+
+  // Compatibility with historical CUDA-only hardware.json.
+  return ["CUDA"];
+}
+
+
+function getDisplayBackend(hardware, selectedBackend) {
+  const available = getAvailableBackends(hardware);
+
+  if (selectedBackend !== "all") {
+    return available.includes(selectedBackend)
+      ? selectedBackend
+      : null;
+  }
+
+  return available.includes("CUDA")
+    ? "CUDA"
+    : available[0] ?? null;
+}
+
+
+function getBackendPerformance(hardware, backend) {
+  if (!backend) {
+    return null;
+  }
+
+  return hardware.performanceByBackend?.[backend]
+    ?? (backend === "CUDA" ? hardware.performance : null);
+}
+
+
 function Hardware() {
   const navigate = useNavigate();
 
@@ -192,6 +229,11 @@ function Hardware() {
   const [
     vramFilter,
     setVramFilter,
+  ] = useState("all");
+
+  const [
+    backendFilter,
+    setBackendFilter,
   ] = useState("all");
 
   const [
@@ -349,24 +391,13 @@ function Hardware() {
     }, [hardwareData]);
 
 
-  const pp512Ranking =
-    useMemo(() => {
-      return buildPublishedMetricRanking(
-        leaderboardData
-          ?.leaderboards
-          ?.pp512
-      );
-    }, [leaderboardData]);
+  const getMetricRanking = (metric) => {
+    return buildPublishedMetricRanking(
+      leaderboardData?.leaderboardsOverall?.[metric] ??
+      leaderboardData?.leaderboards?.[metric]
+    );
+  };
 
-
-  const tg128Ranking =
-    useMemo(() => {
-      return buildPublishedMetricRanking(
-        leaderboardData
-          ?.leaderboards
-          ?.tg128
-      );
-    }, [leaderboardData]);
 
 
   const visibleHardware =
@@ -387,6 +418,15 @@ function Hardware() {
               vendorFilter === "all" ||
               hardware.gpuVendor ===
                 vendorFilter;
+
+            if (
+              backendFilter !== "all" &&
+              !getAvailableBackends(hardware).includes(
+                backendFilter
+              )
+            ) {
+              return false;
+            }
 
             if (!matchesVendor) {
               return false;
@@ -420,10 +460,15 @@ function Hardware() {
                 ?.vramGib,
               hardware.gpuIdentity
                 ?.formFactor,
-              hardware.performance
-                ?.averagePp512,
-              hardware.performance
-                ?.averageTg128,
+              ...getAvailableBackends(hardware),
+              ...Object.values(
+                hardware.performanceByBackend ?? {
+                  CUDA: hardware.performance
+                }
+              ).flatMap((performance) => [
+                performance?.averagePp512,
+                performance?.averageTg128,
+              ]),
               hardware.system
                 ?.averageMemoryGb,
               ...(
@@ -466,10 +511,14 @@ function Hardware() {
 
           if (sortBy === "pp512") {
             return compareDescendingWithNameTieBreak(
-              left.performance
-                ?.averagePp512,
-              right.performance
-                ?.averagePp512,
+              getBackendPerformance(
+                left,
+                getDisplayBackend(left, backendFilter)
+              )?.averagePp512,
+              getBackendPerformance(
+                right,
+                getDisplayBackend(right, backendFilter)
+              )?.averagePp512,
               left,
               right
             );
@@ -477,10 +526,14 @@ function Hardware() {
 
           if (sortBy === "tg128") {
             return compareDescendingWithNameTieBreak(
-              left.performance
-                ?.averageTg128,
-              right.performance
-                ?.averageTg128,
+              getBackendPerformance(
+                left,
+                getDisplayBackend(left, backendFilter)
+              )?.averageTg128,
+              getBackendPerformance(
+                right,
+                getDisplayBackend(right, backendFilter)
+              )?.averageTg128,
               left,
               right
             );
@@ -509,6 +562,7 @@ function Hardware() {
       searchQuery,
       vendorFilter,
       vramFilter,
+      backendFilter,
       sortBy,
     ]);
 
@@ -683,6 +737,20 @@ function Hardware() {
                   </select>
                 </label>
 
+                <label className="hardware-backend-filter">
+                  <span>Backend</span>
+                  <select
+                    value={backendFilter}
+                    onChange={(event) =>
+                      setBackendFilter(event.target.value)
+                    }
+                  >
+                    <option value="all">All backends</option>
+                    <option value="CUDA">CUDA</option>
+                    <option value="Vulkan">Vulkan</option>
+                  </select>
+                </label>
+
                 <label className="hardware-vram-filter">
                   <span>
                     VRAM
@@ -785,34 +853,44 @@ function Hardware() {
                         ?.variantId ===
                       hardware.variantId;
 
-                    const pp512 =
-                      hardware.performance
-                        ?.averagePp512;
+                    const displayBackend =
+                      getDisplayBackend(hardware, backendFilter);
 
-                    const tg128 =
-                      hardware.performance
-                        ?.averageTg128;
+                    const performance =
+                      getBackendPerformance(
+                        hardware,
+                        displayBackend
+                      );
+
+                    const pp512 = performance?.averagePp512;
+                    const tg128 = performance?.averageTg128;
+
+                    const cardPp512Ranking =
+                      getMetricRanking("pp512");
+
+                    const cardTg128Ranking =
+                      getMetricRanking("tg128");
 
                     const pp512Rank =
-                      pp512Ranking.rankByVariantId.get(
+                      cardPp512Ranking.rankByVariantId.get(
                         hardware.variantId
                       );
 
                     const tg128Rank =
-                      tg128Ranking.rankByVariantId.get(
+                      cardTg128Ranking.rankByVariantId.get(
                         hardware.variantId
                       );
 
                     const pp512BarWidth =
                       calculateBarWidth(
                         pp512,
-                        pp512Ranking.bestValue
+                        cardPp512Ranking.bestValue
                       );
 
                     const tg128BarWidth =
                       calculateBarWidth(
                         tg128,
-                        tg128Ranking.bestValue
+                        cardTg128Ranking.bestValue
                       );
 
                     return (
@@ -836,6 +914,10 @@ function Hardware() {
                             hardware.gpuModel
                           }
                         </h2>
+
+                        <p>
+                          Backend: {displayBackend ?? "Unknown"}
+                        </p>
 
                         <p>
                           Benchmarks:{" "}
@@ -871,8 +953,8 @@ function Hardware() {
                               <small>
                                 #{pp512Rank} of{" "}
                                 {
-                                  pp512Ranking.totalRanked
-                                }
+                                  cardPp512Ranking.totalRanked
+                                } overall
                               </small>
                             )}
                           </div>
@@ -910,8 +992,8 @@ function Hardware() {
                               <small>
                                 #{tg128Rank} of{" "}
                                 {
-                                  tg128Ranking.totalRanked
-                                }
+                                  cardTg128Ranking.totalRanked
+                                } overall
                               </small>
                             )}
                           </div>

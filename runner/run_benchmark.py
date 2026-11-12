@@ -630,10 +630,97 @@ def ensure_model_ready() -> bool:
 # Managed runtime provisioning
 # ------------------------------------------------------------
 
-def ensure_runtime_ready() -> bool:
+def get_runtime_profile(
+    manifest: dict,
+    backend: str,
+) -> dict:
+    """
+    Return one backend-specific runtime profile from the asset manifest.
+    """
+
+    runtimes = manifest["assets"].get(
+        "runtimes"
+    )
+
+    if not isinstance(
+        runtimes,
+        dict,
+    ):
+        raise RuntimeError(
+            "Asset manifest does not define runtime profiles."
+        )
+
+    runtime = runtimes.get(
+        backend
+    )
+
+    if not isinstance(
+        runtime,
+        dict,
+    ):
+        raise RuntimeError(
+            "Asset manifest does not define "
+            f"the '{backend}' runtime profile."
+        )
+
+    return runtime
+
+
+def get_runtime_benchmark_file(
+    backend: str,
+) -> Path:
+    """
+    Resolve llama-bench.exe for one backend from the asset manifest.
+
+    Runtime install locations are manifest-owned so backend-specific
+    paths do not need to be hard-coded throughout the Runner.
+    """
+
+    manifest = load_asset_manifest(
+        ASSET_MANIFEST_FILE
+    )
+
+    manifest_protocol = manifest.get(
+        "protocol_version"
+    )
+
+    if manifest_protocol != PROTOCOL_VERSION:
+        raise RuntimeError(
+            "Asset manifest protocol version "
+            "does not match the Runner."
+        )
+
+    runtime = get_runtime_profile(
+        manifest,
+        backend,
+    )
+
+    install_path = runtime.get(
+        "install_path"
+    )
+
+    if not isinstance(
+        install_path,
+        str,
+    ) or not install_path.strip():
+        raise RuntimeError(
+            "Runtime manifest does not define "
+            f"install_path for backend '{backend}'."
+        )
+
+    return (
+        PROTOCOL_ROOT
+        / install_path.strip()
+        / "llama-bench.exe"
+    )
+
+
+def ensure_runtime_ready(
+    backend: str = "cuda",
+) -> bool:
     """
     Verify or automatically acquire and provision the frozen
-    Protocol v1.0 llama.cpp Windows NVIDIA runtime.
+    Protocol v1.0 llama.cpp Windows runtime for one backend.
     """
 
     ui_print("Benchmark Runtime")
@@ -669,10 +756,24 @@ def ensure_runtime_ready() -> bool:
         ui_print()
         return False
 
+    try:
+        runtime = get_runtime_profile(
+            manifest,
+            backend,
+        )
+
+    except RuntimeError as error:
+        ui_print(
+            f"[FAIL] {error}"
+        )
+        ui_print()
+        return False
+
     runtime_ok, runtime_message = (
         inspect_runtime(
             protocol_root=PROTOCOL_ROOT,
             manifest=manifest,
+            runtime_definition=runtime,
         )
     )
 
@@ -691,8 +792,6 @@ def ensure_runtime_ready() -> bool:
     ui_print(
         "Runtime provisioning is required."
     )
-
-    runtime = manifest["assets"]["runtime"]
 
     sources = runtime.get(
         "sources"
@@ -817,6 +916,7 @@ def ensure_runtime_ready() -> bool:
             protocol_root=PROTOCOL_ROOT,
             artifact_paths=artifact_paths,
             manifest=manifest,
+            runtime_definition=runtime,
         )
     )
 
@@ -835,6 +935,486 @@ def ensure_runtime_ready() -> bool:
     ui_print()
 
     return True
+
+# ------------------------------------------------------------
+# Windows accelerator discovery
+# ------------------------------------------------------------
+
+def classify_accelerator_vendor(
+    name: str,
+    pnp_device_id: str,
+) -> str | None:
+    """Classify one Windows video controller into a supported vendor."""
+
+    normalized_name = name.casefold()
+    normalized_pnp = pnp_device_id.casefold()
+
+    if "nvidia" in normalized_name or "ven_10de" in normalized_pnp:
+        return "nvidia"
+
+    if (
+        "amd" in normalized_name
+        or "radeon" in normalized_name
+        or "advanced micro devices" in normalized_name
+        or "ven_1002" in normalized_pnp
+    ):
+        return "amd"
+
+    if "intel" in normalized_name or "ven_8086" in normalized_pnp:
+        return "intel"
+
+    return None
+
+
+def backend_for_accelerator_vendor(
+    vendor: str,
+) -> str | None:
+    """Return the current OpenLLMWorks backend policy for one vendor."""
+
+    backend_by_vendor = {
+        "nvidia": "cuda",
+        "amd": "vulkan",
+        "intel": "vulkan",
+    }
+
+    return backend_by_vendor.get(vendor)
+
+
+def discover_windows_accelerators() -> list[dict]:
+    """
+    Discover supported physical GPU candidates through Windows CIM.
+
+    Windows discovery identifies physical display adapters only.
+    Runtime-specific device IDs are resolved later after the selected
+    backend has been provisioned.
+    """
+
+    command = (
+        "Get-CimInstance Win32_VideoController | "
+        "Select-Object Name,PNPDeviceID,DriverVersion,AdapterRAM | "
+        "ConvertTo-Json -Compress"
+    )
+
+    completed = subprocess.run(
+        [
+            "powershell",
+            "-NoProfile",
+            "-Command",
+            command,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Windows accelerator discovery failed.\n"
+            f"{completed.stderr.strip()}"
+        )
+
+    raw_output = completed.stdout.strip()
+
+    if not raw_output:
+        return []
+
+    try:
+        decoded = json.loads(raw_output)
+    except json.JSONDecodeError as error:
+        raise RuntimeError(
+            "Windows accelerator discovery returned invalid JSON."
+        ) from error
+
+    if isinstance(decoded, dict):
+        controllers = [decoded]
+    elif isinstance(decoded, list):
+        controllers = decoded
+    else:
+        raise RuntimeError(
+            "Windows accelerator discovery returned an unexpected result."
+        )
+
+    accelerators: list[dict] = []
+
+    for controller in controllers:
+        if not isinstance(controller, dict):
+            continue
+
+        name = str(controller.get("Name") or "").strip()
+        pnp_device_id = str(
+            controller.get("PNPDeviceID") or ""
+        ).strip()
+
+        if not name:
+            continue
+
+        vendor = classify_accelerator_vendor(
+            name,
+            pnp_device_id,
+        )
+
+        if vendor is None:
+            continue
+
+        backend = backend_for_accelerator_vendor(vendor)
+
+        if backend is None:
+            continue
+
+        accelerators.append(
+            {
+                "name": name,
+                "vendor": vendor,
+                "backend": backend,
+                "pnp_device_id": pnp_device_id,
+                "driver_version": (
+                    str(controller.get("DriverVersion") or "").strip()
+                    or None
+                ),
+                "adapter_ram_bytes": controller.get("AdapterRAM"),
+            }
+        )
+
+    return accelerators
+
+
+def select_accelerator(
+    accelerators: list[dict],
+) -> dict:
+    """
+    Select exactly one accelerator for the current Runner session.
+
+    A single compatible accelerator is selected automatically.
+    Multiple compatible accelerators require an explicit user choice.
+    The returned accelerator is the session selection; runtime-specific
+    device matching is performed later.
+    """
+
+    if not accelerators:
+        raise RuntimeError(
+            "No supported accelerator was detected. "
+            "OpenLLMWorks currently supports NVIDIA through CUDA "
+            "and AMD or Intel through Vulkan."
+        )
+
+    if len(accelerators) == 1:
+        selected = accelerators[0]
+
+        ui_print("Accelerator Selection")
+        ui_print("-" * 60)
+        ui_print(
+            f"GPU: {selected['name']}"
+        )
+        ui_print(
+            f"Backend: {selected['backend'].upper()}"
+        )
+        ui_print(
+            "[OK] Only one compatible accelerator detected; "
+            "selected automatically."
+        )
+        ui_print()
+
+        return selected
+
+    ui_print("Accelerator Selection")
+    ui_print("-" * 60)
+    ui_print(
+        "Multiple compatible accelerators detected."
+    )
+    ui_print()
+
+    for index, accelerator in enumerate(
+        accelerators,
+        start=1,
+    ):
+        ui_print(
+            f"[{index}] {accelerator['name']}"
+        )
+        ui_print(
+            f"    Backend: "
+            f"{accelerator['backend'].upper()}"
+        )
+
+        driver_version = accelerator.get(
+            "driver_version"
+        )
+
+        if driver_version:
+            ui_print(
+                f"    Driver: {driver_version}"
+            )
+
+        ui_print()
+
+    while True:
+        try:
+            response = input(
+                "Select accelerator "
+                f"[1-{len(accelerators)}]: "
+            ).strip()
+
+        except EOFError as error:
+            raise RuntimeError(
+                "Accelerator selection requires interactive input "
+                "when multiple compatible accelerators are detected."
+            ) from error
+
+        if not response:
+            ui_print(
+                "[WARN] Enter the number of the accelerator "
+                "you want to benchmark."
+            )
+            continue
+
+        try:
+            selection_index = int(response)
+
+        except ValueError:
+            ui_print(
+                "[WARN] Accelerator selection must be a number."
+            )
+            continue
+
+        if not (
+            1
+            <= selection_index
+            <= len(accelerators)
+        ):
+            ui_print(
+                "[WARN] Accelerator selection is outside "
+                "the available range."
+            )
+            continue
+
+        selected = accelerators[
+            selection_index - 1
+        ]
+
+        ui_print()
+        ui_print(
+            f"[OK] Selected: {selected['name']}"
+        )
+        ui_print(
+            f"Backend: {selected['backend'].upper()}"
+        )
+        ui_print()
+
+        return selected
+
+
+# ------------------------------------------------------------
+# Runtime accelerator discovery
+# ------------------------------------------------------------
+
+def normalize_accelerator_name(
+    name: str,
+) -> str:
+    """
+    Normalize a GPU name for conservative Windows/runtime matching.
+    """
+
+    normalized = name.casefold()
+
+    for removable in (
+        "(r)",
+        "(tm)",
+        "series",
+    ):
+        normalized = normalized.replace(
+            removable,
+            " ",
+        )
+
+    return " ".join(
+        re.findall(
+            r"[a-z0-9]+",
+            normalized,
+        )
+    )
+
+
+def discover_runtime_devices(
+    benchmark_file: Path,
+    backend: str,
+) -> list[dict]:
+    """
+    Ask the selected llama.cpp runtime which accelerator devices it sees.
+    """
+
+    completed = subprocess.run(
+        [
+            str(benchmark_file),
+            "--list-devices",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=str(benchmark_file.parent),
+    )
+
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Runtime device discovery failed for "
+            f"backend '{backend}'.\n"
+            f"{completed.stderr.strip()}"
+        )
+
+    combined_output = "\n".join(
+        part.strip()
+        for part in (
+            completed.stderr,
+            completed.stdout,
+        )
+        if part.strip()
+    )
+
+    devices: list[dict] = []
+
+    device_pattern = re.compile(
+        r"^\s*([A-Za-z]+[0-9]+):\s*"
+        r"(.+?)"
+        r"(?:\s+\((\d+)\s+MiB,"
+        r"\s*(\d+)\s+MiB free\))?"
+        r"\s*$"
+    )
+
+    for line in combined_output.splitlines():
+        match = device_pattern.match(line)
+
+        if match is None:
+            continue
+
+        device_id = match.group(1)
+
+        if not device_id.casefold().startswith(
+            backend.casefold()
+        ):
+            continue
+
+        devices.append(
+            {
+                "device_id": device_id,
+                "name": match.group(2).strip(),
+                "reported_memory_mib": (
+                    int(match.group(3))
+                    if match.group(3)
+                    else None
+                ),
+                "reported_free_memory_mib": (
+                    int(match.group(4))
+                    if match.group(4)
+                    else None
+                ),
+            }
+        )
+
+    if not devices:
+        raise RuntimeError(
+            "The selected runtime reported no "
+            f"'{backend}' accelerator devices."
+        )
+
+    return devices
+
+
+def match_selected_runtime_device(
+    selected_accelerator: dict,
+    runtime_devices: list[dict],
+) -> dict:
+    """
+    Match a selected Windows GPU to exactly one runtime GPU.
+
+    Only optional leading vendor names may differ. Model tokens must
+    match exactly, preventing RX 560 / RX 5600 misattribution.
+    """
+
+    def comparable_name(name: str) -> str:
+        normalized = normalize_accelerator_name(name)
+        tokens = normalized.split()
+
+        if tokens and tokens[0] in ("amd", "nvidia", "intel"):
+            tokens = tokens[1:]
+
+        return " ".join(tokens)
+
+    selected_name = comparable_name(
+        str(selected_accelerator["name"])
+    )
+
+    if not selected_name:
+        raise RuntimeError("Selected accelerator name is empty.")
+
+    matches = []
+
+    for device in runtime_devices:
+        runtime_name = comparable_name(str(device["name"]))
+
+        if runtime_name and selected_name == runtime_name:
+            matches.append(device)
+
+    if not matches:
+        available = ", ".join(
+            f"{device['device_id']}: {device['name']}"
+            for device in runtime_devices
+        )
+        raise RuntimeError(
+            "Could not match the selected Windows accelerator "
+            f"'{selected_accelerator['name']}' to a runtime device. "
+            f"Runtime devices: {available}"
+        )
+
+    if len(matches) != 1:
+        matched = ", ".join(
+            f"{device['device_id']}: {device['name']}"
+            for device in matches
+        )
+        raise RuntimeError(
+            "The selected Windows accelerator matched multiple "
+            f"runtime devices: {matched}"
+        )
+
+    return matches[0]
+
+
+def resolve_selected_runtime_device(
+    selected_accelerator: dict,
+    benchmark_file: Path,
+) -> dict:
+    """
+    Discover and lock the exact runtime device for the selected accelerator.
+    """
+
+    backend = str(
+        selected_accelerator["backend"]
+    )
+
+    runtime_devices = discover_runtime_devices(
+        benchmark_file,
+        backend,
+    )
+
+    ui_print("Runtime Devices")
+    ui_print("-" * 60)
+
+    for device in runtime_devices:
+        ui_print(
+            f"{device['device_id']}: {device['name']}"
+        )
+
+    ui_print()
+
+    matched = match_selected_runtime_device(
+        selected_accelerator,
+        runtime_devices,
+    )
+
+    ui_print(
+        "[OK] Runtime device matched: "
+        f"{matched['device_id']} -> {matched['name']}"
+    )
+    ui_print()
+
+    return matched
 
 
 # ------------------------------------------------------------
@@ -1094,13 +1674,63 @@ def run_powershell_to_file(
     )
 
 
+def capture_runtime_device_evidence(
+    *,
+    benchmark_file: Path,
+    backend: str,
+) -> str:
+    """
+    Capture raw runtime device discovery output for evidence.
+
+    Runtime-reported memory is preserved as raw metadata only. It is not
+    interpreted here as canonical dedicated VRAM.
+    """
+
+    completed = subprocess.run(
+        [
+            str(benchmark_file),
+            "--list-devices",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        cwd=str(benchmark_file.parent),
+    )
+
+    combined_output = "\n".join(
+        part.strip()
+        for part in (
+            completed.stderr,
+            completed.stdout,
+        )
+        if part.strip()
+    )
+
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Runtime device evidence capture failed for "
+            f"backend '{backend}'.\n"
+            f"{combined_output}"
+        )
+
+    if not combined_output:
+        raise RuntimeError(
+            "Runtime device evidence capture returned no output for "
+            f"backend '{backend}'."
+        )
+
+    return combined_output + "\n"
+
+
 def capture_hardware_evidence(
     *,
     result_path: Path,
-    nvidia_smi_output: str,
+    backend: str = "cuda",
+    benchmark_file: Path = LLAMA_BENCH_FILE,
+    nvidia_smi_output: str | None = None,
 ) -> None:
     """
-    Capture required OpenLLMWorks hardware evidence files.
+    Capture common and backend-specific OpenLLMWorks hardware evidence.
     """
 
     ui_print("=" * 60)
@@ -1203,17 +1833,63 @@ def capture_hardware_evidence(
             f"[OK] {file_name}"
         )
 
-    nvidia_file = (
-        result_path
-        / "nvidia-smi.txt"
-    )
+    normalized_backend = backend.casefold()
 
-    nvidia_file.write_text(
-        nvidia_smi_output,
-        encoding="utf-8",
-    )
+    if normalized_backend == "cuda":
+        if nvidia_smi_output is None:
+            raise RuntimeError(
+                "CUDA hardware evidence requires nvidia-smi output."
+            )
 
-    ui_print("[OK] nvidia-smi.txt")
+        nvidia_file = (
+            result_path
+            / "nvidia-smi.txt"
+        )
+
+        nvidia_file.write_text(
+            nvidia_smi_output,
+            encoding="utf-8",
+        )
+
+        ui_print("[OK] nvidia-smi.txt")
+
+        cuda_output = capture_runtime_device_evidence(
+            benchmark_file=benchmark_file,
+            backend=normalized_backend,
+        )
+
+        cuda_file = result_path / "cuda-devices.txt"
+        cuda_file.write_text(
+            cuda_output,
+            encoding="utf-8",
+        )
+
+        ui_print("[OK] cuda-devices.txt")
+
+    elif normalized_backend == "vulkan":
+        vulkan_output = capture_runtime_device_evidence(
+            benchmark_file=benchmark_file,
+            backend=normalized_backend,
+        )
+
+        vulkan_file = (
+            result_path
+            / "vulkan-devices.txt"
+        )
+
+        vulkan_file.write_text(
+            vulkan_output,
+            encoding="utf-8",
+        )
+
+        ui_print("[OK] vulkan-devices.txt")
+
+    else:
+        raise RuntimeError(
+            "Hardware evidence capture does not support "
+            f"backend '{backend}'."
+        )
+
     ui_print()
 
 
@@ -1221,13 +1897,21 @@ def capture_hardware_evidence(
 # Benchmark execution
 # ------------------------------------------------------------
 
-def build_benchmark_command() -> list[str]:
+def build_benchmark_command(
+    *,
+    benchmark_file: Path = LLAMA_BENCH_FILE,
+    device_id: str | None = None,
+) -> list[str]:
     """
     Build the frozen Benchmark Protocol v1.0 command.
+
+    The workload remains backend-agnostic. A backend-specific runtime
+    executable may be supplied, and runtimes that require an explicit
+    accelerator selection may supply the already-locked device ID.
     """
 
-    return [
-        str(LLAMA_BENCH_FILE),
+    command = [
+        str(benchmark_file),
         "-m",
         str(MODEL_FILE),
         "-p",
@@ -1238,15 +1922,32 @@ def build_benchmark_command() -> list[str]:
         "1",
         "-ngl",
         str(GPU_LAYERS),
-        "-o",
-        "md",
     ]
+
+    if device_id is not None:
+        command.extend(
+            [
+                "--device",
+                device_id,
+            ]
+        )
+
+    command.extend(
+        [
+            "-o",
+            "md",
+        ]
+    )
+
+    return command
 
 
 def execute_benchmark_run(
     *,
     run_number: int,
     result_path: Path,
+    benchmark_file: Path = LLAMA_BENCH_FILE,
+    device_id: str | None = None,
 ) -> Path:
     """
     Execute one independent benchmark run.
@@ -1263,7 +1964,10 @@ def execute_benchmark_run(
         )
     )
 
-    command = build_benchmark_command()
+    command = build_benchmark_command(
+        benchmark_file=benchmark_file,
+        device_id=device_id,
+    )
 
     ui_print(
         f"Running benchmark "
@@ -1276,7 +1980,7 @@ def execute_benchmark_run(
         text=True,
         check=False,
         cwd=str(
-            LLAMA_BENCH_FILE.parent
+            benchmark_file.parent
         ),
     )
 
@@ -1648,6 +2352,107 @@ def build_submission_zip(
 
 
 # ------------------------------------------------------------
+# Accelerator/runtime integration probe
+# ------------------------------------------------------------
+
+def prepare_selected_accelerator_environment() -> tuple[
+    dict,
+    Path,
+    dict,
+]:
+    """
+    Prepare the selected accelerator's managed benchmark environment.
+
+    This helper intentionally stops before hardware evidence capture and
+    benchmark execution. It provides a safe integration point for testing:
+
+        Windows discovery
+        -> accelerator selection
+        -> model provisioning
+        -> backend-specific runtime provisioning
+        -> backend-specific llama-bench.exe resolution
+        -> exact runtime-device matching
+
+    The caller is responsible for evidence capture and benchmark execution.
+    """
+
+    accelerators = discover_windows_accelerators()
+
+    selected = select_accelerator(
+        accelerators
+    )
+
+    backend = selected["backend"]
+
+    ui_print("Selected Benchmark Environment")
+    ui_print("-" * 60)
+    ui_print(
+        f"Accelerator: {selected['name']}"
+    )
+    ui_print(
+        f"Backend: {backend.upper()}"
+    )
+    ui_print()
+
+    if not ensure_model_ready():
+        raise RuntimeError(
+            "Benchmark model is not ready."
+        )
+
+    if not ensure_runtime_ready(
+        backend
+    ):
+        raise RuntimeError(
+            "Benchmark runtime is not ready for "
+            f"backend '{backend}'."
+        )
+
+    benchmark_file = (
+        get_runtime_benchmark_file(
+            backend
+        )
+    )
+
+    if not benchmark_file.is_file():
+        raise RuntimeError(
+            "Benchmark engine was not found after "
+            f"runtime provisioning: {benchmark_file}"
+        )
+
+    # Reinspect the installed runtime after provisioning. The manifest's
+    # executable and library hashes are authoritative for both backends.
+    runtime_manifest = load_asset_manifest(ASSET_MANIFEST_FILE)
+    runtime_profile = get_runtime_profile(runtime_manifest, backend)
+    runtime_verified, runtime_message = inspect_runtime(
+        protocol_root=PROTOCOL_ROOT,
+        manifest=runtime_manifest,
+        runtime_definition=runtime_profile,
+    )
+    if not runtime_verified:
+        raise RuntimeError(
+            "Selected benchmark runtime failed verification: "
+            f"{runtime_message}"
+        )
+
+    ui_print("Benchmark Engine")
+    ui_print("-" * 60)
+    ui_print(
+        f"Path: {benchmark_file}"
+    )
+    ui_print(
+        "[OK] Selected accelerator environment is ready."
+    )
+    ui_print()
+
+    runtime_device = resolve_selected_runtime_device(
+        selected,
+        benchmark_file,
+    )
+
+    return selected, benchmark_file, runtime_device
+
+
+# ------------------------------------------------------------
 # Main runner
 # ------------------------------------------------------------
 
@@ -1663,113 +2468,57 @@ def run_main_workflow() -> int:
 
     print_header()
 
-    gpu_ok, gpu, nvidia_output = (
-        check_gpu()
-    )
+    try:
+        selected, selected_benchmark_file, runtime_device = (
+            prepare_selected_accelerator_environment()
+        )
 
-    model_ready = ensure_model_ready()
+        backend = str(selected["backend"]).casefold()
+        device_id = str(runtime_device["device_id"])
+        nvidia_output = None
 
-    if model_ready:
-        model_ok = check_file(
+        # Keep NVIDIA-SMI evidence for existing CUDA submissions.
+        # Do not rely on GPU 0 for the selected accelerator's identity.
+        if backend == "cuda":
+            nvidia_output = run_nvidia_smi()
+            if not nvidia_output.strip():
+                raise RuntimeError(
+                    "NVIDIA-SMI returned empty CUDA hardware evidence."
+                )
+
+        # Model verification remains explicitly pinned to Protocol v1.0.
+        if not check_file(
             label="Qwen3-4B-Q4_K_M.gguf",
             file_path=MODEL_FILE,
-            expected_sha256=(
-                EXPECTED_MODEL_SHA256
-            ),
-        )
-    else:
-        model_ok = False
-        ui_print(
-            "[FAIL] Benchmark model is not ready."
-        )
+            expected_sha256=EXPECTED_MODEL_SHA256,
+        ):
+            raise RuntimeError("Benchmark model SHA-256 verification failed.")
+
+        ui_print("=" * 60)
+        ui_print("[1/4] CHECKING YOUR SYSTEM")
+        ui_print("=" * 60)
+        ui_print(f"[PASS] Selected GPU: {selected['name']}")
+        ui_print(f"[PASS] Backend: {backend.upper()}")
+        ui_print(f"[PASS] Runtime device: {device_id}")
+        ui_print("[PASS] Benchmark model")
+        ui_print("[PASS] Benchmark runtime and engine")
+        ui_print()
+        ui_print("Environment verification PASSED.")
         ui_print()
 
-    runtime_ok = ensure_runtime_ready()
-
-    ui_print("Benchmark Engine")
-    ui_print("-" * 60)
-
-    if runtime_ok:
-        engine_ok = check_file(
-            label="llama-bench.exe",
-            file_path=LLAMA_BENCH_FILE,
-            expected_sha256=(
-                EXPECTED_LLAMA_BENCH_SHA256
-            ),
-        )
-    else:
-        engine_ok = False
-        ui_print(
-            "[FAIL] Benchmark runtime is not ready."
-        )
+    except (RuntimeError, OSError, subprocess.SubprocessError) as error:
         ui_print()
-
-    ui_print("=" * 60)
-    ui_print("[1/4] CHECKING YOUR SYSTEM")
-    ui_print("=" * 60)
-
-    ui_print(
-        "[PASS] NVIDIA GPU"
-        if gpu_ok
-        else "[FAIL] NVIDIA GPU"
-    )
-
-    ui_print(
-        "[PASS] Benchmark model"
-        if model_ok
-        else "[FAIL] Benchmark model"
-    )
-
-    ui_print(
-        "[PASS] Benchmark runtime"
-        if runtime_ok
-        else "[FAIL] Benchmark runtime"
-    )
-
-    ui_print(
-        "[PASS] Benchmark engine"
-        if engine_ok
-        else "[FAIL] Benchmark engine"
-    )
-
-    ui_print()
-
-    if not (
-        gpu_ok
-        and model_ok
-        and runtime_ok
-        and engine_ok
-    ):
-        ui_print(
-            "Environment verification FAILED."
-        )
+        ui_print(f"[FAIL] Environment verification failed: {error}")
+        ui_print("Benchmarking did not start.")
         ui_print()
-        ui_print(
-            "Benchmarking did not start."
-        )
-        ui_print(
-            "Correct the failed checks above, "
-            "then run the Runner again."
-        )
-        ui_print()
-
         return 1
-
-    ui_print(
-        "Environment verification PASSED."
-    )
-
-    ui_print()
-
-    assert gpu is not None
-    assert nvidia_output is not None
 
     machine_name = sanitize_name(
         socket.gethostname()
     )
 
     gpu_name = sanitize_name(
-        gpu["gpu_model"]
+        str(selected["name"])
     )
 
     local_timestamp = datetime.now().strftime(
@@ -1809,10 +2558,26 @@ def run_main_workflow() -> int:
     try:
         capture_hardware_evidence(
             result_path=result_path,
-            nvidia_smi_output=(
-                nvidia_output
-            ),
+            backend=backend,
+            benchmark_file=selected_benchmark_file,
+            nvidia_smi_output=nvidia_output,
         )
+
+        # Bind the captured evidence to the accelerator actually selected.
+        # This file is supplemental; the canonical parser must be extended
+        # separately before Vulkan submissions can be accepted.
+        selection_evidence = {
+            "backend": backend,
+            "windows_accelerator": selected,
+            "runtime_device": runtime_device,
+            "benchmark_executable": selected_benchmark_file.name,
+        }
+        (result_path / "selected-accelerator.json").write_text(
+            json.dumps(selection_evidence, indent=2, ensure_ascii=False)
+            + "\n",
+            encoding="utf-8",
+        )
+        ui_print("[OK] selected-accelerator.json")
 
         ui_print("=" * 60)
         ui_print("[2/4] PREPARING BENCHMARK")
@@ -1852,16 +2617,14 @@ def run_main_workflow() -> int:
             1,
             REQUIRED_RUNS + 1,
         ):
-            benchmark_file = (
-                execute_benchmark_run(
-                    run_number=run_number,
-                    result_path=result_path,
-                )
+            run_output_file = execute_benchmark_run(
+                run_number=run_number,
+                result_path=result_path,
+                benchmark_file=selected_benchmark_file,
+                device_id=device_id,
             )
 
-            benchmark_files.append(
-                benchmark_file
-            )
+            benchmark_files.append(run_output_file)
 
         results_ok = (
             print_results_summary(
@@ -2041,7 +2804,7 @@ def run_main_workflow() -> int:
     offer_direct_submission(
         zip_path=zip_path,
         submission_name=submission_name,
-        gpu_name=gpu["gpu_model"],
+        gpu_name=str(selected["name"]),
     )
 
     return 0

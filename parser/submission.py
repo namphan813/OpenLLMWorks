@@ -18,6 +18,11 @@ import re
 from pathlib import Path
 from typing import Any
 
+from parser.device_identity import (
+    DeviceIdentityError,
+    verify_device_identity,
+)
+
 
 SUBMISSION_MODULE_VERSION = "0.6.0-dev4"
 
@@ -29,8 +34,12 @@ REQUIRED_HARDWARE_FILES = (
     "memory.txt",
     "system.txt",
     "windows.txt",
-    "nvidia-smi.txt",
 )
+
+BACKEND_EVIDENCE_FILES = {
+    "cuda": "nvidia-smi.txt",
+    "vulkan": "vulkan-devices.txt",
+}
 
 
 @dataclass(frozen=True)
@@ -297,6 +306,43 @@ def validate_submission_preflight(
             errors.append(
                 f"Missing required file: {file_name}"
             )
+
+    # Legacy NVIDIA packages have no selection metadata. New Vulkan
+    # packages must explicitly declare their selected backend and device.
+    selection_path = submission.source_path / "selected-accelerator.json"
+    backend = "cuda"
+
+    if selection_path.exists():
+        if not selection_path.is_file():
+            errors.append("selected-accelerator.json is not a file.")
+        else:
+            try:
+                selection = json.loads(selection_path.read_text(encoding="utf-8"))
+                if not isinstance(selection, dict):
+                    raise ValueError("Selection must be a JSON object.")
+                backend = selection.get("backend")
+                if backend not in BACKEND_EVIDENCE_FILES:
+                    raise ValueError("Unsupported or missing accelerator backend.")
+                if backend == "vulkan":
+                    device = selection.get("runtime_device")
+                    if not isinstance(device, dict) or not isinstance(device.get("device_id"), str) or not device["device_id"].strip():
+                        raise ValueError("Vulkan selection requires a runtime device ID.")
+            except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+                errors.append(f"Invalid selected-accelerator.json: {error}")
+                backend = None
+
+    if backend in BACKEND_EVIDENCE_FILES:
+        evidence_name = BACKEND_EVIDENCE_FILES[backend]
+        if not (submission.source_path / evidence_name).is_file():
+            errors.append(f"Missing required file: {evidence_name}")
+
+    # Legacy CUDA packages do not contain selection metadata. For newer
+    # packages, require a unique match to saved llama.cpp device evidence.
+    if selection_path.is_file() and backend in BACKEND_EVIDENCE_FILES:
+        try:
+            verify_device_identity(submission.source_path)
+        except DeviceIdentityError as error:
+            errors.append(f"Invalid accelerator identity: {error}")
 
     benchmark_files = tuple(
         sorted(

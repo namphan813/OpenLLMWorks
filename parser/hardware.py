@@ -491,6 +491,7 @@ def parse_video_controllers(file_path: Path) -> list[dict]:
             {
                 "name": name,
                 "pci": pci,
+                "driver_version": get_value("DriverVersion"),
             }
         )
 
@@ -542,6 +543,19 @@ def enrich_gpu_with_video_controller(
 
     enriched_gpu = dict(gpu)
     enriched_gpu["pci"] = pci
+
+    # CUDA driver metadata comes from NVIDIA-SMI.
+    # Vulkan uses the uniquely matched Windows video controller.
+    if enriched_gpu.get("software", {}).get("driver_version") is None:
+        driver_version = matches[0].get("driver_version")
+
+        if (
+            driver_version
+            and re.fullmatch(r"[0-9]+(?:\.[0-9]+)+", driver_version)
+            and enriched_gpu["software"].get("nvidia_smi_version") is None
+        ):
+            enriched_gpu["software"] = dict(enriched_gpu["software"])
+            enriched_gpu["software"]["driver_version"] = driver_version
 
     return enriched_gpu
 
@@ -637,59 +651,107 @@ def parse_nvidia_smi(file_path: Path) -> dict:
     }
 
 
-def load_hardware_profile(submission_folder: Path) -> dict:
-    """
-    Load and normalize all required hardware files.
-    """
 
+def normalize_vulkan_vram_capacity(reported_mib: int) -> float | None:
+    """Conservatively normalize Vulkan memory to nominal whole-GiB capacity.
+
+    Vulkan may report slightly less than physical capacity. Accept only
+    measurements within 128 MiB below a whole-GiB boundary.
+    """
+    if type(reported_mib) is not int or reported_mib <= 0:
+        return None
+
+    nominal_gib = (reported_mib + 1023) // 1024
+    nominal_mib = nominal_gib * 1024
+
+    if nominal_mib - reported_mib <= 128:
+        return float(nominal_gib)
+
+    return None
+
+
+def load_hardware_profile(submission_folder: Path) -> dict:
+    """Load legacy CUDA or verified explicitly selected accelerator hardware.
+
+    Selection metadata requires device-identity verification. Vulkan memory
+    is preserved from verified runtime evidence, with conservative capacity
+    normalization when the measurement supports it.
+    """
+    from parser.device_identity import verify_device_identity
+
+    submission_folder = Path(submission_folder)
     required_files = {
         "cpu": submission_folder / "cpu.txt",
         "memory": submission_folder / "memory.txt",
         "system": submission_folder / "system.txt",
         "windows": submission_folder / "windows.txt",
-        "nvidia_smi": submission_folder / "nvidia-smi.txt",
     }
-
-    missing_files = [
-        file_path.name
-        for file_path in required_files.values()
-        if not file_path.exists()
-    ]
-
+    missing_files = [p.name for p in required_files.values() if not p.is_file()]
     if missing_files:
         raise FileNotFoundError(
-            "Missing required hardware file(s): "
-            + ", ".join(missing_files)
+            "Missing required hardware file(s): " + ", ".join(missing_files)
         )
 
-    gpu = parse_nvidia_smi(
-        required_files["nvidia_smi"]
-    )
+    selection_path = submission_folder / "selected-accelerator.json"
+    selected = verify_device_identity(submission_folder) if selection_path.exists() else None
+    backend = selected["backend"] if selected else "cuda"
 
-    video_controllers = parse_video_controllers(
-        required_files["system"]
-    )
+    if backend == "cuda":
+        smi_path = submission_folder / "nvidia-smi.txt"
+        if not smi_path.is_file():
+            raise FileNotFoundError("Missing required hardware file(s): nvidia-smi.txt")
+        gpu = parse_nvidia_smi(smi_path)
+        if selected:
+            # NVIDIA-SMI parser currently reads GPU index 0 only. Never
+            # attribute a different explicitly selected CUDA GPU to index 0.
+            if selected["device_id"].casefold() != "cuda0":
+                raise ValueError(
+                    "Explicit CUDA device is not cuda0; NVIDIA-SMI multi-GPU "
+                    "parsing is required before this submission can be attributed."
+                )
+            from parser.device_identity import _matches
+            if not _matches(gpu["model"], selected["gpu_name"]):
+                raise ValueError("Selected CUDA GPU disagrees with NVIDIA-SMI GPU 0.")
+    elif backend == "vulkan":
+        name = selected["gpu_name"]
+        lowered = name.casefold()
+        vendor = (
+            "AMD" if "amd" in lowered or "radeon" in lowered
+            else "NVIDIA" if "nvidia" in lowered or "geforce" in lowered
+            else "Intel" if "intel" in lowered
+            else "Unknown"
+        )
+        gpu = {
+            "vendor": vendor,
+            "model": name,
+            "type": "Unknown",
+            "form_factor": "Unknown",
+            "driver_model": None,
+            "vram": {
+                "reported_mib": selected["reported_memory_mib"],
+                "capacity_gib": normalize_vulkan_vram_capacity(
+                    selected["reported_memory_mib"]
+                ),
+            },
+            "software": {
+                "nvidia_smi_version": None,
+                "driver_version": None,
+                "cuda_umd_version": None,
+            },
+        }
+    else:
+        raise ValueError(f"Unsupported backend: {backend!r}")
 
-    gpu = enrich_gpu_with_video_controller(
-        gpu,
-        video_controllers,
-    )
-
+    video_controllers = parse_video_controllers(required_files["system"])
+    gpu = enrich_gpu_with_video_controller(gpu, video_controllers)
     hardware = {
         "system": parse_system(required_files["system"]),
         "cpu": parse_cpu(required_files["cpu"]),
         "memory": parse_memory(required_files["memory"]),
-        "operating_system": parse_windows(
-            required_files["windows"]
-        ),
+        "operating_system": parse_windows(required_files["windows"]),
         "gpu": gpu,
     }
-
-    model_storage = parse_model_storage(
-        required_files["system"]
-    )
-
+    model_storage = parse_model_storage(required_files["system"])
     if model_storage is not None:
         hardware["model_storage"] = model_storage
-
     return hardware
