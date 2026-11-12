@@ -84,7 +84,7 @@ from runner.submission_client import (
 # Runner configuration
 # ------------------------------------------------------------
 
-RUNNER_VERSION = "0.4.0-beta.1"
+RUNNER_VERSION = "0.4.2-beta.1"
 PROTOCOL_VERSION = "v1.0"
 
 
