@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 const GITHUB_URL = "https://github.com/namphan813/OpenLLMWorks";
+const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61596373444021";
 const RUNNER_URL =
     "https://github.com/namphan813/OpenLLMWorks/releases/tag/v0.4.2-beta.1";
 const ISSUES_URL =
@@ -88,6 +89,14 @@ function Footer() {
                         rel="noreferrer"
                     >
                         GitHub
+                    </a>
+
+                    <a
+                        href={FACEBOOK_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Facebook
                     </a>
                 </div>
 
