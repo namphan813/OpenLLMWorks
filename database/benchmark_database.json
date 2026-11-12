@@ -3,8 +3,8 @@
   "schema_version": "0.7",
   "parser_version": "0.6.0-dev5",
   "created_at": "2026-08-02T14:17:33+00:00",
-  "generated_at": "2026-11-10T22:20:55+00:00",
-  "result_count": 17,
+  "generated_at": "2026-11-12T01:39:38+00:00",
+  "result_count": 18,
   "results": [
     {
       "result_id": "result_0200fb0ee70bb08a",
@@ -953,6 +953,164 @@
         "processed_at": "2026-11-07T01:04:01+00:00",
         "imported_at": "2026-11-07T01:04:01+00:00",
         "last_updated": "2026-11-07T01:04:01+00:00"
+      }
+    },
+    {
+      "result_id": "result_8de84937b60f7f5e",
+      "submission": {
+        "submission_name": "BeanPC-AMD-Radeon-RX-6700-XT-20261111-111204",
+        "source_path": "/home/runner/work/OpenLLMWorks/OpenLLMWorks/incoming/BeanPC-AMD-Radeon-RX-6700-XT-20261111-111204",
+        "source_type": "direct_submission",
+        "contributor_id": "founder_000001",
+        "contributor_type": "founder",
+        "verification_status": "maintainer_verified",
+        "runs_completed": 3,
+        "submitted_at": "2026-11-11T17:12:28+00:00"
+      },
+      "hardware": {
+        "system": {
+          "manufacturer": "Micro-Star International Co., Ltd.",
+          "model": "MS-7C91",
+          "generic_firmware_identity": false,
+          "baseboard": {
+            "manufacturer": "Micro-Star International Co., Ltd.",
+            "product": "MAG B550 TOMAHAWK (MS-7C91)",
+            "version": "2.0"
+          }
+        },
+        "cpu": {
+          "model": "AMD Ryzen 5 5600X 6-Core Processor",
+          "physical_cores": 6,
+          "logical_processors": 12
+        },
+        "memory": {
+          "reported_bytes": 34282233856,
+          "calculated_gib": 31.93,
+          "installed_capacity_gb": 32,
+          "modules": [
+            {
+              "bank_label": "P0 CHANNEL A",
+              "device_locator": "DIMM 1",
+              "manufacturer": "Unknown",
+              "part_number": "CMK32GX4M2E3200C16",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 3200,
+              "configured_speed_mts": 3200,
+              "smbios_memory_type": 26,
+              "form_factor": 8
+            },
+            {
+              "bank_label": "P0 CHANNEL B",
+              "device_locator": "DIMM 1",
+              "manufacturer": "Unknown",
+              "part_number": "CMK32GX4M2E3200C16",
+              "capacity_bytes": 17179869184,
+              "speed_mts": 3200,
+              "configured_speed_mts": 3200,
+              "smbios_memory_type": 26,
+              "form_factor": 8
+            }
+          ]
+        },
+        "operating_system": {
+          "platform": "Windows",
+          "reported": {
+            "product_name": "Windows 10 Home",
+            "version": "2009",
+            "build": 26300
+          },
+          "normalized": {
+            "family": "Windows 11",
+            "edition": "Home",
+            "name": "Windows 11 Home",
+            "release": null,
+            "recognition_status": "inferred_family"
+          }
+        },
+        "gpu": {
+          "vendor": "AMD",
+          "model": "AMD Radeon RX 6700 XT",
+          "type": "Unknown",
+          "form_factor": "Unknown",
+          "driver_model": null,
+          "vram": {
+            "reported_mib": 12272,
+            "capacity_gib": 12.0
+          },
+          "software": {
+            "nvidia_smi_version": null,
+            "driver_version": "32.0.21045.16010",
+            "cuda_umd_version": null
+          },
+          "pci": {
+            "vendor_id": "1002",
+            "device_id": "73DF",
+            "subsystem_id": "2409148C",
+            "revision_id": "C1",
+            "pnp_device_id": "PCI\\VEN_1002&DEV_73DF&SUBSYS_2409148C&REV_C1\\6&174D5041&0&00000019"
+          }
+        },
+        "model_storage": {
+          "model": "WD_BLACK SN850X 1000GB",
+          "media_type": "SSD",
+          "bus_type": "NVMe",
+          "capacity_bytes": 1000204886016
+        }
+      },
+      "benchmark": {
+        "status": "complete",
+        "benchmark_timestamp": "2026-11-11T17:12:15+00:00",
+        "protocol": {
+          "id": "OLBD-BP-1.0",
+          "version": "1.0",
+          "required_runs": 3,
+          "prompt_tokens": 512,
+          "generation_tokens": 128,
+          "backend": "Vulkan"
+        },
+        "llama_cpp": {
+          "commit": "178a6c449",
+          "build": 10069,
+          "all_detected_commits": [
+            "178a6c449"
+          ],
+          "all_detected_builds": [
+            10069
+          ],
+          "consistent_across_runs": true
+        },
+        "runs": [
+          {
+            "run_number": 1,
+            "filename": "benchmark-v1.0-p512-run1.txt",
+            "pp512": 1118.52,
+            "tg128": 112.9
+          },
+          {
+            "run_number": 2,
+            "filename": "benchmark-v1.0-p512-run2.txt",
+            "pp512": 1117.39,
+            "tg128": 113.56
+          },
+          {
+            "run_number": 3,
+            "filename": "benchmark-v1.0-p512-run3.txt",
+            "pp512": 1117.69,
+            "tg128": 113.56
+          }
+        ],
+        "average": {
+          "pp512": 1117.87,
+          "tg128": 113.34
+        }
+      },
+      "metadata": {
+        "parser_version": "0.6.0-dev5",
+        "database_module_version": "0.8.0-dev5",
+        "schema_version": "0.7",
+        "processed_at": "2026-11-12T01:39:38+00:00",
+        "imported_at": "2026-11-12T01:39:38+00:00",
+        "last_updated": "2026-11-12T01:39:38+00:00"
       }
     },
     {
@@ -2624,6 +2782,13 @@
       "imported_at": "2026-11-10T22:20:55+00:00",
       "result_id": "result_4eb2764a0342463c",
       "submission_name": "DESKTOP-SJIJEJ8-NVIDIA-GeForce-GTX-1080-Ti-20261110-170458",
+      "status": "added"
+    },
+    {
+      "processed_at": "2026-11-12T01:39:38+00:00",
+      "imported_at": "2026-11-12T01:39:38+00:00",
+      "result_id": "result_8de84937b60f7f5e",
+      "submission_name": "BeanPC-AMD-Radeon-RX-6700-XT-20261111-111204",
       "status": "added"
     }
   ],
