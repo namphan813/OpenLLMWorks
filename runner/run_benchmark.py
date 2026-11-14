@@ -1324,22 +1324,40 @@ def match_selected_runtime_device(
     """
     Match a selected Windows GPU to exactly one runtime GPU.
 
-    Only optional leading vendor names may differ. Model tokens must
-    match exactly, preventing RX 560 / RX 5600 misattribution.
+    Explicit vendor names must agree. Model tokens must match exactly,
+    except for an optional trailing Graphics suffix on Intel Arc.
     """
+    vendors = {"amd", "nvidia", "intel"}
+
+    def explicit_vendor(name: str) -> str | None:
+        tokens = normalize_accelerator_name(name).split()
+        if tokens and tokens[0] in vendors:
+            return tokens[0]
+        return None
 
     def comparable_name(name: str) -> str:
-        normalized = normalize_accelerator_name(name)
-        tokens = normalized.split()
+        tokens = normalize_accelerator_name(name).split()
 
-        if tokens and tokens[0] in ("amd", "nvidia", "intel"):
+        if tokens and tokens[0] in vendors:
             tokens = tokens[1:]
 
         return " ".join(tokens)
 
-    selected_name = comparable_name(
-        str(selected_accelerator["name"])
-    )
+    def without_arc_graphics_suffix(name: str) -> str:
+        tokens = name.split()
+
+        if (
+            len(tokens) >= 3
+            and tokens[0] == "arc"
+            and tokens[-1] == "graphics"
+        ):
+            tokens = tokens[:-1]
+
+        return " ".join(tokens)
+
+    selected_raw_name = str(selected_accelerator["name"])
+    selected_vendor = explicit_vendor(selected_raw_name)
+    selected_name = comparable_name(selected_raw_name)
 
     if not selected_name:
         raise RuntimeError("Selected accelerator name is empty.")
@@ -1347,9 +1365,32 @@ def match_selected_runtime_device(
     matches = []
 
     for device in runtime_devices:
-        runtime_name = comparable_name(str(device["name"]))
+        runtime_raw_name = str(device["name"])
+        runtime_vendor = explicit_vendor(runtime_raw_name)
 
-        if runtime_name and selected_name == runtime_name:
+        if (
+            selected_vendor
+            and runtime_vendor
+            and selected_vendor != runtime_vendor
+        ):
+            continue
+
+        runtime_name = comparable_name(runtime_raw_name)
+
+        if not runtime_name:
+            continue
+
+        if selected_name == runtime_name:
+            matches.append(device)
+            continue
+
+        if "intel" not in (selected_vendor, runtime_vendor):
+            continue
+
+        if (
+            without_arc_graphics_suffix(selected_name)
+            == without_arc_graphics_suffix(runtime_name)
+        ):
             matches.append(device)
 
     if not matches:

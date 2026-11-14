@@ -31,9 +31,46 @@ def _normalize(name: str) -> str:
 
 
 def _matches(a: str, b: str) -> bool:
+    vendors = {"amd", "nvidia", "intel"}
+
+    def explicit_vendor(name: str) -> str | None:
+        tokens = re.findall(r"[a-z0-9]+", name.casefold())
+        if tokens and tokens[0] in vendors:
+            return tokens[0]
+        return None
+
+    vendor_a = explicit_vendor(a)
+    vendor_b = explicit_vendor(b)
+
+    if vendor_a and vendor_b and vendor_a != vendor_b:
+        return False
+
     left = _normalize(a)
     right = _normalize(b)
-    return bool(left and right and left == right)
+
+    if not left or not right:
+        return False
+
+    if left == right:
+        return True
+
+    if "intel" not in (vendor_a, vendor_b):
+        return False
+
+    def without_arc_graphics_suffix(name: str) -> str:
+        tokens = name.split()
+        if (
+            len(tokens) >= 3
+            and tokens[0] == "arc"
+            and tokens[-1] == "graphics"
+        ):
+            tokens = tokens[:-1]
+        return " ".join(tokens)
+
+    return (
+        without_arc_graphics_suffix(left)
+        == without_arc_graphics_suffix(right)
+    )
 
 
 def _parse_devices(text: str, backend: str) -> list[dict]:
